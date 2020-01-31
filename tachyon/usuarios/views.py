@@ -13,6 +13,12 @@ from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 
+def create(request):
+    return render(request, 'usuarios/create.html')
+
+def confirm(request):
+    return render(request, 'usuarios/confirm.html')
+
 #Vista de login
 def loginView(request):
     if request.user.is_authenticated:

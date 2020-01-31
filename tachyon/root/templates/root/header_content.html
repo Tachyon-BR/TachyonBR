@@ -1,6 +1,11 @@
+{% load static %}
+
 <!-- Header Content -->
 <div class="header_content d-flex flex-row align-items-center justify-content-start">
-    <div class="logo"><a href="#">my<span>home</span></a></div>
+    <img src="{% static 'root/images/logo-png.png' %}" alt="Tachyon" width="2%">
+    <div class="logo"><a href="/"><span>Tachyon</span></a></div>
+
+
     <nav class="main_nav">
         <ul class="d-flex flex-row align-items-start justify-content-start">
             <li class="active"><a href="index.html">Home</a></li>
