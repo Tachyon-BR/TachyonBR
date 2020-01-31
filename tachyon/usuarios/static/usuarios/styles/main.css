@@ -134,9 +134,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
 }
 
-h1 {
-  font-size: 36px;
-}
 
 h2 {
   font-size: 30px;
@@ -170,15 +167,16 @@ h6 {
 }
 
 .bg-gra-01 {
-  background: -webkit-gradient(linear, left bottom, left top, from(#fbc2eb), to(#361780));
-  background: -webkit-linear-gradient(bottom, #fbc2eb 0%, #3c2869 100%);
-  background: -moz-linear-gradient(bottom, #fbc2eb 0%, #a18cd1 100%);
-  background: -o-linear-gradient(bottom, #643f5a 0%, #2a1d47 100%);
-  background: linear-gradient(to top, #e704a7 0%, #5c3da5 100%);
+  background: -webkit-gradient(linear, left bottom, left top, from(#01B2BF), to(#0171BF));
+  background: -webkit-linear-gradient(bottom, #01B2BF 0%, #0171BF 100%);
+  background: -moz-linear-gradient(bottom, #01B2BF 0%, #0171BF 100%);
+  background: -o-linear-gradient(bottom, #01B2BF 0%, #0171BF 100%);
+  background: linear-gradient(to top, #01B2BF 0%, #0171BF 100%);
 }
 
+/*
 .bg-gra-02 {
-  /*
+
   background: -webkit-gradient(linear, left bottom, right top, from(#fc2c77), to(#6c4079));
   background: -webkit-linear-gradient(bottom left, #fc2c77 0%, #050405 100%);
   background: -moz-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
@@ -409,7 +407,7 @@ input {
 .label {
   font-size: 16px;
   color: #555;
-  text-transform: capitalize;
+  /*text-transform: capitalize;*/
   display: block;
   margin-bottom: 5px;
 }
