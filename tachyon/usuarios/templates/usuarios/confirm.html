@@ -1,0 +1,71 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+
+
+{% block optionalCSS %}
+    <!-- Vendor CSS-->
+    <link href="{% static 'usuarios/styles/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'usuarios/styles/vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'usuarios/styles/main.css' %}" rel="stylesheet" media="all">
+
+    <!--Button CSS -->
+    <link href="{% static 'usuarios/stylesButton/main.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'usuarios/stylesButton/util.css' %}" rel="stylesheet" media="all">
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="page-wrapper bg-gra-01 p-t-130 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w680">
+        <div class="card card-4 content-top-margin">
+            <div class="card-body">
+                <form method="POST" action="#">
+                    <div class="d-flex align-items-center">
+                        <div class="container text-center">
+                            <h1>¡Verifica tu correo!</h1>
+
+                            <p>Te hemos enviado un código de verificación a tu correo /correo/, para completar tu registro por favor ingrésalo a continuación.</p>
+                            <br>
+                            <div class="row justify-content-center align-items-center h-100">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="label">Código</label>
+                                        <input class="input--style-4" maxlength="10" type="text" name="confirma_code" style="text-transform: uppercase; text-align:center;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-login100-form-btn">
+        						<button class="login100-form-btn" type="submit">
+        							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
+        						</button>
+        					</div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block optionalJS %}
+<!-- Vendor JS-->
+<script src="{% static 'usuarios/js/vendor/select2/select2.min.js' %}"></script>
+<script src="{% static 'usuarios/js/vendor/datepicker/moment.min.js' %}"></script>
+<script src="{% static 'usuarios/js/vendor/datepicker/daterangepicker.js' %}"></script>
+
+<!-- Main JS-->
+<script src="{% static 'usuarios/js/global.js' %}"></script>
+
+<!-- Button JS -->
+<script src="{% static 'usuarios/jsButton/main.js' %}"></script>
+
+{% endblock %}

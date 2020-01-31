@@ -1,0 +1,134 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+
+
+{% block optionalCSS %}
+    <!-- Vendor CSS-->
+    <link href="{% static 'usuarios/styles/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'usuarios/styles/vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'usuarios/styles/main.css' %}" rel="stylesheet" media="all">
+
+    <!--Button CSS -->
+    <link href="{% static 'usuarios/stylesButton/main.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'usuarios/stylesButton/util.css' %}" rel="stylesheet" media="all">
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="page-wrapper bg-gra-01 p-t-130 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w680">
+        <div class="card card-4" style="margin-top: 50px;">
+            <div class="card-body">
+                <h1 class="text-center">Regístrate</h1>
+                <form method="POST" action="/usuarios/confirm">
+                    {% csrf_token %}
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label">Nombre</label>
+                                <input class="input--style-4" type="text" name="first_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Apellido Paterno</label>
+                                <input class="input--style-4" type="text" name="last_name">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Apellido Materno</label>
+                                <input class="input--style-4" type="text" name="last_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Contraseña</label>
+                                <input class="input--style-4" type="password" name="password">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Confirmar Contraseña</label>
+                                <input class="input--style-4" type="password" name="confirm_password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Correo</label>
+                                <input class="input--style-4" type="email" name="email">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Teléfono</label>
+                                <input class="input--style-4" type="text" name="phone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label class="label">Estado</label>
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select name="subject">
+                                <option disabled="disabled" selected="selected">Seleccione uno</option>
+                                <option>Chihuahua</option>
+                                <option>Sinaloa</option>
+                                <option>Yucatán</option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Agencia (opcional)</label>
+                                <input class="input--style-4" type="text" name="agencia">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Número de Agencia (opcional)</label>
+                                <input class="input--style-4" type="text" name="num_agencia">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+						<button class="login100-form-btn" type="submit">
+							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
+						</button>
+					</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block optionalJS %}
+<!-- Vendor JS-->
+<script src="{% static 'usuarios/js/vendor/select2/select2.min.js' %}"></script>
+<script src="{% static 'usuarios/js/vendor/datepicker/moment.min.js' %}"></script>
+<script src="{% static 'usuarios/js/vendor/datepicker/daterangepicker.js' %}"></script>
+
+<!-- Main JS-->
+<script src="{% static 'usuarios/js/global.js' %}"></script>
+
+<!-- Button JS -->
+<script src="{% static 'usuarios/jsButton/main.js' %}"></script>
+
+{% endblock %}
