@@ -52,7 +52,7 @@ def verifyLogin(request):
     except:
         #Redireccionar error
         return render(request,'usuarios/login.html', {
-            'error': 'Tu correo o contraseña está incorrecto. Verifica tus credenciales para iniciar sesión. Error sin usuario'
+            'error': 'Tu correo o contraseña está incorrecto. Verifica tus credenciales para iniciar sesión.'
         })
         return 0
 
