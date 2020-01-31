@@ -15,6 +15,7 @@ class Rol(models.Model):
         return "%s" % (self.nombre,)
 
 
+# Modelo de los usuarios de Tachyon
 class TachyonUsuario(models.Model):
     # Llave foranea del rol al que pertenece
     rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
@@ -29,3 +30,34 @@ class TachyonUsuario(models.Model):
     nombre_agencia = models.CharField(max_length = 500)
     numero_agencia = models.CharField(max_length = 500)
     codigo_registro = models.CharField(max_length = 10)
+
+    class Meta:
+        verbose_name = 'Usuario de Tachyon'
+        verbose_name_plural = 'Usuarios de Tachyon'
+
+
+# Modelos de los permisos de usuario
+class Permiso(models.Model):
+    idPermiso =  models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length = 50)
+
+    class Meta:
+        verbose_name = 'Permiso'
+        verbose_name_plural = 'Permisos'
+
+    def _str_(self):
+        return "%s" % (self.nombre)
+
+
+# Modelo de tabla de relacion N a N
+class PermisoRol(models.Model):
+    idPermisoRol = models.AutoField(primary_key=True)
+    permiso = models.ForeignKey(Permiso, on_delete=models.CASCADE)
+    rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Permiso Rol'
+        verbose_name_plural = 'Permiso Roles'
+
+    def _str_(self):
+        return "%s %s" % (self.permiso.nombre, self.rol.nombre)
