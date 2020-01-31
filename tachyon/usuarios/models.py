@@ -29,3 +29,4 @@ class TachyonUsuario(models.Model):
     nombre_agencia = models.CharField(max_length = 500)
     numero_agencia = models.CharField(max_length = 500)
     codigo_registro = models.CharField(max_length = 10)
+    test = models.CharField(max_length = 10)
