@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% include './header.html' %}
+{% block optionalCSS %}{% endblock %}
+</head>
+<body>
+    <div class="super_container">
+    	<div class="super_overlay"></div>
+
+    	<!-- Header -->
+
+    	<header class="header">
+
+
+    	</header>
+
+        <!-- Menu -->
+        {% include './phone_menu.html' %}
+
+
+        <!-- Content -->
+        {% block content %}{% endblock %}
+
+    </div>
+</body>
+{% include './js.html' %}
+
+<script>
+    var csrftoken = '{{ csrf_token }}';
+</script>
+{% block optionalJS %}{% endblock %}
+</html>
