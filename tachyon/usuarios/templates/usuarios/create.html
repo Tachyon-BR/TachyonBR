@@ -16,6 +16,10 @@
 
     <!-- Main CSS-->
     <link href="{% static 'usuarios/styles/main.css' %}" rel="stylesheet" media="all">
+
+    <!--Button CSS -->
+    <link href="{% static 'usuarios/stylesButton/main.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'usuarios/stylesButton/util.css' %}" rel="stylesheet" media="all">
 {% endblock %}
 
 
@@ -27,7 +31,8 @@
         <div class="card card-4" >
             <div class="card-body">
                 <h1 class="title">Regístrate</h1>
-                <form method="POST">
+                <form method="POST" action="/usuarios/confirm">
+                    {% csrf_token %}
                     <div class="row row-space">
                         <div class="col-12">
                             <div class="input-group">
@@ -106,9 +111,11 @@
                         </div>
                     </div>
 
-                    <div class="p-t-15">
-                        <button class="btn btn--radius-2 btn--blue" type="submit">Enviar</button>
-                    </div>
+                    <div class="container-login100-form-btn">
+						<button class="login100-form-btn" type="submit">
+							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
+						</button>
+					</div>
                 </form>
             </div>
         </div>
@@ -128,5 +135,8 @@
 
 <!-- Main JS-->
 <script src="{% static 'usuarios/js/global.js' %}"></script>
+
+<!-- Button JS -->
+<script src="{% static 'usuarios/jsButton/main.js' %}"></script>
 
 {% endblock %}
