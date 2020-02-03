@@ -8,6 +8,10 @@ import random
 import time
 import string
 from .models import *
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from django.conf import settings
 
 # Create your views here.
 
@@ -61,6 +65,23 @@ def createUser(request):
             )
 
             tUsuario.save()
+
+
+            # Enviar correo con codigo de registro
+            message = Mail(
+                from_email='tachyon.icarus@gmail.com',
+                to_emails=email,
+                subject='Verificacion de registro a Tachyon',
+                html_content='<p>Tu código de verificación es el siguiente:<strong>'+tUsuario.codigo_registro+'</strong></p>')
+            try:
+                sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                response = sg.send(message)
+                print(response.status_code)
+                print(response.body)
+                print(response.headers)
+            except Exception as e:
+                print(e)
+
             return redirect('confirm')
         else:
             raise Http404
