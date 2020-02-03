@@ -11,7 +11,7 @@ class Rol(models.Model):
         verbose_name = 'Rol'
         verbose_name_plural = 'Roles'
 
-    def _str_(self):
+    def __str__(self):
         return "%s" % (self.nombre,)
 
 
@@ -26,14 +26,18 @@ class TachyonUsuario(models.Model):
     apellido_paterno = models.CharField(max_length = 30)
     apellido_materno = models.CharField(max_length = 30)
     telefono = models.CharField(max_length = 15)
-    estado = models.BooleanField(default = True)
+    status = models.BooleanField(default = True)
     nombre_agencia = models.CharField(max_length = 500)
     numero_agencia = models.CharField(max_length = 500)
     codigo_registro = models.CharField(max_length = 10)
+    estado = models.CharField(max_length = 500)
 
     class Meta:
         verbose_name = 'Usuario de Tachyon'
         verbose_name_plural = 'Usuarios de Tachyon'
+
+    def __str__(self):
+        return "%s %s" % (self.nombre, self.apellido_paterno)
 
 
 # Modelos de los permisos de usuario
