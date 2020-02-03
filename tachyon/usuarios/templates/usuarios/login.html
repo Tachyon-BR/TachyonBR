@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>Tachyon B.R.</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'root/styles/bootstrap-4.1.2/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'usuarios/images/icons/logo-png.png' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/util.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url({% static 'usuarios/images/bg.jpg' %});width: 100%;">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" action="/usuarios/verifyLogin/" method="post">
+					{% csrf_token %}
+						<span class="login100-form-logo">
+							<a href="/">
+								<center>
+									<img style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" unselectable="on" onselectstart="return false;" onmousedown="return false;" src="{% static 'usuarios/images/icons/logo-png.png' %}" alt="tachyon-logo" height="80%" width="80%">
+								</center>
+							</a>
+						</span>
+
+					<span class="login100-form-title p-b-34 p-t-27">
+						Iniciar Sesión
+					</span>
+
+					{% if success %}
+            <div class="alert alert-success alert-dismissible fade show">
+              {{ success }}
+               <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div> <!-- Cerrar alert warning -->
+          {% endif %}
+          {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show">
+              <p class="text-center">{{ error }}</p>
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div> <!-- Cerrar alert warning -->
+          {% endif %}
+
+					<div class="wrap-input100 validate-input" data-validate = "Enter username">
+						<input class="input100" type="text" name="mail" placeholder="Correo" required>
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="password" name="password" placeholder="Contraseña" required>
+						<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					</div>
+
+					<br style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" unselectable="on" onselectstart="return false;" onmousedown="return false;">
+					<br style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" unselectable="on" onselectstart="return false;" onmousedown="return false;">
+
+					<!-- <div class="contact100-form-checkbox">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<label class="label-checkbox100" for="ckb1">
+							Remember me
+						</label>
+					</div> -->
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn" type="submit">
+							<span style='font-size:35px; -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;' unselectable="on" onselectstart="return false;" onmousedown="return false;">&#10142;</span> <!-- main.css línea 425 -->
+						</button>
+					</div>
+
+					<div class="text-center p-t-90">
+						<!-- <a class="txt1" href="#">
+							¿Olvidaste tu contraseña?
+						</a>
+						<br> -->
+						<a class="txt1" href="/usuarios/create">
+							Crear una cuenta
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+	<script src="{% static 'usuarios/js/main.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'root/js/jquery-3.3.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'root/styles/bootstrap-4.1.2/popper.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'root/styles/bootstrap-4.1.2/bootstrap.min.js' %}"></script>
+
+</body>
+
+</html>
