@@ -42,6 +42,10 @@ def verifyLogin(request):
     try:
         username = User.objects.get(email=mail.lower()).username
         user = authenticate(request, username=username, password=password)
+        tachyon_user = TachyonUsuario.objects.get(user = User.objects.get(username=username))
+        if not tachyon_user.estado_registro:
+            return redirect('/usuarios/confirm/'+str(tachyon_user.id))
+
         if user is not None:
             login(request, user)
             # ifc_user = IFCUsuario.objects.get(user = request.user)
@@ -123,7 +127,7 @@ def createUser(request):
                     # letras del nombre y cada apellido más el número de usuarios en el sistema
 
             # Crear usuario del modelo de django
-            u = User.objects.create_user(username=uname, email=email, password=contrasena)
+            u = User.objects.create_user(username=uname, email=email.lower(), password=contrasena)
 
             # Crear usuario de TachyonUsuario
             tUsuario = TachyonUsuario(
