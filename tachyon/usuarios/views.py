@@ -188,6 +188,8 @@ def confirmMail(request):
         if (user_to_verify.codigo_registro == code):
             user_to_verify.estado_registro = True
             user_to_verify.save()
+            request.session['notification_session_msg'] = "Se ha verificado tu cuenta correctamente. Ya puedes iniciar sesión."
+            request.session['notification_session_type'] = "Success"
             return redirect('/')
         else:
             request.session['error_confirm'] = 'El código de verificación es incorrecto.'
