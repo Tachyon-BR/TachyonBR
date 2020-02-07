@@ -26,18 +26,19 @@ class TachyonUsuario(models.Model):
     apellido_paterno = models.CharField(max_length = 30)
     apellido_materno = models.CharField(max_length = 30)
     telefono = models.CharField(max_length = 15)
-    status = models.BooleanField(default = True)
+    status = models.BooleanField(default = True)        # Utilizado para verificar si la cuenta fue borrada o no
     nombre_agencia = models.CharField(max_length = 500)
     numero_agencia = models.CharField(max_length = 500)
-    codigo_registro = models.CharField(max_length = 10)
+    codigo_registro = models.CharField(max_length = 10) # Utilizado para verificar el correo electrónico
     estado = models.CharField(max_length = 500)
+    estado_registro = models.BooleanField(default = False)             # Utilizado para validar si el correo fue verificado
 
     class Meta:
         verbose_name = 'Usuario de Tachyon'
         verbose_name_plural = 'Usuarios de Tachyon'
 
     def __str__(self):
-        return "%s %s" % (self.nombre, self.apellido_paterno)
+        return "%s %s %s" % (self.id, self.nombre, self.apellido_paterno)
 
 
 # Modelos de los permisos de usuario

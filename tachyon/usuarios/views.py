@@ -12,6 +12,7 @@ import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from django.conf import settings
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -21,8 +22,29 @@ def create(request):
 
 
 # Vista para confirmar la creacion del usuario
-def confirm(request):
-    return render(request, 'usuarios/confirm.html')
+def confirm(request, id):
+    tu = TachyonUsuario.objects.filter(id=id)
+
+    if len(tu) == 0:
+        raise Http404
+
+    if tu.first().estado_registro:  # Verificar si la cuenta ya fue verificada
+        return redirect('/')
+
+    mail = tu.first().user.email
+
+    if request.session.get('error_confirm'):            # Verifica que la variable de sesion exista
+        error_msg = request.session['error_confirm']    # Enviar el mensaje de error a una variable de contexto
+        del request.session['error_confirm']
+    else:
+        error_msg = ''
+
+    context = {
+        'mail' : mail,
+        'id': id,
+        'error' : error_msg
+    }
+    return render(request, 'usuarios/confirm.html', context)
 
 
 # Controlador para el registro de un Usuario
@@ -66,13 +88,12 @@ def createUser(request):
 
             tUsuario.save()
 
-
             # Enviar correo con codigo de registro
             message = Mail(
                 from_email='tachyon.icarus@gmail.com',
                 to_emails=email,
                 subject='Verificacion de registro a Tachyon',
-                html_content='<p>Tu código de verificación es el siguiente:<strong>'+tUsuario.codigo_registro+'</strong></p>')
+                html_content='<p>Gracias por registrarte a Tachyon B.R. [Nombre sujeto a cambios]</p><p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>')
             try:
                 sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
                 response = sg.send(message)
@@ -82,17 +103,41 @@ def createUser(request):
             except Exception as e:
                 print(e)
 
-            return redirect('confirm')
+            return redirect('confirm/'+str(tUsuario.id))
         else:
             raise Http404
     else:
         raise Http404
 
 
+# Vista consultada con AJAX
 def verificar_correo(request):
     query_mails = User.objects.filter(email=request.POST.get('correo'))
     return JsonResponse({"num_mails": query_mails.count()})
 
+
+def confirmMail(request):
+    if request.method == 'POST':
+        id = request.POST['confirma_id']
+        code = request.POST['confirma_code']
+
+        tu = TachyonUsuario.objects.filter(id=id)
+
+        if len(tu) == 0:
+            raise Http404
+
+        user_to_verify = tu.first()
+
+        if (user_to_verify.codigo_registro == code):
+            user_to_verify.estado_registro = True
+            user_to_verify.save()
+            return redirect('/')
+        else:
+            request.session['error_confirm'] = 'El código de verificación es incorrecto.'
+            return redirect('/usuarios/confirm/'+str(id))
+
+    else:
+        raise Http404
 
 # Funciones extra -------------------------------
 # Generar un string aleatorio
