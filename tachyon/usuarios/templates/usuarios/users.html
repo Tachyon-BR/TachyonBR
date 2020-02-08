@@ -31,10 +31,13 @@
               {{ t.user.date_joined }}
             </td>
             <td>
-              <span class="badge badge-success">Activo</span>
-              <span class="badge badge-secondary">Pendiente</span>
-              <span class="badge badge-warning">Bloqueado</span>
-              <span class="badge badge-danger">Eliminado</span>
+              {% if t.estado_registro %}
+                <span class="badge badge-pill badge-success">Activo</span>
+              {% else %}
+                <span class="badge badge-pill badge-secondary">Pendiente</span>
+              <!-- <span class="badge badge-pill badge-warning">Bloqueado</span>
+              <span class="badge badge-pill badge-danger">Eliminado</span> -->
+              {% endif %}
             </td>
             <td>
               <span>{{ t.user.email }}</span>
@@ -52,7 +55,7 @@
                   <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
-              <a href="#" class="table-link danger">
+              <a href="#" class="table-link danger" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#delete-user">
                 <span class="fa-stack">
                   <i class="fa fa-square fa-stack-2x"></i>
                   <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
@@ -66,12 +69,13 @@
     </div>
   </div>
 </div>
+
+{% include './modals/delete-user.html' %}
+
 {% endblock content %}
 
 {% block optionalJS %}
 <script type="text/javascript" src="{% static 'usuarios/js/table.js' %}"></script>
-
-</script>
-
-</script>
+<script type="text/javascript" src="{% static 'usuarios/js/navbar.js' %}"></script>
+<script type="text/javascript" src="{% static 'usuarios/js/borrar.js' %}"></script>
 {% endblock %}

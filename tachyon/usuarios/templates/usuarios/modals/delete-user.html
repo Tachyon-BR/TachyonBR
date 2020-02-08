@@ -1,0 +1,25 @@
+<!-- Modal que forma parte de borar usuario -->
+<div class="modal fade" id="delete-user" tabindex="-1" role="dialog" aria-labelledby="delete_user_modal" aria-hidden="true">
+    <div class="modal-dialog modal-danger modal-dialog-centered" role="document">
+        <div class="modal-content bg-danger">
+            <div class="align-text-right pr-4 mt-3">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">×</span>
+                </button>
+            </div>
+            <div class="modal-body text-white">
+                <div class="py-3 text-center">
+                    <i class="fas fa-bell fa-5x" id="delete-icon-modal"></i>
+                    <h4 class="text-uppercase mt-4">¡Está a punto de eliminar a un usuario!</h4>
+                    <p class="">
+                        Si selecciona eliminar el usuario perderá acceso al sistema
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-danger bg-transparent border-0 text-white ml-auto" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success bg-white border-0 text-dark" onclick="confirmar_borrar_usuario()">Eliminar</button> <!-- bg-white border-white text-dark -->
+            </div>
+        </div>
+    </div>
+</div>
