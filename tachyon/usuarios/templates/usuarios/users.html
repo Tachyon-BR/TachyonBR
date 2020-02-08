@@ -1,0 +1,74 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+{% block optionalCSS %}
+<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/lista.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="featured content-top-margin">
+  <div class="container">
+    <div class="table-responsive">
+      <table class="table user-list" id="lista-usuarios">
+        <thead>
+          <tr>
+            <th><span>Usuario</span></th>
+            <th><span>Creado</span></th>
+            <th><span>Estado</span></th>  <!-- class="text-center" -->
+            <th><span>Email</span></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in tachyons %}
+          <tr>
+            <td>
+              <img src="{% static 'root/images/user.png' %}" alt="Ícono de usuario">
+              <a href="#" class="user-link">{{ t.nombre }} {{ t.apellido_paterno }} {{t.apellido_materno }}</a>
+              <span class="user-subhead">{{ t.rol.nombre }}</span>
+            </td>
+            <td>
+              {{ t.user.date_joined }}
+            </td>
+            <td>
+              <span class="badge badge-secondary">Inactive</span>
+            </td>
+            <td>
+              <span>{{ t.user.email }}</span>
+            </td>
+            <td style="width: 20%;">
+              <a href="#" class="table-link">
+                <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+              <a href="#" class="table-link">
+                <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+              <a href="#" class="table-link danger">
+                <span class="fa-stack">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block optionalJS %}
+<script type="text/javascript" src="{% static 'usuarios/js/table.js' %}"></script>
+
+</script>
+
+</script>
+{% endblock %}

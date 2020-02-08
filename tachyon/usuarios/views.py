@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import update_session_auth_hash
+from .models import *
 
 # Create your views here.
 
@@ -69,3 +70,18 @@ def logoutView(request):
 #     return render(request,'cuentas/login.html', {
 #         'success': 'Sesión cerrada correctamente'
 #     })
+
+#Controlador para lista de usuarios
+def userListView(request):
+    if request.user.is_authenticated:
+        # users = User.objects.all().exclude(user = request.user)
+        tachyons = TachyonUsuario.objects.all().exclude(user = request.user)
+
+        context = {
+            # 'users': users,
+            'tachyons': tachyons
+        }
+
+        return render(request, 'usuarios/users.html', context)
+    else:
+        return redirect('/usuarios/login')
