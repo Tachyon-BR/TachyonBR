@@ -134,3 +134,6 @@ venv.bak/
 #Ignorar Migraciones
 **/migrations/**
 tachyon/tachyon/settings.py
+
+# API Keys
+tachyon/API_KEY_Sendgrid.txt

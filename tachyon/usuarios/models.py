@@ -11,10 +11,11 @@ class Rol(models.Model):
         verbose_name = 'Rol'
         verbose_name_plural = 'Roles'
 
-    def _str_(self):
+    def __str__(self):
         return "%s" % (self.nombre,)
 
 
+# Modelo de los usuarios de Tachyon
 class TachyonUsuario(models.Model):
     # Llave foranea del rol al que pertenece
     rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
@@ -25,7 +26,43 @@ class TachyonUsuario(models.Model):
     apellido_paterno = models.CharField(max_length = 30)
     apellido_materno = models.CharField(max_length = 30)
     telefono = models.CharField(max_length = 15)
-    estado = models.BooleanField(default = True)
-    nombre_agencia = models.CharField(max_length = 500)
-    numero_agencia = models.CharField(max_length = 500)
-    codigo_registro = models.CharField(max_length = 10)
+    status = models.BooleanField(default = True)        # Utilizado para verificar si la cuenta fue borrada o no
+    nombre_agencia = models.CharField(max_length = 500, null=True, blank=True)
+    numero_agencia = models.CharField(max_length = 500, null=True, blank=True)
+    codigo_registro = models.CharField(max_length = 10) # Utilizado para verificar el correo electrónico
+    estado = models.CharField(max_length = 500)
+    estado_registro = models.BooleanField(default = False)             # Utilizado para validar si el correo fue verificado
+
+    class Meta:
+        verbose_name = 'Usuario de Tachyon'
+        verbose_name_plural = 'Usuarios de Tachyon'
+
+    def __str__(self):
+        return "%s %s %s" % (self.id, self.nombre, self.apellido_paterno)
+
+
+# Modelos de los permisos de usuario
+class Permiso(models.Model):
+    idPermiso =  models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length = 50)
+
+    class Meta:
+        verbose_name = 'Permiso'
+        verbose_name_plural = 'Permisos'
+
+    def _str_(self):
+        return "%s" % (self.nombre)
+
+
+# Modelo de tabla de relacion N a N
+class PermisoRol(models.Model):
+    idPermisoRol = models.AutoField(primary_key=True)
+    permiso = models.ForeignKey(Permiso, on_delete=models.CASCADE)
+    rol = models.ForeignKey(Rol, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Permiso Rol'
+        verbose_name_plural = 'Permiso Roles'
+
+    def _str_(self):
+        return "%s %s" % (self.permiso.nombre, self.rol.nombre)
