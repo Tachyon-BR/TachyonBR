@@ -93,3 +93,33 @@ function showNotificationModal(from, align, msg, type){
 		}
 	});
 }
+
+function checkNotificationSession(){
+	$.ajax({
+        url: '/root/notificationSession',
+        dataType: 'json',
+        success : function(response){
+            if (response.msg == 'No existe variable de sesión notification_session_msg'){
+				console.log(response.msg);
+			}
+			else if (response.type == 'No existe variable de sesión notification_session_type'){
+				console.log(response.type);
+			}else {
+				if (response.type == 'Warning'){
+					showNotificationWarning("top", "right", response.msg)
+				}
+				else if (response.type == 'Danger'){
+					showNotificationDanger("top", "right", response.msg)
+				}
+				else if (response.type == 'Success'){
+					showNotificationSuccess("top", "right", response.msg)
+				}else if (response.type == 'Info'){
+					showNotificationInfo("top", "right", response.msg)
+				}else{
+					console.log("No se está siguiendo el formato correcto para notification_session_type")
+				}
+			}
+
+        }
+    });
+}

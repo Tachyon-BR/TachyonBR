@@ -25,13 +25,13 @@
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
                 <h1 class="text-center">Regístrate</h1>
-                <form method="POST" action="/usuarios/confirm">
+                <form method="POST" action="/usuarios/createUser">
                     {% csrf_token %}
                     <div class="row row-space">
                         <div class="col-12">
                             <div class="input-group">
                                 <label class="label">Nombre</label>
-                                <input class="input--style-4" type="text" name="first_name">
+                                <input class="input--style-4" type="text" name="nombre" required>
                             </div>
                         </div>
                     </div>
@@ -39,13 +39,13 @@
                         <div class="col-6">
                             <div class="input-group">
                                 <label class="label">Apellido Paterno</label>
-                                <input class="input--style-4" type="text" name="last_name">
+                                <input class="input--style-4" type="text" name="apellido_paterno" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="input-group">
                                 <label class="label">Apellido Materno</label>
-                                <input class="input--style-4" type="text" name="last_name">
+                                <input class="input--style-4" type="text" name="apellido_materno" required>
                             </div>
                         </div>
                     </div>
@@ -53,13 +53,26 @@
                         <div class="col-6">
                             <div class="input-group">
                                 <label class="label">Contraseña</label>
-                                <input class="input--style-4" type="password" name="password">
+                                <div class="invalid-feedback invalid-password">
+                                        Las contraseñas no coinciden
+                                </div>
+                                <div class="invalid-feedback invalid-password-len">
+                                        La contraseña debe ser de mínimo 6 caracteres
+                                </div>
+                                <input class="input--style-4" type="password" name="contrasena" id="contrasena" required>
                             </div>
+
                         </div>
                         <div class="col-6">
                             <div class="input-group">
                                 <label class="label">Confirmar Contraseña</label>
-                                <input class="input--style-4" type="password" name="confirm_password">
+                                <div class="invalid-feedback invalid-password">
+                                        Las contraseñas no coinciden
+                                </div>
+                                <div class="invalid-feedback invalid-password-len">
+                                        La contraseña debe ser de mínimo 6 caracteres
+                                </div>
+                                <input class="input--style-4" type="password" name="confirmar_contrasena" id="confirmar_contrasena" required>
                             </div>
                         </div>
                     </div>
@@ -67,21 +80,24 @@
                         <div class="col-6">
                             <div class="input-group">
                                 <label class="label">Correo</label>
-                                <input class="input--style-4" type="email" name="email">
+                                <div class="invalid-feedback invalid-mail">
+                                    ¡Oops! El correo que ingresaste ya existe.
+                                </div>
+                                <input class="input--style-4" type="email" name="email" id="email" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="input-group">
                                 <label class="label">Teléfono</label>
-                                <input class="input--style-4" type="text" name="phone">
+                                <input class="input--style-4" type="text" name="telefono" required>
                             </div>
                         </div>
                     </div>
                     <div class="">
                         <label class="label">Estado</label>
                         <div class="rs-select2 js-select-simple select--no-search">
-                            <select name="subject">
-                                <option disabled="disabled" selected="selected">Seleccione uno</option>
+                            <select name="estado" required>
+                                <option disabled="disabled" selected="selected">Seleccione un estado...</option>
                                 <option>Chihuahua</option>
                                 <option>Sinaloa</option>
                                 <option>Yucatán</option>
@@ -94,19 +110,19 @@
                         <div class="col-6">
                             <div class="input-group">
                                 <label class="label">Agencia (opcional)</label>
-                                <input class="input--style-4" type="text" name="agencia">
+                                <input class="input--style-4" type="text" name="nombre_agencia">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="input-group">
                                 <label class="label">Número de Agencia (opcional)</label>
-                                <input class="input--style-4" type="text" name="num_agencia">
+                                <input class="input--style-4" type="text" name="numero_agencia">
                             </div>
                         </div>
                     </div>
 
                     <div class="container-login100-form-btn">
-						<button class="login100-form-btn" type="submit">
+						<button class="login100-form-btn" type="submit" id="submit">
 							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
 						</button>
 					</div>
@@ -130,5 +146,8 @@
 
 <!-- Button JS -->
 <script src="{% static 'usuarios/jsButton/main.js' %}"></script>
+
+<!-- Contrasena JS -->
+<script src="{% static 'usuarios/js/validarContrasena.js' %}"></script>
 
 {% endblock %}
