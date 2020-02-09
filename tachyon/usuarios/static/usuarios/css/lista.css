@@ -109,6 +109,18 @@ body{margin-top:20px;}
 .table a.table-link.danger:hover {
 	color: #dd504c;
 }
+.table a.table-link.success {
+	color: #28a745;
+}
+.table a.table-link.success:hover {
+	color: #28753a;
+}
+.table a.table-link.info {
+	color: #17a2b8;
+}
+.table a.table-link.info:hover {
+	color: #17b89d;
+}
 
 .table-products tbody > tr > td {
 	background: none;

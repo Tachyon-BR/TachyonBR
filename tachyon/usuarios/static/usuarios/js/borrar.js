@@ -29,14 +29,27 @@ function confirmar_borrar_usuario(){
             },
             type: "POST",
             success: function(){
-                // update_usuario_tabla('.user-row',id);
+                update_usuario_tabla(id);
                 // borrar_usuario_tabla('.act-row',id);
                 id_usuario = 0;
-                $('#modal_borrar_usuario').modal('toggle');                                        // Cerrar el modal de borrar usuario
-                showNotificationSuccess('top','right','Se ha borrado el usuario exitosamente.');
             },
         });
 
     }
  // Mostrar alerta de usuario borrada
+}
+
+function update_usuario_tabla(id){
+  if ($('#row-'+id).find('#status').children().hasClass('badge-success')){
+    $('#row-'+id).find('#status').html('<span class="badge badge-pill badge-danger">Eliminado</span>');
+    $('#row-'+id).find('#icons').find(".danger").attr("data-target", "#restore-user");
+    $('#row-'+id).find('#icons').children(".danger").removeClass("danger").addClass("success").html('<span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fas fa-trash-restore fa-stack-1x fa-inverse"></i></span>');
+    showNotificationSuccess('top','right','Se ha borrado el usuario exitosamente.');
+  }
+  else if ($('#row-'+id).find('#status').children().hasClass('badge-danger')){
+    $('#row-'+id).find('#status').html('<span class="badge badge-pill badge-success">Activo</span>');
+    $('#row-'+id).find('#icons').find(".success").attr("data-target", "#delete-user");
+    $('#row-'+id).find('#icons').children(".success").removeClass("success").addClass("danger").html('<span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fas fa-trash fa-stack-1x fa-inverse"></i></span>');
+    showNotificationSuccess('top','right','Se ha restaurado el usuario exitosamente.');
+  }
 }

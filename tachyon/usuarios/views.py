@@ -46,6 +46,11 @@ def verifyLogin(request):
         if not tachyon_user.estado_registro:
             return redirect('/usuarios/confirm/'+str(tachyon_user.id))
 
+        if tachyon_user.estado_eliminado:
+            return render(request,'usuarios/login.html', {
+                'error': 'Tu correo o contraseña está incorrecto. Verifica tus credenciales para iniciar sesión.'
+            })
+
         if user is not None:
             login(request, user)
             # ifc_user = IFCUsuario.objects.get(user = request.user)
@@ -209,14 +214,33 @@ def randomString(stringLength=10):
 #Controlador para lista de usuarios
 def userListView(request):
     if request.user.is_authenticated:
-        # users = User.objects.all().exclude(user = request.user)
         tachyons = TachyonUsuario.objects.all().exclude(user = request.user)
 
         context = {
-            # 'users': users,
             'tachyons': tachyons
         }
 
         return render(request, 'usuarios/users.html', context)
     else:
         return redirect('/usuarios/login')
+
+def deleteUserView(request, id):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            user = TachyonUsuario.objects.filter(pk = id).first()
+            if user:
+                user.estado_eliminado = not user.estado_eliminado
+                user.save()
+                return HttpResponse('OK')
+            else:
+                response = JsonResponse({"error": "No existe ese usuario"})
+                response.status_code = 500
+                # Regresamos la respuesta de error interno del servidor
+                return response
+        else:
+            response = JsonResponse({"error": "No se mandó por el método correcto"})
+            response.status_code = 500
+            # Regresamos la respuesta de error interno del servidor
+            return response
+    else: # Si el rol del usuario no es ventas no puede entrar a la página
+        raise Http404

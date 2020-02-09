@@ -12,4 +12,5 @@ urlpatterns = [
     path('verificar_correo', views.verificar_correo, name='verificar_correo'),
     path('confirmMail', views.confirmMail, name='confirmMail'),
     path('userList/', views.userListView, name='userList'),
+    path('deleteUser/<int:id>', views.deleteUserView, name='deleteUser'),
 ]

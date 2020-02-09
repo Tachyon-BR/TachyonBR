@@ -1,7 +1,7 @@
 <!-- Modal que forma parte de borar usuario -->
-<div class="modal fade" id="delete-user" tabindex="-1" role="dialog" aria-labelledby="delete_user_modal" aria-hidden="true">
-    <div class="modal-dialog modal-danger modal-dialog-centered" role="document">
-        <div class="modal-content bg-danger">
+<div class="modal fade" id="restore-user" tabindex="-1" role="dialog" aria-labelledby="restore_user_modal" aria-hidden="true">
+    <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+        <div class="modal-content bg-info">
             <div class="align-text-right pr-4 mt-3">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-white">×</span>
@@ -10,16 +10,16 @@
             <div class="modal-body text-white mt-0 pt-0">
                 <div class="py-2 text-center">
                     <i class="fas fa-bell fa-5x" id="delete-icon-modal"></i>
-                    <h4 class="text-uppercase mt-4 text-white">¡Está a punto de eliminar a un usuario!</h4>
+                    <h4 class="text-uppercase mt-4 text-white">¡Está a punto de restaurar a un usuario!</h4>
                     <br>
                     <p class="text-light">
-                        Si selecciona eliminar, el usuario perderá acceso al sistema
+                        Si selecciona aceptar, el usuario volverá a tener acceso al sistema
                     </p>
                 </div>
             </div>
             <div class="modal-footer" style="border-top: none;">
                 <button type="button" class="btn btn-danger bg-transparent border-0 text-white ml-auto" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success bg-white border-0 text-dark" onclick="confirmar_borrar_usuario()" data-dismiss="modal">Eliminar</button> <!-- bg-white border-white text-dark -->
+                <button type="button" class="btn btn-success bg-white border-0 text-dark" onclick="confirmar_borrar_usuario()" data-dismiss="modal">Aceptar</button> <!-- bg-white border-white text-dark -->
             </div>
         </div>
     </div>
