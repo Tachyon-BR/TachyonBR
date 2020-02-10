@@ -120,6 +120,13 @@ def createUser(request):
             confirmar_contrasena = form.cleaned_data['confirmar_contrasena']
             email = form.cleaned_data['email']
 
+
+            checkEmail = User.objects.filter(email=email)
+            if(len(checkEmail)>0):
+                request.session['notification_session_msg'] = "El correo ya existe."
+                request.session['notification_session_type'] = "Danger"  
+                return redirect('/usuarios/create')     
+
             uname   = nombre[0:2] \
                     + apellido_paterno[0:2] \
                     + apellido_materno[0:2] \
