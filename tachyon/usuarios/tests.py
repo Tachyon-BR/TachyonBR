@@ -6,6 +6,7 @@ from django.urls import reverse, resolve
 from .views import *
 from django.contrib.auth import views as auth_views
 from django.core import mail
+from .models import *
 
 # Create your tests here.
 
