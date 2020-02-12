@@ -46,12 +46,12 @@ def verifyLogin(request):
         if not tachyon_user.estado_registro:
             return redirect('/usuarios/confirm/'+str(tachyon_user.id))
 
-        if tachyon_user.estado_eliminado:
-            return render(request,'usuarios/login.html', {
-                'error': 'Tu correo o contraseña está incorrecto. Verifica tus credenciales para iniciar sesión.'
-            })
-
         if user is not None:
+            if tachyon_user.estado_eliminado:
+                return render(request,'usuarios/login.html', {
+                    'warning': 'Tu cuenta se encuentra temporalmente suspendida, comunícate con el equipo de Tachyon para más información.'
+                })
+
             login(request, user)
             # ifc_user = IFCUsuario.objects.get(user = request.user)
             # request.session['username'] = ifc_user.nombre
