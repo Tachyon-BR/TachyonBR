@@ -34,6 +34,7 @@
         <div class="log_reg d-flex flex-row align-items-center justify-content-start">
             <ul class="d-flex flex-row align-items-start justify-content-start">
               {% if request.user.is_authenticated %}
+                <li><a href="#">{{ request.user.email }}</a></li>
                 <li><a href="/usuarios/logout">Cerrar Sesión</a></li>
               {% else %}
                 <li><a href="/usuarios/login">Iniciar Sesión</a></li>

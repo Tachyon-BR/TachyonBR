@@ -5,7 +5,7 @@ function showNotification(from, align, msg){
 		icon: "nc-icon nc-app",
 		message: msg
 	},{
-		timer: 4000,
+		timer: 2500,
 		placement: {
 			from: from,
 			align: align
@@ -21,7 +21,7 @@ function showNotificationSuccess(from, align, msg){
 		message: msg
 	},{
 		type: 'success',
-		timer: 100000,
+		timer: 2500,
 		placement: {
 			from: from,
 			align: align
@@ -37,7 +37,7 @@ function showNotificationInfo(from, align, msg){
 		message: msg
 	},{
 		type: 'info',
-		timer: 4000,
+		timer: 2500,
 		placement: {
 			from: from,
 			align: align
@@ -53,7 +53,7 @@ function showNotificationWarning(from, align, msg){
 		message: msg
 	},{
 		type: 'warning',
-		timer: 4000,
+		timer: 2500,
 		placement: {
 			from: from,
 			align: align
@@ -69,7 +69,7 @@ function showNotificationDanger(from, align, msg){
 		message: msg
 	},{
 		type: 'danger',
-		timer: 4000,
+		timer: 2500,
 		placement: {
 			from: from,
 			align: align
@@ -86,7 +86,7 @@ function showNotificationModal(from, align, msg, type){
 	},{
 		z_index: 3000,
 		type: type,
-		timer: 4000,
+		timer: 2500,
 		placement: {
 			from: from,
 			align: align

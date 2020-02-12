@@ -4,6 +4,7 @@ from django.urls import reverse, resolve
 from .views import *
 from django.contrib.auth import views as auth_views
 from django.core import mail
+from .models import *
 
 # Create your tests here.
 
@@ -13,6 +14,14 @@ class testLogin(TestCase):
     def setUp(self):
         user = User.objects.create_user('user', 'user@user.com', 'testpassword')
         user.save()
+        rol = Rol()
+        rol.nombre = "Propietario"
+        rol.save()
+        tachyon = TachyonUsuario()
+        tachyon.rol = rol
+        tachyon.user = user
+        tachyon.estado_registro = True
+        tachyon.save()
 
     def test_login_exitoso(self):
         #Esta prueba simula a una usuario con el rol de director que accede correctamente con su usuario y contraseña

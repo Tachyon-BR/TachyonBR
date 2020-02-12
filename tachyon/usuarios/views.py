@@ -47,6 +47,11 @@ def verifyLogin(request):
             return redirect('/usuarios/confirm/'+str(tachyon_user.id))
 
         if user is not None:
+            if tachyon_user.estado_eliminado:
+                return render(request,'usuarios/login.html', {
+                    'warning': 'Tu cuenta se encuentra temporalmente suspendida, comunícate con el equipo de Tachyon para más información.'
+                })
+
             login(request, user)
             # ifc_user = IFCUsuario.objects.get(user = request.user)
             # request.session['username'] = ifc_user.nombre
@@ -204,3 +209,38 @@ def randomString(stringLength=10):
     """Generate a random string of fixed length """
     letters = string.ascii_uppercase
     return ''.join(random.choice(letters) for i in range(stringLength))
+
+
+#Controlador para lista de usuarios
+def indexView(request):
+    if request.user.is_authenticated:
+        tachyons = TachyonUsuario.objects.all().exclude(user = request.user)
+
+        context = {
+            'tachyons': tachyons
+        }
+
+        return render(request, 'usuarios/users.html', context)
+    else:
+        return redirect('/usuarios/login')
+
+def deleteUserView(request, id):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            user = TachyonUsuario.objects.filter(pk = id).first()
+            if user:
+                user.estado_eliminado = not user.estado_eliminado
+                user.save()
+                return HttpResponse('OK')
+            else:
+                response = JsonResponse({"error": "No existe ese usuario"})
+                response.status_code = 500
+                # Regresamos la respuesta de error interno del servidor
+                return response
+        else:
+            response = JsonResponse({"error": "No se mandó por el método correcto"})
+            response.status_code = 500
+            # Regresamos la respuesta de error interno del servidor
+            return response
+    else: # Si el rol del usuario no es ventas no puede entrar a la página
+        raise Http404

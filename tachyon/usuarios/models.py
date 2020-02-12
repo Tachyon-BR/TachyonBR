@@ -32,6 +32,7 @@ class TachyonUsuario(models.Model):
     codigo_registro = models.CharField(max_length = 10) # Utilizado para verificar el correo electrónico
     estado = models.CharField(max_length = 500)
     estado_registro = models.BooleanField(default = False)             # Utilizado para validar si el correo fue verificado
+    estado_eliminado = models.BooleanField(default = False)             # Utilizado para validar si el usuario fue eliminado
 
     class Meta:
         verbose_name = 'Usuario de Tachyon'
