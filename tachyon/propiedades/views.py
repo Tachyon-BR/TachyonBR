@@ -24,5 +24,5 @@ def propertyView(request):
     return render(request, 'propiedades/property.html')
 
 # Vista de las Propiedades
-def propertiesView(request):
+def indexView(request):
     return render(request, 'propiedades/properties.html')

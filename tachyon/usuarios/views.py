@@ -212,7 +212,7 @@ def randomString(stringLength=10):
 
 
 #Controlador para lista de usuarios
-def userListView(request):
+def indexView(request):
     if request.user.is_authenticated:
         tachyons = TachyonUsuario.objects.all().exclude(user = request.user)
 
