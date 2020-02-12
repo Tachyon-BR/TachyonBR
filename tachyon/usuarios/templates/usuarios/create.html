@@ -136,6 +136,11 @@
 {% endblock content %}
 
 {% block optionalJS %}
+
+<script type="text/javascript">
+    checkNotificationSession()
+</script>
+
 <!-- Vendor JS-->
 <script src="{% static 'usuarios/js/vendor/select2/select2.min.js' %}"></script>
 <script src="{% static 'usuarios/js/vendor/datepicker/moment.min.js' %}"></script>
