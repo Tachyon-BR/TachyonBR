@@ -254,3 +254,14 @@ def deleteUserView(request, id):
             return response
     else: # Si el rol del usuario no es ventas no puede entrar a la página
         raise Http404
+
+
+# Vista para registrar usuario por parte de admin
+def adminCreateUserView(request):
+    context = {
+        'adminCreator': True
+    }
+    return render(request, 'usuarios/create.html', context)
+
+def adminVerifyCreateUser(request):
+    return redirect('/usuarios/')

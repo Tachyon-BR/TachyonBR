@@ -24,9 +24,28 @@
     <div class="wrapper wrapper--w680">
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
+                {% if adminCreator %}
+                <h1 class="text-center">Registra un nuevo usuario</h1>
+                <form method="POST" action="/usuarios/adminVerifyCreateUser">
+                {% else %}
                 <h1 class="text-center">Regístrate</h1>
                 <form method="POST" action="/usuarios/createUser">
+                {% endif %}
                     {% csrf_token %}
+                    {% if adminCreator %}
+                    <div class="">
+                        <label class="label">Rol</label>
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select name="rol" required>
+                                <option>Revisor</option>
+                                <option>Propietario</option>
+                                <option>Administrador</option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+                    <br>
+                    {% endif %}
                     <div class="row row-space">
                         <div class="col-12">
                             <div class="input-group">
