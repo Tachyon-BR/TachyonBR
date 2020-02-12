@@ -62,7 +62,10 @@ def verifyLogin(request):
             return render(request,'usuarios/login.html', {
                 'error': 'Tu correo o contraseña está incorrecto. Verifica tus credenciales para iniciar sesión.'
             })
-    except:
+    except Exception as ex:
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        #print (message)
         #Redireccionar error
         return render(request,'usuarios/login.html', {
             'error': 'Tu correo o contraseña está incorrecto. Verifica tus credenciales para iniciar sesión.'
@@ -124,8 +127,8 @@ def createUser(request):
             checkEmail = User.objects.filter(email=email)
             if(len(checkEmail)>0):
                 request.session['notification_session_msg'] = "El correo ya existe."
-                request.session['notification_session_type'] = "Danger"  
-                return redirect('/usuarios/create')     
+                request.session['notification_session_type'] = "Danger"
+                return redirect('/usuarios/create')
 
             uname   = nombre[0:2] \
                     + apellido_paterno[0:2] \
@@ -151,21 +154,21 @@ def createUser(request):
             )
 
             tUsuario.save()
-
-            # Enviar correo con codigo de registro
-            message = Mail(
-                from_email='tachyon.icarus@gmail.com',
-                to_emails=email,
-                subject='Verificacion de registro a Tachyon',
-                html_content='<p>Gracias por registrarte a Tachyon B.R. [Nombre sujeto a cambios]</p><p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>')
-            try:
-                sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
-                response = sg.send(message)
-                print(response.status_code)
-                print(response.body)
-                print(response.headers)
-            except Exception as e:
-                print(e)
+            if (email != 'test@test.com'):
+                # Enviar correo con codigo de registro
+                message = Mail(
+                    from_email='tachyon.icarus@gmail.com',
+                    to_emails=email,
+                    subject='Verificacion de registro a Tachyon',
+                    html_content='<p>Gracias por registrarte a Tachyon B.R. [Nombre sujeto a cambios]</p><p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>')
+                try:
+                    sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                    response = sg.send(message)
+                    print(response.status_code)
+                    print(response.body)
+                    print(response.headers)
+                except Exception as e:
+                    print(e)
 
             return redirect('confirm/'+str(tUsuario.id))
         else:

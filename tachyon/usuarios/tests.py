@@ -1,19 +1,38 @@
 
 from django.test import TestCase
 from django.contrib.auth.models import User
+from .models import *
 from django.urls import reverse, resolve
 from .views import *
 from django.contrib.auth import views as auth_views
 from django.core import mail
 
 # Create your tests here.
-"""
+
 #Esta prueba revisa que un usuario pueda entrar al login
 class testLogin(TestCase):
     #Aquí se crea la base de datos dentro del ambiente de prueba
     def setUp(self):
         user = User.objects.create_user('user', 'user@user.com', 'testpassword')
         user.save()
+        r = Rol(nombre='Propietario')
+        r.save()
+        tUsuario = TachyonUsuario(
+                        rol = r,
+                        user = user,
+                        nombre = 'nombre',
+                        apellido_paterno = 'apellido_paterno',
+                        apellido_materno = 'apellido_materno',
+                        telefono = 'telefono',
+                        estado = 'estado',
+                        nombre_agencia = '',
+                        numero_agencia = '',
+                        codigo_registro = '123456',
+                        estado_registro = True
+        )
+
+        tUsuario.save()
+
 
     def test_login_exitoso(self):
         #Esta prueba simula a una usuario con el rol de director que accede correctamente con su usuario y contraseña
@@ -24,7 +43,7 @@ class testLogin(TestCase):
         #Esta prueba simula a una usuario con el rol de director que accede correctamente con su usuario y contraseña
         response = self.client.post('/usuarios/verifyLogin/', {'mail':'use@use.co','password':'testpasswor'})
         self.assertEqual(response.status_code, 200)
-"""
+
 
 #Esta prueba revisa que un usuario pueda registrarse en la página
 class testSignUp(TestCase):
@@ -56,16 +75,16 @@ class testSignUp(TestCase):
             'numero_agencia': '634567898',
             'contrasena': 'password',
             'confirmar_contrasena': 'password',
-            'email': 'dantemaxflores@gmail.com',
+            'email': 'test@test.com',
         }
         response = self.client.post('/usuarios/createUser', formSubmit)
-        
+
         #Checar la url de redirección
         url_redirect = 'confirm/' + str(TachyonUsuario.objects.filter(nombre='Juan').latest('nombre').id)
         url_ultimo = 'confirm/' + str(TachyonUsuario.objects.all().last().id)
-        self.assertEqual(response.url, url_redirect) 
-        self.assertEqual(url_redirect, url_ultimo) 
-        
+        self.assertEqual(response.url, url_redirect)
+        self.assertEqual(url_redirect, url_ultimo)
+
         self.assertEqual(response.status_code, 302)
 
     def test_createUser_fail_wrongMethod(self):
@@ -110,7 +129,7 @@ class testSignUp(TestCase):
         response = self.client.post(urlPost, submitInfo)
         self.assertEqual(response.url, '/')
         self.assertEqual(response.status_code, 302) #codigo redirect
-   
+
     def test_confirmMail_fail_WrongMethod(self):
         first=TachyonUsuario.objects.all().first()
         submitInfo={
@@ -120,7 +139,7 @@ class testSignUp(TestCase):
         urlPost = '/usuarios/confirmMail'
         response = self.client.get(urlPost, submitInfo) #Método get en lugar de post
         #self.assertEqual(response.url, '/')
-        self.assertEqual(response.status_code, 404) 
+        self.assertEqual(response.status_code, 404)
 
 
     def test_confirmMail_fail_WrongCode(self):
@@ -131,8 +150,8 @@ class testSignUp(TestCase):
         }
         urlPost = '/usuarios/confirmMail'
         response = self.client.post(urlPost, submitInfo) #Método get en lugar de post
-        self.assertEqual(response.url, '/usuarios/confirm/1')
-        self.assertEqual(response.status_code, 302) #código redirección 
+        self.assertEqual(response.url, '/usuarios/confirm/'+str(first.id))
+        self.assertEqual(response.status_code, 302) #código redirección
 
 
     #verificar retorna 1 con correo ya existente
@@ -140,5 +159,5 @@ class testSignUp(TestCase):
         formSubmit={
             'correo': 'lalo@lalocura.com'
         }
-        response = self.client.post('/usuarios/verificar_correo', formSubmit)    
+        response = self.client.post('/usuarios/verificar_correo', formSubmit)
         self.assertEqual(response.json()['num_mails'], 1)
