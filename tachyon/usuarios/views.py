@@ -221,6 +221,7 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 
+@login_required
 #Controlador para lista de usuarios
 def indexView(request):
     if request.user.is_authenticated:

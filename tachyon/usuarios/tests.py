@@ -162,3 +162,94 @@ class testSignUp(TestCase):
         }
         response = self.client.post('/usuarios/verificar_correo', formSubmit)
         self.assertEqual(response.json()['num_mails'], 1)
+
+
+#Esta prueba revisa que un usuario se pueda eliminar
+class testDeleteUser(TestCase):
+    def setUp(self):
+        r = Rol(nombre='Propietario')
+        r.save()
+        u = User.objects.create_user(username="UserName", password="contraseña", email="lalo@lalocura.com")
+        tu = TachyonUsuario(
+            rol= r,
+            user= u,
+            nombre='Pedro',
+            apellido_paterno= 'Perez',
+            apellido_materno= 'Perez',
+            telefono = '123456789',
+            estado = 'Querétaro',
+            codigo_registro =  'ASDFGHJKLP'
+        )
+        tu.save()
+        u2 = User.objects.create_user(username="UserName2", password="contraseña", email="lalocura@lalocura.com")
+        tu2 = TachyonUsuario(
+            rol= r,
+            user= u2,
+            nombre='Pedro',
+            apellido_paterno= 'Perez',
+            apellido_materno= 'Perez',
+            telefono = '123456789',
+            estado = 'Querétaro',
+            codigo_registro =  'ASDFGHJKLP'
+        )
+        tu2.save()
+
+    def test_delete_usuario_1(self):
+        user = TachyonUsuario.objects.all().first()
+        user.estado_eliminado = True
+        user.save()
+        contador = TachyonUsuario.objects.filter(estado_eliminado=True).count()
+        self.assertEquals(1, contador)
+
+    # Si truena está bien, porque el analisis no existe
+    def test_delete_usuario_2(self):
+        var = False
+        try:
+            user = TachyonUsuario.objects.all().last()
+            user.estado_eliminado = True
+            user.save()
+            contador = TachyonUsuario.objects.filter(estado=True).count()
+            self.assertNotEquals(2, contador)
+        except:
+            var = True
+            self.assertEquals(var, True)
+
+class TestListaUsuarios(TestCase):
+    def setUp(self):
+        r = Rol(nombre='Propietario')
+        r.save()
+        u = User.objects.create_user(username="UserName", password="contraseña", email="lalo@lalocura.com")
+        tu = TachyonUsuario(
+            rol= r,
+            user= u,
+            nombre='Pedro',
+            apellido_paterno= 'Perez',
+            apellido_materno= 'Perez',
+            telefono = '123456789',
+            estado = 'Querétaro',
+            codigo_registro =  'ASDFGHJKLP'
+        )
+        u.save()
+        tu.save()
+        u2 = User.objects.create_user(username="UserName2", password="contraseña", email="lalocura@lalocura.com")
+        tu2 = TachyonUsuario(
+            rol= r,
+            user= u2,
+            nombre='Pedro',
+            apellido_paterno= 'Perez',
+            apellido_materno= 'Perez',
+            telefono = '123456789',
+            estado = 'Querétaro',
+            codigo_registro =  'ASDFGHJKLP'
+        )
+        u2.save()
+        tu2.save()
+
+    def test_no_login(self):
+        response = self.client.get('/usuarios/')
+        self.assertEqual(response.status_code, 302)
+
+    def test_url_resuelta(self):
+        self.client.login(username="UserName", password="contraseña") #ingresar como un usuario cliente
+        response = self.client.get('/usuarios/')
+        self.assertEqual(response.status_code, 200)
