@@ -257,12 +257,14 @@ def deleteUserView(request, id):
 
 
 # Vista para registrar usuario por parte de admin
+@login_required
 def adminCreateUserView(request):
     context = {
         'adminCreator': True
     }
     return render(request, 'usuarios/create.html', context)
 
+@login_required
 def adminVerifyCreateUser(request):
     if request.method == 'POST':
         form = CrearUsuarioForma(request.POST)
