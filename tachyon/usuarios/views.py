@@ -337,6 +337,10 @@ def adminVerifyCreateUser(request):
             request.session['notification_session_type'] = "Success"
             return redirect('/usuarios/')
         else:
-            raise Http404
+            # Si la forma no es válida
+            request.session['notification_session_msg'] = "Ha ocurrido un error. Inténtelo de nuevo más tarde."
+            request.session['notification_session_type'] = "Danger"
+            return redirect('/usuarios/')
     else:
+        # Si no se utiliza el metodo POST
         raise Http404
