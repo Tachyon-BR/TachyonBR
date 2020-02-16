@@ -25,9 +25,28 @@
     <div class="wrapper wrapper--w680">
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
+                {% if adminCreator %}
+                <h1 class="text-center">Registra un nuevo usuario</h1>
+                <form method="POST" action="/usuarios/adminVerifyCreateUser">
+                {% else %}
                 <h1 class="text-center">Regístrate</h1>
                 <form method="POST" action="/usuarios/createUser">
+                {% endif %}
                     {% csrf_token %}
+                    {% if adminCreator %}
+                    <div class="">
+                        <label class="label">Rol</label>
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select name="rol" id="rol" required>
+                                <option value="Revisor">Revisor</option>
+                                <option value="Propietario" selected>Propietario</option>
+                                <option value="Administrador">Administrador</option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+                    <br>
+                    {% endif %}
                     <div class="row row-space">
                         <div class="col-12">
                             <div class="input-group">
@@ -94,30 +113,32 @@
                             </div>
                         </div>
                     </div>
-                    <div class="">
-                        <label class="label">Estado</label>
-                        <div class="rs-select2 js-select-simple select--no-search">
-                            <select name="estado" required>
-                                <option disabled="disabled" selected="selected">Seleccione un estado...</option>
-                                <option>Chihuahua</option>
-                                <option>Sinaloa</option>
-                                <option>Yucatán</option>
-                            </select>
-                            <div class="select-dropdown"></div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row row-space">
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Agencia (opcional)</label>
-                                <input class="input--style-4" type="text" name="nombre_agencia">
+                    <div class="ocultable">
+                        <div class="">
+                            <label class="label">Estado</label>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select name="estado" required>
+                                    <option disabled="disabled" selected="selected">Seleccione un estado...</option>
+                                    <option>Chihuahua</option>
+                                    <option>Sinaloa</option>
+                                    <option>Yucatán</option>
+                                </select>
+                                <div class="select-dropdown"></div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Número de Agencia (opcional)</label>
-                                <input class="input--style-4" type="text" name="numero_agencia">
+                        <br>
+                        <div class="row row-space">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Agencia (opcional)</label>
+                                    <input class="input--style-4" type="text" name="nombre_agencia">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Número de Agencia (opcional)</label>
+                                    <input class="input--style-4" type="text" name="numero_agencia">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -139,7 +160,7 @@
 {% block optionalJS %}
 
 <script type="text/javascript">
-    checkNotificationSession()
+    checkNotificationSession();
 </script>
 
 <!-- Vendor JS-->

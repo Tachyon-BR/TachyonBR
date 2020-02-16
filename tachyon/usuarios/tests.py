@@ -49,6 +49,18 @@ class testLogin(TestCase):
 #Esta prueba revisa que un usuario pueda registrarse en la página
 class testSignUp(TestCase):
     #crear escenario
+    formSubmitD = {
+        'nombre': 'Juan',
+        'apellido_paterno': 'Perez',
+        'apellido_materno': 'Perez',
+        'telefono': '123456789',
+        'estado': 'Querétaro',
+        'nombre_agencia': 'Agencia Chida',
+        'numero_agencia': '634567898',
+        'contrasena': 'password',
+        'confirmar_contrasena': 'password',
+        'email': 'test@test.com',
+    }
     def setUp(self):
         r = Rol(nombre='Propietario')
         r.save()
@@ -64,21 +76,10 @@ class testSignUp(TestCase):
             codigo_registro =  'ASDFGHJKLP'
         )
         tu.save()
-
+    # --- TESTS PARA CREACION DE USUARIOS POR PARTE DE USUARIOS NO REGISTRADOS ---
     def test_createUser_success(self):
-        formSubmit = {
-            'nombre': 'Juan',
-            'apellido_paterno': 'Perez',
-            'apellido_materno': 'Perez',
-            'telefono': '123456789',
-            'estado': 'Querétaro',
-            'nombre_agencia': 'Agencia Chida',
-            'numero_agencia': '634567898',
-            'contrasena': 'password',
-            'confirmar_contrasena': 'password',
-            'email': 'test@test.com',
-        }
-        response = self.client.post('/usuarios/createUser', formSubmit)
+
+        response = self.client.post('/usuarios/createUser', self.formSubmitD)
 
         #Checar la url de redirección
         url_redirect = 'confirm/' + str(TachyonUsuario.objects.filter(nombre='Juan').latest('nombre').id)
@@ -89,34 +90,14 @@ class testSignUp(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_createUser_fail_wrongMethod(self):
-        formSubmit = {
-            'nombre': 'Juan',
-            'apellido_paterno': 'Perez',
-            'apellido_materno': 'Perez',
-            'telefono': '123456789',
-            'estado': 'Querétaro',
-            'nombre_agencia': 'Agencia Chida',
-            'numero_agencia': '634567898',
-            'contrasena': 'password',
-            'confirmar_contrasena': 'password',
-            'email': 'asdasd_asd@asd.com',
-        }
-        response = self.client.get('/usuarios/createUser', formSubmit)
+        response = self.client.get('/usuarios/createUser', self.formSubmitD)
         self.assertEqual(response.status_code, 404)
 
     def test_createUser_fail_wrongFormat(self):
         #falta email
-        formSubmit = {
-            'nombre': 'Juan',
-            'apellido_paterno': 'Perez',
-            'apellido_materno': 'Perez',
-            'telefono': '123456789',
-            'estado': 'Querétaro',
-            'nombre_agencia': 'Agencia Chida',
-            'numero_agencia': '634567898',
-            'contrasena': 'pword',
-            'confirmar_contrasena': 'pword',
-        }
+        formSubmit = self.formSubmitD.copy()
+        del formSubmit['email']
+
         response = self.client.post('/usuarios/createUser', formSubmit)
         self.assertEqual(response.status_code, 404)
 
@@ -163,6 +144,41 @@ class testSignUp(TestCase):
         response = self.client.post('/usuarios/verificar_correo', formSubmit)
         self.assertEqual(response.json()['num_mails'], 1)
 
+    # --- TESTS PARA CREACION DE USUARIOS POR PARTE DEL ADMIN ---
+    def test_adminVerifyCreateUser_success(self):
+        formSubmit = self.formSubmitD.copy()
+        formSubmit['rol'] = 'Propietario'   # Agregar campo 'rol'
+
+        response = self.client.post('/usuarios/adminVerifyCreateUser', formSubmit)
+        session = self.client.session
+        self.assertEqual(session['notification_session_type'], 'Success')
+
+    def test_adminVerifyCreateUser_fail_mailAlreadyExist(self):
+        formSubmit = self.formSubmitD.copy()
+        formSubmit['rol'] = 'Propietario'   # Agregar campo 'rol'
+        formSubmit['email'] = 'lalo@lalocura.com'   # Cambiar el correo por uno ya existente
+
+        response = self.client.post('/usuarios/adminVerifyCreateUser', formSubmit)
+        session = self.client.session
+        self.assertEqual(session['notification_session_type'], 'Danger')
+
+    def test_adminVerifyCreateUser_fail_wrongFormat(self):
+        #falta email
+        formSubmit = self.formSubmitD.copy()
+        del formSubmit['email']
+
+        response = self.client.post('/usuarios/adminVerifyCreateUser', formSubmit)
+        session = self.client.session
+        self.assertEqual(session['notification_session_type'], 'Danger')
+
+    def test_adminVerifyCreateUser_fail_wrongMethod(self):
+        response = self.client.get('/usuarios/adminVerifyCreateUser')
+        self.assertEqual(response.status_code, 404)
+
+    def test_adminCreateUserView_success(self):
+        response = self.client.get('/usuarios/adminCreateUserView')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'usuarios/create.html')
 
 #Esta prueba revisa que un usuario se pueda eliminar
 class testDeleteUser(TestCase):
