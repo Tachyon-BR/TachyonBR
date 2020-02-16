@@ -254,3 +254,95 @@ def deleteUserView(request, id):
             return response
     else: # Si el rol del usuario no es ventas no puede entrar a la página
         raise Http404
+
+
+# Vista para registrar usuario por parte de admin
+@login_required
+def adminCreateUserView(request):
+    context = {
+        'adminCreator': True
+    }
+    return render(request, 'usuarios/create.html', context)
+
+@login_required
+def adminVerifyCreateUser(request):
+    if request.method == 'POST':
+        form = CrearUsuarioForma(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            apellido_paterno = form.cleaned_data['apellido_paterno']
+            apellido_materno = form.cleaned_data['apellido_materno']
+            telefono = form.cleaned_data['telefono']
+            estado = form.cleaned_data['estado']
+            nombre_agencia =form.cleaned_data['nombre_agencia']
+            numero_agencia = form.cleaned_data['numero_agencia']
+            contrasena = form.cleaned_data['contrasena']
+            confirmar_contrasena = form.cleaned_data['confirmar_contrasena']
+            email = form.cleaned_data['email']
+            rol = form.cleaned_data['rol']
+
+
+            checkEmail = User.objects.filter(email=email)
+            if(len(checkEmail)>0):
+                request.session['notification_session_msg'] = "El correo ya existe."
+                request.session['notification_session_type'] = "Danger"
+                return redirect('/usuarios/adminCreateUserView')
+
+            uname   = nombre[0:2] \
+                    + apellido_paterno[0:2] \
+                    + apellido_materno[0:2] \
+                    + str(TachyonUsuario.objects.all().count()) #crear un username único para el usuario tomando las 2 primeras
+                    # letras del nombre y cada apellido más el número de usuarios en el sistema
+
+            # Crear usuario del modelo de django
+            u = User.objects.create_user(username=uname, email=email.lower(), password=contrasena)
+
+            # Crear usuario de TachyonUsuario
+            tUsuario = TachyonUsuario(
+                            rol = Rol.objects.get(nombre=rol),
+                            user = u,
+                            nombre = nombre,
+                            apellido_paterno = apellido_paterno,
+                            apellido_materno = apellido_materno,
+                            telefono = telefono,
+                            estado = estado,
+                            nombre_agencia = nombre_agencia,
+                            numero_agencia = numero_agencia,
+                            codigo_registro = randomString(),
+                            estado_registro = True
+            )
+
+            tUsuario.save()
+            if (email != 'test@test.com'):
+                # Enviar correo con codigo de registro
+                message = Mail(
+                    from_email='tachyon.icarus@gmail.com',
+                    to_emails=email,
+                    subject='Bienvenido a Tachyon',
+                    html_content='<p>Saludos '+nombre+'. </p>\
+                        <p>¡Ya eres miembro de Tachyon B.R.!</p>\
+                        <p>Tus datos para iniciar sesión son los siguientes: </p>\
+                        <ul>\
+                        <li>Correo: <strong>'+email.lower()+'</strong></li>\
+                        <li>Contraseña: <strong>'+contrasena+'</strong></li>\
+                        </ul>')
+                try:
+                    sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                    response = sg.send(message)
+                    print(response.status_code)
+                    print(response.body)
+                    print(response.headers)
+                except Exception as e:
+                    print(e)
+
+            request.session['notification_session_msg'] = "Se ha creado la cuenta de manera exitosa."
+            request.session['notification_session_type'] = "Success"
+            return redirect('/usuarios/')
+        else:
+            # Si la forma no es válida
+            request.session['notification_session_msg'] = "Ha ocurrido un error. Inténtelo de nuevo más tarde."
+            request.session['notification_session_type'] = "Danger"
+            return redirect('/usuarios/')
+    else:
+        # Si no se utiliza el metodo POST
+        raise Http404

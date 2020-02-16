@@ -8,6 +8,8 @@
 {% block content %}
 <div class="featured content-top-margin">
   <div class="container">
+    <a href="/usuarios/adminCreateUserView"><button class="btn btn-success"><i class="fas fa-plus"></i> Crear usuario</button></a>
+    <br><br>
     <div class="table-responsive">
       <table class="table user-list" id="lista-usuarios">
         <thead>
@@ -88,6 +90,9 @@
 {% endblock content %}
 
 {% block optionalJS %}
+<script type="text/javascript">
+    checkNotificationSession();
+</script>
 <script type="text/javascript" src="{% static 'usuarios/js/table.js' %}"></script>
 <script type="text/javascript" src="{% static 'usuarios/js/navbar.js' %}"></script>
 <script type="text/javascript" src="{% static 'usuarios/js/borrar.js' %}"></script>
