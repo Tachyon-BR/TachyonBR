@@ -90,6 +90,9 @@
 {% endblock content %}
 
 {% block optionalJS %}
+<script type="text/javascript">
+    checkNotificationSession();
+</script>
 <script type="text/javascript" src="{% static 'usuarios/js/table.js' %}"></script>
 <script type="text/javascript" src="{% static 'usuarios/js/navbar.js' %}"></script>
 <script type="text/javascript" src="{% static 'usuarios/js/borrar.js' %}"></script>

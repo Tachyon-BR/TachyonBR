@@ -55,3 +55,13 @@ function val_passwords(e){
   }
 
 }
+
+// Funcion para ocultar los campos que no necesita en caso de crear un miembro que no sea propietario
+$('#rol').change(function(){
+    var role = $('#rol').val();
+    if (role !== 'Propietario'){
+        $('.ocultable').hide();
+    }else{
+        $('.ocultable').show();
+    }
+})

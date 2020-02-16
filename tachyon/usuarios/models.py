@@ -30,7 +30,7 @@ class TachyonUsuario(models.Model):
     nombre_agencia = models.CharField(max_length = 500, null=True, blank=True)
     numero_agencia = models.CharField(max_length = 500, null=True, blank=True)
     codigo_registro = models.CharField(max_length = 10) # Utilizado para verificar el correo electrónico
-    estado = models.CharField(max_length = 500)
+    estado = models.CharField(max_length = 500, null=True, blank=True)
     estado_registro = models.BooleanField(default = False)             # Utilizado para validar si el correo fue verificado
     estado_eliminado = models.BooleanField(default = False)             # Utilizado para validar si el usuario fue eliminado
 
