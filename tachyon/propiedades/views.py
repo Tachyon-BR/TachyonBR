@@ -30,3 +30,7 @@ def indexView(request):
 @login_required
 def myPropertiesView(request):
     return render(request, 'propiedades/myProperties.html')
+
+@login_required
+def newPropertyView(request):
+    return render(request, 'propiedades/newProperty.html')

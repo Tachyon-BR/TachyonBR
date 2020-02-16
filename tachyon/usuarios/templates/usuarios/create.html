@@ -26,7 +26,7 @@
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
                 {% if adminCreator %}
-                <h1 class="text-center">Registra un nuevo usuario</h1>
+                <h1 class="text-center">Registrar Usuario</h1>
                 <form method="POST" action="/usuarios/adminVerifyCreateUser">
                 {% else %}
                 <h1 class="text-center">Regístrate</h1>
@@ -176,5 +176,7 @@
 
 <!-- Contrasena JS -->
 <script src="{% static 'usuarios/js/validarContrasena.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'usuarios/js/navbar.js' %}"></script>
 
 {% endblock %}
