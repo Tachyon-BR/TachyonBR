@@ -9,8 +9,10 @@
     <nav class="main_nav">
         <ul class="d-flex flex-row align-items-start justify-content-start">
             <li id="home" class="active"><a href="/">Inicio</a></li>
-            {% if request.user.is_authenticated %}
+            {% if 'visualizar_usuarios' in request.session.permissions %}
               <li id="users"><a href="/usuarios">Usuarios</a></li>
+            {% endif %}
+            {% if 'visualizar_mis_propiedades' in request.session.permissions %}
               <li id="my_pro"><a href="/propiedades/myProperties">Mis Propiedades</a></li>
             {% endif %}
             <li><a href="about.html">About us</a></li>

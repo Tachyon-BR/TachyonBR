@@ -8,7 +8,9 @@
 {% block content %}
 <div class="featured content-top-margin">
   <div class="container">
-    <a href="/usuarios/adminCreateUser"><button class="btn btn-success" style="float: right; margin-top: 25px; margin-bottom: 25px;"><i class="fas fa-plus"></i> Añadir Usuario</button></a>
+    {% if 'crear_staff' in request.session.permissions %}
+      <a href="/usuarios/adminCreateUser"><button class="btn btn-success" style="float: right; margin-top: 25px; margin-bottom: 25px;"><i class="fas fa-plus"></i> Añadir Usuario</button></a>
+    {% endif %}
     <br><br>
     <div class="table-responsive">
       <table class="table user-list" id="lista-usuarios">
@@ -60,20 +62,22 @@
                   <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
-              {% if t.estado_eliminado %}
-                <a href="#" class="table-link success" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#restore-user">
+              {% if 'eliminar_usuario' in request.session.permissions %}
+                {% if t.estado_eliminado %}
+                  <a href="#" class="table-link success" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#restore-user">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-trash-restore fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                {% else %}
+                <a href="#" class="table-link danger" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#delete-user">
                   <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fas fa-trash-restore fa-stack-1x fa-inverse"></i>
+                    <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
                   </span>
                 </a>
-              {% else %}
-              <a href="#" class="table-link danger" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#delete-user">
-                <span class="fa-stack">
-                  <i class="fa fa-square fa-stack-2x"></i>
-                  <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
+                {% endif %}
               {% endif %}
             </td>
           </tr>

@@ -1,0 +1,782 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$180000$JYNd7nWq76Pc$wnEpXlm8XwFo9WQ53mF5fmpSE2cK4cNkUE2jIvdkzrY=",
+    "last_login": "2020-02-17T03:28:30.164Z",
+    "is_superuser": true,
+    "username": "vector",
+    "first_name": "",
+    "last_name": "",
+    "email": "vector@vector.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2020-01-31T19:34:11.507Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$180000$7bkpPJQLCmwb$76m2UGZoVyjhSNGgfGfMxIjdUK1r1hhPquEMHrC5yM4=",
+    "last_login": "2020-02-17T03:39:29.954Z",
+    "is_superuser": false,
+    "username": "DaMaFl1",
+    "first_name": "",
+    "last_name": "",
+    "email": "abc@abc.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2020-02-08T00:24:12.667Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$180000$K20dKl4Riupu$C+l0Xu+dhrb7pD18639d5926jI+nczLwif5aL66dauM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "AbLeRu2",
+    "first_name": "",
+    "last_name": "",
+    "email": "alr@alr.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2020-02-08T02:22:45.458Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "usuarios.rol",
+  "pk": 1,
+  "fields": {
+    "nombre": "SuperUsaurus"
+  }
+},
+{
+  "model": "usuarios.rol",
+  "pk": 2,
+  "fields": {
+    "nombre": "Propietario"
+  }
+},
+{
+  "model": "usuarios.rol",
+  "pk": 3,
+  "fields": {
+    "nombre": "SuperAdministrador"
+  }
+},
+{
+  "model": "usuarios.rol",
+  "pk": 4,
+  "fields": {
+    "nombre": "Revisor"
+  }
+},
+{
+  "model": "usuarios.rol",
+  "pk": 5,
+  "fields": {
+    "nombre": "Administrador"
+  }
+},
+{
+  "model": "usuarios.tachyonusuario",
+  "pk": 1,
+  "fields": {
+    "rol": 1,
+    "user": 1,
+    "nombre": "Vector",
+    "apellido_paterno": "Vec",
+    "apellido_materno": "Tor",
+    "telefono": "4426969420",
+    "status": true,
+    "nombre_agencia": "Don",
+    "numero_agencia": "Pepe",
+    "codigo_registro": "234098",
+    "estado": "true",
+    "estado_registro": true,
+    "estado_eliminado": false
+  }
+},
+{
+  "model": "usuarios.tachyonusuario",
+  "pk": 2,
+  "fields": {
+    "rol": 2,
+    "user": 3,
+    "nombre": "Dante",
+    "apellido_paterno": "Max",
+    "apellido_materno": "Flor",
+    "telefono": "238798723",
+    "status": true,
+    "nombre_agencia": null,
+    "numero_agencia": null,
+    "codigo_registro": "XPRXFVBUIU",
+    "estado": "Yucat\u00e1n",
+    "estado_registro": true,
+    "estado_eliminado": false
+  }
+},
+{
+  "model": "usuarios.tachyonusuario",
+  "pk": 3,
+  "fields": {
+    "rol": 2,
+    "user": 4,
+    "nombre": "Abraham",
+    "apellido_paterno": "Lemus",
+    "apellido_materno": "Ruiz",
+    "telefono": "12398098",
+    "status": true,
+    "nombre_agencia": "",
+    "numero_agencia": "",
+    "codigo_registro": "ZFNCULOFVZ",
+    "estado": "Yucat\u00e1n",
+    "estado_registro": false,
+    "estado_eliminado": false
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 1,
+  "fields": {
+    "nombre": "realizar_pago"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 2,
+  "fields": {
+    "nombre": "crear_staff"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 4,
+  "fields": {
+    "nombre": "solicitar_revision"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 5,
+  "fields": {
+    "nombre": "seleccionar_peticion"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 6,
+  "fields": {
+    "nombre": "visualizar_peticiones"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 7,
+  "fields": {
+    "nombre": "eliminar_usuario"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 8,
+  "fields": {
+    "nombre": "visualizar_mis_peticiones"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 9,
+  "fields": {
+    "nombre": "visualizar_usuarios"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 10,
+  "fields": {
+    "nombre": "aceptar_rechazar_peticion"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 11,
+  "fields": {
+    "nombre": "consultar_mensualidad"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 12,
+  "fields": {
+    "nombre": "solicitar_cambios"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 13,
+  "fields": {
+    "nombre": "editar_propiedad"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 14,
+  "fields": {
+    "nombre": "consultar_ingresos"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 15,
+  "fields": {
+    "nombre": "editar_propiedad_revision"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 16,
+  "fields": {
+    "nombre": "registrar_propiedad"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 17,
+  "fields": {
+    "nombre": "visualizar_mis_propiedades"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 18,
+  "fields": {
+    "nombre": "consultar_duracion"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 19,
+  "fields": {
+    "nombre": "consultar_estado_revision"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 20,
+  "fields": {
+    "nombre": "eliminar_propiedad"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 21,
+  "fields": {
+    "nombre": "consultar_info_usuario"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 22,
+  "fields": {
+    "nombre": "vista_previa"
+  }
+},
+{
+  "model": "usuarios.permiso",
+  "pk": 23,
+  "fields": {
+    "nombre": "consultar_pagos"
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 1,
+  "fields": {
+    "permiso": 1,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 2,
+  "fields": {
+    "permiso": 2,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 3,
+  "fields": {
+    "permiso": 1,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 4,
+  "fields": {
+    "permiso": 2,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 5,
+  "fields": {
+    "permiso": 2,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 6,
+  "fields": {
+    "permiso": 4,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 7,
+  "fields": {
+    "permiso": 4,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 8,
+  "fields": {
+    "permiso": 5,
+    "rol": 4
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 9,
+  "fields": {
+    "permiso": 5,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 10,
+  "fields": {
+    "permiso": 5,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 11,
+  "fields": {
+    "permiso": 5,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 12,
+  "fields": {
+    "permiso": 6,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 13,
+  "fields": {
+    "permiso": 6,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 14,
+  "fields": {
+    "permiso": 6,
+    "rol": 4
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 15,
+  "fields": {
+    "permiso": 6,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 16,
+  "fields": {
+    "permiso": 7,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 17,
+  "fields": {
+    "permiso": 7,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 18,
+  "fields": {
+    "permiso": 7,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 20,
+  "fields": {
+    "permiso": 8,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 21,
+  "fields": {
+    "permiso": 8,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 22,
+  "fields": {
+    "permiso": 8,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 23,
+  "fields": {
+    "permiso": 9,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 24,
+  "fields": {
+    "permiso": 9,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 25,
+  "fields": {
+    "permiso": 9,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 26,
+  "fields": {
+    "permiso": 10,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 27,
+  "fields": {
+    "permiso": 10,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 28,
+  "fields": {
+    "permiso": 10,
+    "rol": 4
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 29,
+  "fields": {
+    "permiso": 10,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 30,
+  "fields": {
+    "permiso": 11,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 31,
+  "fields": {
+    "permiso": 11,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 32,
+  "fields": {
+    "permiso": 12,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 33,
+  "fields": {
+    "permiso": 12,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 34,
+  "fields": {
+    "permiso": 12,
+    "rol": 4
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 35,
+  "fields": {
+    "permiso": 12,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 36,
+  "fields": {
+    "permiso": 13,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 37,
+  "fields": {
+    "permiso": 13,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 38,
+  "fields": {
+    "permiso": 14,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 39,
+  "fields": {
+    "permiso": 14,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 40,
+  "fields": {
+    "permiso": 14,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 41,
+  "fields": {
+    "permiso": 15,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 42,
+  "fields": {
+    "permiso": 15,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 43,
+  "fields": {
+    "permiso": 15,
+    "rol": 4
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 44,
+  "fields": {
+    "permiso": 15,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 45,
+  "fields": {
+    "permiso": 16,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 46,
+  "fields": {
+    "permiso": 16,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 48,
+  "fields": {
+    "permiso": 17,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 49,
+  "fields": {
+    "permiso": 17,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 50,
+  "fields": {
+    "permiso": 18,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 51,
+  "fields": {
+    "permiso": 18,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 52,
+  "fields": {
+    "permiso": 19,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 53,
+  "fields": {
+    "permiso": 19,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 54,
+  "fields": {
+    "permiso": 20,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 55,
+  "fields": {
+    "permiso": 20,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 56,
+  "fields": {
+    "permiso": 21,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 57,
+  "fields": {
+    "permiso": 21,
+    "rol": 3
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 58,
+  "fields": {
+    "permiso": 21,
+    "rol": 5
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 59,
+  "fields": {
+    "permiso": 22,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 60,
+  "fields": {
+    "permiso": 22,
+    "rol": 2
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 61,
+  "fields": {
+    "permiso": 23,
+    "rol": 1
+  }
+},
+{
+  "model": "usuarios.permisorol",
+  "pk": 62,
+  "fields": {
+    "permiso": 23,
+    "rol": 2
+  }
+}
+]
