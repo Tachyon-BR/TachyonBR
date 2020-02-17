@@ -177,6 +177,8 @@
 <!-- Contrasena JS -->
 <script src="{% static 'usuarios/js/validarContrasena.js' %}"></script>
 
+{% if adminCreator %}
 <script type="text/javascript" src="{% static 'usuarios/js/navbar.js' %}"></script>
+{% endif %}
 
 {% endblock %}

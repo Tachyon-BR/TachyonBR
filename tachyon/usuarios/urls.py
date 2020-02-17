@@ -13,6 +13,6 @@ urlpatterns = [
     path('confirmMail', views.confirmMail, name='confirmMail'),
     path('', views.indexView, name='index'),
     path('deleteUser/<int:id>', views.deleteUserView, name='deleteUser'),
-    path('adminCreateUserView', views.adminCreateUserView, name='adminCreateUserView'),
+    path('adminCreateUser', views.adminCreateUserView, name='adminCreateUser'),
     path('adminVerifyCreateUser', views.adminVerifyCreateUser, name="adminVerifyCreateUser")
 ]
