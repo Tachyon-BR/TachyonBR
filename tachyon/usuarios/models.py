@@ -51,7 +51,7 @@ class Permiso(models.Model):
         verbose_name = 'Permiso'
         verbose_name_plural = 'Permisos'
 
-    def _str_(self):
+    def __str__(self):
         return "%s" % (self.nombre)
 
 
@@ -65,5 +65,5 @@ class PermisoRol(models.Model):
         verbose_name = 'Permiso Rol'
         verbose_name_plural = 'Permiso Roles'
 
-    def _str_(self):
+    def __str__(self):
         return "%s %s" % (self.permiso.nombre, self.rol.nombre)

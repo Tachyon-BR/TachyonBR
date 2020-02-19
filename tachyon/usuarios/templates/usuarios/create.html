@@ -6,6 +6,7 @@
 {% block optionalCSS %}
     <!-- Vendor CSS-->
     <link href="{% static 'usuarios/styles/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'usuarios/fonts/iconic/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
     <link href="{% static 'usuarios/styles/vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
@@ -25,7 +26,7 @@
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
                 {% if adminCreator %}
-                <h1 class="text-center">Registra un nuevo usuario</h1>
+                <h1 class="text-center">Registrar Usuario</h1>
                 <form method="POST" action="/usuarios/adminVerifyCreateUser">
                 {% else %}
                 <h1 class="text-center">Regístrate</h1>
@@ -175,5 +176,9 @@
 
 <!-- Contrasena JS -->
 <script src="{% static 'usuarios/js/validarContrasena.js' %}"></script>
+
+{% if adminCreator %}
+<script type="text/javascript" src="{% static 'usuarios/js/navbar.js' %}"></script>
+{% endif %}
 
 {% endblock %}

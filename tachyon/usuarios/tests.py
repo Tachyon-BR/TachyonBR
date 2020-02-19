@@ -61,9 +61,17 @@ class testSignUp(TestCase):
         'confirmar_contrasena': 'password',
         'email': 'test@test.com',
     }
+
+    def login_tachyon(self,mail,password):
+        response = self.client.post(reverse('verifyLogin'),{'mail':mail,'password':password})
+
     def setUp(self):
+        p = Permiso(nombre='crear_staff')
+        p.save()
         r = Rol(nombre='Propietario')
         r.save()
+        p_r = PermisoRol(permiso=p, rol=r)
+        p_r.save()
         u = User.objects.create_user(username="UserName", password="contraseña", email="lalo@lalocura.com")
         tu = TachyonUsuario(
             rol= r,
@@ -73,9 +81,11 @@ class testSignUp(TestCase):
             apellido_materno= 'Perez',
             telefono = '123456789',
             estado = 'Querétaro',
-            codigo_registro =  'ASDFGHJKLP'
+            codigo_registro =  'ASDFGHJKLP',
+            estado_registro = True
         )
         tu.save()
+
     # --- TESTS PARA CREACION DE USUARIOS POR PARTE DE USUARIOS NO REGISTRADOS ---
     def test_createUser_success(self):
 
@@ -146,6 +156,7 @@ class testSignUp(TestCase):
 
     # --- TESTS PARA CREACION DE USUARIOS POR PARTE DEL ADMIN ---
     def test_adminVerifyCreateUser_success(self):
+        self.login_tachyon('lalo@lalocura.com', 'contraseña') #ingresar como un usuario cliente
         formSubmit = self.formSubmitD.copy()
         formSubmit['rol'] = 'Propietario'   # Agregar campo 'rol'
 
@@ -154,6 +165,7 @@ class testSignUp(TestCase):
         self.assertEqual(session['notification_session_type'], 'Success')
 
     def test_adminVerifyCreateUser_fail_mailAlreadyExist(self):
+        self.login_tachyon('lalo@lalocura.com', 'contraseña') #ingresar como un usuario cliente
         formSubmit = self.formSubmitD.copy()
         formSubmit['rol'] = 'Propietario'   # Agregar campo 'rol'
         formSubmit['email'] = 'lalo@lalocura.com'   # Cambiar el correo por uno ya existente
@@ -163,19 +175,120 @@ class testSignUp(TestCase):
         self.assertEqual(session['notification_session_type'], 'Danger')
 
     def test_adminVerifyCreateUser_fail_wrongFormat(self):
+        self.login_tachyon('lalo@lalocura.com', 'contraseña') #ingresar como un usuario cliente
         #falta email
         formSubmit = self.formSubmitD.copy()
         del formSubmit['email']
-        
+
         response = self.client.post('/usuarios/adminVerifyCreateUser', formSubmit)
         session = self.client.session
         self.assertEqual(session['notification_session_type'], 'Danger')
 
     def test_adminVerifyCreateUser_fail_wrongMethod(self):
+        self.login_tachyon('lalo@lalocura.com', 'contraseña') #ingresar como un usuario cliente
         response = self.client.get('/usuarios/adminVerifyCreateUser')
         self.assertEqual(response.status_code, 404)
 
     def test_adminCreateUserView_success(self):
-        response = self.client.get('/usuarios/adminCreateUserView')
+        self.login_tachyon('lalo@lalocura.com', 'contraseña') #ingresar como un usuario cliente
+        response = self.client.get('/usuarios/adminCreateUser')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'usuarios/create.html')
+
+#Esta prueba revisa que un usuario se pueda eliminar
+class testDeleteUser(TestCase):
+    def setUp(self):
+        r = Rol(nombre='Propietario')
+        r.save()
+        u = User.objects.create_user(username="UserName", password="contraseña", email="lalo@lalocura.com")
+        tu = TachyonUsuario(
+            rol= r,
+            user= u,
+            nombre='Pedro',
+            apellido_paterno= 'Perez',
+            apellido_materno= 'Perez',
+            telefono = '123456789',
+            estado = 'Querétaro',
+            codigo_registro =  'ASDFGHJKLP'
+        )
+        tu.save()
+        u2 = User.objects.create_user(username="UserName2", password="contraseña", email="lalocura@lalocura.com")
+        tu2 = TachyonUsuario(
+            rol= r,
+            user= u2,
+            nombre='Pedro',
+            apellido_paterno= 'Perez',
+            apellido_materno= 'Perez',
+            telefono = '123456789',
+            estado = 'Querétaro',
+            codigo_registro =  'ASDFGHJKLP'
+        )
+        tu2.save()
+
+    def test_delete_usuario_1(self):
+        user = TachyonUsuario.objects.all().first()
+        user.estado_eliminado = True
+        user.save()
+        contador = TachyonUsuario.objects.filter(estado_eliminado=True).count()
+        self.assertEquals(1, contador)
+
+    # Si truena está bien, porque el analisis no existe
+    def test_delete_usuario_2(self):
+        var = False
+        try:
+            user = TachyonUsuario.objects.all().last()
+            user.estado_eliminado = True
+            user.save()
+            contador = TachyonUsuario.objects.filter(estado=True).count()
+            self.assertNotEquals(2, contador)
+        except:
+            var = True
+            self.assertEquals(var, True)
+
+class TestListaUsuarios(TestCase):
+    def setUp(self):
+        p = Permiso(nombre='visualizar_usuarios')
+        p.save()
+        r = Rol(nombre='SuperUsaurus')
+        r.save()
+        p_r = PermisoRol(permiso=p, rol=r)
+        p_r.save()
+        u = User.objects.create_user(username="UserName", password="contraseña", email="lalo@lalocura.com")
+        tu = TachyonUsuario(
+            rol= r,
+            user= u,
+            nombre='Pedro',
+            apellido_paterno= 'Perez',
+            apellido_materno= 'Perez',
+            telefono = '123456789',
+            estado = 'Querétaro',
+            codigo_registro =  'ASDFGHJKLP',
+            estado_registro = True
+        )
+        u.save()
+        tu.save()
+        u2 = User.objects.create_user(username="UserName2", password="contraseña", email="lalocura@lalocura.com")
+        tu2 = TachyonUsuario(
+            rol= r,
+            user= u2,
+            nombre='Pedro',
+            apellido_paterno= 'Perez',
+            apellido_materno= 'Perez',
+            telefono = '123456789',
+            estado = 'Querétaro',
+            codigo_registro =  'ASDFGHJKLP'
+        )
+        u2.save()
+        tu2.save()
+
+    def login_tachyon(self,mail,password):
+        response = self.client.post(reverse('verifyLogin'),{'mail':mail,'password':password})
+
+    def test_no_login(self):
+        response = self.client.get('/usuarios/')
+        self.assertEqual(response.status_code, 302)
+
+    def test_url_resuelta(self):
+        self.login_tachyon('lalo@lalocura.com','contraseña') #ingresar como un usuario cliente
+        response = self.client.get('/usuarios/')
+        self.assertEqual(response.status_code, 200)
