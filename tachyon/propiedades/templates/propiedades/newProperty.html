@@ -22,111 +22,197 @@
 
 
 <div class="page-wrapper bg-gra-01 p-t-130 p-b-100 font-poppins">
-    <div class="wrapper wrapper--w680">
+    <div class="wrapper wrapper--w680" style="max-width: 900px;">
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
                 <h1 class="text-center">Nueva Propiedad</h1>
-                <form method="POST" action="/usuarios/createUser">
+                <form method="POST" action="/propiedades/createProperty">
                     {% csrf_token %}
                     <div class="row row-space">
                         <div class="col-12">
                             <div class="input-group">
-                                <label class="label">Nombre</label>
-                                <input class="input--style-4" type="text" name="nombre" required>
+                                <label class="label">Título</label>
+                                <input class="input--style-4" type="text" name="titulo" id="titulo" required>
                             </div>
                         </div>
                     </div>
                     <div class="row row-space">
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Apellido Paterno</label>
-                                <input class="input--style-4" type="text" name="apellido_paterno" required>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Apellido Materno</label>
-                                <input class="input--style-4" type="text" name="apellido_materno" required>
-                            </div>
+                        <div class="col-12">
+                            <label class="label">Descripción</label>
+                            <textarea class="input--style-4" type="text" name="desc" id="desc" style="width: 100%; height: 100px; line-height: 20px; padding-top: 10px; border: 0px;" required></textarea>
                         </div>
                     </div>
+                    <br>
                     <div class="row row-space">
                         <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Contraseña</label>
-                                <div class="invalid-feedback invalid-password">
-                                        Las contraseñas no coinciden
-                                </div>
-                                <div class="invalid-feedback invalid-password-len">
-                                        La contraseña debe ser de mínimo 6 caracteres
-                                </div>
-                                <input class="input--style-4" type="password" name="contrasena" id="contrasena" required>
-                            </div>
-
-                        </div>
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Confirmar Contraseña</label>
-                                <div class="invalid-feedback invalid-password">
-                                        Las contraseñas no coinciden
-                                </div>
-                                <div class="invalid-feedback invalid-password-len">
-                                        La contraseña debe ser de mínimo 6 caracteres
-                                </div>
-                                <input class="input--style-4" type="password" name="confirmar_contrasena" id="confirmar_contrasena" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row-space">
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Correo</label>
-                                <div class="invalid-feedback invalid-mail">
-                                    ¡Oops! El correo que ingresaste ya existe.
-                                </div>
-                                <input class="input--style-4" type="email" name="email" id="email" required>
+                            <label class="label">Tipo de Oferta</label>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select name="oferta" required>
+                                    <option disabled="disabled" value="" selected="selected">Seleccione un tipo de oferta...</option>
+                                    <option>Venta</option>
+                                    <option>Renta</option>
+                                </select>
+                                <div class="select-dropdown"></div>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Teléfono</label>
-                                <input class="input--style-4" type="text" name="telefono" required>
+                            <label class="label">Tipo de Propiedad</label>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select name="tipo" required>
+                                    <option disabled="disabled" value="" selected="selected">Seleccione un tipo de propiedad...</option>
+                                    <option>Casa</option>
+                                    <option>Departamento</option>
+                                    <option>Edificio</option>
+                                    <option>Local</option>
+                                    <option>Terreno</option>
+                                </select>
+                                <div class="select-dropdown"></div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="">
-                        <label class="label">Estado</label>
-                        <div class="rs-select2 js-select-simple select--no-search">
-                            <select name="estado" required>
-                                <option disabled="disabled" selected="selected">Seleccione un estado...</option>
-                                <option>Chihuahua</option>
-                                <option>Sinaloa</option>
-                                <option>Yucatán</option>
-                            </select>
-                            <div class="select-dropdown"></div>
                         </div>
                     </div>
                     <br>
                     <div class="row row-space">
                         <div class="col-6">
                             <div class="input-group">
-                                <label class="label">Agencia (opcional)</label>
-                                <input class="input--style-4" type="text" name="nombre_agencia">
+                                <label class="label">Cantidad de Habitaciones</label>
+                                <input class="input--style-4" type="number" name="habs" id="habs" min=0>
+                            </div>
+
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Cantidad de Baños</label>
+                                <input class="input--style-4" type="number" name="banos" id="banos" min=0>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Número de Pisos</label>
+                                <input class="input--style-4" type="number" name="pisos" id="pisos" min=1>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="input-group">
-                                <label class="label">Número de Agencia (opcional)</label>
-                                <input class="input--style-4" type="text" name="numero_agencia">
+                                <label class="label">Lugares de Estacionamiento</label>
+                                <input class="input--style-4" type="number" name="garaje" id="garaje" min=0>
                             </div>
                         </div>
                     </div>
-
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Metros de Terreno</label>
+                                <input class="input--style-4" type="number" name="m_terr" id="m_terr" min=0 required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Metros de Construcción</label>
+                                <input class="input--style-4" type="number" name="m_cons" id="m_cons" min=0 required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <label class="label">País</label>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select name="pais" required>
+                                    <option disabled="disabled" value="" selected="selected">Seleccione un país...</option>
+                                    <option>México</option>
+                                </select>
+                                <div class="select-dropdown"></div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Código Postal</label>
+                                <input class="input--style-4" type="number" name="codigo_postal" id="codigo_postal" min=0 required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Estado</label>
+                                <input class="input--style-4" type="text" name="estado" id="estado" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label class="label">Colonia</label>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select name="colonia" required>
+                                    <option disabled="disabled" value="" selected="selected">Seleccione una colonia...</option>
+                                </select>
+                                <div class="select-dropdown"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label">Dirección</label>
+                                <input class="input--style-4" type="text" name="direccion" id="direccion" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Precio</label>
+                                <input class="input--style-4" type="number" name="precio" id="precio" min=0 required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group" style="margin-top: 40px;">
+                                <label class="label" for="negociable">¿Precio Negociable?</label>
+                                <input class="checkmark" type="checkbox" name="negociable" id="negociable" style="margin-left: 250px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label">Datos Extra/Información Importante</label>
+                                <input class="input--style-4" type="text" name="dif" id="dif" required>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label">Foto de Portada</label>
+                                {{ form.portada }}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label">Fotos de la Propiedad</label>
+                                {{ form.extra }}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label" style="padding-right: 50%">Enlace de Video</label>
+                                <label class="label" style="font-size: 12px;">(Sube tu video previamente a algun sitio web, como YouTube o Vimeo, y coloca tu enlace aquí.)</label>
+                                <input class="input--style-4" type="text" name="video" id="video">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                     <div class="container-login100-form-btn">
-						<button class="login100-form-btn" type="submit" id="submit">
-							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
-						</button>
-					</div>
+            						<button class="login100-form-btn" type="submit" id="submit">
+            							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
+            						</button>
+					          </div>
                 </form>
             </div>
         </div>

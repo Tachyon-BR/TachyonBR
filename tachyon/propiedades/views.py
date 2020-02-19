@@ -16,6 +16,8 @@ import string
 from .models import *
 import os
 from django.http import HttpResponse
+import datetime
+from .forms import *
 
 # Create your views here.
 
@@ -29,8 +31,15 @@ def indexView(request):
 
 @login_required
 def myPropertiesView(request):
-    return render(request, 'propiedades/myProperties.html')
+    if 'visualizar_mis_propiedades' in request.session['permissions']:
+        return render(request, 'propiedades/myProperties.html')
+    else:
+        raise Http404
 
 @login_required
 def newPropertyView(request):
-    return render(request, 'propiedades/newProperty.html')
+    if 'registrar_propiedad' in request.session['permissions']:
+        form = CrearPropiedadForma()
+        return render(request, 'propiedades/newProperty.html', {'form': form})
+    else:
+        raise Http404
