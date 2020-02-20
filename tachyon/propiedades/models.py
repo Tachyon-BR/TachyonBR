@@ -66,3 +66,21 @@ class Foto(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.propiedad.pk, self.pk)
+
+
+class CodigoPostal(models.Model):
+    codigo = models.CharField(max_length = 5)
+    asenta = models.CharField(max_length = 100)
+    tipo_asenta = models.CharField(max_length = 100)
+    municipio = models.CharField(max_length = 100)
+    estado = models.CharField(max_length = 100)
+    ciudad = models.CharField(max_length = 100)
+    CP = models.IntegerField(null=True, blank=True)
+    c_estado = models.IntegerField(null=True, blank=True)
+    c_oficina = models.IntegerField(null=True, blank=True)
+    c_CP = models.IntegerField(null=True, blank=True)
+    c_tipo_asenta = models.IntegerField(null=True, blank=True)
+    c_mnpio = models.IntegerField(null=True, blank=True)
+    id_asenta_cpcons = models.IntegerField(null=True, blank=True)
+    d_zona = models.CharField(max_length = 100, null=True, blank=True)
+    c_cve_ciudad = models.IntegerField(null=True, blank=True)

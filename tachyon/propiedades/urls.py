@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.indexView, name='index'),
     path('myProperties', views.myPropertiesView, name='myProperties'),
     path('newProperty', views.newPropertyView, name='newProperty'),
+    path('codigos/', views.codigosView, name='codigos'),
 ]

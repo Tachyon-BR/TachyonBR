@@ -22,3 +22,9 @@
 .custom-file-label::after{
   content: "Elegir archivos" !important;
 }
+
+.btn {
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  padding: .375rem .75rem !important;
+}

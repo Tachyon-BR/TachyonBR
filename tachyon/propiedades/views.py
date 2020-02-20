@@ -18,8 +18,16 @@ import os
 from django.http import HttpResponse
 import datetime
 from .forms import *
+from django.core.serializers.json import DjangoJSONEncoder
 
 # Create your views here.
+
+#Esta clase sirve para serializar los objetos de los modelos.
+class LazyEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Cotizacion):
+            return str(obj)
+        return super().default(obj)
 
 # Vista de una Propiedad
 def propertyView(request):
@@ -43,3 +51,23 @@ def newPropertyView(request):
         return render(request, 'propiedades/newProperty.html', {'form': form})
     else:
         raise Http404
+
+def codigosView(request):
+    user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el tipo de usuario logeado
+    if request.method == 'POST':
+        data = []
+        codigo = CodigoPostal.objects.filter(codigo = request.POST.get('codigo'))
+        if(codigo.count() > 0):
+            data.append(serializers.serialize('json', codigo, cls=LazyEncoder))
+            return JsonResponse({"info": data})
+        else:
+            response = JsonResponse({"error": "No existe ese código postal"})
+            response.status_code = 500
+            # Regresamos la respuesta de error interno del servidor
+            return response
+
+    else:
+        response = JsonResponse({"error": "No se mandó por el método correcto"})
+        response.status_code = 500
+        # Regresamos la respuesta de error interno del servidor
+        return response

@@ -195,7 +195,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="input-group">
                                 <label class="label">Código Postal</label>
                                 <input class="input--style-4 form-control validacion" type="text" name="codigo_postal" id="codigo_postal" pattern=".{5,5}" onchange="numero(this.id, this.value);" required>
@@ -207,33 +207,37 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-2">
+                          <button type="button" class="btn btn-secondary" id="checar" style="margin-top: 33px;" onclick="validar_cp()">Validar</button>
+                        </div>
                     </div>
-                    <div class="row row-space">
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Estado</label>
-                                <input class="input--style-4 form-control validacion" type="text" name="estado" id="estado" readonly required>
-                                <div class="valid-feedback">
-                                    ¡Correcto!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Por favor, ingrese el estado donde se encuentra su propiedad.
+                    <div id="ubicacion" hidden>
+                        <div class="row row-space">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Estado</label>
+                                    <input class="input--style-4 form-control validacion" type="text" name="estado" id="estado" readonly required>
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese el estado donde se encuentra su propiedad.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <label class="label">Colonia</label>
-                            <div class="rs-select2 js-select-simple select--no-search">
-                                <select class="form-control" name="colonia" required>
-                                    <option disabled="disabled" value="" selected="selected">Seleccione una colonia...</option>
-                                    <option>Tecnológico</option>
-                                </select>
-                                <div class="select-dropdown"></div>
-                                <div class="valid-feedback">
-                                    ¡Correcto!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Por favor, seleccione la colonia de su propiedad.
+                            <div class="col-6">
+                                <label class="label">Colonia</label>
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select class="form-control" name="colonia" id="colonia" required>
+                                        <option disabled="disabled" value="" selected="selected">Seleccione una colonia...</option>
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, seleccione la colonia de su propiedad.
+                                    </div>
                                 </div>
                             </div>
                         </div>
