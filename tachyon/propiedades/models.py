@@ -34,14 +34,23 @@ class Propiedad(models.Model):
     precio = models.FloatField()
     pisos = models.PositiveSmallIntegerField(null=True, blank=True)
     estado_activo = models.BooleanField(default = False)
-    visitas = models.IntegerField()
-    fecha_creacion = models.DateField(auto_now = True)
+    visitas = models.IntegerField(default = 0)
+    fecha_creacion = models.DateField(auto_now_add = True)
     fecha_publicacion = models.DateField(null=True, blank=True)
     fecha_corte = models.DateField(null=True, blank=True)
     portada = models.ImageField(upload_to = path_portada, null=True, blank=True)
     negociable = models.BooleanField()
-    diferenciador = models.CharField(max_length = 100)
-    video = models.CharField(max_length = 150)
+    diferenciador = models.CharField(max_length = 100, null=True, blank=True)
+    video = models.CharField(max_length = 150, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        try:
+            this = Propiedad.objects.get(id=self.id)
+            if this.portada != self.portada:
+                this.portada.delete(save=False)
+        except:
+            pass  # when new photo then we do nothing, normal case
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Propiedad'
@@ -74,8 +83,8 @@ class CodigoPostal(models.Model):
     tipo_asenta = models.CharField(max_length = 100)
     municipio = models.CharField(max_length = 100)
     estado = models.CharField(max_length = 100)
-    ciudad = models.CharField(max_length = 100)
-    CP = models.IntegerField(null=True, blank=True)
+    ciudad = models.CharField(max_length = 100, null=True, blank=True)
+    d_CP = models.IntegerField(null=True, blank=True)
     c_estado = models.IntegerField(null=True, blank=True)
     c_oficina = models.IntegerField(null=True, blank=True)
     c_CP = models.IntegerField(null=True, blank=True)

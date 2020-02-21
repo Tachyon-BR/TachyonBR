@@ -29,7 +29,7 @@
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
                 <h1 class="text-center">Nueva Propiedad</h1>
-                <form method="POST" action="/propiedades/createProperty" class="needs-validation" novalidate>
+                <form method="POST" action="/propiedades/createProperty/" class="needs-validation" enctype="multipart/form-data" novalidate>
                     {% csrf_token %}
                     <div class="row row-space">
                         <div class="col-12">
@@ -301,7 +301,7 @@
                         </div>
                     </div>
                     <br>
-                    <input class="input--style-4 form-control" type="text" name="safe" id="safe" pattern=".{6,}" required hidden>
+                    <!-- <input class="input--style-4 form-control" type="text" name="safe" id="safe" pattern=".{6,}" required hidden>
                     <div class="row row-space">
                         <div class="col-12">
                             <label class="label" id="tipo_prop">Fotos de la Propiedad</label>
@@ -318,7 +318,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <br>
                     <br>
                     <div class="row row-space">

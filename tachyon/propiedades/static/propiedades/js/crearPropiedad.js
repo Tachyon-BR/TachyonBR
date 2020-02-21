@@ -163,7 +163,7 @@ function validar_cp(){
     if(bool){
       var token = csrftoken;
       $.ajax({
-          url: "codigos/",
+          url: "/propiedades/codigos/",
           dataType: 'json',
           // Seleccionar información que se mandara al controlador
           data: {

@@ -53,7 +53,6 @@ def newPropertyView(request):
         raise Http404
 
 def codigosView(request):
-    user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el tipo de usuario logeado
     if request.method == 'POST':
         data = []
         codigo = CodigoPostal.objects.filter(codigo = request.POST.get('codigo'))
@@ -71,3 +70,81 @@ def codigosView(request):
         response.status_code = 500
         # Regresamos la respuesta de error interno del servidor
         return response
+
+@login_required
+def createPropertyView(request):
+    if 'registrar_propiedad' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+            form = CrearPropiedadForma(request.POST, request.FILES)
+            print(form.errors)
+            if form.is_valid():
+                # Sacar los datos del la forma
+                oferta = form.cleaned_data['oferta']
+                tipo = form.cleaned_data['tipo']
+                titulo = form.cleaned_data['titulo']
+                desc = form.cleaned_data['desc']
+                habs = form.cleaned_data['habs']
+                banos = form.cleaned_data['banos']
+                garaje = form.cleaned_data['garaje']
+                pais = form.cleaned_data['pais']
+                estado = form.cleaned_data['estado']
+                codigo_postal = form.cleaned_data['codigo_postal']
+                colonia = form.cleaned_data['colonia']
+                direccion = form.cleaned_data['direccion']
+                precio = form.cleaned_data['precio']
+                negociable = form.cleaned_data['negociable']
+                dif = form.cleaned_data['dif']
+                m_terr = form.cleaned_data['m_terr']
+                m_cons = form.cleaned_data['m_cons']
+                pisos = form.cleaned_data['pisos']
+                portada = form.cleaned_data['portada']
+                # extra = form.cleaned_data['extra']
+                video = form.cleaned_data['video']
+
+                # Crear el objeto de Propiedad
+                propiedad = Propiedad()
+                propiedad.propietario = user_logged
+                propiedad.titulo = titulo
+                propiedad.tipo = tipo
+                propiedad.oferta = oferta
+                propiedad.descripcion = desc
+                if(tipo != 'Terreno'):
+                    propiedad.habitaciones = habs
+                    propiedad.banos = banos
+                    propiedad.garaje = garaje
+                    propiedad.pisos = pisos
+                propiedad.metros_terreno = m_terr
+                propiedad.metros_construccion = m_cons
+                propiedad.pais = pais
+                propiedad.codigo_postal = codigo_postal
+                propiedad.estado = estado
+                propiedad.colonia = colonia
+                propiedad.direccion = direccion
+                propiedad.precio = precio
+                propiedad.negociable = negociable
+                if(dif != None):
+                    propiedad.diferenciador = dif
+                if(video != None):
+                    propiedad.video = video
+
+                # Guardar propiedad para poder guardar las imagenes
+                propiedad.save()
+
+                # Guardar imagen de portada
+                propiedad.portada = portada
+                propiedad.save()
+
+                # Guardar imagenes de la propiedad
+
+
+                request.session['notification_session_msg'] = "Se ha añadido la propiedad exitosamente."
+                request.session['notification_session_type'] = "Success"
+                return render(request, 'propiedades/myProperties.html')
+
+            else:
+                raise Http404
+        else:
+            raise Http404
+    else:
+        raise Http404
