@@ -13,41 +13,48 @@
     {% endif %}
     <br><br>
     <div class="table-responsive">
-      <table class="table user-list" id="lista-usuarios">
+      <table class="table user-list" id="lista-propiedades">
         <thead>
           <tr>
-            <th><span>Usuario</span></th>
-            <th><span>Creado</span></th>
-            <th><span>Estado</span></th>  <!-- class="text-center" -->
-            <th><span>Email</span></th>
+            <th><span>Propiedad</span></th>
+            <th><span>Oferta</span></th>
+            <th><span>Precio</span></th>
+            <th><span>Estado</span></th>
+            <th><span>Visitas</span></th>
+            <th><span>Fecha de Corte</span></th>  <!-- class="text-center" -->
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {% for t in tachyons %}
-          <tr id="row-{{ t.pk }}">
+          {% for p in list %}
+          <tr id="row-{{ p.pk }}">
             <td>
-              <img src="{% static 'root/images/user.png' %}" alt="Ícono de usuario">
-              <a href="#" class="user-link">{{ t.nombre }} {{ t.apellido_paterno }} {{t.apellido_materno }}</a>
-              <span class="user-subhead">{{ t.rol.nombre }}</span>
+              <img src="{{ p.portada.url }}" alt="Portada de Propiedad" style="max-width: 100px;">
+              <a href="#" class="user-link">{{ p.titulo }}</a>
+              <span class="user-subhead">{{ p.tipo }}</span>
             </td>
             <td>
-              {{ t.user.date_joined }}
+              {{ p.oferta }}
+            </td>
+            <td id="precio">
+              {{ p.precio }}
             </td>
             <td id="status">
-              {% if t.estado_registro %}
-                {% if t.estado_eliminado %}
-                  <span class="badge badge-pill badge-danger">Eliminado</span>
-                {% else %}
-                  <span class="badge badge-pill badge-success">Activo</span>
-                {% endif %}
+              {% if p.estado_activo %}
+                <span class="badge badge-pill badge-success">Publicada</span>
               {% else %}
-                <span class="badge badge-pill badge-secondary">Pendiente</span>
-              <!-- <span class="badge badge-pill badge-warning">Bloqueado</span> -->
+                <span class="badge badge-pill badge-danger">No Publicada</span>
               {% endif %}
             </td>
             <td>
-              <span>{{ t.user.email }}</span>
+              <span>{{ p.visitas }}</span>
+            </td>
+            <td>
+              {% if p.fecha_corte != None %}
+                {{ p.fecha_corte }}
+              {% else %}
+                No Aplica
+              {% endif %}
             </td>
             <td id="icons" style="width: 20%;">
               <a href="#" class="table-link info">
@@ -62,21 +69,12 @@
                   <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
-              {% if t.estado_eliminado %}
-                <a href="#" class="table-link success" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#restore-user">
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fas fa-trash-restore fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              {% else %}
-              <a href="#" class="table-link danger" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#delete-user">
+              <a href="#" class="table-link danger" onclick="" data-toggle="modal" data-target="">
                 <span class="fa-stack">
                   <i class="fa fa-square fa-stack-2x"></i>
                   <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
-              {% endif %}
             </td>
           </tr>
           {% endfor %}
@@ -92,7 +90,8 @@
 <script type="text/javascript">
     checkNotificationSession();
 </script>
-<script type="text/javascript" src="{% static 'usuarios/js/table.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/table.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/misPropiedades.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
 <script type="text/javascript" src="{% static 'usuarios/js/borrar.js' %}"></script>
 {% endblock %}

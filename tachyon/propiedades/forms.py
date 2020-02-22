@@ -21,5 +21,5 @@ class CrearPropiedadForma(forms.Form):
     m_cons = forms.CharField(max_length = 30)
     pisos = forms.IntegerField(required=False)
     portada = forms.ImageField(widget=forms.ClearableFileInput())
-    # extra = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    extra = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     video = forms.CharField(max_length = 150, required=False)

@@ -10,7 +10,7 @@ def path_portada(instance, filename):
 
 def path_imagenes(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'user_{0}/property_{1}/extra/{2}'.format(instance.propietario.pk, instance.pk, filename)
+    return 'user_{0}/property_{1}/extra/{2}'.format(instance.propiedad.propietario.pk, instance.propiedad.pk, filename)
 
 # Modelo de los usuarios de Tachyon
 class Propiedad(models.Model):
@@ -36,6 +36,7 @@ class Propiedad(models.Model):
     estado_activo = models.BooleanField(default = False)
     visitas = models.IntegerField(default = 0)
     fecha_creacion = models.DateField(auto_now_add = True)
+    fecha_modificacion = models.DateField(auto_now = True)
     fecha_publicacion = models.DateField(null=True, blank=True)
     fecha_corte = models.DateField(null=True, blank=True)
     portada = models.ImageField(upload_to = path_portada, null=True, blank=True)
@@ -67,7 +68,17 @@ class Foto(models.Model):
     # Campos adicionales
     imagen = models.ImageField(upload_to = path_imagenes)
     orden = models.PositiveSmallIntegerField()
-    fecha = models.DateField(auto_now = True)
+    fecha_creacion = models.DateField(auto_now_add = True)
+    fecha_modificacion = models.DateField(auto_now = True)
+
+    def save(self, *args, **kwargs):
+        try:
+            this = Foto.objects.get(id=self.id)
+            if this.imagen != self.imagen:
+                this.imagen.delete(save=False)
+        except:
+            pass  # when new photo then we do nothing, normal case
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Foto'

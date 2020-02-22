@@ -40,7 +40,9 @@ def indexView(request):
 @login_required
 def myPropertiesView(request):
     if 'visualizar_mis_propiedades' in request.session['permissions']:
-        return render(request, 'propiedades/myProperties.html')
+        user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+        list = Propiedad.objects.filter(propietario = user_logged)
+        return render(request, 'propiedades/myProperties.html', {'list': list})
     else:
         raise Http404
 
@@ -77,6 +79,7 @@ def createPropertyView(request):
         if request.method == 'POST':
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
             form = CrearPropiedadForma(request.POST, request.FILES)
+            files = request.FILES.getlist('extra')
             print(form.errors)
             if form.is_valid():
                 # Sacar los datos del la forma
@@ -136,11 +139,19 @@ def createPropertyView(request):
                 propiedad.save()
 
                 # Guardar imagenes de la propiedad
-
+                i = 1
+                for f in files:
+                    fotos = Foto()
+                    fotos.propiedad = propiedad
+                    fotos.orden = i
+                    fotos.save()
+                    fotos.imagen = f
+                    fotos.save()
+                    i = i + 1
 
                 request.session['notification_session_msg'] = "Se ha añadido la propiedad exitosamente."
                 request.session['notification_session_type'] = "Success"
-                return render(request, 'propiedades/myProperties.html')
+                return redirect('/propiedades/myProperties/')
 
             else:
                 raise Http404
