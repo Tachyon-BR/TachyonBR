@@ -141,3 +141,61 @@ function validate_files(){
     $('#safe').val('')
   }
 }
+
+function validar_cp(){
+  var val = $('#codigo_postal').val();
+  if(!(isNaN(val))){
+    var temp;
+    var bool = false;
+    if(val[0] == "0"){
+      temp = parseInt(val);
+      temp = "0"+temp.toString();
+      if(temp.length == 5){
+        bool = true;
+      }
+    }
+    else{
+      temp = parseInt(val);
+      if(temp.toString().length == 5){
+        bool = true;
+      }
+    }
+    if(bool){
+      var token = csrftoken;
+      $.ajax({
+          url: "/propiedades/codigos/",
+          dataType: 'json',
+          // Seleccionar información que se mandara al controlador
+          data: {
+              'codigo': val,
+              'csrfmiddlewaretoken': token
+          },
+          type: "POST",
+          success: function (response) {
+              // Obtener la info que se regresa del controlador
+              $('#ubicacion').prop('hidden', false);
+              var data = JSON.parse(response.info);
+              // Agregamos uno por uno los codigos seleccionados
+              $('#colonia').empty();
+              $('#colonia').append('<option disabled="disabled" value="" selected="selected">Seleccione una colonia...</option>');
+              for (var i = 0; i < data.length; i++) {
+                  var id = data[i].pk;
+                  var estado = data[i].fields.estado;
+                  var colonia = data[i].fields.asenta;
+                  $('#estado').val(estado);
+                  $('#colonia').append('<option>'+ colonia +'</option>');
+              }
+          },
+          error: function (data) {
+              showNotificationWarning('top', 'right', 'El código postal ingresado no existe.');
+          }
+      });
+    }
+    else{
+      showNotificationWarning('top', 'right', 'El código postal ingresado no existe.');
+    }
+  }
+  else{
+    showNotificationWarning('top', 'right', 'El código postal ingresado no existe.');
+  }
+}

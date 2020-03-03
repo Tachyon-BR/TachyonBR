@@ -29,7 +29,7 @@
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
                 <h1 class="text-center">Nueva Propiedad</h1>
-                <form method="POST" action="/propiedades/createProperty" class="needs-validation" novalidate>
+                <form method="POST" action="/propiedades/createProperty/" class="needs-validation" enctype="multipart/form-data" novalidate>
                     {% csrf_token %}
                     <div class="row row-space">
                         <div class="col-12">
@@ -195,7 +195,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="input-group">
                                 <label class="label">Código Postal</label>
                                 <input class="input--style-4 form-control validacion" type="text" name="codigo_postal" id="codigo_postal" pattern=".{5,5}" onchange="numero(this.id, this.value);" required>
@@ -207,33 +207,37 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-2">
+                          <button type="button" class="btn btn-secondary" id="checar" style="margin-top: 33px;" onclick="validar_cp()">Validar</button>
+                        </div>
                     </div>
-                    <div class="row row-space">
-                        <div class="col-6">
-                            <div class="input-group">
-                                <label class="label">Estado</label>
-                                <input class="input--style-4 form-control validacion" type="text" name="estado" id="estado" readonly required>
-                                <div class="valid-feedback">
-                                    ¡Correcto!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Por favor, ingrese el estado donde se encuentra su propiedad.
+                    <div id="ubicacion" hidden>
+                        <div class="row row-space">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Estado</label>
+                                    <input class="input--style-4 form-control validacion" type="text" name="estado" id="estado" readonly required>
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese el estado donde se encuentra su propiedad.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <label class="label">Colonia</label>
-                            <div class="rs-select2 js-select-simple select--no-search">
-                                <select class="form-control" name="colonia" required>
-                                    <option disabled="disabled" value="" selected="selected">Seleccione una colonia...</option>
-                                    <option>Tecnológico</option>
-                                </select>
-                                <div class="select-dropdown"></div>
-                                <div class="valid-feedback">
-                                    ¡Correcto!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Por favor, seleccione la colonia de su propiedad.
+                            <div class="col-6">
+                                <label class="label">Colonia</label>
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select class="form-control" name="colonia" id="colonia" required>
+                                        <option disabled="disabled" value="" selected="selected">Seleccione una colonia...</option>
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, seleccione la colonia de su propiedad.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -320,9 +324,9 @@
                     <div class="row row-space">
                         <div class="col-12">
                             <div class="input-group">
-                                <label class="label">Enlace de Video</label>
+                                <label class="label">Enlace de Video (YouTube)</label>
                                 <div class="w-100"></div>
-                                <label class="label" style="font-size: 12px;">(Sube tu video previamente a algun sitio web, como YouTube o Vimeo, y coloca tu enlace aquí.)</label>
+                                <label class="label" style="font-size: 12px;">(Sube tu video previamente a YouTube y coloca tu enlace aquí.)</label>
                                 <input class="input--style-4" type="text" name="video" id="video">
                             </div>
                         </div>
