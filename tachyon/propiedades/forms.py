@@ -1,0 +1,25 @@
+from django import forms
+from .models import *
+
+class CrearPropiedadForma(forms.Form):
+    oferta = forms.CharField(max_length = 30)
+    tipo = forms.CharField(max_length = 30)
+    titulo = forms.CharField(max_length = 200)
+    desc = forms.CharField()
+    habs = forms.IntegerField(required=False)
+    banos = forms.FloatField(required=False)
+    garaje = forms.IntegerField(required=False)
+    pais = forms.CharField(max_length = 100)
+    estado = forms.CharField(max_length = 100)
+    codigo_postal = forms.IntegerField()
+    colonia = forms.CharField(max_length = 200)
+    direccion = forms.CharField(max_length = 300)
+    precio = forms.FloatField()
+    negociable = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
+    dif = forms.CharField(max_length = 100, required=False)
+    m_terr = forms.FloatField()
+    m_cons = forms.FloatField()
+    pisos = forms.IntegerField()
+    portada = forms.ImageField(widget=forms.ClearableFileInput())
+    extra = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    video = forms.CharField(max_length = 150, required=False)
