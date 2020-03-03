@@ -19,6 +19,7 @@ from django.http import HttpResponse
 import datetime
 from .forms import *
 from django.core.serializers.json import DjangoJSONEncoder
+import locale
 
 # Create your views here.
 
@@ -40,8 +41,12 @@ def indexView(request):
 @login_required
 def myPropertiesView(request):
     if 'visualizar_mis_propiedades' in request.session['permissions']:
+        locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
         list = Propiedad.objects.filter(propietario = user_logged)
+        for l in list:
+            l.precio = locale.currency(l.precio, grouping=True)
+            l.precio = l.precio[0:-3]
         return render(request, 'propiedades/myProperties.html', {'list': list})
     else:
         raise Http404

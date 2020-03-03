@@ -27,56 +27,56 @@
         </thead>
         <tbody>
           {% for p in list %}
-          <tr id="row-{{ p.pk }}">
-            <td>
-              <img src="{{ p.portada.url }}" alt="Portada de Propiedad" style="max-width: 100px;">
-              <a href="#" class="user-link">{{ p.titulo }}</a>
-              <span class="user-subhead">{{ p.tipo }}</span>
-            </td>
-            <td>
-              {{ p.oferta }}
-            </td>
-            <td id="precio">
-              {{ p.precio }}
-            </td>
-            <td id="status">
-              {% if p.estado_activo %}
-                <span class="badge badge-pill badge-success">Publicada</span>
-              {% else %}
-                <span class="badge badge-pill badge-danger">No Publicada</span>
-              {% endif %}
-            </td>
-            <td>
-              <span>{{ p.visitas }}</span>
-            </td>
-            <td>
-              {% if p.fecha_corte != None %}
-                {{ p.fecha_corte }}
-              {% else %}
-                No Aplica
-              {% endif %}
-            </td>
-            <td id="icons" style="width: 20%;">
-              <a href="#" class="table-link info">
-                <span class="fa-stack">
-                  <i class="fa fa-square fa-stack-2x"></i>
-                  <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-              <a href="#" class="table-link">
-                <span class="fa-stack">
-                  <i class="fa fa-square fa-stack-2x"></i>
-                  <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-              <a href="#" class="table-link danger" onclick="" data-toggle="modal" data-target="">
-                <span class="fa-stack">
-                  <i class="fa fa-square fa-stack-2x"></i>
-                  <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-            </td>
-          </tr>
+            <tr id="row-{{ p.pk }}">
+              <td>
+                <img src="{{ p.portada.url }}" alt="Portada de Propiedad" style="max-width: 100px;">
+                <a href="#" class="user-link">{{ p.titulo }}</a>
+                <span class="user-subhead">{{ p.tipo }}</span>
+              </td>
+              <td>
+                {{ p.oferta }}
+              </td>
+              <td id="precio">
+                {{ p.precio }}
+              </td>
+              <td id="status">
+                {% if p.estado_activo %}
+                  <span class="badge badge-pill badge-success">Publicada</span>
+                {% else %}
+                  <span class="badge badge-pill badge-danger">No Publicada</span>
+                {% endif %}
+              </td>
+              <td>
+                <span>{{ p.visitas }}</span>
+              </td>
+              <td>
+                {% if p.fecha_corte != None %}
+                  {{ p.fecha_corte }}
+                {% else %}
+                  No Aplica
+                {% endif %}
+              </td>
+              <td id="icons" style="width: 20%;">
+                <a href="#" class="table-link info">
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+                <a href="#" class="table-link">
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+                <a href="#" class="table-link danger" onclick="" data-toggle="modal" data-target="">
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </td>
+            </tr>
           {% endfor %}
         </tbody>
       </table>
