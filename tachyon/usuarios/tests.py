@@ -45,6 +45,39 @@ class testLogin(TestCase):
         response = self.client.post('/usuarios/verifyLogin/', {'mail':'use@use.co','password':'testpasswor'})
         self.assertEqual(response.status_code, 200)
 
+    def test_correct_url_reset_password(self):
+        # Esta prueba verifica que el acceso a la forma esta cargando el template correcto
+        response = self.client.get('/usuarios/reset_password')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.template_name, ['usuarios/reset_password_mail.html'])
+
+    def test_reset_password_post_mail_nonexistent(self):
+        # Esta prueba valida que no se envien el correo si no existe
+        response = self.client.post('/usuarios/reset_password', {'email':'noexiste@user.com'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertRedirects(response,reverse('password_reset_done'))
+    
+    def test_reset_password_post_mail_correct(self):
+        # Esta prueba valida que se envie un correo existente y verifica el asunto
+        response = self.client.post(reverse('reset_password'), {'email':'user@user.com'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Tachyon: Recupera tu contraseña')
+        self.assertRedirects(response, reverse('password_reset_done'))
+
+    def test_reset_password_correct_url_password(self):
+        # Esta prueba valida que el id que se envia para acceder a la forma de restaurar contraseña sea el correcto
+        response = self.client.post(reverse('reset_password'), {'email':'user@user.com'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'Tachyon: Recupera tu contraseña')
+        token = response.context[0]['token']
+        uid = response.context[0]['uid']
+        response_change_password = self.client.get(
+            reverse('password_reset_confirm', kwargs={'uidb64': uid,'token': token})
+        )
+        self.assertEqual(response_change_password.status_code, 302)
 
 #Esta prueba revisa que un usuario pueda registrarse en la página
 class testSignUp(TestCase):
