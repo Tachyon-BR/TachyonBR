@@ -43,6 +43,7 @@ class Propiedad(models.Model):
     negociable = models.BooleanField()
     diferenciador = models.CharField(max_length = 100, null=True, blank=True)
     video = models.CharField(max_length = 150, null=True, blank=True)
+    estado_revision = models.BooleanField(default = False)
 
     def save(self, *args, **kwargs):
         try:

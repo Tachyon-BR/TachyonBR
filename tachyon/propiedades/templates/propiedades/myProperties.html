@@ -41,7 +41,11 @@
               </td>
               <td id="status">
                 {% if p.estado_activo %}
-                  <span class="badge badge-pill badge-success">Publicada</span>
+                  {% if p.estado_revision %}
+                    <span class="badge badge-pill badge-success">Publicada</span>
+                  {% else %}
+                    <span class="badge badge-pill badge-info">En Revisión</span>
+                  {% endif %}
                 {% else %}
                   <span class="badge badge-pill badge-danger">No Publicada</span>
                 {% endif %}
@@ -57,10 +61,10 @@
                 {% endif %}
               </td>
               <td id="icons" style="width: 20%;">
-                <a href="#" class="table-link info">
+                <a href="#" class="table-link success" onclick="validar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#validate-property">
                   <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                    <i class="fas fa-check fa-stack-1x fa-inverse"></i>
                   </span>
                 </a>
                 <a href="#" class="table-link">
@@ -83,6 +87,8 @@
     </div>
   </div>
 </div>
+
+{% include './modals/validate-property.html' %}
 
 {% endblock content %}
 

@@ -1,6 +1,6 @@
 // A $( document ).ready() block.
 $( document ).ready(function() {
-  
+
 });
 
 var formatter = new Intl.NumberFormat('es-MX', {

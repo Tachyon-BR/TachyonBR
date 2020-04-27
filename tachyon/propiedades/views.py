@@ -164,3 +164,8 @@ def createPropertyView(request):
             raise Http404
     else:
         raise Http404
+
+def validatePropertyView(request, id):
+    if 'solicitar_revision' in request.session['permissions']:
+        if request.method == 'POST':
+            print()

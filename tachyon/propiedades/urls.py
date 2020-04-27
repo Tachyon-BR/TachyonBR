@@ -9,4 +9,5 @@ urlpatterns = [
     path('newProperty/', views.newPropertyView, name='newProperty'),
     path('codigos/', views.codigosView, name='codigos'),
     path('createProperty/', views.createPropertyView, name='createProperty'),
+    path('validateProperty/<int:id>', views.validatePropertyView, name='validateProperty'),
 ]
