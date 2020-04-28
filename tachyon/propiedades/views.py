@@ -168,4 +168,21 @@ def createPropertyView(request):
 def validatePropertyView(request, id):
     if 'solicitar_revision' in request.session['permissions']:
         if request.method == 'POST':
-            print()
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+            propiedad = Propiedad.objects.filter(pk = id).first()
+            if propiedad:
+                propiedad.estado_revision = True
+                propiedad.save()
+                return HttpResponse('OK')
+            else:
+                response = JsonResponse({"error": "No existe ese usuario"})
+                response.status_code = 500
+                # Regresamos la respuesta de error interno del servidor
+                return response
+        else:
+            response = JsonResponse({"error": "No se mandó por el método correcto"})
+            response.status_code = 500
+            # Regresamos la respuesta de error interno del servidor
+            return response
+    else: # Si el rol del usuario no es ventas no puede entrar a la página
+        raise Http404

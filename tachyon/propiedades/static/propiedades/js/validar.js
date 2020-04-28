@@ -30,7 +30,7 @@ function confirmar_validar_propiedad(){
             type: "POST",
             success: function(){
                 update_propiedad_tabla(id);
-                // borrar_usuario_tabla('.act-row',id);
+                showNotificationSuccess('top','right','Se ha mandado la solicitud de revisión.');
                 id_propiedad = 0;
             },
         });
@@ -40,5 +40,6 @@ function confirmar_validar_propiedad(){
 }
 
 function update_propiedad_tabla(id){
-  $('#row-'+id).find('#status').html('<span class="badge badge-pill badge-secondary">En Revisión</span>');
+  $('#row-'+id).find('#status').html('<span class="badge badge-pill badge-info">En Revisión</span>');
+  $('#row-'+id).find('#icons').children().eq(0).remove();
 }
