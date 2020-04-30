@@ -881,12 +881,12 @@ section
 .tag_price
 {
 	display: inline-block;
-	height: 37px;
+	height: 40px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
-	line-height: 37px;
-	font-size: 16px;
+	background: #55407d;
+	line-height: 40px;
+	font-size: 25px;
 	font-weight: 500;
 	color: #ffffff;
 }

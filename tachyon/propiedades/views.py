@@ -31,8 +31,12 @@ class LazyEncoder(DjangoJSONEncoder):
         return super().default(obj)
 
 # Vista de una Propiedad
-def propertyView(request):
-    return render(request, 'propiedades/property.html')
+def propertyView(request, id):
+    propiedad = Propiedad.objects.filter(pk = id).first()
+    if propiedad:
+        return render(request, 'propiedades/property.html', {'property': propiedad})
+    else:
+        raise Http404
 
 # Vista de las Propiedades
 def indexView(request):
