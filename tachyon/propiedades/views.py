@@ -55,6 +55,22 @@ def myPropertiesView(request):
     else:
         raise Http404
 
+
+
+@login_required
+def enRevisionView(request):
+    if 'visualizar_peticiones' in request.session['permissions']:
+        locale.setlocale( locale.LC_ALL, '' )
+        user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+        list = Propiedad.objects.filter(estado_revision = True)
+        for l in list:
+            l.precio = locale.currency(l.precio, grouping=True)
+            l.precio = l.precio[0:-3]
+        return render(request, 'propiedades/enRevision.html', {'list': list})
+    else:
+        raise Http404
+
+
 @login_required
 def newPropertyView(request):
     if 'registrar_propiedad' in request.session['permissions']:
