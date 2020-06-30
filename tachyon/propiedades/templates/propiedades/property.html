@@ -151,29 +151,29 @@
 												<li class="d-flex flex-row align-items-center justify-content-start">
 													<img src="{% static 'root/images/icon_2_large.png' %}" alt="icon">
 													<div>
-														<div>1234</div>
-														<div>sq ft</div>
+														<div>{{ property.metros_construccion }}</div>
+														<div>m2</div>
 													</div>
 												</li>
 												<li class="d-flex flex-row align-items-center justify-content-start">
 													<img src="{% static 'root/images/icon_3_large.png' %}" alt="icon">
 													<div>
-														<div>2</div>
-														<div>baths</div>
+														<div>{{ property.banos }}</div>
+														<div>baños</div>
 													</div>
 												</li>
 												<li class="d-flex flex-row align-items-center justify-content-start">
 													<img src="{% static 'root/images/icon_4_large.png' %}" alt="icon">
 													<div>
-														<div>5</div>
-														<div>beds</div>
+														<div>{{ property.habitaciones }}</div>
+														<div>habs.</div>
 													</div>
 												</li>
 												<li class="d-flex flex-row align-items-center justify-content-start">
 													<img src="{% static 'root/images/icon_5_large.png' %}" alt="House Image">
 													<div>
-														<div>2</div>
-														<div>garages</div>
+														<div>{{ property.garaje }}</div>
+														<div>ests.</div>
 													</div>
 												</li>
 											</ul>
@@ -181,7 +181,11 @@
 									</div>
 								</div>
 								<div class="col-lg-6">
-									<div class="about_text">
+									<div class="tag_price listing_price" id="dif">{{ property.diferenciador }}</div>
+									<div class="listing_location d-flex flex-row align-items-start justify-content-start">
+										<span style="margin-left:0px;margin-top:27px;">Descripción</span>
+									</div>
+									<div class="about_text" style="padding-top:27px !important;">
 										<p>{{ property.descripcion }}</p>
 									</div>
 								</div>

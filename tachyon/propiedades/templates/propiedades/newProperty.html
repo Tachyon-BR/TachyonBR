@@ -198,15 +198,16 @@
                         <div class="col-4">
                             <div class="input-group">
                                 <label class="label">Código Postal</label>
-                                <input class="input--style-4 form-control validacion" type="text" name="codigo_postal" id="codigo_postal" pattern=".{5,5}" onchange="numero(this.id, this.value);" required>
+                                <input class="input--style-4 form-control validacion" type="text" name="codigo_postal" id="codigo_postal" pattern=".{5,5}" onchange="numero(this.id, this.value); cp_hidden();" required>
                                 <div class="valid-feedback">
-                                    ¡Correcto!
+                                    ¡Correcto!, recuerde validar su código postal.
                                 </div>
                                 <div class="invalid-feedback">
                                     Por favor, ingrese el código postal de su propiedad.
                                 </div>
                             </div>
                         </div>
+                        <input class="input--style-4 form-control" type="text" name="cp_safe" id="cp_safe" pattern=".{6,}" required hidden>
                         <div class="col-2">
                           <button type="button" class="btn btn-secondary" id="checar" style="margin-top: 33px;" onclick="validar_cp()">Validar</button>
                         </div>
