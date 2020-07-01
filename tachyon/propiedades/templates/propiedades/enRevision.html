@@ -10,7 +10,7 @@
   <div class="container">
     <br><br>
     <div class="table-responsive">
-      <table class="table user-list" id="lista-propiedades">
+      <table class="table user-list" id="lista-propiedades-rev">
         <thead>
           <tr>
             <th><span>Propiedad</span></th>
@@ -85,16 +85,14 @@
   </div>
 </div>
 
-{% include './modals/validate-property.html' %}
-
 {% endblock content %}
 
 {% block optionalJS %}
 <script type="text/javascript">
     checkNotificationSession();
 </script>
-<script type="text/javascript" src="{% static 'propiedades/js/table.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/table-rev.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
-<script type="text/javascript" src="{% static 'propiedades/js/borrar.js' %}"></script>
-<script type="text/javascript" src="{% static 'propiedades/js/validar.js' %}"></script>
+<!--<script type="text/javascript" src="{% static 'propiedades/js/borrar.js' %}"></script>-->
+<!--<script type="text/javascript" src="{% static 'propiedades/js/validar.js' %}"></script>-->
 {% endblock %}
