@@ -46,7 +46,7 @@
                   <span class="badge badge-pill badge-danger">No Publicada</span>
                 {% endif %}
               </td>
-              <td>
+              <td id="revisor">
                 {% if p.revisor is None %}
                     Ningún revisor asignado
                 {% else %}
@@ -56,26 +56,28 @@
                 {% endif %}
               </td>
               <td id="icons" style="width: 15%;">
-                {% if not p.estado_revision %}
-                  <a href="#" class="table-link success" onclick="validar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#validate-property">
+                {% if p.revisor.id is None %}
+                <!-- La propiedad no tiene revisor asignado -->
+                  <a href="#" class="table-link success" onclick="asignarseComoRevisor({{ p.pk }})" >
                     <span class="fa-stack">
                       <i class="fa fa-square fa-stack-2x"></i>
-                      <i class="fas fa-check fa-stack-1x fa-inverse"></i>
+                      <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
                     </span>
                   </a>
+
+                {% else %}
+                <!-- La propiedad tiene revisor asignado -->
+                  {% if p.revisor.id is user.id %}
+                    <!-- El revisor de la propiedad es el usuario logeado -->
+                    <a href="#" class="table-link danger" onclick="quitarseComoRevisor( {{ p.pk }} )" >
+                      <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fas fa-minus fa-stack-1x fa-inverse"></i>
+                      </span>
+                    </a>
+                  {% endif %}
+
                 {% endif %}
-                <a href="#" class="table-link">
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-                <a href="#" class="table-link danger" onclick="" data-toggle="modal" data-target="">
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
               </td>
             </tr>
           {% endfor %}
@@ -91,6 +93,7 @@
 <script type="text/javascript">
     checkNotificationSession();
 </script>
+<script type="text/javascript" src="{% static 'propiedades/js/revisor-peticiones.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/table-rev.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
 <!--<script type="text/javascript" src="{% static 'propiedades/js/borrar.js' %}"></script>-->

@@ -369,3 +369,8 @@ def adminVerifyCreateUser(request):
             raise Http404
     else: # Si el rol del usuario no es ventas no puede entrar a la página
         raise Http404
+
+def getLoggedUserJson(request):
+    user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+    data = serializers.serialize('json', user_logged)
+    return JsonResponse({"user": data})
