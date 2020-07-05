@@ -90,6 +90,13 @@
 {% endblock content %}
 
 {% block optionalJS %}
+<!--Json dump para actualizar la tabla-->
+<script type="text/javascript">
+  var user_nombre_completo = '{{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}'
+  var user_rol_nombre = '{{ user.rol.nombre }}'
+  var user_img_src = `{% static 'root/images/user.png' %}`
+</script>
+
 <script type="text/javascript">
     checkNotificationSession();
 </script>
