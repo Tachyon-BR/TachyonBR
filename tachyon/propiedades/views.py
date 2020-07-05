@@ -218,7 +218,7 @@ def validatePropertyView(request, id):
 
 @login_required
 def addRevisorView(request):
-    if 'solicitar_revision' in request.session['permissions']:
+    if 'seleccionar_peticion' in request.session['permissions']:
         if request.method == 'POST':
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
             id_prop = request.POST.get('id_prop') #checa el id de la propiedad del request
@@ -273,7 +273,7 @@ def addRevisorView(request):
 
 @login_required
 def removeRevisorView(request):
-    if 'solicitar_revision' in request.session['permissions']:
+    if 'seleccionar_peticion' in request.session['permissions']:
         if request.method == 'POST':
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
             id_prop = request.POST.get('id_prop') #checa el id de la propiedad del request

@@ -6,7 +6,6 @@ from django.urls import reverse, resolve
 from .views import *
 from django.contrib.auth import views as auth_views
 from django.core import mail
-from .models import *
 
 # Create your tests here.
 
@@ -322,6 +321,6 @@ class TestListaUsuarios(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_url_resuelta(self):
-        self.login_tachyon('lalo@lalocura.com','contraseña') #ingresar como un usuario cliente
+        self.login_tachyon('lalo@lalocura.com','contraseña') #ingresar como un usuario admin
         response = self.client.get('/usuarios/')
         self.assertEqual(response.status_code, 200)
