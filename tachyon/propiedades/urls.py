@@ -10,4 +10,7 @@ urlpatterns = [
     path('codigos/', views.codigosView, name='codigos'),
     path('createProperty/', views.createPropertyView, name='createProperty'),
     path('validateProperty/<int:id>', views.validatePropertyView, name='validateProperty'),
+    path('enRevision/', views.enRevisionView, name='enRevision'),
+    path('addRevisor/',views.addRevisorView, name="addRevisor"),
+    path('removeRevisor/',views.removeRevisorView, name="removeRevisor"),
 ]

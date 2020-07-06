@@ -1,0 +1,108 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+{% block optionalCSS %}
+<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/lista.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="featured content-top-margin">
+  <div class="container">
+    <br><br>
+    <div class="table-responsive">
+      <table class="table user-list" id="lista-propiedades-rev">
+        <thead>
+          <tr>
+            <th><span>Propiedad</span></th>
+            <th><span>Oferta</span></th>
+            <th><span>Precio</span></th>
+            <th><span>Estado</span></th>
+            <th><span>Revisor</span></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in list %}
+            <tr id="row-{{ p.pk }}">
+              <td>
+                <img src="{{ p.portada.url }}" alt="Portada de Propiedad" style="max-width: 100px;">
+                <a href="/propiedades/property/{{ p.pk }}" class="user-link" style="max-width: 200px;">{{ p.titulo }}</a>
+                <span class="user-subhead">{{ p.tipo }}</span>
+              </td>
+              <td>
+                {{ p.oferta }}
+              </td>
+              <td id="precio">
+                {{ p.precio }}
+              </td>
+              <td id="status">
+                {% if p.estado_revision %}
+                  {% if p.estado_activo %}
+                    <span class="badge badge-pill badge-success">Publicada</span>
+                  {% else %}
+                    <span class="badge badge-pill badge-info">En Revisión</span>
+                  {% endif %}
+                {% else %}
+                  <span class="badge badge-pill badge-danger">No Publicada</span>
+                {% endif %}
+              </td>
+              <td id="revisor">
+                {% if p.revisor is None %}
+                    Ningún revisor asignado
+                {% else %}
+                    <img src="{% static 'root/images/user.png' %}" alt="Ícono de usuario">
+                    <a href="#" class="user-link">{{ p.revisor.nombre }} {{ p.revisor.apellido_paterno }} {{p.revisor.apellido_materno }}</a>
+                    <span class="user-subhead">{{ p.revisor.rol.nombre }}</span>
+                {% endif %}
+              </td>
+              <td id="icons" style="width: 15%;">
+                {% if p.revisor.id is None %}
+                <!-- La propiedad no tiene revisor asignado -->
+                  <a href="#" class="table-link success" onclick="asignarseComoRevisor({{ p.pk }})" >
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+
+                {% else %}
+                <!-- La propiedad tiene revisor asignado -->
+                  {% if p.revisor.id is user.id %}
+                    <!-- El revisor de la propiedad es el usuario logeado -->
+                    <a href="#" class="table-link danger" onclick="quitarseComoRevisor( {{ p.pk }} )" >
+                      <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fas fa-minus fa-stack-1x fa-inverse"></i>
+                      </span>
+                    </a>
+                  {% endif %}
+
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block optionalJS %}
+<!--Json dump para actualizar la tabla-->
+<script type="text/javascript">
+  var user_nombre_completo = '{{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}'
+  var user_rol_nombre = '{{ user.rol.nombre }}'
+  var user_img_src = `{% static 'root/images/user.png' %}`
+</script>
+
+<script type="text/javascript">
+    checkNotificationSession();
+</script>
+<script type="text/javascript" src="{% static 'propiedades/js/revisor-peticiones.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/table-rev.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
+<!--<script type="text/javascript" src="{% static 'propiedades/js/borrar.js' %}"></script>-->
+<!--<script type="text/javascript" src="{% static 'propiedades/js/validar.js' %}"></script>-->
+{% endblock %}
