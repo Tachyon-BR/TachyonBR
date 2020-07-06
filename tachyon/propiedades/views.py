@@ -47,7 +47,7 @@ def myPropertiesView(request):
     if 'visualizar_mis_propiedades' in request.session['permissions']:
         locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
-        list = Propiedad.objects.filter(propietario = user_logged)
+        list = Propiedad.objects.filter(propietario = user_logged, estado_activo = True)
         for l in list:
             l.precio = locale.currency(l.precio, grouping=True)
             l.precio = l.precio[0:-3]
@@ -190,3 +190,28 @@ def validatePropertyView(request, id):
             return response
     else: # Si el rol del usuario no es ventas no puede entrar a la página
         raise Http404
+
+def deletePropertyView(request, id):
+    print(request.session['permissions'])
+    if 'eliminar_propiedad' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+            propiedad = Propiedad.objects.filter(pk = id).first()
+            if propiedad:
+                if propiedad.propietario == user_logged:    # Evitar que los usuarios puedan borrar propiedades ajenas
+
+                    propiedad.estado_activo = False
+                    propiedad.save()
+                    return HttpResponse('OK')
+                else:
+                    response = JsonResponse({"error": "No puedes borrar propiedades ajenas"})
+                    response.status_code = 400
+                    return response
+            else:
+                response = JsonResponse({"error": "No existe ese usuario"})
+                response.status_code = 500
+                return response
+    else:   # Si el rol del usuario no es Propietario, Admin, o Super Admin, no puede borrar
+        response = JsonResponse({"error": "No puedes borrar propiedades ajenas"})
+        response.status_code = 400
+        return response
