@@ -205,13 +205,18 @@ def deletePropertyView(request, id):
                     return HttpResponse('OK')
                 else:
                     response = JsonResponse({"error": "No puedes borrar propiedades ajenas"})
-                    response.status_code = 400
+                    response.status_code = 401
                     return response
             else:
                 response = JsonResponse({"error": "No existe ese usuario"})
-                response.status_code = 500
+                response.status_code = 402
                 return response
+        else:
+            response = JsonResponse({"error": "No se mandó por el método correcto"})
+            response.status_code = 500
+            # Regresamos la respuesta de error interno del servidor
+            return response
     else:   # Si el rol del usuario no es Propietario, Admin, o Super Admin, no puede borrar
-        response = JsonResponse({"error": "No puedes borrar propiedades ajenas"})
-        response.status_code = 400
+        response = JsonResponse({"error": "No tienes los permisos necesarios"})
+        response.status_code = 404
         return response
