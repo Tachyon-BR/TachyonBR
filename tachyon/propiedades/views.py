@@ -69,7 +69,12 @@ def enRevisionView(request):
     if 'visualizar_peticiones' in request.session['permissions']:
         locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
-        list = Propiedad.objects.filter(estado_revision = True)
+        
+        if user_logged.rol.nombre is 'Revisor':
+            list = Propiedad.objects.filter(estado_revision = True, revisor__isnull=True)
+        else:
+            list = Propiedad.objects.filter(estado_revision = True)
+
         for l in list:
             l.precio = locale.currency(l.precio, grouping=True)
             l.precio = l.precio[0:-3]
@@ -319,5 +324,18 @@ def removeRevisorView(request):
             # Regresamos la respuesta de error interno del servidor
             return response
 
+    else: # Si el rol del usuario no es revisor no puede entrar a la página
+        raise Http404
+
+
+@login_required
+def misRevisionesView(request):
+    if 'seleccionar_peticion' in request.session['permissions']:
+        user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+        list = Propiedad.objects.filter(revisor = user_logged)
+        for l in list:
+            l.precio = locale.currency(l.precio, grouping=True)
+            l.precio = l.precio[0:-3]
+        return render(request, 'propiedades/misRevisiones.html', {'list': list, 'user':user_logged})
     else: # Si el rol del usuario no es revisor no puede entrar a la página
         raise Http404

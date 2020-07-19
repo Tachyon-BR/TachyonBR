@@ -13,4 +13,5 @@ urlpatterns = [
     path('enRevision/', views.enRevisionView, name='enRevision'),
     path('addRevisor/',views.addRevisorView, name="addRevisor"),
     path('removeRevisor/',views.removeRevisorView, name="removeRevisor"),
+    path('mis-revisiones/',views.misRevisionesView, name="misRevisionesView"),
 ]
