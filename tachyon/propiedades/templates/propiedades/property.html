@@ -39,7 +39,7 @@
 
 	<!-- Listing -->
 
-	<div class="listing_container">
+	<div id="portada" class="listing_container">
 		<div class="container">
 			<div class="row">
 				<div class="col">
@@ -52,7 +52,7 @@
 
 						<!-- Tab -->
 						<div class="tab">
-							<input type="radio" id="tab_1" name="listing_tabs" checked>
+							<input type="radio" class="button_active" onclick="location.href='#portada';" id="tab_1" name="listing_tabs" checked>
 							<label for="tab_1"></label>
 							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
 								<div class="tab_icon"><img src="{% static 'root/images/house.svg' %}" class="svg" alt="tab icon"></div>
@@ -62,7 +62,7 @@
 
 						<!-- Tab -->
 						<div class="tab">
-							<input type="radio" id="tab_2" name="listing_tabs">
+							<input type="radio" class="button_active" onclick="location.href='#detalles';"id="tab_2" name="listing_tabs">
 							<label for="tab_2"></label>
 							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
 								<div class="tab_icon"><img src="{% static 'root/images/houses.svg' %}" class="svg" alt="tab icon"></div>
@@ -72,7 +72,7 @@
 
 						<!-- Tab -->
 						<div class="tab">
-							<input type="radio" id="tab_3" name="listing_tabs">
+							<input type="radio" class="button_active" onclick="location.href='#fotos';" id="tab_3" name="listing_tabs">
 							<label for="tab_3"></label>
 							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
 								<div class="tab_icon"><img src="{% static 'root/images/house2.svg' %}" class="svg" alt="tab icon"></div>
@@ -82,7 +82,7 @@
 
 						<!-- Tab -->
 						<div class="tab">
-							<input type="radio" id="tab_4" name="listing_tabs">
+							<input type="radio" class="button_active" onclick="location.href='#video';" id="tab_4" name="listing_tabs">
 							<label for="tab_4"></label>
 							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
 								<div class="tab_icon"><img src="{% static 'root/images/camera.svg' %}" class="svg" alt="tab icon"></div>
@@ -91,18 +91,8 @@
 						</div>
 
 						<!-- Tab -->
-						<!-- <div class="tab">
-								<input type="radio" id="tab_5" name="listing_tabs">
-								<label for="tab_5"></label>
-								<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-									<div class="tab_icon"><img src="{% static 'root/images/directions.svg' %}" class="svg" alt="tab icon"></div>
-									<span>Nearby</span>
-								</div>
-							</div> -->
-
-						<!-- Tab -->
 						<div class="tab">
-							<input type="radio" id="tab_6" name="listing_tabs">
+							<input type="radio" class="button_active" onclick="location.href='#ubicacion';" id="tab_6" name="listing_tabs">
 							<label for="tab_6"></label>
 							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
 								<div class="tab_icon"><img src="{% static 'root/images/location.svg' %}" class="svg" alt="tab icon"></div>
@@ -112,7 +102,7 @@
 
 						<!-- Tab -->
 						<div class="tab">
-							<input type="radio" id="tab_7" name="listing_tabs">
+							<input type="radio" class="button_active" onclick="location.href='#contacto';" id="tab_7" name="listing_tabs">
 							<label for="tab_7"></label>
 							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
 								<div class="tab_icon"><img src="{% static 'root/images/contract.svg' %}" class="svg" alt="tab icon"></div>
@@ -123,7 +113,7 @@
 					</div>
 
 					<!-- About -->
-					<div class="about">
+					<div id="detalles" class="about">
 						<div class="row">
 							<div class="col-lg-8">
 								<div class="property_info">
@@ -133,7 +123,7 @@
 									</div>
 									<div class="listing_location d-flex flex-row align-items-start justify-content-start">
 										<img src="{% static 'root/images/icon_1.png' %}" alt="icon">
-										<span>{{ property.direccion }}, {{ property.estado }} {{ property.codigo_postal }}</span>
+										<span>{{ property.direccion }}, {{ property.estado }}, {{ property.codigo_postal }}</span>
 									</div>
 									<div class="listing_list">
 										<ul>
@@ -147,9 +137,9 @@
 											<!-- <li>Publicada: {{ property.fecha_publicacion }}</li> -->
 										</ul>
 									</div>
-									<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
+									<div id="contacto" class="prop_agent d-flex flex-row align-items-center justify-content-start">
 										<div class="prop_agent_image"><img src="{% static 'root/images/agent_1.jpg' %}" alt="Profile picture"></div>
-										<div class="prop_agent_name"><a href="#">{{ property.propietario.nombre }} {{ property.propietario.apellido_paterno }} {{ property.propietario.apellido_materno }},</a>{% if property.propietario.nombre_agencia %} Agente
+										<div class="prop_agent_name"><a href="#">{{ property.propietario.nombre }} {{ property.propietario.apellido_paterno }} {{ property.propietario.apellido_materno }}, </a>{% if property.propietario.nombre_agencia %} Agente
 											Inmobiliario{% else %} Dueño{% endif %}</div>
 									</div>
 									<div class="prop_info">
@@ -197,7 +187,7 @@
 							</div>
 
 							<!--fotos-->
-							<div class="col-lg-12">
+							<div id="fotos" class="col-lg-12">
 								<div class="swiper-container">
 									<div class="swiper-wrapper">
 										<div class="gallery swiper-slide">
@@ -253,7 +243,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6">
+							<div id="video" class="col-lg-6">
 								<div class="listing_video">
 									<div class="listing_title">
 										<h3>Video</h3>
@@ -266,7 +256,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- <div class="google_map_container">
+					<!-- <div id="ubicacion" class="google_map_container">
 							<div class="map">
 								<div id="google_map" class="google_map">
 									<div class="map_container">
