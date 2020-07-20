@@ -34,7 +34,12 @@ class LazyEncoder(DjangoJSONEncoder):
 def propertyView(request, id):
     propiedad = Propiedad.objects.filter(pk = id).first()
     if propiedad:
-        return render(request, 'propiedades/property.html', {'property': propiedad})
+        fotos = Foto.objects.filter(propiedad = id)
+        link = propiedad.video
+        index = link.find('watch?v=')
+        if index != -1:
+            link = link[0:index] + 'embed/' + link[index + 8:len(link)]
+        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index})
     else:
         raise Http404
 

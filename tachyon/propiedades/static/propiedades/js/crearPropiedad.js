@@ -205,3 +205,13 @@ function cp_hidden(){
   $('#ubicacion').prop('hidden', true);
   $('#cp_safe').val('')
 }
+
+function val_video(val){
+  var ban = val.includes("https://www.youtube.com/watch?v=");
+  if(val == "" || ban){
+    $("#safe_vid").val('Qwerty')
+  }
+  if(!ban && val != ""){
+    $("#safe_vid").val('')
+  }
+}
