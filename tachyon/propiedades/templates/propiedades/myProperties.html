@@ -41,7 +41,7 @@
               </td>
               <td id="status">
                 {% if p.estado_revision %}
-                  {% if p.estado_activo %}
+                  {% if p.estado_activo %} <!-- Cambiar variable -->
                     <span class="badge badge-pill badge-success">Publicada</span>
                   {% else %}
                     <span class="badge badge-pill badge-info">En Revisión</span>
@@ -68,8 +68,7 @@
                       <i class="fas fa-check fa-stack-1x fa-inverse"></i>
                     </span>
                   </a>
-                {% endif %}
-                <a href="#" class="table-link">
+                <a href="/propiedades/editProperty/{{ p.pk }}" class="table-link">
                   <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
@@ -81,6 +80,9 @@
                     <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
                   </span>
                 </a>
+                {% else %}
+                  Sin Acciones
+                {% endif %}
               </td>
             </tr>
           {% endfor %}

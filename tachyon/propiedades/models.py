@@ -34,7 +34,7 @@ class Propiedad(models.Model):
     direccion = models.CharField(max_length = 300)
     precio = models.FloatField()
     pisos = models.PositiveSmallIntegerField(null=True, blank=True)
-    estado_activo = models.BooleanField(default = False)
+    estado_activo = models.BooleanField(default = True)
     visitas = models.IntegerField(default = 0)
     fecha_creacion = models.DateField(auto_now_add = True)
     fecha_modificacion = models.DateField(auto_now = True)
