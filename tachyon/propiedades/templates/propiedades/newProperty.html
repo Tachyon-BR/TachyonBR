@@ -18,6 +18,9 @@
     <!--Button CSS -->
     <link href="{% static 'usuarios/stylesButton/main.css' %}" rel="stylesheet" media="all">
     <link href="{% static 'usuarios/stylesButton/util.css' %}" rel="stylesheet" media="all">
+
+    <!-- Dropzone CSS -->
+    <link href="{% static 'propiedades/css/dropzone.css' %}" rel="stylesheet" media="all">
 {% endblock %}
 
 
@@ -340,6 +343,7 @@
                         </div>
                     </div>
                     <br>
+                    <input class="dropzone" />
                     <br>
                     <div class="container-login100-form-btn">
             						<button class="login100-form-btn" type="submit" id="submit" onclick="validate_files()">
@@ -376,5 +380,8 @@
 <script src="{% static 'propiedades/js/crearPropiedad.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
+
+<!-- Dropzone JS -->
+<script src="{% static 'propiedades/js/dropzone.js' %}"></script>
 
 {% endblock %}
