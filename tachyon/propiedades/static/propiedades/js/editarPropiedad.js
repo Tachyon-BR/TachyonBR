@@ -117,7 +117,7 @@ $('#id_extra').change(function(){
   //     $('#file-label-2').html($('#file-label-2').html()+ ", " + $('#id_extra').get(0).files[i].name);
   //   }
   // }
-  if((parseInt($('#id_extra').get(0).files.length) >= min) && (parseInt($('#id_extra').get(0).files.length) <= max)){
+  if(((parseInt($('#id_extra').get(0).files.length) >= min) && (parseInt($('#id_extra').get(0).files.length) <= max)) || ((parseInt($('#id_extra').get(0).files.length)) == 0)){
     $('#id_extra').removeClass('is-invalid').addClass('is-valid')
     $('#id_extra').next().prop('hidden', false)
     $('#safe').val('Qwerty')

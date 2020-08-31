@@ -350,7 +350,7 @@
                     <br>
                     <br>
                     <div class="container-login100-form-btn">
-            						<button class="login100-form-btn" type="submit" id="submit" onclick="validate_files()">
+            						<button class="login100-form-btn" type="submit" id="submit">
             							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
             						</button>
 					          </div>
@@ -364,6 +364,10 @@
 {% endblock content %}
 
 {% block optionalJS %}
+
+<script type="text/javascript">
+    checkNotificationSession()
+</script>
 
 <script type="text/javascript">
     $( document ).ready(function() {

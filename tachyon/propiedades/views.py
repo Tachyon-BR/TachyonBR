@@ -331,9 +331,10 @@ def removeRevisorView(request):
 @login_required
 def editPropertyView(request, id):
     if 'editar_propiedad' in request.session['permissions']:
+        form = EditarPropiedadForma()
         propiedad = Propiedad.objects.filter(pk = id).first()
         if propiedad:
-            return render(request, 'propiedades/editProperty.html', {'property': propiedad})
+            return render(request, 'propiedades/editProperty.html', {'property': propiedad, 'form': form})
         else:
             raise Http404
     else:
@@ -345,7 +346,7 @@ def modifyPropertyView(request, id):
         if request.method == 'POST':
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
             form = EditarPropiedadForma(request.POST, request.FILES)
-            # files = request.FILES.getlist('extra')
+            files = request.FILES.getlist('extra')
             print(form.errors)
             if form.is_valid():
                 # Sacar los datos del la forma
@@ -367,8 +368,8 @@ def modifyPropertyView(request, id):
                 m_terr = form.cleaned_data['m_terr']
                 m_cons = form.cleaned_data['m_cons']
                 pisos = form.cleaned_data['pisos']
-                # portada = form.cleaned_data['portada']
-                # extra = form.cleaned_data['extra']
+                portada = form.cleaned_data['portada']
+                extra = form.cleaned_data['extra']
                 video = form.cleaned_data['video']
 
                 # Crear el objeto de Propiedad
@@ -400,20 +401,27 @@ def modifyPropertyView(request, id):
                     # Guardar propiedad para poder guardar las imagenes
                     propiedad.save()
 
-                    # Guardar imagen de portada
-                    # propiedad.portada = portada
-                    # propiedad.save()
+                    # Guardar imagen de portada nueva si se añadio una
+                    if portada:
+                        propiedad.portada = portada
+                        propiedad.save()
 
-                    # Guardar imagenes de la propiedad
-                    # i = 1
-                    # for f in files:
-                    #     fotos = Foto()
-                    #     fotos.propiedad = propiedad
-                    #     fotos.orden = i
-                    #     fotos.save()
-                    #     fotos.imagen = f
-                    #     fotos.save()
-                    #     i = i + 1
+                    # Guardar imagenes de la propiedad nuevas si se añadieron
+                    if extra:
+                        images = Foto.objects.filter(propiedad = id)
+                        for img in images:
+                            img.imagen = None
+                            img.save()
+                        images.delete()
+                        i = 1
+                        for f in files:
+                            fotos = Foto()
+                            fotos.propiedad = propiedad
+                            fotos.orden = i
+                            fotos.save()
+                            fotos.imagen = f
+                            fotos.save()
+                            i = i + 1
 
                     request.session['notification_session_msg'] = "Se ha modificado la propiedad exitosamente."
                     request.session['notification_session_type'] = "Success"
@@ -424,7 +432,10 @@ def modifyPropertyView(request, id):
 
             else:
                 raise Http404
+                print("2")
         else:
             raise Http404
+            print("3")
     else:
         raise Http404
+        print("4")

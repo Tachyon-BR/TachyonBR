@@ -43,6 +43,6 @@ class EditarPropiedadForma(forms.Form):
     m_terr = forms.CharField(max_length = 30)
     m_cons = forms.CharField(max_length = 30)
     pisos = forms.IntegerField(required=False)
-    # portada = forms.ImageField(widget=forms.ClearableFileInput())
-    # extra = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    portada = forms.ImageField(widget=forms.ClearableFileInput(), required=False)
+    extra = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
     video = forms.CharField(max_length = 150, required=False)
