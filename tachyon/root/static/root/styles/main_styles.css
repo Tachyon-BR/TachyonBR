@@ -660,7 +660,7 @@ section
 .home_content
 {
 	width: 423px;
-	background: #1e1332;
+	background: rgba(1, 113, 191,0.67);
 	padding-left: 47px;
 	padding-top: 41px;
 	padding-bottom: 48px;
@@ -676,7 +676,7 @@ section
 {
 	display: inline-block;
 	height: 30px;
-	background: #70AD47;
+	background: #FEC001;
 	text-align: center;
 	line-height: 30px;
 	font-size: 18px;
@@ -707,7 +707,7 @@ section
 }
 .home_slider_nav:hover
 {
-	background: #1e1332;
+	background: #2B2E35;
 }
 .home_slider_nav i
 {
@@ -748,7 +748,7 @@ section
 	padding-bottom: 15px;
 	padding-left: 23px;
 	padding-right: 24px;
-	background: rgba(85,64,125,0.67);
+	background: rgba(1, 113, 191,0.67);
 }
 .search_inputs
 {
@@ -905,7 +905,7 @@ section
 }
 .tag_rent
 {
-	background: #588dfb;
+	background: #01b2bf;
 }
 .tag_price
 {
@@ -913,7 +913,7 @@ section
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
+	background: #FEC001;
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
@@ -1354,7 +1354,7 @@ section
 {
 	padding-top: 88px;
 	padding-bottom: 83px;
-	background: #1e1332;
+	background: #2B2E35;
 }
 .footer_logo a
 {
@@ -1532,7 +1532,7 @@ section
 }
 .tag_rent
 {
-	background: #588dfb;
+	background: #01b2bf;
 }
 .listing_small_price
 {
@@ -1543,7 +1543,7 @@ section
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
+	background: #FEC001;
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
@@ -1601,7 +1601,7 @@ section
 }
 .footer_bar
 {
-	background: #110a1f;
+	background: #1e2024;
 }
 .footer_bar_content
 {
