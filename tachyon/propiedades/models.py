@@ -34,7 +34,7 @@ class Propiedad(models.Model):
     direccion = models.CharField(max_length = 300)
     precio = models.FloatField()
     pisos = models.PositiveSmallIntegerField(null=True, blank=True)
-    estado_activo = models.BooleanField(default = True)
+    estado_activo = models.BooleanField(default = False)
     visitas = models.IntegerField(default = 0)
     fecha_creacion = models.DateField(auto_now_add = True)
     fecha_modificacion = models.DateField(auto_now = True)
@@ -45,6 +45,7 @@ class Propiedad(models.Model):
     diferenciador = models.CharField(max_length = 100, null=True, blank=True)
     video = models.CharField(max_length = 150, null=True, blank=True)
     estado_revision = models.BooleanField(default = False)
+    estado_visible = models.BooleanField(default = True)
 
     def save(self, *args, **kwargs):
         try:

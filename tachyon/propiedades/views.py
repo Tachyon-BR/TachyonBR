@@ -52,7 +52,7 @@ def myPropertiesView(request):
     if 'visualizar_mis_propiedades' in request.session['permissions']:
         locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
-        list = Propiedad.objects.filter(propietario = user_logged)
+        list = Propiedad.objects.filter(propietario = user_logged, estado_visible = True)
         for l in list:
             l.precio = locale.currency(l.precio, grouping=True)
             l.precio = l.precio[0:-3]
@@ -220,6 +220,36 @@ def validatePropertyView(request, id):
         raise Http404
 
 
+def deletePropertyView(request, id):
+    print(request.session['permissions'])
+    if 'eliminar_propiedad' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+            propiedad = Propiedad.objects.filter(pk = id).first()
+            if propiedad:
+                if propiedad.propietario == user_logged:    # Evitar que los usuarios puedan borrar propiedades ajenas
+
+                    propiedad.estado_visible = False
+                    propiedad.save()
+                    return HttpResponse('OK')
+                else:
+                    response = JsonResponse({"error": "No puedes borrar propiedades ajenas"})
+                    response.status_code = 401
+                    return response
+            else:
+                response = JsonResponse({"error": "No existe ese usuario"})
+                response.status_code = 402
+                return response
+        else:
+            response = JsonResponse({"error": "No se mandó por el método correcto"})
+            response.status_code = 500
+            # Regresamos la respuesta de error interno del servidor
+            return response
+    else:   # Si el rol del usuario no es Propietario, Admin, o Super Admin, no puede borrar
+        response = JsonResponse({"error": "No tienes los permisos necesarios"})
+        response.status_code = 404
+        return response
+
 
 @login_required
 def addRevisorView(request):
@@ -268,12 +298,8 @@ def addRevisorView(request):
             response.status_code = 500
             # Regresamos la respuesta de error interno del servidor
             return response
-
     else: # Si el rol del usuario no es revisor no puede entrar a la página
         raise Http404
-
-
-
 
 
 @login_required
@@ -432,10 +458,7 @@ def modifyPropertyView(request, id):
 
             else:
                 raise Http404
-                print("2")
         else:
             raise Http404
-            print("3")
     else:
         raise Http404
-        print("4")
