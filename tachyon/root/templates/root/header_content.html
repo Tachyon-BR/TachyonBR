@@ -15,6 +15,11 @@
             {% if 'visualizar_mis_propiedades' in request.session.permissions %}
               <li id="my_pro"><a href="/propiedades/myProperties">Mis Propiedades</a></li>
             {% endif %}
+
+            {% if 'visualizar_peticiones' in request.session.permissions %}
+            <li id="en_revision"><a href="/propiedades/enRevision">En revisión</a></li>
+            {% endif %}
+
             <li><a href="about.html">About us</a></li>
             <li><a href="listings.html">Listings</a></li>
             <li><a href="blog.html">News</a></li>

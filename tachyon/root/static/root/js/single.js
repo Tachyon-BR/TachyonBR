@@ -18,7 +18,7 @@ $(document).ready(function()
 {
 	"use strict";
 
-	/* 
+	/*
 
 	1. Vars and Inits
 
@@ -49,7 +49,7 @@ $(document).ready(function()
 		setHeader();
 	});
 
-	/* 
+	/*
 
 	2. Set Header
 
@@ -67,7 +67,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	3. Init Menu
 
@@ -102,7 +102,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	4. Init SVG
 
@@ -140,10 +140,10 @@ $(document).ready(function()
 					$img.replaceWith($svg);
 				}, 'xml');
 			});
-		}	
+		}
 	}
 
-	/* 
+	/*
 
 	5. Init Video
 
@@ -160,7 +160,7 @@ $(document).ready(function()
 		});
 	}
 
-	/* 
+	/*
 
 	6. Init Google Map
 
@@ -168,8 +168,8 @@ $(document).ready(function()
 
 	function initGoogleMap()
 	{
-		var myLatlng = new google.maps.LatLng(40.760836, -73.910357);
-    	var mapOptions = 
+		var myLatlng = new google.maps.LatLng(20.5931, -100.392);
+    	var mapOptions =
     	{
     		center: myLatlng,
 	       	zoom: 14,
