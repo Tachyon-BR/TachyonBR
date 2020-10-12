@@ -52,7 +52,7 @@ def myPropertiesView(request):
     if 'visualizar_mis_propiedades' in request.session['permissions']:
         locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
-        list = Propiedad.objects.filter(propietario = user_logged)
+        list = Propiedad.objects.filter(propietario = user_logged, estado_visible = True)
         for l in list:
             l.precio = locale.currency(l.precio, grouping=True)
             l.precio = l.precio[0:-3]
@@ -220,6 +220,36 @@ def validatePropertyView(request, id):
         raise Http404
 
 
+def deletePropertyView(request, id):
+    print(request.session['permissions'])
+    if 'eliminar_propiedad' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+            propiedad = Propiedad.objects.filter(pk = id).first()
+            if propiedad:
+                if propiedad.propietario == user_logged:    # Evitar que los usuarios puedan borrar propiedades ajenas
+
+                    propiedad.estado_visible = False
+                    propiedad.save()
+                    return HttpResponse('OK')
+                else:
+                    response = JsonResponse({"error": "No puedes borrar propiedades ajenas"})
+                    response.status_code = 401
+                    return response
+            else:
+                response = JsonResponse({"error": "No existe ese usuario"})
+                response.status_code = 402
+                return response
+        else:
+            response = JsonResponse({"error": "No se mandó por el método correcto"})
+            response.status_code = 500
+            # Regresamos la respuesta de error interno del servidor
+            return response
+    else:   # Si el rol del usuario no es Propietario, Admin, o Super Admin, no puede borrar
+        response = JsonResponse({"error": "No tienes los permisos necesarios"})
+        response.status_code = 404
+        return response
+
 
 @login_required
 def addRevisorView(request):
@@ -234,16 +264,16 @@ def addRevisorView(request):
                 response.status_code = 400
                 # Regresamos la respuesta de error interno del servidor
                 return response
-            
+
             propiedad = Propiedad.objects.filter(pk = id_prop).first()
-            
+
             #La propiedad no existe
             if propiedad is None:
                 response = JsonResponse({"error": "No existe esta propiedad"})
                 response.status_code = 400
                 # Regresamos la respuesta de error interno del servidor
                 return response
-            
+
             #La propiedad no está en estado de revisión
             if not propiedad.estado_revision:
                 response = JsonResponse({"error": "La propiedad no está en revisión"})
@@ -255,25 +285,21 @@ def addRevisorView(request):
             if propiedad.revisor is not None:
                 response = JsonResponse({"error": "La propiedad ya tiene revisor asignado"})
                 response.status_code = 400
-                # Regresamos la respuesta de error 
+                # Regresamos la respuesta de error
                 return response
 
             propiedad.revisor = user_logged
             propiedad.save()
             return HttpResponse('OK')
-        
+
         #No se hizo método POST
-        else: 
+        else:
             response = JsonResponse({"error": "No se mandó por el método correcto"})
             response.status_code = 500
             # Regresamos la respuesta de error interno del servidor
             return response
-
     else: # Si el rol del usuario no es revisor no puede entrar a la página
         raise Http404
-
-
-
 
 
 @login_required
@@ -289,16 +315,16 @@ def removeRevisorView(request):
                 response.status_code = 400
                 # Regresamos la respuesta de error interno del servidor
                 return response
-            
+
             propiedad = Propiedad.objects.filter(pk = id_prop).first()
-            
+
             #La propiedad no existe
             if propiedad is None:
                 response = JsonResponse({"error": "No existe esta propiedad"})
                 response.status_code = 400
                 # Regresamos la respuesta de error interno del servidor
                 return response
-            
+
             #La propiedad no está en estado de revisión
             if not propiedad.estado_revision:
                 response = JsonResponse({"error": "La propiedad no está en revisión"})
@@ -310,19 +336,129 @@ def removeRevisorView(request):
             if propiedad.revisor is None:
                 response = JsonResponse({"error": "La propiedad no tiene revisor asignado"})
                 response.status_code = 400
-                # Regresamos la respuesta de error 
+                # Regresamos la respuesta de error
                 return response
 
             propiedad.revisor = None
             propiedad.save()
             return HttpResponse('OK')
-        
+
         #No se hizo método POST
-        else: 
+        else:
             response = JsonResponse({"error": "No se mandó por el método correcto"})
             response.status_code = 500
             # Regresamos la respuesta de error interno del servidor
             return response
 
     else: # Si el rol del usuario no es revisor no puede entrar a la página
+        raise Http404
+
+# Vista para editar una propiedad
+@login_required
+def editPropertyView(request, id):
+    if 'editar_propiedad' in request.session['permissions']:
+        form = EditarPropiedadForma()
+        propiedad = Propiedad.objects.filter(pk = id).first()
+        if propiedad:
+            return render(request, 'propiedades/editProperty.html', {'property': propiedad, 'form': form})
+        else:
+            raise Http404
+    else:
+        raise Http404
+
+@login_required
+def modifyPropertyView(request, id):
+    if 'editar_propiedad' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+            form = EditarPropiedadForma(request.POST, request.FILES)
+            files = request.FILES.getlist('extra')
+            print(form.errors)
+            if form.is_valid():
+                # Sacar los datos del la forma
+                oferta = form.cleaned_data['oferta']
+                tipo = form.cleaned_data['tipo']
+                titulo = form.cleaned_data['titulo']
+                desc = form.cleaned_data['desc']
+                habs = form.cleaned_data['habs']
+                banos = form.cleaned_data['banos']
+                garaje = form.cleaned_data['garaje']
+                pais = form.cleaned_data['pais']
+                estado = form.cleaned_data['estado']
+                codigo_postal = form.cleaned_data['codigo_postal']
+                colonia = form.cleaned_data['colonia']
+                direccion = form.cleaned_data['direccion']
+                precio = form.cleaned_data['precio']
+                negociable = form.cleaned_data['negociable']
+                dif = form.cleaned_data['dif']
+                m_terr = form.cleaned_data['m_terr']
+                m_cons = form.cleaned_data['m_cons']
+                pisos = form.cleaned_data['pisos']
+                portada = form.cleaned_data['portada']
+                extra = form.cleaned_data['extra']
+                video = form.cleaned_data['video']
+
+                # Crear el objeto de Propiedad
+                propiedad = Propiedad.objects.filter(pk = id).first()
+                if propiedad:
+                    propiedad.titulo = titulo
+                    propiedad.tipo = tipo
+                    propiedad.oferta = oferta
+                    propiedad.descripcion = desc
+                    if(tipo != 'Terreno'):
+                        propiedad.habitaciones = habs
+                        propiedad.banos = banos
+                        propiedad.garaje = garaje
+                        propiedad.pisos = pisos
+                    propiedad.metros_terreno = m_terr
+                    propiedad.metros_construccion = m_cons
+                    propiedad.pais = pais
+                    propiedad.codigo_postal = codigo_postal
+                    propiedad.estado = estado
+                    propiedad.colonia = colonia
+                    propiedad.direccion = direccion
+                    propiedad.precio = precio
+                    propiedad.negociable = negociable
+                    if(dif != None):
+                        propiedad.diferenciador = dif
+                    if(video != None):
+                        propiedad.video = video
+
+                    # Guardar propiedad para poder guardar las imagenes
+                    propiedad.save()
+
+                    # Guardar imagen de portada nueva si se añadio una
+                    if portada:
+                        propiedad.portada = portada
+                        propiedad.save()
+
+                    # Guardar imagenes de la propiedad nuevas si se añadieron
+                    if extra:
+                        images = Foto.objects.filter(propiedad = id)
+                        for img in images:
+                            img.imagen = None
+                            img.save()
+                        images.delete()
+                        i = 1
+                        for f in files:
+                            fotos = Foto()
+                            fotos.propiedad = propiedad
+                            fotos.orden = i
+                            fotos.save()
+                            fotos.imagen = f
+                            fotos.save()
+                            i = i + 1
+
+                    request.session['notification_session_msg'] = "Se ha modificado la propiedad exitosamente."
+                    request.session['notification_session_type'] = "Success"
+                else:
+                    request.session['notification_session_msg'] = "Ha ocurrido un error, inténtelo de nuevo más tarde."
+                    request.session['notification_session_type'] = "Danger"
+                return redirect('/propiedades/myProperties/')
+
+            else:
+                raise Http404
+        else:
+            raise Http404
+    else:
         raise Http404
