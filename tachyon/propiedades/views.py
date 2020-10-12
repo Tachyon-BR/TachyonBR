@@ -52,7 +52,7 @@ def myPropertiesView(request):
     if 'visualizar_mis_propiedades' in request.session['permissions']:
         locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
-        list = Propiedad.objects.filter(propietario = user_logged, estado_activo = True)
+        list = Propiedad.objects.filter(propietario = user_logged, estado_visible = True)
         for l in list:
             l.precio = locale.currency(l.precio, grouping=True)
             l.precio = l.precio[0:-3]
@@ -229,7 +229,7 @@ def deletePropertyView(request, id):
             if propiedad:
                 if propiedad.propietario == user_logged:    # Evitar que los usuarios puedan borrar propiedades ajenas
 
-                    propiedad.estado_activo = False
+                    propiedad.estado_visible = False
                     propiedad.save()
                     return HttpResponse('OK')
                 else:
