@@ -75,7 +75,7 @@
                     <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
                   </span>
                 </a>
-                <a href="#" class="table-link danger" onclick="" data-toggle="modal" data-target="">
+                <a href="#" class="table-link danger" onclick="borrar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#delete-property-modal">
                   <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
@@ -91,6 +91,7 @@
 </div>
 
 {% include './modals/validate-property.html' %}
+{% include './modals/delete-property.html' %}
 
 {% endblock content %}
 
