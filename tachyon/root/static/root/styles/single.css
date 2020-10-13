@@ -884,6 +884,18 @@ section
 	height: 40px;
 	padding-left: 27px;
 	padding-right: 26px;
+	background: #FEC001;
+	line-height: 40px;
+	font-size: 25px;
+	font-weight: 500;
+	color: #ffffff;
+}
+.tag_title
+{
+	display: inline-block;
+	height: 40px;
+	padding-left: 27px;
+	padding-right: 26px;
 	background: #0171BF;
 	line-height: 40px;
 	font-size: 25px;
@@ -1117,7 +1129,7 @@ section
 {
 	padding-top: 88px;
 	padding-bottom: 83px;
-	background: #1e1332;
+	background: #2B2E35;
 }
 .footer_logo a
 {
@@ -1295,7 +1307,7 @@ section
 }
 .tag_rent
 {
-	background: #588dfb;
+	background: #01b2bf;
 }
 .listing_small_price
 {
@@ -1306,7 +1318,7 @@ section
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
+	background: #FEC001;
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
