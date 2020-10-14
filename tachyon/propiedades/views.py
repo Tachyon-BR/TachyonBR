@@ -34,12 +34,20 @@ class LazyEncoder(DjangoJSONEncoder):
 def propertyView(request, id):
     propiedad = Propiedad.objects.filter(pk = id).first()
     if propiedad:
+        revisor = False
         fotos = Foto.objects.filter(propiedad = id)
         link = propiedad.video
-        index = link.find('watch?v=')
-        if index != -1:
-            link = link[0:index] + 'embed/' + link[index + 8:len(link)]
-        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index})
+        index = -1
+        if link:
+            index = link.find('watch?v=')
+            if index != -1:
+                link = link[0:index] + 'embed/' + link[index + 8:len(link)]
+        if propiedad.revisor:
+            if request.user.is_authenticated:
+                user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+                if propiedad.revisor == user_logged:
+                    revisor = True
+        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor})
     else:
         raise Http404
 
@@ -458,6 +466,16 @@ def modifyPropertyView(request, id):
 
             else:
                 raise Http404
+        else:
+            raise Http404
+    else:
+        raise Http404
+
+@login_required
+def modifyPropertyReviewerView(request, id):
+    if 'editar_propiedad_revision' in request.session['permissions']:
+        if request.method == 'POST':
+            print("hola")
         else:
             raise Http404
     else:

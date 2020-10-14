@@ -16,4 +16,5 @@ urlpatterns = [
     path('removeRevisor/',views.removeRevisorView, name="removeRevisor"),
     path('editProperty/<int:id>',views.editPropertyView, name="editProperty"),
     path('modifyProperty/<int:id>',views.modifyPropertyView, name="modifyProperty"),
+    path('modifyPropertyReviewer/<int:id>',views.modifyPropertyReviewerView, name="modifyPropertyReviewer"),
 ]

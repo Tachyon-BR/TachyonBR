@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/swiper.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/lightbox.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/buttons.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -112,6 +113,11 @@
 
 					</div>
 
+					{% if revisor %}
+						<form method="POST" action="/propiedades/modifyPropertyReviewer/{{ property.pk }}" class="needs-validation" novalidate>
+						{% csrf_token %}
+					{% endif %}
+
 					<!-- About -->
 					<div class="about">
 						<div class="row">
@@ -119,7 +125,30 @@
 								<div class="property_info">
 									<div class="tag_price listing_price" id="price">{{ property.precio }}</div>
 									<div class="listing_name">
-										<h1>{{ property.titulo }}</h1>
+										<h1 id="title" style="display: inline;">{{ property.titulo }}</h1>
+										{% if revisor %}
+											<a id="edit1" href="#a" class="table-link" style="position: relative; bottom: 15px; left: 10px;" onclick="esconder_titulo();">
+			                  <span class="fa-stack">
+			                    <i class="fa fa-square fa-stack-2x"></i>
+			                    <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
+			                  </span>
+			                </a>
+											<div class="row">
+												<div class="col-6">
+													<input class="input--style-4 form-control validacion" type="text" name="titulo" id="titulo" pattern=".{1,}" value="{{ property.titulo }}" hidden>
+												</div>
+												<div class="col-6">
+													<div id="cancelar1" class="danger" hidden>
+														<a href="#b" onclick="mostrar_titulo();">
+						                  <span class="fa-stack">
+						                    <i class="fa fa-square fa-stack-2x"></i>
+						                    <i class="fas fa-times fa-stack-1x fa-inverse"></i>
+						                  </span>
+						                </a>
+													</div>
+												</div>
+											</div>
+										{% endif %}
 									</div>
 									<div class="listing_location d-flex flex-row align-items-start justify-content-start">
 										<img src="{% static 'root/images/icon_1.png' %}" alt="icon">
@@ -191,14 +220,65 @@
 							<div class="col-lg-4">
 								{% if property.diferenciador %}
 								<div class="tag_price listing_price" id="dif" style="height: auto;">{{ property.diferenciador }}</div>
+								{% if revisor %}
+									<a id="edit2" href="#c" class="table-link" style="display: block; float: right;" onclick="esconder_dif();">
+										<span class="fa-stack">
+											<i class="fa fa-square fa-stack-2x"></i>
+											<i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
+										</span>
+									</a>
+									<div class="row">
+										<div class="col-9">
+											<input class="input--style-4 form-control validacion" type="text" name="difer" id="difer" pattern=".{1,}" value="{{ property.diferenciador }}" hidden>
+										</div>
+										<div class="col-3">
+											<div id="cancelar2" class="danger" hidden>
+												<a href="#d" onclick="mostrar_dif();">
+													<span class="fa-stack">
+														<i class="fa fa-square fa-stack-2x"></i>
+														<i class="fas fa-times fa-stack-1x fa-inverse"></i>
+													</span>
+												</a>
+											</div>
+										</div>
+									</div>
+								{% endif %}
 								{% endif %}
 								<div class="listing_location d-flex flex-row align-items-start justify-content-start">
 									<span style="margin-left:0px;margin-top:27px;">Descripción</span>
 								</div>
-								<div class="about_text" style="padding-top:27px !important;">
+								<div id="des" class="about_text" style="padding-top:27px !important;">
 									<p>{{ property.descripcion }}</p>
 								</div>
+								{% if revisor %}
+									<a id="edit3" href="#e" class="table-link" style="display: block; float: right;" onclick="esconder_desc();">
+										<span class="fa-stack">
+											<i class="fa fa-square fa-stack-2x"></i>
+											<i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
+										</span>
+									</a>
+									<div class="row">
+										<div class="col-9">
+											<textarea class="input--style-4 form-control areatexto" type="text" name="desc" id="desc" pattern=".{1,}" hidden></textarea>
+										</div>
+										<div class="col-3">
+											<div id="cancelar3" class="danger" hidden>
+												<a href="#f" onclick="mostrar_desc();">
+													<span class="fa-stack">
+														<i class="fa fa-square fa-stack-2x"></i>
+														<i class="fas fa-times fa-stack-1x fa-inverse"></i>
+													</span>
+												</a>
+											</div>
+										</div>
+									</div>
+								{% endif %}
 							</div>
+
+							{% if revisor %}
+							<button class="btn btn-primary" style="display: block;" type="submit">Guardar Cambios</button>
+							</form>
+							{% endif %}
 
 							<!--fotos-->
 							<div id="fotos" class="col-lg-12">
@@ -311,6 +391,15 @@
 {% endblock content %}
 
 {% block optionalJS %}
+
+<script type="text/javascript">
+		var descripcion;
+  	$( document ).ready(function() {
+			descripcion = "{{ property.descripcion }}";
+    	$('#desc').val(descripcion);
+		});
+</script>
+
 <script src="{% static 'root/plugins/colorbox/jquery.colorbox-min.js' %}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCxiVzHjuGTAraaNgVRmU6yuEqUB972kiA"></script>
 <script src="{% static 'root/js/single.js' %}"></script>
@@ -318,4 +407,7 @@
 <script src="{% static 'propiedades/js/swiper.min.js' %}"></script>
 <script src="{% static 'propiedades/js/swpr.js' %}"></script>
 <script src="{% static 'propiedades/js/lightbox.js' %}"></script>
+{% if revisor %}
+	<script type="text/javascript" src="{% static 'propiedades/js/editarPropiedadRevisor.js' %}"></script>
+{% endif %}
 {% endblock %}
