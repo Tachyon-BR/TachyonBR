@@ -91,6 +91,8 @@
 </div>
 
 {% include './modals/validate-property.html' %}
+{% include './modals/historial-property-revisor.html' %}
+{% include './modals/validate-property-revisor.html' %}
 
 {% endblock content %}
 
@@ -98,6 +100,9 @@
 <script type="text/javascript">
     checkNotificationSession();
 </script>
+
+<script type="text/javascript" src="{% static 'propiedades/js/revisor-propiedades-historial.js' %}"></script>
+
 <script type="text/javascript" src="{% static 'propiedades/js/table.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/borrar.js' %}"></script>

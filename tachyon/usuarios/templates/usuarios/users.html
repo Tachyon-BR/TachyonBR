@@ -28,7 +28,7 @@
           <tr id="row-{{ t.pk }}">
             <td>
               <img src="{% static 'root/images/user.png' %}" alt="Ícono de usuario">
-              <a href="#" class="user-link">{{ t.nombre }} {{ t.apellido_paterno }} {{t.apellido_materno }}</a>
+              <a href="{% url 'profile' t.id %}" class="user-link">{{ t.nombre }} {{ t.apellido_paterno }} {{t.apellido_materno }}</a>
               <span class="user-subhead">{{ t.rol.nombre }}</span>
             </td>
             <td>

@@ -56,28 +56,28 @@
                 {% endif %}
               </td>
               <td id="icons" style="width: 15%;">
-                {% if p.revisor.id is None %}
-                <!-- La propiedad no tiene revisor asignado -->
-                  <a href="#" class="table-link success" onclick="asignarseComoRevisor({{ p.pk }})" >
-                    <span class="fa-stack">
-                      <i class="fa fa-square fa-stack-2x"></i>
-                      <i class="fas fa-plus fa-stack-1x fa-inverse"></i>
-                    </span>
-                  </a>
+                
+                <!-- El revisor de la propiedad es el usuario logeado -->
+                <a href="#" class="table-link danger" onclick="quitarseComoRevisor( {{ p.pk }} )" >
+                  <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fas fa-minus fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
 
-                {% else %}
-                <!-- La propiedad tiene revisor asignado -->
-                  {% if p.revisor.id is user.id %}
-                    <!-- El revisor de la propiedad es el usuario logeado -->
-                    <a href="#" class="table-link danger" onclick="quitarseComoRevisor( {{ p.pk }} )" >
-                      <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fas fa-minus fa-stack-1x fa-inverse"></i>
-                      </span>
-                    </a>
-                  {% endif %}
-
+                <!--
+                {% if p.estado_revision and not p.estado_activo %}
+                <a id="validar" href="#" class="btn btn-primary" onclick="validar_propiedad_revisor({{ p.pk }})" data-toggle="modal" data-target="#validate-property-revisor">
+                  Validar
+                </a>
                 {% endif %}
+                -->
+
+
+                
+                <a id="validar" href="#" class="btn btn-primary" onclick="historial_propiedad_revisor({{ p.pk }})" data-toggle="modal" data-target="#historial-property-revisor">
+                  Historial
+                </a>
               </td>
             </tr>
           {% endfor %}
@@ -86,6 +86,11 @@
     </div>
   </div>
 </div>
+
+
+{% include './modals/validate-property-revisor.html' %}
+{% include './modals/historial-property-revisor.html' %}
+
 
 {% endblock content %}
 
@@ -100,9 +105,11 @@
 <script type="text/javascript">
     checkNotificationSession();
 </script>
+<script type="text/javascript" src="{% static 'propiedades/js/revisor-propiedades-historial.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/revisor-peticiones-propias.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/table-rev.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/validar-revisor.js' %}"></script>
 <!--<script type="text/javascript" src="{% static 'propiedades/js/borrar.js' %}"></script>-->
 <!--<script type="text/javascript" src="{% static 'propiedades/js/validar.js' %}"></script>-->
 {% endblock %}

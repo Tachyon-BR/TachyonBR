@@ -14,4 +14,6 @@ urlpatterns = [
     path('addRevisor/',views.addRevisorView, name="addRevisor"),
     path('removeRevisor/',views.removeRevisorView, name="removeRevisor"),
     path('mis-revisiones/',views.misRevisionesView, name="misRevisionesView"),
+    path('validateAsRevisor/',views.validateAsRevisorView, name="validateAsRevisor"),
+    path('property-comment-history/',views.propertyCommentHistoryView, name="propertyCommentHistory"),
 ]
