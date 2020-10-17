@@ -13,3 +13,14 @@ class CrearUsuarioForma(forms.Form):
     confirmar_contrasena = forms.CharField(max_length = 32, min_length=6)
     email = forms.EmailField()
     rol = forms.CharField(max_length = 200, required=False)
+
+
+class UpdateUsuarioForma(forms.Form):
+    nombre = forms.CharField(max_length = 30)
+    apellido_paterno = forms.CharField(max_length = 30)
+    apellido_materno = forms.CharField(max_length = 30)
+    telefono = forms.CharField(max_length = 20)
+    estado = forms.CharField(max_length = 500, required=False)
+    nombre_agencia = forms.CharField(max_length = 500, required=False)
+    numero_agencia = forms.CharField(max_length = 500, required=False)
+    email = forms.EmailField()

@@ -1,0 +1,104 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+{% block optionalCSS %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="featured content-top-margin" style="margin-top:10px;">
+    <div class="container">
+        <h1 class="text-center">Editar perfil</h1>
+        <div class="card card-4" style="margin-top: 50px;">
+            <form method="POST" action="{% url 'edit_user' user.id %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input class="form-control" type="text" name="nombre" required value="{{ user.nombre }}"/>
+                        </div>
+                    </div>
+            
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="apellido_paterno">Apellido Paterno</label>
+                            <input class="form-control" type="text" name="apellido_paterno" value="{{ user.apellido_paterno }}" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="apellido_materno">Apellido Materno</label>
+                            <input class="form-control" type="text" name="apellido_materno" value="{{ user.apellido_materno }}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="email">Correo</label>
+                            <div class="invalid-feedback invalid-mail">
+                                ¡Oops! El correo que ingresaste ya existe.
+                            </div>
+                            <input class="form-control" type="email" name="email" id="email" value="{{ user.user.email }}" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input class="form-control" type="text" name="telefono" value="{{ user.telefono }}" required>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="ocultable">-->
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <label for="estado">Estado</label>
+                        <select name="estado" id="estado" class="form-control" required>
+                            <option disabled="disabled" value="">Seleccione un estado...</option>
+                            <option value="Chihuahua">Chihuahua</option>
+                            <option value="Sinaloa">Sinaloa</option>
+                            <option value="Yucatán">Yucatán</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="nombre_agencia">Agencia (opcional)</label>
+                            <input class="form-control" type="text" name="nombre_agencia" value="{{ user.nombre_agencia }}" >
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <label for="numero_agencia">Número de Agencia (opcional)</label>
+                            <input class="form-control" type="text" name="numero_agencia" value="{{ user.numero_agencia }}" >
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" id="submit" class="btn btn-success">Guardar</button>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+
+{% block optionalJS %}
+<script type="text/javascript">
+        var estado = '{{ user.estado }}';
+        console.log(estado);
+        $("select > option").each(function(){
+            console.log(estado);
+            if($(this).text() === estado){
+                $(this).attr('selected', 'selected');
+            }
+        });
+    
+</script>
+{% endblock %}

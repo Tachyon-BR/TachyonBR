@@ -5,8 +5,9 @@ $(document).ready(function() {
   
   if(url.includes("propiedades/enRevision")){
     $("#en_revision").addClass("active");  
-  }
-  else{
+  }else if(url.includes("propiedades/mis-revisiones")){
+    $("#mis_revisiones").addClass("active");  
+  }else{
     $("#my_pro").addClass("active");
   }
   

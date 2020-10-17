@@ -1,0 +1,102 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+{% block optionalCSS %}
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="featured content-top-margin" style="margin-top:10px;">
+    <div class="container">
+        <h1>Perfil</h1>
+        
+        {% if request.user.id == user.id %}
+        <!--Se agrega si el user req es igual al user consultado-->
+        <a href="{% url 'edit_user' user.id %}"><button class="btn btn-success" style="float: right;"><i class="fas fa-user-edit"></i> Editar</button></a>
+        {% endif %}
+
+        <div class="card">                
+            <div class="card-body">
+                <h4>Información de {{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}</h4>
+                <hr>
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <h6>Nombre completo</h6>
+                        <p>{{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}</p>    
+                    </div>
+                   <div class="col-12 col-md-6 col-lg-4">
+                        <h6>Rol</h6>
+                        <p>{{ user.rol.nombre }}</p>
+                   </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <h6>Teléfono</h6>
+                        <p>{{ user.telefono }}</p>    
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <h6>Correo electrónico</h6>
+                        <p>{{ user.user.email }}</p>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <h6>Nombre de agencia</h6>
+                        {% if user.nombre_agencia %}
+                        <p>{{ user.nombre_agencia }}</p>
+                        {% else %}
+                        <p>No proporcionado</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <h6>Número de agencia</h6>
+                        {% if user.numero_agencia %}
+                        <p>{{ user.numero_agencia }}</p>
+                        {% else %}
+                        <p>No proporcionado</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <h6>Estado</h6>
+                        {% if user.estado %}
+                        <p>{{ user.estado }}</p>
+                        {% else %}
+                        <p>No proporcionado</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <h6>Estado de registro</h6>
+                        {% if user.estado_registro %}
+                        <p>Verificado</p>
+                        {% else %}
+                        <p>No verificado</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <h6>Estado de visibilidad</h6>
+                        {% if user.estado_eliminado %}
+                        <p>Eliminado</p>
+                        {% else %}
+                        <p>Visible</p>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+//propiedades
+
+
+    </div>
+</div>
+
+
+
+
+{% endblock content %}
+
+
+{% block optionalJS %}
+<script type="text/javascript" src="{% static 'usuarios/js/navbar_perfil.js' %}"></script>
+{% endblock %}

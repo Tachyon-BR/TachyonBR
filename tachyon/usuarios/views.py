@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import update_session_auth_hash
 from django.http import Http404
-from .forms import CrearUsuarioForma
+from .forms import CrearUsuarioForma, UpdateUsuarioForma
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -237,6 +237,7 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 
+
 @login_required
 #Controlador para lista de usuarios
 def indexView(request):
@@ -250,6 +251,8 @@ def indexView(request):
         return render(request, 'usuarios/users.html', context)
     else:
         raise Http404
+
+
 
 def deleteUserView(request, id):
     if 'eliminar_usuario' in request.session['permissions']:
@@ -374,3 +377,67 @@ def getLoggedUserJson(request):
     user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
     data = serializers.serialize('json', user_logged)
     return JsonResponse({"user": data})
+
+
+def profile(request, user_id):
+    user = get_object_or_404(TachyonUsuario, pk=user_id)
+    return render(request, 'usuarios/user_detail.html', {'user': user})
+
+
+
+def edit_user(request, user_id):
+    if request.user.id != user_id:
+        raise Http404
+    user = get_object_or_404(TachyonUsuario, pk=user_id)
+    if request.method == 'GET':
+        return render(request, 'usuarios/user_edit.html', {'user': user})
+
+    if request.method == 'POST':
+        form = UpdateUsuarioForma(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            apellido_paterno = form.cleaned_data['apellido_paterno']
+            apellido_materno = form.cleaned_data['apellido_materno']
+            telefono = form.cleaned_data['telefono']
+            estado = form.cleaned_data['estado']
+            nombre_agencia =form.cleaned_data['nombre_agencia']
+            numero_agencia = form.cleaned_data['numero_agencia']
+            email = form.cleaned_data['email']
+
+            #checar si el correo es unico y/o es el que ya tiene
+            checkEmail = User.objects.filter(email=email)
+            if(len(checkEmail)>0):
+                if(request.user.email != email):
+                    request.session['notification_session_msg'] = "El correo ya existe."
+                    request.session['notification_session_type'] = "Danger"
+                    return redirect('/usuarios/create')
+
+            uname = nombre[0:2] \
+                    + apellido_paterno[0:2] \
+                    + apellido_materno[0:2] \
+                    + str(TachyonUsuario.objects.all().count()) #crear un username único para el usuario tomando las 2 primeras
+                    # letras del nombre y cada apellido más el número de usuarios en el sistema
+
+            # Actualizar usuario del modelo de django
+            u = User.objects.get(pk = user.pk)
+            u.username=uname
+            u.email=email
+            u.save()
+
+            print("nombre")
+            print(nombre)
+
+            # Actualizar usuario de TachyonUsuario
+            tUser = TachyonUsuario.objects.get(pk=user.pk)
+            tUser.nombre = nombre
+            tUser.apellido_paterno = apellido_paterno
+            tUser.apellido_materno = apellido_materno
+            tUser.telefono = telefono
+            tUser.estado = estado
+            tUser.nombre_agencia = nombre_agencia
+            tUser.numero_agencia = numero_agencia
+            tUser.save()
+
+            return render(request, 'usuarios/user_edit.html', {'user': user})
+        else:
+            return render(request, 'usuarios/user_edit.html', {'user': user})

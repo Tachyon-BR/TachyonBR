@@ -14,6 +14,9 @@ urlpatterns = [
     path('enRevision/', views.enRevisionView, name='enRevision'),
     path('addRevisor/',views.addRevisorView, name="addRevisor"),
     path('removeRevisor/',views.removeRevisorView, name="removeRevisor"),
+    path('mis-revisiones/',views.misRevisionesView, name="misRevisionesView"),
+    path('validateAsRevisor/',views.validateAsRevisorView, name="validateAsRevisor"),
+    path('property-comment-history/',views.propertyCommentHistoryView, name="propertyCommentHistory"),
     path('editProperty/<int:id>',views.editPropertyView, name="editProperty"),
     path('modifyProperty/<int:id>',views.modifyPropertyView, name="modifyProperty"),
 ]
