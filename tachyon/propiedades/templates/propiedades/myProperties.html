@@ -41,7 +41,7 @@
               </td>
               <td id="status">
                 {% if p.estado_revision %}
-                  {% if p.estado_activo %}
+                  {% if p.estado_activo %} <!-- Cambiar variable -->
                     <span class="badge badge-pill badge-success">Publicada</span>
                   {% else %}
                     <span class="badge badge-pill badge-info">En Revisión</span>
@@ -68,19 +68,21 @@
                       <i class="fas fa-check fa-stack-1x fa-inverse"></i>
                     </span>
                   </a>
-                {% endif %}
-                <a href="#" class="table-link">
+                <a href="/propiedades/editProperty/{{ p.pk }}" class="table-link">
                   <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
                   </span>
                 </a>
-                <a href="#" class="table-link danger" onclick="" data-toggle="modal" data-target="">
+                <a href="#" class="table-link danger" onclick="borrar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#delete-property-modal">
                   <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
                   </span>
                 </a>
+                {% else %}
+                  Sin Acciones
+                {% endif %}
               </td>
             </tr>
           {% endfor %}
@@ -93,6 +95,7 @@
 {% include './modals/validate-property.html' %}
 {% include './modals/historial-property-revisor.html' %}
 {% include './modals/validate-property-revisor.html' %}
+{% include './modals/delete-property.html' %}
 
 {% endblock content %}
 

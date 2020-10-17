@@ -114,7 +114,7 @@ p a:hover::after
 }
 ::selection
 {
-	background: #adc867;
+	background: #70AD47;
 	color: #ffffff;
 }
 p::selection
@@ -320,7 +320,7 @@ section
 {
 	width: 247px;
 	height: 61px;
-	background: #adc867;
+	background: #70AD47;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -370,7 +370,7 @@ section
 {
 	width: 100%;
 	height: 55px;
-	background: #55407d;
+	background: #0171BF;
 	padding-left: 64px;
 	padding-right: 62px;
 }
@@ -401,7 +401,7 @@ section
 	width: 32px;
 	height: 32px;
 	border-radius: 50%;
-	background: #adc867;
+	background: #70AD47;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -465,7 +465,7 @@ section
 }
 .log_reg ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .header_content
 {
@@ -515,7 +515,7 @@ section
 .main_nav ul li.active,
 .main_nav ul li:hover
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .main_nav ul li a
 {
@@ -539,7 +539,7 @@ section
 .submit
 {
 	width: 247px;
-	background: #adc867;
+	background: #70AD47;
 	height: 100%;
 	text-align: center;
 }
@@ -570,7 +570,7 @@ section
 }
 .hamburger:hover i
 {
-	color: #adc867;
+	color: #70AD47;
 }
 
 /*********************************
@@ -618,7 +618,7 @@ section
 }
 .menu_close:hover i
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .menu_log_reg
 {
@@ -635,7 +635,7 @@ section
 }
 .menu .log_reg ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .menu .log_reg ul li:not(:last-of-type)::after
 {
@@ -658,7 +658,7 @@ section
 }
 .menu_nav ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 
 /*********************************
@@ -706,7 +706,7 @@ section
 	padding-bottom: 15px;
 	padding-left: 23px;
 	padding-right: 24px;
-	background: #55407d;
+	background: #0171BF;
 }
 .search_inputs
 {
@@ -716,7 +716,7 @@ section
 {
 	width: 247px;
 	height: 51px;
-	background: #adc867;
+	background: #70AD47;
 	color: #ffffff;
 	border: none;
 	outline: none;
@@ -804,11 +804,11 @@ section
 }
 .search_button_1
 {
-	background: #55407d;
+	background: #0171BF;
 }
 .search_button_2
 {
-	background: #adc867;
+	background: #70AD47;
 }
 
 /*********************************
@@ -850,7 +850,7 @@ section
 }
 .listing_tags ul li:hover
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .listing_tags ul li:hover a
 {
@@ -948,7 +948,7 @@ section
 }
 .sort ul li:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listings_container
 {
@@ -1024,11 +1024,11 @@ section
 }
 .tag_house
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .tag_sale
 {
-	background: #55407d;
+	background: #0171BF;
 }
 .tag_rent
 {
@@ -1076,7 +1076,7 @@ section
 }
 .listing_location a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listing_info
 {
@@ -1149,7 +1149,7 @@ section
 {
 	max-width: 247px;
 	height: 61px;
-	background: #55407d;
+	background: #0171BF;
 	text-align: center;
 	margin-top: 53px;
 	-webkit-transition: all 200ms ease;
@@ -1160,7 +1160,7 @@ section
 }
 .footer_submit:hover
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .footer_submit a
 {
@@ -1227,7 +1227,7 @@ section
 }
 .footer_links ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listing_small
 {
@@ -1289,11 +1289,11 @@ section
 }
 .tag_house
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .tag_sale
 {
-	background: #55407d;
+	background: #0171BF;
 }
 .tag_rent
 {
@@ -1338,7 +1338,7 @@ section
 }
 .listing_small_location a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listing_small_info
 {
@@ -1390,5 +1390,5 @@ section
 }
 .footer_nav ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }

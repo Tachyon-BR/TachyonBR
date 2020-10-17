@@ -114,7 +114,7 @@ p a:hover::after
 }
 ::selection
 {
-	background: #adc867;
+	background: #70AD47;
 	color: #ffffff;
 }
 p::selection
@@ -320,7 +320,7 @@ section
 {
 	width: 247px;
 	height: 61px;
-	background: #adc867;
+	background: #70AD47;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -370,7 +370,7 @@ section
 {
 	width: 100%;
 	height: 55px;
-	background: #55407d;
+	background: #0171BF;
 	padding-left: 64px;
 	padding-right: 62px;
 }
@@ -401,7 +401,7 @@ section
 	width: 32px;
 	height: 32px;
 	border-radius: 50%;
-	background: #adc867;
+	background: #70AD47;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -465,7 +465,7 @@ section
 }
 .log_reg ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .header_content
 {
@@ -515,7 +515,7 @@ section
 .main_nav ul li.active,
 .main_nav ul li:hover
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .main_nav ul li a
 {
@@ -539,7 +539,7 @@ section
 .submit
 {
 	width: 247px;
-	background: #adc867;
+	background: #70AD47;
 	height: 100%;
 	text-align: center;
 }
@@ -570,7 +570,7 @@ section
 }
 .hamburger:hover i
 {
-	color: #adc867;
+	color: #70AD47;
 }
 
 /*********************************
@@ -618,7 +618,7 @@ section
 }
 .menu_close:hover i
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .menu_log_reg
 {
@@ -635,7 +635,7 @@ section
 }
 .menu .log_reg ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .menu .log_reg ul li:not(:last-of-type)::after
 {
@@ -658,7 +658,7 @@ section
 }
 .menu_nav ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 
 /*********************************
@@ -705,7 +705,7 @@ section
 	padding-bottom: 15px;
 	padding-left: 23px;
 	padding-right: 24px;
-	background: #55407d;
+	background: #0171BF;
 }
 .search_inputs
 {
@@ -715,7 +715,7 @@ section
 {
 	width: 247px;
 	height: 51px;
-	background: #adc867;
+	background: #70AD47;
 	color: #ffffff;
 	border: none;
 	outline: none;
@@ -814,7 +814,7 @@ section
 }
 .tab [type=radio]:checked ~ .tab_content
 {
-	border-bottom: solid 3px #adc867;
+	border-bottom: solid 3px #70AD47;
 }
 .tab label
 {
@@ -872,7 +872,7 @@ section
 .tab:hover .tab_content .tab_icon .svg polygon,
 .tab [type=radio]:checked ~ .tab_content .tab_icon .svg polygon
 {
-	fill: #adc867;
+	fill: #70AD47;
 }
 .about
 {
@@ -884,7 +884,19 @@ section
 	height: 40px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #55407d;
+	background: #FEC001;
+	line-height: 40px;
+	font-size: 25px;
+	font-weight: 500;
+	color: #ffffff;
+}
+.tag_title
+{
+	display: inline-block;
+	height: 40px;
+	padding-left: 27px;
+	padding-right: 26px;
+	background: #0171BF;
 	line-height: 40px;
 	font-size: 25px;
 	font-weight: 500;
@@ -955,7 +967,7 @@ section
 {
 	font-size: 14px;
 	font-weight: 600;
-	color: #adc867;
+	color: #70AD47;
 }
 .prop_info
 {
@@ -1043,7 +1055,7 @@ section
 	width: 64px;
 	height: 64px;
 	border-radius: 50%;
-	background: #adc867;
+	background: #70AD47;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -1117,7 +1129,7 @@ section
 {
 	padding-top: 88px;
 	padding-bottom: 83px;
-	background: #1e1332;
+	background: #2B2E35;
 }
 .footer_logo a
 {
@@ -1147,7 +1159,7 @@ section
 {
 	max-width: 247px;
 	height: 61px;
-	background: #55407d;
+	background: #0171BF;
 	text-align: center;
 	margin-top: 53px;
 	-webkit-transition: all 200ms ease;
@@ -1158,7 +1170,7 @@ section
 }
 .footer_submit:hover
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .footer_submit a
 {
@@ -1225,7 +1237,7 @@ section
 }
 .footer_links ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listing_small
 {
@@ -1287,15 +1299,15 @@ section
 }
 .tag_house
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .tag_sale
 {
-	background: #55407d;
+	background: #0171BF;
 }
 .tag_rent
 {
-	background: #588dfb;
+	background: #01b2bf;
 }
 .listing_small_price
 {
@@ -1306,7 +1318,7 @@ section
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
+	background: #FEC001;
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
@@ -1336,7 +1348,7 @@ section
 }
 .listing_small_location a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listing_small_info
 {
@@ -1388,5 +1400,5 @@ section
 }
 .footer_nav ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }

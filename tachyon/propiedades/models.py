@@ -45,6 +45,7 @@ class Propiedad(models.Model):
     diferenciador = models.CharField(max_length = 100, null=True, blank=True)
     video = models.CharField(max_length = 150, null=True, blank=True)
     estado_revision = models.BooleanField(default = False)
+    estado_visible = models.BooleanField(default = True)
 
     def save(self, *args, **kwargs):
         try:

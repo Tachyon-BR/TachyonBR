@@ -174,6 +174,7 @@ function validar_cp(){
           success: function (response) {
               // Obtener la info que se regresa del controlador
               $('#ubicacion').prop('hidden', false);
+              $('#cp_safe').val('Qwerty')
               var data = JSON.parse(response.info);
               // Agregamos uno por uno los codigos seleccionados
               $('#colonia').empty();
@@ -197,5 +198,20 @@ function validar_cp(){
   }
   else{
     showNotificationWarning('top', 'right', 'El código postal ingresado no existe.');
+  }
+}
+
+function cp_hidden(){
+  $('#ubicacion').prop('hidden', true);
+  $('#cp_safe').val('')
+}
+
+function val_video(val){
+  var ban = val.includes("https://www.youtube.com/watch?v=");
+  if(val == "" || ban){
+    $("#safe_vid").val('Qwerty')
+  }
+  if(!ban && val != ""){
+    $("#safe_vid").val('')
   }
 }

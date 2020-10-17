@@ -5,227 +5,295 @@
 <link href="{% static 'root/plugins/colorbox/colorbox.css' %}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="{% static 'root/styles/single.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'root/styles/single_responsive.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/swiper.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/lightbox.min.css' %}">
 {% endblock %}
 
 {% block content %}
 
-	<div class="content-top-margin">
-		<!-- Search -->
-		<div class="search">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="search_container">
-							<div class="search_form_container">
-								<form action="#" class="search_form" id="search_form">
-									<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-										<div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
-											<input type="text" class="search_input" placeholder="Property type" required="required">
-											<input type="text" class="search_input" placeholder="No rooms" required="required">
-											<input type="text" class="search_input" placeholder="Location" required="required">
-										</div>
-										<button class="search_button">submit listing</button>
+<div class="content-top-margin">
+	<!-- Search -->
+	<div class="search">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="search_container">
+						<div class="search_form_container">
+							<form action="#" class="search_form" id="search_form">
+								<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
+									<div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
+										<input type="text" class="search_input" placeholder="Property type" required="required">
+										<input type="text" class="search_input" placeholder="No rooms" required="required">
+										<input type="text" class="search_input" placeholder="Location" required="required">
 									</div>
-								</form>
-							</div>
+									<button class="search_button">submit listing</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- Listing -->
+	<!-- Listing -->
 
-		<div class="listing_container">
-			<div class="container">
-				<div class="row">
-					<div class="col">
+	<div id="portada" class="listing_container">
+		<div class="container">
+			<div class="row">
+				<div class="col">
 
-						<!-- Image -->
-						<div class="listing_image"><img src="{{ property.portada.url }}" alt="Listing" style="width: 100%"></div>
+					<!-- Image -->
+					<div class="listing_image"><img src="{{ property.portada.url }}" alt="Listing" style="width: 100%"></div>
 
-						<!-- Tabs -->
-						<div class="listing_tabs d-flex flex-row align-items-start justify-content-between flex-wrap">
+					<!-- Tabs -->
+					<div class="listing_tabs d-flex flex-row align-items-start justify-content-between flex-wrap">
 
-							<!-- Tab -->
-							<div class="tab">
-								<input type="radio" id="tab_1" name="listing_tabs" checked>
-								<label for="tab_1"></label>
-								<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-									<div class="tab_icon"><img src="{% static 'root/images/house.svg' %}" class="svg" alt="tab icon"></div>
-									<span>Portada</span>
-								</div>
+						<!-- Tab -->
+						<div class="tab">
+							<input type="radio" class="button_active" onclick="location.href='#portada';" id="tab_1" name="listing_tabs" checked>
+							<label for="tab_1"></label>
+							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+								<div class="tab_icon"><img src="{% static 'root/images/house.svg' %}" class="svg" alt="tab icon"></div>
+								<span>Portada</span>
 							</div>
-
-							<!-- Tab -->
-							<div class="tab">
-								<input type="radio" id="tab_2" name="listing_tabs">
-								<label for="tab_2"></label>
-								<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-									<div class="tab_icon"><img src="{% static 'root/images/houses.svg' %}" class="svg" alt="tab icon"></div>
-									<span>Detalles</span>
-								</div>
-							</div>
-
-							<!-- Tab -->
-							<div class="tab">
-								<input type="radio" id="tab_3" name="listing_tabs">
-								<label for="tab_3"></label>
-								<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-									<div class="tab_icon"><img src="{% static 'root/images/house2.svg' %}" class="svg" alt="tab icon"></div>
-									<span>Fotos</span>
-								</div>
-							</div>
-
-							<!-- Tab -->
-							<div class="tab">
-								<input type="radio" id="tab_4" name="listing_tabs">
-								<label for="tab_4"></label>
-								<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-									<div class="tab_icon"><img src="{% static 'root/images/camera.svg' %}" class="svg" alt="tab icon"></div>
-									<span>Video</span>
-								</div>
-							</div>
-
-							<!-- Tab -->
-							<!-- <div class="tab">
-								<input type="radio" id="tab_5" name="listing_tabs">
-								<label for="tab_5"></label>
-								<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-									<div class="tab_icon"><img src="{% static 'root/images/directions.svg' %}" class="svg" alt="tab icon"></div>
-									<span>Nearby</span>
-								</div>
-							</div> -->
-
-							<!-- Tab -->
-							<div class="tab">
-								<input type="radio" id="tab_6" name="listing_tabs">
-								<label for="tab_6"></label>
-								<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-									<div class="tab_icon"><img src="{% static 'root/images/location.svg' %}" class="svg" alt="tab icon"></div>
-									<span>Ubicación</span>
-								</div>
-							</div>
-
-							<!-- Tab -->
-							<div class="tab">
-								<input type="radio" id="tab_7" name="listing_tabs">
-								<label for="tab_7"></label>
-								<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
-									<div class="tab_icon"><img src="{% static 'root/images/contract.svg' %}" class="svg" alt="tab icon"></div>
-									<span>Contacto</span>
-								</div>
-							</div>
-
 						</div>
 
-						<!-- About -->
-						<div class="about">
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="property_info">
-										<div class="tag_price listing_price" id="price">{{ property.precio }}</div>
-										<div class="listing_name"><h1>{{ property.titulo }}</h1></div>
-										<div class="listing_location d-flex flex-row align-items-start justify-content-start">
-											<img src="{% static 'root/images/icon_1.png' %}" alt="icon">
-											<span>{{ property.direccion }}, {{ property.estado }} {{ property.codigo_postal }}</span>
+						<!-- Tab -->
+						<div class="tab">
+							<input type="radio" class="button_active" onclick="location.href='#detalles';"id="tab_2" name="listing_tabs">
+							<label for="tab_2"></label>
+							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+								<div class="tab_icon"><img src="{% static 'root/images/houses.svg' %}" class="svg" alt="tab icon"></div>
+								<span>Detalles</span>
+							</div>
+						</div>
+
+						<!-- Tab -->
+						<div class="tab">
+							<input type="radio" class="button_active" onclick="location.href='#fotos';" id="tab_3" name="listing_tabs">
+							<label for="tab_3"></label>
+							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+								<div class="tab_icon"><img src="{% static 'root/images/house2.svg' %}" class="svg" alt="tab icon"></div>
+								<span>Fotos</span>
+							</div>
+						</div>
+
+						<!-- Tab -->
+						<div class="tab">
+							<input type="radio" class="button_active" onclick="location.href='#video';" id="tab_4" name="listing_tabs">
+							<label for="tab_4"></label>
+							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+								<div class="tab_icon"><img src="{% static 'root/images/camera.svg' %}" class="svg" alt="tab icon"></div>
+								<span>Video</span>
+							</div>
+						</div>
+
+						<!-- Tab -->
+						<div class="tab">
+							<input type="radio" class="button_active" onclick="location.href='#ubicacion';" id="tab_6" name="listing_tabs">
+							<label for="tab_6"></label>
+							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+								<div class="tab_icon"><img src="{% static 'root/images/location.svg' %}" class="svg" alt="tab icon"></div>
+								<span>Ubicación</span>
+							</div>
+						</div>
+
+						<!-- Tab -->
+						<div class="tab">
+							<input type="radio" class="button_active" onclick="location.href='#contacto';" id="tab_7" name="listing_tabs">
+							<label for="tab_7"></label>
+							<div class="tab_content d-flex flex-xl-row flex-column align-items-center justify-content-center">
+								<div class="tab_icon"><img src="{% static 'root/images/contract.svg' %}" class="svg" alt="tab icon"></div>
+								<span>Contacto</span>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- About -->
+					<div class="about">
+						<div class="row">
+							<div class="col-lg-8">
+								<div class="property_info">
+									<div class="tag_price listing_price" id="price">{{ property.precio }}</div>
+									<div class="listing_name">
+										<h1>{{ property.titulo }}</h1>
+									</div>
+									<div class="listing_location d-flex flex-row align-items-start justify-content-start">
+										<img src="{% static 'root/images/icon_1.png' %}" alt="icon">
+										<span>{{ property.direccion }}, {{ property.estado }}, {{ property.codigo_postal }}</span>
+									</div>
+									<div id="contacto" class="listing_list">
+										<ul>
+											<li>Propiedad: {{ property.tipo }} ({{ property.oferta }})</li>
+											{% if property.negociable %}
+											<li>Precio Negociable: Sí</li>
+											{% else %}
+											<li>Precio Negociable: No</li>
+											{% endif %}
+											<li>Publicada: {{ property.fecha_creacion.day }} de {{ property.fecha_creacion|date:'F' }} del {{ property.fecha_creacion.year }}</li>
+											<!-- <li>Publicada: {{ property.fecha_publicacion }}</li> -->
+										</ul>
+									</div>
+									<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
+										<!--<div class="prop_agent_image"><img src="{% static 'root/images/agent_1.jpg' %}" alt="Profile picture"></div>-->
+										<div class="prop_agent_image" style="background-color: #70AD47;"></div>
+										<div class="prop_agent_name"><a href="#">{{ property.propietario.nombre }} {{ property.propietario.apellido_paterno }} {{ property.propietario.apellido_materno }}</a>, {% if property.propietario.nombre_agencia %} Agente
+											Inmobiliario{% else %} Dueño{% endif %}
+											<br>
+											Telefono: {{ property.propietario.telefono }}
+											<br>
+											Correo: {{ property.propietario.user.email }}
+											{% if property.propietario.nombre_agencia %}
+											<br>
+											Agencia: {{ property.propietario.nombre_agencia }}
+											{% endif %}
 										</div>
-										<div class="listing_list">
+									</div>
+									<div class="prop_info">
+										<ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
+											<li class="d-flex flex-row align-items-center justify-content-start">
+												<img src="{% static 'root/images/icon_2_large.png' %}" alt="icon">
+												<div>
+													<div>{{ property.metros_terreno }}</div>
+													<div>m<sup>2</sup></div>
+												</div>
+											</li>
+											{% if property.tipo != "Terreno" %}
+											<li class="d-flex flex-row align-items-center justify-content-start">
+												<img src="{% static 'root/images/icon_3_large.png' %}" alt="icon">
+												<div>
+													<div>{{ property.banos }}</div>
+													<div>baños</div>
+												</div>
+											</li>
+											<li class="d-flex flex-row align-items-center justify-content-start">
+												<img src="{% static 'root/images/icon_4_large.png' %}" alt="icon">
+												<div>
+													<div>{{ property.habitaciones }}</div>
+													<div>habitaciones</div>
+												</div>
+											</li>
+											<li class="d-flex flex-row align-items-center justify-content-start">
+												<img src="{% static 'root/images/icon_5_large.png' %}" alt="House Image">
+												<div>
+													<div>{{ property.garaje }}</div>
+													<div>lugares de estac.</div>
+												</div>
+											</li>
+											{% endif %}
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								{% if property.diferenciador %}
+								<div class="tag_title listing_price" id="dif" style="height: auto;">{{ property.diferenciador }}</div>
+								{% endif %}
+								<div class="listing_location d-flex flex-row align-items-start justify-content-start">
+									<span style="margin-left:0px;margin-top:27px;">Descripción</span>
+								</div>
+								<div class="about_text" style="padding-top:27px !important;">
+									<p>{{ property.descripcion }}</p>
+								</div>
+							</div>
+
+							<!--fotos-->
+							<div id="fotos" class="col-lg-12">
+								<div class="swiper-container">
+									<div class="swiper-wrapper">
+										{% for i in images %}
+										<div class="gallery swiper-slide">
+											<a href="{{ i.imagen.url }}" data-lightbox="gallery"><img src="{{ i.imagen.url }}" alt=""></a>
+										</div>
+										{% endfor %}
+									</div>
+									<!-- Add Pagination -->
+									<div class="swiper-pagination"></div>
+									<!-- Add Arrows -->
+									<div class="swiper-button-next"></div>
+									<div class="swiper-button-prev"></div>
+								</div>
+							</div>
+							<!--fotosFin-->
+							{% if index != -1 %}
+							<div class="col-lg-6">
+								<div id="detalles" class="listing_features">
+									<div class="listing_title">
+										<h3>Detalles</h3>
+									</div>
+									<div class="row">
+										<div class="col-lg-6">
 											<ul>
-												<li>Propiedad: {{ property.tipo }} ({{ property.oferta }})</li>
-												{% if property.negociable %}
-													<li>Precio Negociable: Sí</li>
-												{% else %}
-													<li>Precio Negociable: No</li>
-												{% endif %}
-												<li>Publicada: {{ property.fecha_creacion.day }} de {{ property.fecha_creacion|date:'F' }} del {{ property.fecha_creacion.year }}</li>
-												<!-- <li>Publicada: {{ property.fecha_publicacion }}</li> -->
+												<li style="height: 55px;">{{ property.habitaciones}} habitacione(s)</li>
+												<li style="height: 55px;">{{ property.banos }} baño(s)</li>
+												<li style="height: 55px;">{{ property.garaje }} estacionamiento(s)</li>
 											</ul>
 										</div>
-										<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
-											<div class="prop_agent_image"><img src="{% static 'root/images/agent_1.jpg' %}" alt="Profile picture"></div>
-											<div class="prop_agent_name"><a href="#">{{ property.propietario.nombre }} {{ property.propietario.apellido_paterno }} {{ property.propietario.apellido_materno }},</a>{% if property.propietario.nombre_agencia %} Agente Inmobiliario{% else %} Dueño{% endif %}</div>
-										</div>
-										<div class="prop_info">
-											<ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
-												<li class="d-flex flex-row align-items-center justify-content-start">
-													<img src="{% static 'root/images/icon_2_large.png' %}" alt="icon">
-													<div>
-														<div>1234</div>
-														<div>sq ft</div>
-													</div>
-												</li>
-												<li class="d-flex flex-row align-items-center justify-content-start">
-													<img src="{% static 'root/images/icon_3_large.png' %}" alt="icon">
-													<div>
-														<div>2</div>
-														<div>baths</div>
-													</div>
-												</li>
-												<li class="d-flex flex-row align-items-center justify-content-start">
-													<img src="{% static 'root/images/icon_4_large.png' %}" alt="icon">
-													<div>
-														<div>5</div>
-														<div>beds</div>
-													</div>
-												</li>
-												<li class="d-flex flex-row align-items-center justify-content-start">
-													<img src="{% static 'root/images/icon_5_large.png' %}" alt="House Image">
-													<div>
-														<div>2</div>
-														<div>garages</div>
-													</div>
-												</li>
+										<div class="col-lg-6">
+											<ul>
+												<li style="height: 55px;">{{ property.metros_terreno }}m<sup>2</sup> de terreno</li>
+												<li style="height: 55px;">{{ property.metros_construccion }}m<sup>2</sup> de construcción</li>
+												<li style="height: 55px;">{{ property.pisos }} piso(s)</li>
 											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="about_text">
-										<p>{{ property.descripcion }}</p>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="listing_features">
-										<div class="listing_title"><h3>Features</h3></div>
-										<div class="row">
-											<div class="col-lg-6">
-												<ul>
-													<li>2 car garages</li>
-													<li>3 bedrooms</li>
-													<li>heated floors</li>
-													<li>contemporary architecture</li>
-													<li>swimming pool</li>
-													<li>exercise room</li>
-													<li>formal entry</li>
-												</ul>
-											</div>
-											<div class="col-lg-6">
-												<ul>
-													<li>patio</li>
-													<li>close to stores</li>
-													<li>ocean view</li>
-													<li>spa</li>
-													<li>sprinklers</li>
-													<li>garden</li>
-													<li>alley</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="listing_video">
-										<div class="listing_title"><h3>Video</h3></div>
-										<div class="video_container d-flex flex-column align-items-center justify-content-center">
-											<img src="{% static 'root/images/video.jpg' %}" alt="Video Image">
-											<div class="video_button"><a class="youtube" href="https://www.youtube.com/embed/IV3ueyrp5M4?autoplay=1" SameSite=None Secure><i class="fa fa-play" aria-hidden="true"></i></a></div>
 										</div>
 									</div>
 								</div>
 							</div>
+							<div id="video" class="col-lg-6">
+								<div class="listing_video">
+									<div class="listing_title">
+										<h3>Video</h3>
+									</div>
+									<div class="video_container d-flex flex-column align-items-center justify-content-center">
+										<img style="width: 100%; height: 250px;" src="{{ property.portada.url }}" alt="Video Image">
+										<div class="video_button"><a class="youtube" href="{{ link }}" SameSite=None Secure><i class="fa fa-play" aria-hidden="true"></i></a></div>
+									</div>
+								</div>
+							</div>
+							{% else %}
+							<div class="col-lg-12">
+								<div id="detalles" class="listing_features">
+									<div class="listing_title">
+										<h3>Detalles</h3>
+									</div>
+									<div class="row">
+										{% if property.tipo != "Terreno" %}
+										<div class="col-lg-6">
+											<ul>
+												<li style="height: 55px;">{{ property.habitaciones}} habitacione(s)</li>
+												<li style="height: 55px;">{{ property.banos }} baño(s)</li>
+												<li style="height: 55px;">{{ property.garaje }} estacionamiento(s)</li>
+											</ul>
+										</div>
+										<div class="col-lg-6">
+											<ul>
+												<li style="height: 55px;">{{ property.metros_terreno }}m<sup>2</sup> de terreno</li>
+												<li style="height: 55px;">{{ property.metros_construccion }}m<sup>2</sup> de construcción</li>
+												<li style="height: 55px;">{{ property.pisos }} piso(s)</li>
+											</ul>
+										</div>
+										{% else %}
+										<div class="col-lg-6">
+											<ul>
+												<li style="height: 55px;">{{ property.metros_terreno }}m<sup>2</sup> de terreno</li>
+											</ul>
+										</div>
+										<div class="col-lg-6">
+											<ul>
+												<li style="height: 55px;">{{ property.metros_construccion }}m<sup>2</sup> de construcción</li>
+											</ul>
+										</div>
+										{% endif %}
+									</div>
+								</div>
+							</div>
+							{% endif %}
 						</div>
-						<!-- <div class="google_map_container">
+					</div>
+					<div id="ubicacion" class="google_map_container">
 							<div class="map">
 								<div id="google_map" class="google_map">
 									<div class="map_container">
@@ -233,7 +301,6 @@
 									</div>
 								</div>
 							</div>
-						</div> -->
 					</div>
 				</div>
 			</div>
@@ -260,6 +327,7 @@
 
 
 	</div>
+</div>
 
 
 
@@ -274,7 +342,10 @@
 
 
 <script src="{% static 'root/plugins/colorbox/jquery.colorbox-min.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCxiVzHjuGTAraaNgVRmU6yuEqUB972kiA"></script>
 <script src="{% static 'root/js/single.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/propiedad.js' %}"></script>
+<script src="{% static 'propiedades/js/swiper.min.js' %}"></script>
+<script src="{% static 'propiedades/js/swpr.js' %}"></script>
+<script src="{% static 'propiedades/js/lightbox.js' %}"></script>
 {% endblock %}
