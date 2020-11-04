@@ -31,6 +31,7 @@ function mostrar_titulo(){
   $('#titulo').prop('hidden', true);
   $('#edit1').prop('hidden', false);
   $('#cancelar1').prop('hidden', true);
+  $('#titulo').val(titulo);
 }
 
 function esconder_dif(){
@@ -47,6 +48,7 @@ function mostrar_dif(){
   $('#difer').prop('hidden', true);
   $('#edit2').prop('hidden', false);
   $('#cancelar2').prop('hidden', true);
+  $('#difer').val(diferenciador);
 }
 
 function esconder_desc(){
@@ -63,4 +65,5 @@ function mostrar_desc(){
   $('#desc').prop('hidden', true);
   $('#edit3').prop('hidden', false);
   $('#cancelar3').prop('hidden', true);
+  $('#desc').val(descripcion);
 }

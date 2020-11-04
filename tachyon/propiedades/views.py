@@ -34,6 +34,14 @@ class LazyEncoder(DjangoJSONEncoder):
 def propertyView(request, id):
     propiedad = Propiedad.objects.filter(pk = id).first()
     if propiedad:
+        if request.user.is_anonymous:
+            propiedad.visitas = propiedad.visitas + 1
+            propiedad.save()
+        else:
+            user_logged = TachyonUsuario.objects.get(user = request.user)
+            if propiedad.propietario != user_logged and propiedad.propietario.rol.nombre == 'Propietario':
+                propiedad.visitas = propiedad.visitas + 1
+                propiedad.save()
         revisor = False
         fotos = Foto.objects.filter(propiedad = id)
         link = propiedad.video
@@ -471,11 +479,29 @@ def modifyPropertyView(request, id):
     else:
         raise Http404
 
+
 @login_required
 def modifyPropertyReviewerView(request, id):
     if 'editar_propiedad_revision' in request.session['permissions']:
         if request.method == 'POST':
-            print("hola")
+            propiedad = Propiedad.objects.filter(pk = id).first()
+            if propiedad:
+                n_titulo = request.POST.get('titulo')
+                n_difer = request.POST.get('difer')
+                n_desc = request.POST.get('desc')
+                if propiedad.titulo != n_titulo:
+                    propiedad.titulo = n_titulo
+                if propiedad.diferenciador != n_difer:
+                    propiedad.diferenciador = n_difer
+                if propiedad.descripcion != n_desc:
+                    propiedad.descripcion = n_desc
+                propiedad.save()
+                request.session['notification_session_msg'] = "Se ha modificado la propiedad exitosamente."
+                request.session['notification_session_type'] = "Success"
+            else:
+                request.session['notification_session_msg'] = "Ha ocurrido un error, inténtelo de nuevo más tarde."
+                request.session['notification_session_type'] = "Danger"
+            return redirect('/propiedades/myProperties/')
         else:
             raise Http404
     else:

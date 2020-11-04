@@ -9,6 +9,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/lightbox.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/buttons.css' %}">
+{% if revisor %}
+	<link href="{% static 'propiedades/css/forms.css' %}" rel="stylesheet" media="all">
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -276,7 +279,7 @@
 							</div>
 
 							{% if revisor %}
-							<button class="btn btn-primary" style="display: block;" type="submit">Guardar Cambios</button>
+							<button class="btn btn-primary" style="display: block; margin-right: 0; margin-left:auto;" type="submit">Guardar Cambios</button>
 							</form>
 							{% endif %}
 
@@ -393,8 +396,12 @@
 {% block optionalJS %}
 
 <script type="text/javascript">
+		var titulo;
+		var diferenciador;
 		var descripcion;
   	$( document ).ready(function() {
+			titulo = "{{ property.titulo }}";
+			diferenciador = "{{ property.diferenciador }}";
 			descripcion = "{{ property.descripcion }}";
     	$('#desc').val(descripcion);
 		});
