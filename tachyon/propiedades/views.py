@@ -20,6 +20,8 @@ import datetime
 from .forms import *
 from django.core.serializers.json import DjangoJSONEncoder
 import locale
+from django.db.models import Q # new
+
 
 # Create your views here.
 
@@ -43,9 +45,32 @@ def propertyView(request, id):
     else:
         raise Http404
 
+def is_valid_queryparam(param):
+    return param is not None and param != ''
+
 # Vista de las Propiedades
 def indexView(request):
-    return render(request, 'propiedades/properties.html')
+    resultados = Propiedad.objects.all()
+    tipo = request.GET.get('tipo')
+    oferta = request.GET.get('oferta')
+    precio_min = request.GET.get('precio_min')
+    precio_max = request.GET.get('precio_max')
+
+    if is_valid_queryparam(tipo):
+        resultados = resultados.filter(tipo = tipo)
+    
+    if is_valid_queryparam(oferta):
+        resultados = resultados.filter(oferta = oferta)
+    
+    if is_valid_queryparam(precio_min):
+        resultados = resultados.filter(precio__gte = precio_min)
+    
+    if is_valid_queryparam(precio_max):
+        resultados = resultados.filter(precio__lte = precio_max)
+
+    return render(request, 'propiedades/properties.html',{'resultados': resultados})
+
+
 
 @login_required
 def myPropertiesView(request):
@@ -625,3 +650,7 @@ def modifyPropertyView(request, id):
             raise Http404
     else:
         raise Http404
+
+
+def search(request):
+    return null
