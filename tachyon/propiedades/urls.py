@@ -19,4 +19,5 @@ urlpatterns = [
     path('property-comment-history/',views.propertyCommentHistoryView, name="propertyCommentHistory"),
     path('editProperty/<int:id>',views.editPropertyView, name="editProperty"),
     path('modifyProperty/<int:id>',views.modifyPropertyView, name="modifyProperty"),
+    path('search/', views.search, name="search")
 ]
