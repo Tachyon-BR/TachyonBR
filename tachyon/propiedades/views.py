@@ -54,7 +54,8 @@ def propertyView(request, id):
             if request.user.is_authenticated:
                 user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
                 if propiedad.revisor == user_logged:
-                    revisor = True
+                    if not propiedad.estado_activo:
+                        revisor = True
         return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor})
     else:
         raise Http404
