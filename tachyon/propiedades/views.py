@@ -62,7 +62,7 @@ def propertyView(request, id):
             if request.user.is_authenticated:
                 user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
                 if propiedad.revisor == user_logged:
-                    if not propiedad.estado_activo:
+                    if propiedad.estado_revision:
                         revisor = True
         return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor})
     else:
@@ -410,6 +410,7 @@ def removeRevisorView(request):
 @login_required
 def misRevisionesView(request):
     if 'seleccionar_peticion' in request.session['permissions']:
+        locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
         list = Propiedad.objects.filter(revisor = user_logged)
         for l in list:
@@ -483,8 +484,9 @@ def validateAsRevisorView(request):
             #La propiedad fue aceptada
             if request.POST.get('aor') == "aceptada":
                 print("aceptada")
-                propiedad.estado_revision = True
+                propiedad.estado_revision = False
                 propiedad.estado_activo = True
+                propiedad.fecha_publicacion = datetime.date.today()
                 propiedad.save()
             elif request.POST.get('aor') == "rechazada":
                 print("rechazada")
@@ -700,7 +702,7 @@ def modifyPropertyReviewerView(request, id):
             else:
                 request.session['notification_session_msg'] = "Ha ocurrido un error, inténtelo de nuevo más tarde."
                 request.session['notification_session_type'] = "Danger"
-            return redirect('/propiedades/myProperties/')
+            return redirect('/propiedades/mis-revisiones/')
         else:
             raise Http404
     else:

@@ -13,10 +13,12 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
+                              <a href="/propiedades/property/{{ p1.pk }}">
                                 <div class="home_content">
                                     <div class="home_title"><h1>{{ p1.titulo }}</h1></div>
                                     <div class="home_price_tag">{{ p1.precio }}</div>
                                 </div>
+                              </a>
                             </div>
                         </div>
                     </div>
@@ -30,10 +32,12 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
+                              <a href="/propiedades/property/{{ p2.pk }}">
                                 <div class="home_content">
                                     <div class="home_title"><h1>{{ p2.titulo }}</h1></div>
                                     <div class="home_price_tag">{{ p2.precio }}</div>
                                 </div>
+                              </a>
                             </div>
                         </div>
                     </div>
@@ -47,10 +51,12 @@
                     <div class="container">
                         <div class="row">
                             <div class="col">
+                              <a href="/propiedades/property/{{ p3.pk }}">
                                 <div class="home_content">
                                     <div class="home_title"><h1>{{ p3.titulo }}</h1></div>
                                     <div class="home_price_tag">{{ p3.precio }}</div>
                                 </div>
+                              </a>
                             </div>
                         </div>
                     </div>
@@ -110,19 +116,21 @@
               <div class="col-lg-4">
                   <div class="listing">
                       <div class="listing_image">
+                        <a href="/propiedades/property/{{ v.pk }}">
                           <div class="listing_image_container">
                               <img src="{{ v.portada.url }}" alt="">
                           </div>
+                        </a>
                           <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                              <div class="tag tag_house"><a href="listings.html">{{ v.tipo }}</a></div>
-                              <div class="tag tag_sale"><a href="listings.html">{{ v.oferta }}</a></div>
+                              <div class="tag tag_house"><a href="/propiedades/property/{{ v.pk }}">{{ v.tipo }}</a></div>
+                              <div class="tag tag_sale"><a href="/propiedades/property/{{ v.pk }}">{{ v.oferta }}</a></div>
                           </div>
                           <div class="tag_price listing_price">{{ v.precio }}</div>
                       </div>
                       <div class="listing_content">
                           <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
                               <img src="{% static 'root/images/icon_1.png' %}" alt="">
-                              <a href="single.html">{{ v.direccion }}, {{ v.estado }}, {{ v.codigo_postal }}</a>
+                              <a href="/propiedades/property/{{ v.pk }}">{{ v.direccion }}, {{ v.estado }}, {{ v.codigo_postal }}</a>
                           </div>
                           <div class="listing_info">
                               <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
@@ -168,130 +176,50 @@
         <div class="row featured_row">
 
             <!-- Featured Item -->
-            <div class="col-lg-4">
-                <div class="listing">
-                    <div class="listing_image">
-                        <div class="listing_image_container">
-                            <img src="{% static 'root/images/listing_1.jpg' %}" alt="">
-                        </div>
-                        <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                            <div class="tag tag_house"><a href="listings.html">Casa</a></div>
-                            <div class="tag tag_sale"><a href="listings.html">Venta</a></div>
-                        </div>
-                        <div class="tag_price listing_price">$ 217 346</div>
-                    </div>
-                    <div class="listing_content">
-                        <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                            <img src="{% static 'root/images/icon_1.png' %}" alt="">
-                            <a href="single.html">280 Doe Meadow Drive Landover, MD 20785</a>
-                        </div>
-                        <div class="listing_info">
-                            <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
-                                <li class="property_area d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                                    <span>2500 m2</span>
-                                </li>
-                                <li class="d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_3.png' %}" alt="">
-                                    <span>2</span>
-                                </li>
-                                <li class="d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_4.png' %}" alt="">
-                                    <span>5</span>
-                                </li>
-                                <li class="d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_5.png' %}" alt="">
-                                    <span>2</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Featured Item -->
-            <div class="col-lg-4">
-                <div class="listing">
-                    <div class="listing_image">
-                        <div class="listing_image_container">
-                            <img src="{% static 'root/images/listing_2.jpg' %}" alt="">
-                        </div>
-                        <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                            <div class="tag tag_house"><a href="listings.html">Casa</a></div>
-                            <div class="tag tag_rent"><a href="listings.html">Renta</a></div>
-                        </div>
-                        <div class="tag_price listing_price">$ 515 957</div>
-                    </div>
-                    <div class="listing_content">
-                        <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                            <img src="{% static 'root/images/icon_1.png' %}" alt="">
-                            <a href="single.html">4812 Haul Road Saint Paul, MN 55102</a>
-                        </div>
-                        <div class="listing_info">
-                            <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
-                                <li class="property_area d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                                    <span>1234 m2</span>
-                                </li>
-                                <li class="d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_3.png' %}" alt="">
-                                    <span>2</span>
-                                </li>
-                                <li class="d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_4.png' %}" alt="">
-                                    <span>5</span>
-                                </li>
-                                <li class="d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_5.png' %}" alt="">
-                                    <span>2</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Featured Item -->
-            <div class="col-lg-4">
-                <div class="listing">
-                    <div class="listing_image">
-                        <div class="listing_image_container">
-                            <img src="{% static 'root/images/listing_3.jpg' %}" alt="">
-                        </div>
-                        <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                            <div class="tag tag_house"><a href="listings.html">Casa</a></div>
-                            <div class="tag tag_sale"><a href="listings.html">Venta</a></div>
-                        </div>
-                        <div class="tag_price listing_price">$ 375 255</div>
-                    </div>
-                    <div class="listing_content">
-                        <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                            <img src="{% static 'root/images/icon_1.png' %}" alt="">
-                            <a href="single.html">4067 Wolf Pen Road Mountain View, CA 94041</a>
-                        </div>
-                        <div class="listing_info">
-                            <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
-                                <li class="property_area d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                                    <span>2000 m2</span>
-                                </li>
-                                <li class="d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_3.png' %}" alt="">
-                                    <span>2</span>
-                                </li>
-                                <li class="d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_4.png' %}" alt="">
-                                    <span>5</span>
-                                </li>
-                                <li class="d-flex flex-row align-items-center justify-content-start">
-                                    <img src="{% static 'root/images/icon_5.png' %}" alt="">
-                                    <span>2</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% for n in new %}
+              <div class="col-lg-4">
+                  <div class="listing">
+                      <div class="listing_image">
+                        <a href="/propiedades/property/{{ n.pk }}">
+                          <div class="listing_image_container">
+                              <img src="{{ n.portada.url }}" alt="">
+                          </div>
+                        </a>
+                          <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
+                              <div class="tag tag_house"><a href="/propiedades/property/{{ n.pk }}">{{ n.tipo }}</a></div>
+                              <div class="tag tag_sale"><a href="/propiedades/property/{{ n.pk }}">{{ n.oferta }}</a></div>
+                          </div>
+                          <div class="tag_price listing_price">{{ n.precio }}</div>
+                      </div>
+                      <div class="listing_content">
+                          <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
+                              <img src="{% static 'root/images/icon_1.png' %}" alt="">
+                              <a href="/propiedades/property/{{ n.pk }}">{{ n.direccion }}, {{ n.estado }}, {{ n.codigo_postal }}</a>
+                          </div>
+                          <div class="listing_info">
+                              <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
+                                  <li class="property_area d-flex flex-row align-items-center justify-content-start">
+                                      <img src="{% static 'root/images/icon_2.png' %}" alt="">
+                                      <span>{{ n.fecha_publicacion }}</span>
+                                  </li>
+                                  <li class="d-flex flex-row align-items-center justify-content-start">
+                                      <img src="{% static 'root/images/icon_3.png' %}" alt="">
+                                      <span>2</span>
+                                  </li>
+                                  <li class="d-flex flex-row align-items-center justify-content-start">
+                                      <img src="{% static 'root/images/icon_4.png' %}" alt="">
+                                      <span>5</span>
+                                  </li>
+                                  <li class="d-flex flex-row align-items-center justify-content-start">
+                                      <img src="{% static 'root/images/icon_5.png' %}" alt="">
+                                      <span>2</span>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            {% endfor %}
 
         </div>
     </div>

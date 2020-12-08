@@ -13,7 +13,7 @@
             {% if 'visualizar_usuarios' in request.session.permissions %}
               <li id="users"><a href="/usuarios">Usuarios</a></li>
             {% endif %}
-            
+
             {% if request.user.is_authenticated %}
             <li id="profile"><a href="/usuarios/{{ request.user.id }}">Perfil</a></li>
             {% endif %}
@@ -23,8 +23,8 @@
             {% endif %}
 
             {% if 'visualizar_peticiones' in request.session.permissions %}
-            <li id="en_revision"><a href="/propiedades/enRevision">En revisión</a></li>
-            <li id="mis_revisiones"><a href="/propiedades/mis-revisiones">Mis revisiones</a></li>
+            <li id="en_revision"><a href="/propiedades/enRevision">En Revisión</a></li>
+            <li id="mis_revisiones"><a href="/propiedades/mis-revisiones">Mis Revisiones</a></li>
             {% endif %}
 
             <!-- <li><a href="about.html">Nosotros</a></li>
