@@ -35,13 +35,19 @@ def propertyView(request, id):
     propiedad = Propiedad.objects.filter(pk = id).first()
     if propiedad:
         if request.user.is_anonymous:
+            if not propiedad.estado_activo:
+                return HttpResponseRedirect(reverse('home'))
             propiedad.visitas = propiedad.visitas + 1
             propiedad.save()
         else:
             user_logged = TachyonUsuario.objects.get(user = request.user)
-            if propiedad.propietario != user_logged and propiedad.propietario.rol.nombre == 'Propietario':
-                propiedad.visitas = propiedad.visitas + 1
-                propiedad.save()
+            if propiedad.estado_activo:
+                if propiedad.propietario != user_logged and user_logged.rol.nombre == 'Propietario':
+                    propiedad.visitas = propiedad.visitas + 1
+                    propiedad.save()
+            else:
+                if propiedad.propietario != user_logged and user_logged.rol.nombre == 'Propietario':
+                    return HttpResponseRedirect(reverse('home'))
         revisor = False
         fotos = Foto.objects.filter(propiedad = id)
         link = propiedad.video
