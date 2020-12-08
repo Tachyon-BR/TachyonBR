@@ -388,8 +388,34 @@
 				</div>
 			</div>
 		</div>
+
+		<!--
+			Para la siguiente sección falta mandar el usuario con sus permisos a property
+			Para que solo se vea por revisores
+		-->
+
+		<div class="container">
+			<hr>
+			<h3>Sección para el Revisor</h3> <br>
+			<a id="validar" href="#" class="btn btn-primary" onclick="historial_propiedad_revisor({{ property.pk }})" data-toggle="modal" data-target="#historial-property-revisor">
+				Historial
+			</a>
+			{% if property.estado_revision and not property.estado_activo %}
+				<a id="validar" href="#" class="btn btn-primary" onclick="validar_propiedad_revisor({{ property.pk }})" data-toggle="modal" data-target="#validate-property-revisor">
+				Validar
+				</a>
+			{% endif %}
+		</div>
+		<br><br>
+
+
 	</div>
 </div>
+
+
+
+	{% include './modals/validate-property-revisor.html' %}
+	{% include './modals/historial-property-revisor.html' %}
 
 {% endblock content %}
 
@@ -407,6 +433,8 @@
 		});
 </script>
 
+<script type="text/javascript" src="{% static 'propiedades/js/revisor-propiedades-historial.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/validar-revisor.js' %}"></script>
 <script src="{% static 'root/plugins/colorbox/jquery.colorbox-min.js' %}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCxiVzHjuGTAraaNgVRmU6yuEqUB972kiA"></script>
 <script src="{% static 'root/js/single.js' %}"></script>

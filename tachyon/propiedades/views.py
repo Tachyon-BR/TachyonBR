@@ -20,6 +20,8 @@ import datetime
 from .forms import *
 from django.core.serializers.json import DjangoJSONEncoder
 import locale
+from django.db.models import Q # new
+
 
 # Create your views here.
 
@@ -66,9 +68,32 @@ def propertyView(request, id):
     else:
         raise Http404
 
+def is_valid_queryparam(param):
+    return param is not None and param != ''
+
 # Vista de las Propiedades
 def indexView(request):
-    return render(request, 'propiedades/properties.html')
+    resultados = Propiedad.objects.all()
+    tipo = request.GET.get('tipo')
+    oferta = request.GET.get('oferta')
+    precio_min = request.GET.get('precio_min')
+    precio_max = request.GET.get('precio_max')
+
+    if is_valid_queryparam(tipo):
+        resultados = resultados.filter(tipo = tipo)
+
+    if is_valid_queryparam(oferta):
+        resultados = resultados.filter(oferta = oferta)
+
+    if is_valid_queryparam(precio_min):
+        resultados = resultados.filter(precio__gte = precio_min)
+
+    if is_valid_queryparam(precio_max):
+        resultados = resultados.filter(precio__lte = precio_max)
+
+    return render(request, 'propiedades/properties.html',{'resultados': resultados})
+
+
 
 @login_required
 def myPropertiesView(request):
@@ -97,7 +122,12 @@ def enRevisionView(request):
     if 'visualizar_peticiones' in request.session['permissions']:
         locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
-        list = Propiedad.objects.filter(estado_revision = True)
+
+        if user_logged.rol.nombre is 'Revisor':
+            list = Propiedad.objects.filter(estado_revision = True, revisor__isnull=True)
+        else:
+            list = Propiedad.objects.filter(estado_revision = True)
+
         for l in list:
             l.precio = locale.currency(l.precio, grouping=True)
             l.precio = l.precio[0:-3]
@@ -376,6 +406,164 @@ def removeRevisorView(request):
     else: # Si el rol del usuario no es revisor no puede entrar a la página
         raise Http404
 
+
+@login_required
+def misRevisionesView(request):
+    if 'seleccionar_peticion' in request.session['permissions']:
+        user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+        list = Propiedad.objects.filter(revisor = user_logged)
+        for l in list:
+            l.precio = locale.currency(l.precio, grouping=True)
+            l.precio = l.precio[0:-3]
+        return render(request, 'propiedades/misRevisiones.html', {'list': list, 'user':user_logged})
+    else: # Si el rol del usuario no es revisor no puede entrar a la página
+        raise Http404
+
+
+@login_required
+def validateAsRevisorView(request):
+    if 'aceptar_rechazar_peticion' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+            id_prop = request.POST.get('id_prop') #checa el id de la propiedad del request
+
+            #No se mandó nada por el POST
+            if id_prop is None:
+                response = JsonResponse({"error": "Error en el servidor, intente acualizar la página e inténtelo de nuevo (e-id00)"})
+                response.status_code = 400
+                # Regresamos la respuesta de error interno del servidor
+                return response
+
+            propiedad = Propiedad.objects.filter(pk = id_prop).first()
+
+            #La propiedad no existe
+            if propiedad is None:
+                response = JsonResponse({"error": "No existe esta propiedad"})
+                response.status_code = 400
+                # Regresamos la respuesta de error interno del servidor
+                return response
+
+            #La propiedad no está en estado de revisión
+            if not propiedad.estado_revision:
+                response = JsonResponse({"error": "La propiedad no está en revisión"})
+                response.status_code = 400
+                # Regresamos la respuesta de error interno del servidor
+                return response
+
+            #La propiedad no tiene revisor
+            if propiedad.revisor is None:
+                response = JsonResponse({"error": "La propiedad no tiene revisor asignado"})
+                response.status_code = 400
+                # Regresamos la respuesta de error
+                return response
+
+            if propiedad.estado_activo is True:
+                response = JsonResponse({"error": "La propiedad ya ha sido validada (err-inconsistencia)"})
+                response.status_code = 400
+                # Regresamos la respuesta de error
+                return response
+
+            valores=['aceptada', 'rechazada']
+            #no se envió valor de aceptada o rechazada, no tiene comentarios
+            if request.POST.get('aor') not in valores:
+                response = JsonResponse({"error": "Error en la solicitud, vuelva a intentarlo más tarde (err-decis-null)"})
+                response.status_code = 400
+                # Regresamos la respuesta de error
+                return response
+
+            #no se envió valor de aceptada o rechazada, no tiene comentarios
+            if request.POST.get('coms') is '':
+                response = JsonResponse({"error": "Error en la solicitud, vuelva a intentarlo más tarde (err-coms-null)"})
+                response.status_code = 400
+                # Regresamos la respuesta de error
+                return response
+
+            coms = propiedad.comentarios = request.POST.get('coms')
+
+            #La propiedad fue aceptada
+            if request.POST.get('aor') == "aceptada":
+                print("aceptada")
+                propiedad.estado_revision = True
+                propiedad.estado_activo = True
+                propiedad.save()
+            elif request.POST.get('aor') == "rechazada":
+                print("rechazada")
+                propiedad.estado_revision = False
+                propiedad.estado_activo = False
+                propiedad.save()
+
+            pc = PropiedadComentario()
+            pc.propiedad = propiedad
+            pc.comentario = coms
+            pc.revisor = propiedad.revisor
+            pc.save()
+
+            return HttpResponse('OK')
+
+        #No se hizo método POST
+        else:
+            response = JsonResponse({"error": "No se mandó por el método correcto"})
+            response.status_code = 500
+            # Regresamos la respuesta de error interno del servidor
+            return response
+
+    else: # Si el rol del usuario no es revisor no puede entrar a la página
+        raise Http404
+
+
+
+@login_required
+def propertyCommentHistoryView(request):
+
+    if 'aceptar_rechazar_peticion' in request.session['permissions']:
+        if request.method == 'GET':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+            id = request.GET.get('id') #checa el id de la propiedad del request
+
+            #No se mandó nada por el GET
+            if id is None:
+                response = JsonResponse({"error": "Error en el servidor, intente acualizar la página e inténtelo de nuevo (e-id00)"})
+                response.status_code = 400
+                # Regresamos la respuesta de error interno del servidor
+                return response
+
+            propiedad = Propiedad.objects.filter(pk = id).first()
+
+            #La propiedad no existe
+            if propiedad is None:
+                response = JsonResponse({"error": "No existe esta propiedad"})
+                response.status_code = 400
+                # Regresamos la respuesta de error interno del servidor
+                return response
+
+
+            pcs = PropiedadComentario.objects.filter(propiedad__pk = id)
+            data = []
+            for p in pcs:
+                r = p.revisor
+                f = p.fecha
+                d = {
+                    "revisor": r.nombre+" "+r.apellido_paterno+" "+r.apellido_materno,
+                    "fecha": str(f.hour)+":"+str(f.minute)+" "+str(f.day)+"/"+str(f.month)+"/"+str(f.year),
+                    "comentario": p.comentario
+                }
+                data.append(d)
+            #data = serializers.serialize('json', data)
+            return JsonResponse({"info": data})
+
+
+        #No se hizo método GET
+        else:
+            response = JsonResponse({"error": "No se mandó por el método correcto"})
+            response.status_code = 500
+            # Regresamos la respuesta de error interno del servidor
+            return response
+
+    else: # Si el rol del usuario no es revisor no puede entrar a la página
+        raise Http404
+
+
+
 # Vista para editar una propiedad
 @login_required
 def editPropertyView(request, id):
@@ -485,6 +673,10 @@ def modifyPropertyView(request, id):
             raise Http404
     else:
         raise Http404
+
+
+def search(request):
+    return null
 
 
 @login_required

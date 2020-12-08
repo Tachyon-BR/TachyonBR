@@ -64,6 +64,18 @@ class Propiedad(models.Model):
         return "%s" % (self.titulo)
 
 
+
+class PropiedadComentario(models.Model):
+    propiedad = models.ForeignKey(Propiedad, on_delete=models.CASCADE)
+    comentario = models.CharField(max_length = 500)
+    fecha = models.DateTimeField(auto_now_add = True)
+    revisor = models.ForeignKey(TachyonUsuario, on_delete=models.CASCADE)
+    
+    class Meta:
+       ordering = ('fecha',)
+
+
+
 # Modelo de tabla de relacion 1 a N
 class Foto(models.Model):
     # Llave foranea del rol al que pertenece

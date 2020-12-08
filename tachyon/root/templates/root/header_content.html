@@ -9,21 +9,28 @@
     <nav class="main_nav">
         <ul class="d-flex flex-row align-items-start justify-content-start">
             <li id="home" class="active"><a href="/">Inicio</a></li>
+
             {% if 'visualizar_usuarios' in request.session.permissions %}
               <li id="users"><a href="/usuarios">Usuarios</a></li>
             {% endif %}
+            
+            {% if request.user.is_authenticated %}
+            <li id="profile"><a href="/usuarios/{{ request.user.id }}">Perfil</a></li>
+            {% endif %}
+
             {% if 'visualizar_mis_propiedades' in request.session.permissions %}
               <li id="my_pro"><a href="/propiedades/myProperties">Mis Propiedades</a></li>
             {% endif %}
 
             {% if 'visualizar_peticiones' in request.session.permissions %}
             <li id="en_revision"><a href="/propiedades/enRevision">En revisión</a></li>
+            <li id="mis_revisiones"><a href="/propiedades/mis-revisiones">Mis revisiones</a></li>
             {% endif %}
 
-            <li><a href="about.html">Nosotros</a></li>
+            <!-- <li><a href="about.html">Nosotros</a></li>
             <li><a href="listings.html">Propiedades</a></li>
             <li><a href="blog.html">Noticias</a></li>
-            <li><a href="contact.html">Contacto</a></li>
+            <li><a href="contact.html">Contacto</a></li> -->
         </ul>
     </nav>
     <div class="submit ml-auto"><a href="#">Buscar Propiedad</a></div>
