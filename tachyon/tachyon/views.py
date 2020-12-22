@@ -35,12 +35,14 @@ def home(request):
     p3.precio = locale.currency(p3.precio, grouping=True)
     p3.precio = p3.precio[0:-3]
 
-    vistas = Propiedad.objects.filter(estado_activo = True).order_by('-visitas')[:3] #Set the amount of entries
+    c = 6
+
+    vistas = Propiedad.objects.filter(estado_activo = True).order_by('-visitas')[:c] #Set the amount of entries
     for v in vistas:
         v.precio = locale.currency(v.precio, grouping=True)
         v.precio = v.precio[0:-3]
 
-    nuevas = Propiedad.objects.filter(estado_activo = True).order_by('-fecha_publicacion')[:3] #Set the amount of entries
+    nuevas = Propiedad.objects.filter(estado_activo = True).order_by('-fecha_publicacion')[:c] #Set the amount of entries
     for n in nuevas:
         n.precio = locale.currency(n.precio, grouping=True)
         n.precio = n.precio[0:-3]
