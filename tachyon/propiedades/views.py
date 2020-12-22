@@ -79,7 +79,7 @@ def indexView(request):
             self.text = text
             self.attr = attr
 
-    resultados = Propiedad.objects.all()
+    resultados = Propiedad.objects.filter(estado_activo = True)
     tipo = request.GET.get('tipo')
     oferta = request.GET.get('oferta')
     precio_min = request.GET.get('precio_min')
