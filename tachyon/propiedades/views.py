@@ -36,12 +36,35 @@ class LazyEncoder(DjangoJSONEncoder):
 def propertyView(request, id):
     propiedad = Propiedad.objects.filter(pk = id).first()
     if propiedad:
+        if request.user.is_anonymous:
+            if not propiedad.estado_activo:
+                return HttpResponseRedirect(reverse('home'))
+            propiedad.visitas = propiedad.visitas + 1
+            propiedad.save()
+        else:
+            user_logged = TachyonUsuario.objects.get(user = request.user)
+            if propiedad.estado_activo:
+                if propiedad.propietario != user_logged and user_logged.rol.nombre == 'Propietario':
+                    propiedad.visitas = propiedad.visitas + 1
+                    propiedad.save()
+            else:
+                if propiedad.propietario != user_logged and user_logged.rol.nombre == 'Propietario':
+                    return HttpResponseRedirect(reverse('home'))
+        revisor = False
         fotos = Foto.objects.filter(propiedad = id)
         link = propiedad.video
-        index = link.find('watch?v=')
-        if index != -1:
-            link = link[0:index] + 'embed/' + link[index + 8:len(link)]
-        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index})
+        index = -1
+        if link:
+            index = link.find('watch?v=')
+            if index != -1:
+                link = link[0:index] + 'embed/' + link[index + 8:len(link)]
+        if propiedad.revisor:
+            if request.user.is_authenticated:
+                user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+                if propiedad.revisor == user_logged:
+                    if propiedad.estado_revision:
+                        revisor = True
+        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor})
     else:
         raise Http404
 
@@ -56,7 +79,7 @@ def indexView(request):
             self.text = text
             self.attr = attr
 
-    resultados = Propiedad.objects.all()
+    resultados = Propiedad.objects.filter(estado_activo = True)
     tipo = request.GET.get('tipo')
     oferta = request.GET.get('oferta')
     precio_min = request.GET.get('precio_min')
@@ -74,15 +97,15 @@ def indexView(request):
     if is_valid_queryparam(tipo):
         resultados = resultados.filter(tipo = tipo)
         active_filters.append(ActiveFilter("Propiedad: {}".format(tipo), "tipo"))
-    
+
     if is_valid_queryparam(oferta):
         resultados = resultados.filter(oferta = oferta)
         active_filters.append(ActiveFilter("Oferta: En {}".format(oferta), "oferta" ))
-    
+
     if is_valid_queryparam(precio_min):
         resultados = resultados.filter(precio__gte = precio_min)
         active_filters.append(ActiveFilter("Precio mín: {}".format(precio_min), "precio_min" ))
-    
+
     if is_valid_queryparam(precio_max):
         resultados = resultados.filter(precio__lte = precio_max)
         active_filters.append(ActiveFilter("Precio max: {}".format(precio_max), "precio_max" ))
@@ -184,7 +207,7 @@ def enRevisionView(request):
     if 'visualizar_peticiones' in request.session['permissions']:
         locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
-        
+
         if user_logged.rol.nombre is 'Revisor':
             list = Propiedad.objects.filter(estado_revision = True, revisor__isnull=True)
         else:
@@ -472,6 +495,7 @@ def removeRevisorView(request):
 @login_required
 def misRevisionesView(request):
     if 'seleccionar_peticion' in request.session['permissions']:
+        locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
         list = Propiedad.objects.filter(revisor = user_logged)
         for l in list:
@@ -495,16 +519,16 @@ def validateAsRevisorView(request):
                 response.status_code = 400
                 # Regresamos la respuesta de error interno del servidor
                 return response
-            
+
             propiedad = Propiedad.objects.filter(pk = id_prop).first()
-            
+
             #La propiedad no existe
             if propiedad is None:
                 response = JsonResponse({"error": "No existe esta propiedad"})
                 response.status_code = 400
                 # Regresamos la respuesta de error interno del servidor
                 return response
-            
+
             #La propiedad no está en estado de revisión
             if not propiedad.estado_revision:
                 response = JsonResponse({"error": "La propiedad no está en revisión"})
@@ -516,13 +540,13 @@ def validateAsRevisorView(request):
             if propiedad.revisor is None:
                 response = JsonResponse({"error": "La propiedad no tiene revisor asignado"})
                 response.status_code = 400
-                # Regresamos la respuesta de error 
+                # Regresamos la respuesta de error
                 return response
-            
+
             if propiedad.estado_activo is True:
                 response = JsonResponse({"error": "La propiedad ya ha sido validada (err-inconsistencia)"})
                 response.status_code = 400
-                # Regresamos la respuesta de error 
+                # Regresamos la respuesta de error
                 return response
 
             valores=['aceptada', 'rechazada']
@@ -530,14 +554,14 @@ def validateAsRevisorView(request):
             if request.POST.get('aor') not in valores:
                 response = JsonResponse({"error": "Error en la solicitud, vuelva a intentarlo más tarde (err-decis-null)"})
                 response.status_code = 400
-                # Regresamos la respuesta de error 
+                # Regresamos la respuesta de error
                 return response
 
             #no se envió valor de aceptada o rechazada, no tiene comentarios
             if request.POST.get('coms') is '':
                 response = JsonResponse({"error": "Error en la solicitud, vuelva a intentarlo más tarde (err-coms-null)"})
                 response.status_code = 400
-                # Regresamos la respuesta de error 
+                # Regresamos la respuesta de error
                 return response
 
             coms = propiedad.comentarios = request.POST.get('coms')
@@ -545,8 +569,9 @@ def validateAsRevisorView(request):
             #La propiedad fue aceptada
             if request.POST.get('aor') == "aceptada":
                 print("aceptada")
-                propiedad.estado_revision = True
+                propiedad.estado_revision = False
                 propiedad.estado_activo = True
+                propiedad.fecha_publicacion = datetime.date.today()
                 propiedad.save()
             elif request.POST.get('aor') == "rechazada":
                 print("rechazada")
@@ -561,9 +586,9 @@ def validateAsRevisorView(request):
             pc.save()
 
             return HttpResponse('OK')
-        
+
         #No se hizo método POST
-        else: 
+        else:
             response = JsonResponse({"error": "No se mandó por el método correcto"})
             response.status_code = 500
             # Regresamos la respuesta de error interno del servidor
@@ -588,17 +613,17 @@ def propertyCommentHistoryView(request):
                 response.status_code = 400
                 # Regresamos la respuesta de error interno del servidor
                 return response
-            
+
             propiedad = Propiedad.objects.filter(pk = id).first()
-            
+
             #La propiedad no existe
             if propiedad is None:
                 response = JsonResponse({"error": "No existe esta propiedad"})
                 response.status_code = 400
                 # Regresamos la respuesta de error interno del servidor
                 return response
-            
-            
+
+
             pcs = PropiedadComentario.objects.filter(propiedad__pk = id)
             data = []
             for p in pcs:
@@ -613,9 +638,9 @@ def propertyCommentHistoryView(request):
             #data = serializers.serialize('json', data)
             return JsonResponse({"info": data})
 
-        
+
         #No se hizo método GET
-        else: 
+        else:
             response = JsonResponse({"error": "No se mandó por el método correcto"})
             response.status_code = 500
             # Regresamos la respuesta de error interno del servidor
@@ -625,7 +650,7 @@ def propertyCommentHistoryView(request):
         raise Http404
 
 
-    
+
 # Vista para editar una propiedad
 @login_required
 def editPropertyView(request, id):
@@ -739,3 +764,31 @@ def modifyPropertyView(request, id):
 
 def search(request):
     return null
+
+
+@login_required
+def modifyPropertyReviewerView(request, id):
+    if 'editar_propiedad_revision' in request.session['permissions']:
+        if request.method == 'POST':
+            propiedad = Propiedad.objects.filter(pk = id).first()
+            if propiedad:
+                n_titulo = request.POST.get('titulo')
+                n_difer = request.POST.get('difer')
+                n_desc = request.POST.get('desc')
+                if propiedad.titulo != n_titulo:
+                    propiedad.titulo = n_titulo
+                if propiedad.diferenciador != n_difer:
+                    propiedad.diferenciador = n_difer
+                if propiedad.descripcion != n_desc:
+                    propiedad.descripcion = n_desc
+                propiedad.save()
+                request.session['notification_session_msg'] = "Se ha modificado la propiedad exitosamente."
+                request.session['notification_session_type'] = "Success"
+            else:
+                request.session['notification_session_msg'] = "Ha ocurrido un error, inténtelo de nuevo más tarde."
+                request.session['notification_session_type'] = "Danger"
+            return redirect('/propiedades/mis-revisiones/')
+        else:
+            raise Http404
+    else:
+        raise Http404

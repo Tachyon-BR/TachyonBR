@@ -1,0 +1,6 @@
+.danger a {
+	color: #fe635f;
+}
+.danger a:hover {
+	color: #dd504c;
+}

@@ -36,14 +36,14 @@
                 {{ p.precio }}
               </td>
               <td id="status">
-                {% if p.estado_revision %}
-                  {% if p.estado_activo %}
-                    <span class="badge badge-pill badge-success">Publicada</span>
-                  {% else %}
-                    <span class="badge badge-pill badge-info">En Revisión</span>
-                  {% endif %}
+                {% if p.estado_activo %}
+                  <span class="badge badge-pill badge-success">Publicada</span>
                 {% else %}
-                  <span class="badge badge-pill badge-danger">No Publicada</span>
+                  {% if p.estado_revision %} <!-- Cambiar variable -->
+                    <span class="badge badge-pill badge-info">En Revisión</span>
+                  {% else %}
+                    <span class="badge badge-pill badge-danger">No Publicada</span>
+                  {% endif %}
                 {% endif %}
               </td>
               <td id="revisor">
@@ -56,7 +56,7 @@
                 {% endif %}
               </td>
               <td id="icons" style="width: 15%;">
-                
+
                 <!-- El revisor de la propiedad es el usuario logeado -->
                 <a href="#" class="table-link danger" onclick="quitarseComoRevisor( {{ p.pk }} )" >
                   <span class="fa-stack">
@@ -74,7 +74,7 @@
                 -->
 
 
-                
+
                 <a id="validar" href="#" class="btn btn-primary" onclick="historial_propiedad_revisor({{ p.pk }})" data-toggle="modal" data-target="#historial-property-revisor">
                   Historial
                 </a>

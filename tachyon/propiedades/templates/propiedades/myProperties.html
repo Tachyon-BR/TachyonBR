@@ -40,14 +40,14 @@
                 {{ p.precio }}
               </td>
               <td id="status">
-                {% if p.estado_revision %}
-                  {% if p.estado_activo %} <!-- Cambiar variable -->
-                    <span class="badge badge-pill badge-success">Publicada</span>
-                  {% else %}
-                    <span class="badge badge-pill badge-info">En Revisión</span>
-                  {% endif %}
+                {% if p.estado_activo %}
+                  <span class="badge badge-pill badge-success">Publicada</span>
                 {% else %}
-                  <span class="badge badge-pill badge-danger">No Publicada</span>
+                  {% if p.estado_revision %} <!-- Cambiar variable -->
+                    <span class="badge badge-pill badge-info">En Revisión</span>
+                  {% else %}
+                    <span class="badge badge-pill badge-danger">No Publicada</span>
+                  {% endif %}
                 {% endif %}
               </td>
               <td>
@@ -61,27 +61,27 @@
                 {% endif %}
               </td>
               <td id="icons" style="width: 15%;">
-                {% if not p.estado_revision %}
+                {% if p.estado_revision or p.estado_activo %}
+                  Sin Acciones
+                {% else %}
                   <a href="#" class="table-link success" onclick="validar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#validate-property">
                     <span class="fa-stack">
                       <i class="fa fa-square fa-stack-2x"></i>
                       <i class="fas fa-check fa-stack-1x fa-inverse"></i>
                     </span>
                   </a>
-                <a href="/propiedades/editProperty/{{ p.pk }}" class="table-link">
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-                <a href="#" class="table-link danger" onclick="borrar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#delete-property-modal">
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-                {% else %}
-                  Sin Acciones
+                  <a href="/propiedades/editProperty/{{ p.pk }}" class="table-link">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  <a href="#" class="table-link danger" onclick="borrar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#delete-property-modal">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
                 {% endif %}
               </td>
             </tr>
