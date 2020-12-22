@@ -10,6 +10,8 @@
         <ul class="d-flex flex-row align-items-start justify-content-start">
             <li id="home" class="active"><a href="/">Inicio</a></li>
 
+            <li id="properties"><a href="/propiedades">Propiedades</a></li>
+
             {% if 'visualizar_usuarios' in request.session.permissions %}
               <li id="users"><a href="/usuarios">Usuarios</a></li>
             {% endif %}

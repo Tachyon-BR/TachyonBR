@@ -43,6 +43,10 @@ function validar_propiedad_revisor_send(decision){
                 $('#validate-property-revisor').modal('hide');
                 $('.fade').remove();
                 $('body').removeClass('modal-open');
+
+                //redirect
+                location.href = "/propiedades/mis-revisiones/";
+
             },
         }); //end ajax call
         
