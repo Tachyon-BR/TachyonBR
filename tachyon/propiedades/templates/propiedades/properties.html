@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block optionalCSS %}
+<link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/properties.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'root/styles/listings.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'root/styles/listings_responsive.css' %}">
 <style>
@@ -37,65 +38,78 @@
       <div class="col">
         <div class="search_container">
           <div class="search_form_container">
-            <form class="search_form form-inline justify-content-center">
-              <div class="form-row align-items-center">
-                  <div class="col-auto">
-                    <label class="sr-only" for="tipo">Name</label>
-                    <select class="form-control search_input" name="tipo" id="tipo">
-                      <option disabled="disabled" value="" selected="selected">Tipo de propiedad</option>
-                      <option value="casa">Casa</option>
-                      <option value="departamento">Departamento</option>
-                      <option value="edificio">Edificio</option>
-                      <option value="local">Local</option>
-                      <option value="terreno">Terreno</option>
-                    </select>
+            <form action="#" class="search_form" id="search_form">
+              <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
+                  <div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
+                        <select class="form-control search_input" name="tipo" id="tipo">
+                          <option value="" selected="selected">Tipo de propiedad</option>
+                          <option value="casa">Casa</option>
+                          <option value="departamento">Departamento</option>
+                          <option value="edificio">Edificio</option>
+                          <option value="local">Local</option>
+                          <option value="terreno">Terreno</option>
+                        </select>
+                      
+                          <select class="form-control search_input" name="oferta" id="oferta">
+                            <option disabled="disabled" value="" selected="selected">Tipo de oferta</option>
+                            <option value="venta">Venta</option>
+                            <option value="renta">Renta</option>
+                        </select>
+                        <select class="form-control search_input" name="estado" id="estado">
+                          <option disabled="disabled" value="" selected="selected">Estado</option>
+                          <option value="Aguascalientes">Aguascalientes</option>
+                          <option value="Baja California">Baja California</option>
+                          <option value="Baja California Sur">Baja California Sur</option>
+                          <option value="Campeche">Campeche</option>
+                          <option value="Chiapas">Chiapas</option>
+                          <option value="Chihuahua">Chihuahua</option>
+                          <option value="CDMX">Ciudad de México</option>
+                          <option value="Coahuila">Coahuila</option>
+                          <option value="Colima">Colima</option>
+                          <option value="Durango">Durango</option>
+                          <option value="Estado de México">Estado de México</option>
+                          <option value="Guanajuato">Guanajuato</option>
+                          <option value="Guerrero">Guerrero</option>
+                          <option value="Hidalgo">Hidalgo</option>
+                          <option value="Jalisco">Jalisco</option>
+                          <option value="Michoacán">Michoacán</option>
+                          <option value="Morelos">Morelos</option>
+                          <option value="Nayarit">Nayarit</option>
+                          <option value="Nuevo León">Nuevo León</option>
+                          <option value="Oaxaca">Oaxaca</option>
+                          <option value="Puebla">Puebla</option>
+                          <option value="Querétaro">Querétaro</option>
+                          <option value="Quintana Roo">Quintana Roo</option>
+                          <option value="San Luis Potosí">San Luis Potosí</option>
+                          <option value="Sinaloa">Sinaloa</option>
+                          <option value="Sonora">Sonora</option>
+                          <option value="Tabasco">Tabasco</option>
+                          <option value="Tamaulipas">Tamaulipas</option>
+                          <option value="Tlaxcala">Tlaxcala</option>
+                          <option value="Veracruz">Veracruz</option>
+                          <option value="Yucatán">Yucatán</option>
+                          <option value="Zacatecas">Zacatecas</option>
+                      </select>                    
                   </div>
-                  <div class="col-auto">
-                    <select class="form-control search_input" name="oferta" id="oferta">
-                      <option disabled="disabled" value="" selected="selected">Tipo de oferta</option>
-                      <option value="venta">Venta</option>
-                      <option value="renta">Renta</option>
-                  </select>
-                  </div>
-
-                  <div class="col-auto">
-                    <div class="form-group">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                        </div>
-                        <input type="number" class="form-control" id="precio_min" name="precio_min" placeholder="Precio mínimo">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-auto">
-                    <div class="form-group">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                        </div>
-                        <input type="number" class="form-control" id="precio_max" name="precio_max" placeholder="Precio máximo">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-auto">
-                    <button class="btn btn-success" type="submit">Buscar</button>
-                  </div>
-              </div>
-            </form>
+                  <button class="search_button">Buscar propiedad</button>
+                </div>
+              </form>
           </div>
 
+          <!--
           <div class="extra_search_buttons d-flex flex-row align-items-start justify-content-start">
             <div class="extra_search_button search_button_1"><a href="#">Detailed Search</a></div>
             <div class="extra_search_button search_button_2"><a href="#">Show Map</a></div>
           </div>
+          -->
+        
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
 
 <!-- Listings -->
 
@@ -110,13 +124,20 @@
           <!-- Tags -->
           <div class="listing_tags">
             <ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
-              <li><a href="#">2 beds<span>x</span></a></li>
+              {% if active_filters %}
+              {% for f in active_filters %}
+              <li><a href="#" class="clickToDeleteFilter" data-filtername="{{ f.attr }}">{{ f.text }}<span>x</span></a></li>
+              {% endfor %}
+              {% else %}
+              {% endif %}
+              <!--
               <li><a href="#">2 baths<span>x</span></a></li>
               <li><a href="#">garage<span>x</span></a></li>
               <li><a href="#">swimming pool<span>x</span></a></li>
               <li><a href="#">patio<span>x</span></a></li>
               <li><a href="#">heated floors<span>x</span></a></li>
               <li><a href="#">garden<span>x</span></a></li>
+              -->
             </ul>
           </div>
 
@@ -135,12 +156,176 @@
         </div>
 
 
+
+<!--FILTERS-->
+    <div class="row">
+      <div class="col-sm-12 col-md-3 col-lg-3">
+
+
+        <div class="card">
+          <div class="card-header" style="background-color: #3167eb; color: #eee; text-align: center; font-size: large;">
+            <div class="row">
+              <div class="col-10">
+                FILTROS
+              </div>
+              <div class="col-2">
+                <i class="fas fa-filter"></i>
+              </div>
+            </div>
+          </div>
+          
+          <article class="filter-group"> <!--CATEGORIES  TIPO DE PROPIEDAD-->
+            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_tipo_propiedad" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Tipo de Propiedad</h6>
+                </a> </header>
+            <div class="filter-content collapse show" id="collapse_aside_tipo_propiedad">
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="casa">Casa<span class="float-right badge badge-light round">142</span> </a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="departamento">Departamento<span class="float-right badge badge-light round">3</span>  </a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="edificio">Edificio<span class="float-right badge badge-light round">3</span>  </a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="local">Local<span class="float-right badge badge-light round">3</span>  </a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="terreno">Terreno<span class="float-right badge badge-light round">3</span>  </a>
+                    </div>  <!-- list-group .// -->                
+                </div>
+            </div>
+        </article>
+
+
+          <article class="filter-group"> <!--CATEGORIES TIPO DE OFERTA-->
+              <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside1" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                      <h6 class="title">Tipo de Oferta</h6>
+                  </a> </header>
+              <div class="filter-content collapse show" id="collapse_aside1">
+                  <div class="card-body">
+                      <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item filter-click" data-name="oferta" data-value="venta">Venta <span class="float-right badge badge-light round">142</span> </a>
+                        <a href="#" class="list-group-item filter-click" data-name="oferta" data-value="renta">Renta<span class="float-right badge badge-light round">3</span>  </a>
+                      </div>  <!-- list-group .// -->                
+                  </div>
+              </div>
+          </article>
+
+          <article class="filter-group"> <!--PRECIO INPUT MIN MAX-->
+              <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside2" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                      <h6 class="title">Precio </h6>
+                  </a> </header>
+              <div class="filter-content collapse show" id="collapse_aside2">
+                  <div class="card-body"> 
+                    <div class="form-row">
+                          <div class="form-group col-md-6"> <label>Min</label> <input class="form-control" placeholder="$0" type="number" id="precio_min" name="precio_min"> </div>
+                          <div class="form-group text-right col-md-6"> <label>Max</label> <input class="form-control" placeholder="$1,000" type="number" id="precio_max" name="precio_max"> </div>
+                      </div> <a href="#" class="btn btn-medium btn-success filter-click"  data-name="precio" >Aplicar</a>
+                  </div>
+              </div>
+          </article>
+
+          <article class="filter-group"> <!--CATEGORIES ÁREA DE CONSTRUCCIÓN-->
+            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_construccion" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Área de construcción</h6>
+                </a> </header>
+            <div class="filter-content collapse show" id="collapse_aside_area_construccion">
+                <div class="card-body">
+                    <div class="list-group list-group-flush" id="estados-menu">
+                      <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="-250">Menor a 250 m<sup>2</sup><span class="float-right badge badge-light round">142</span> </a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="250-500">De 250 m<sup>2</sup> a 500 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="500-1000">De 500 m<sup>2</sup> a 1000 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="1000-2000">De 1000 m<sup>2</sup> a 2000 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="2000-5000">De 2000 m<sup>2</sup> a 5000 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="5000-">Mayor a 5000 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                    </div>  <!-- list-group .// -->                
+                </div>
+            </div>
+        </article>
+
+      
+        <article class="filter-group"> <!--CATEGORIES ÁREA DE TERRENO-->
+          <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_terreno" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                  <h6 class="title">Área de terreno</h6>
+              </a> </header>
+          <div class="filter-content collapse show" id="collapse_aside_area_terreno">
+              <div class="card-body">
+                  <div class="list-group list-group-flush" id="estados-menu">
+                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="-250">Menor a 250 m<sup>2</sup><span class="float-right badge badge-light round">142</span> </a>
+                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="250-500">De 250 m<sup>2</sup> a 500 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="500-1000">De 500 m<sup>2</sup> a 1000 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="1000-2000">De 1000 m<sup>2</sup> a 2000 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="2000-5000">De 2000 m<sup>2</sup> a 5000 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="5000-">Mayor a 5000 m<sup>2</sup><span class="float-right badge badge-light round">3</span>  </a>
+                </div>  <!-- list-group .// -->                
+              </div>
+          </div>
+      </article>
+
+      <article class="filter-group"> <!--CATEGORIES ÁREA DE CONSTRUCCIÓN-->
+        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_baños" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                <h6 class="title">Número de baños</h6>
+            </a> </header>
+        <div class="filter-content collapse" id="collapse_aside_baños">
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="1">1<span class="float-right badge badge-light round">142</span> </a>
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="2">2<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="3">3<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4">4<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4-">4+<span class="float-right badge badge-light round">3</span>  </a>
+                </div>  <!-- list-group .// -->                
+            </div>
+        </div>
+      </article>
+
+
+      <article class="filter-group"> <!--CATEGORIES PISOS-->
+        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_pisos" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                <h6 class="title">Número de pisos</h6>
+            </a> </header>
+        <div class="filter-content collapse" id="collapse_aside_pisos">
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="1">1<span class="float-right badge badge-light round">142</span> </a>
+                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="2">2<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3">3<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3-">3+<span class="float-right badge badge-light round">3</span>  </a>
+                </div>  <!-- list-group .// -->                
+            </div>
+        </div>
+      </article>
+
+        <article class="filter-group"> <!--RATING - MULTIPLE CHECKBOX - ESTACIONAMIENTO -->
+            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_estacionamiento" data-abc="true" class="collapsed" aria-expanded="false"> <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Estacionamiento</h6>
+                </a> </header>
+            <div class="filter-content collapse" id="collapse_aside_estacionamiento">
+                <div class="card-body"> 
+                    <label class="custom-control"> 
+                      <input type="checkbox" class="custom-control-input filter-click" data-name="garage" data-value="-">
+                      <div class="custom-control-label">Todos </div>
+                    </label> 
+                    <label class="custom-control"> 
+                      <input type="checkbox" class="custom-control-input filter-click" data-name="garage" data-value="1-">
+                      <div class="custom-control-label">Con estacionamiento </div>
+                    </label> 
+                    <label class="custom-control"> 
+                      <input type="checkbox" class="custom-control-input filter-click" data-name="garage" data-value="0">
+                      <div class="custom-control-label">Sin estacionamiento</div>
+                    </label> 
+                </div>
+            </div>
+        </article>
+        
+      </div>
+      
+
+    </div>
+
+    <div class="col-sm-12 col-md-9 col-lg-9">
+   
         <!-- Listings Container -->
         <div class="listings_container">
 
           {% if resultados %}
             {% for p in resultados %}
-         
+        
               <!-- Listing -->
               <div class="listing_box house sale">
                 <div class="listing">
@@ -163,7 +348,7 @@
                       <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
                         <li class="property_area d-flex flex-row align-items-center justify-content-start">
                           <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                          <span>{{ p.metros_terreno }} m2</span>
+                          <span>{{ p.metros_terreno }} m<sup>2</sup></span>
                         </li>
                         <li class="d-flex flex-row align-items-center justify-content-start">
                           <img src="{% static 'root/images/icon_3.png' %}" alt="">
@@ -188,9 +373,17 @@
           {% endif %}
           
         </div>
+        
+        <!--
         <div class="load_more">
           <div class="button ml-auto mr-auto"><a href="#">load more</a></div>
         </div>
+        -->
+
+      </div>
+    </div>
+
+
       </div>
     </div>
   </div>
@@ -200,4 +393,6 @@
 {% block optionalJS %}
 <script src="{% static 'root/plugins/Isotope/isotope.pkgd.min.js' %}"></script>
 <script src="{% static 'root/js/listings.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/filters.js' %}"></script>
 {% endblock %}

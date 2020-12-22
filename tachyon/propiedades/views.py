@@ -73,25 +73,110 @@ def is_valid_queryparam(param):
 
 # Vista de las Propiedades
 def indexView(request):
+
+    class ActiveFilter():
+        def __init__(self, text, attr):
+            self.text = text
+            self.attr = attr
+
     resultados = Propiedad.objects.all()
     tipo = request.GET.get('tipo')
     oferta = request.GET.get('oferta')
     precio_min = request.GET.get('precio_min')
     precio_max = request.GET.get('precio_max')
+    estado = request.GET.get('estado')
+    habitaciones = request.GET.get('habitaciones')
+    metros_terreno = request.GET.get('metros_terreno')
+    metros_construccion = request.GET.get('metros_construccion')
+    banos = request.GET.get('banos')
+    pisos = request.GET.get('pisos')
+    garage = request.GET.get('garage')
+
+    active_filters = []
 
     if is_valid_queryparam(tipo):
         resultados = resultados.filter(tipo = tipo)
+        active_filters.append(ActiveFilter("Propiedad: {}".format(tipo), "tipo"))
 
     if is_valid_queryparam(oferta):
         resultados = resultados.filter(oferta = oferta)
+        active_filters.append(ActiveFilter("Oferta: En {}".format(oferta), "oferta" ))
 
     if is_valid_queryparam(precio_min):
         resultados = resultados.filter(precio__gte = precio_min)
+        active_filters.append(ActiveFilter("Precio mín: {}".format(precio_min), "precio_min" ))
 
     if is_valid_queryparam(precio_max):
         resultados = resultados.filter(precio__lte = precio_max)
+        active_filters.append(ActiveFilter("Precio max: {}".format(precio_max), "precio_max" ))
 
-    return render(request, 'propiedades/properties.html',{'resultados': resultados})
+    if is_valid_queryparam(estado):
+            resultados = resultados.filter(estado = estado)
+            active_filters.append(ActiveFilter("En: {}".format(estado), "estado" ))
+
+
+    if is_valid_queryparam(habitaciones):
+        resultados = resultados.filter(habitaciones = habitaciones)
+        active_filters.append(ActiveFilter("Con: {} habitaciones".format(habitaciones), "habitaciones" ))
+
+
+    if is_valid_queryparam(metros_terreno):
+        limites = metros_terreno.split("-")
+        if limites[0] == '':
+            resultados = resultados.filter(metros_terreno__lte = limites[1])
+            active_filters.append(ActiveFilter("Máximo {}m2 de terreno".format(limites[1]), "metros_terreno" ))
+
+        elif limites[1] == '':
+            resultados = resultados.filter(metros_terreno__gte = limites[0])
+            active_filters.append(ActiveFilter("Mínimo {}m2 de terreno".format(limites[0]), "metros_terreno" ))
+        else:
+            resultados = resultados.filter(metros_terreno__gte = limites[0])
+            resultados = resultados.filter(metros_terreno__lte = limites[1])
+            active_filters.append(ActiveFilter("Mínimo {}m2, Máximo {}m2 de terreno".format(limites[0], limites[1]), "metros_terreno" ))
+
+    if is_valid_queryparam(metros_construccion):
+        limites = metros_construccion.split("-")
+        if limites[0] == '':
+            resultados = resultados.filter(metros_construccion__lte = limites[1])
+            active_filters.append(ActiveFilter("Máximo {}m2 de construcción".format(limites[1]), "metros_construccion" ))
+
+        elif limites[1] == '':
+            resultados = resultados.filter(metros_construccion__gte = limites[0])
+            active_filters.append(ActiveFilter("Mínimo {}m2 de construcción".format(limites[0]), "metros_construccion" ))
+
+        else:
+            resultados = resultados.filter(metros_construccion__gte = limites[0])
+            resultados = resultados.filter(metros_construccion__lte = limites[1])
+            active_filters.append(ActiveFilter("Mínimo {}m2, Máximo {}m2 de construcción".format(limites[0], limites[1]), "metros_construccion" ))
+
+    if is_valid_queryparam(banos):
+        if banos == "4-":
+            resultados = resultados.filter(banos__gte = 4)
+            active_filters.append(ActiveFilter("más de 4 baños", "banos" ))
+        else:
+            resultados = resultados.filter(banos = banos)
+            active_filters.append(ActiveFilter("{} baños".format(banos), "banos" ))
+
+    if is_valid_queryparam(pisos):
+        if pisos == "3-":
+            resultados = resultados.filter(pisos__gte = 3)
+            active_filters.append(ActiveFilter("más de 3 pisos", "pisos" ))
+        else:
+            resultados = resultados.filter(pisos = pisos)
+            active_filters.append(ActiveFilter("{} pisos".format(pisos), "pisos" ))
+
+    if is_valid_queryparam(garage):
+        if garage == "1-":
+            resultados = resultados.filter(garaje__gte = 1)
+            active_filters.append(ActiveFilter("", "garage" ))
+        elif garage == "0":
+            resultados = resultados.filter(garaje = garage)
+            active_filters.append(ActiveFilter("Sin garaje", "garage" ))
+
+
+    print(active_filters)
+
+    return render(request, 'propiedades/properties.html',{'resultados': resultados, 'active_filters': active_filters})
 
 
 
