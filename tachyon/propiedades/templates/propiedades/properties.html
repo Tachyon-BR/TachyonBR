@@ -96,11 +96,13 @@
               </form>
           </div>
 
+          <!--
           <div class="extra_search_buttons d-flex flex-row align-items-start justify-content-start">
             <div class="extra_search_button search_button_1"><a href="#">Detailed Search</a></div>
             <div class="extra_search_button search_button_2"><a href="#">Show Map</a></div>
-            <!--CONSIDERAR REMOVER ESTOS BOTONES-->
           </div>
+          -->
+        
         </div>
       </div>
     </div>
@@ -128,12 +130,14 @@
               {% endfor %}
               {% else %}
               {% endif %}
+              <!--
               <li><a href="#">2 baths<span>x</span></a></li>
               <li><a href="#">garage<span>x</span></a></li>
               <li><a href="#">swimming pool<span>x</span></a></li>
               <li><a href="#">patio<span>x</span></a></li>
               <li><a href="#">heated floors<span>x</span></a></li>
               <li><a href="#">garden<span>x</span></a></li>
+              -->
             </ul>
           </div>
 
@@ -169,7 +173,8 @@
               </div>
             </div>
           </div>
-          <article class="filter-group"> <!--CATEGORIES-->
+          
+          <article class="filter-group"> <!--CATEGORIES  TIPO DE PROPIEDAD-->
             <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_tipo_propiedad" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                     <h6 class="title">Tipo de Propiedad</h6>
                 </a> </header>
@@ -187,7 +192,7 @@
         </article>
 
 
-          <article class="filter-group"> <!--CATEGORIES-->
+          <article class="filter-group"> <!--CATEGORIES TIPO DE OFERTA-->
               <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside1" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                       <h6 class="title">Tipo de Oferta</h6>
                   </a> </header>
@@ -200,20 +205,6 @@
                   </div>
               </div>
           </article>
-
-          <article class="filter-group"> <!--CATEGORIES-->
-            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_estado" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                    <h6 class="title">Estado</h6>
-                </a> </header>
-            <div class="filter-content collapse show" id="collapse_aside_estado">
-                <div class="card-body">
-                    <div class="list-group list-group-flush" id="estados-menu">
-                      <a href="#" class="list-group-item filter-click" data-name="estado" data-value="Renta">Venta <span class="float-right badge badge-light round">142</span> </a>
-                      <a href="#" class="list-group-item filter-click" data-name="estado" data-value="Renta">Renta<span class="float-right badge badge-light round">3</span>  </a>
-                    </div>  <!-- list-group .// -->                
-                </div>
-            </div>
-        </article>
 
           <article class="filter-group"> <!--PRECIO INPUT MIN MAX-->
               <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside2" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
@@ -229,7 +220,7 @@
               </div>
           </article>
 
-          <article class="filter-group"> <!--CATEGORIES-->
+          <article class="filter-group"> <!--CATEGORIES ÁREA DE CONSTRUCCIÓN-->
             <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_construccion" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                     <h6 class="title">Área de construcción</h6>
                 </a> </header>
@@ -247,7 +238,8 @@
             </div>
         </article>
 
-        <article class="filter-group"> <!--CATEGORIES-->
+      
+        <article class="filter-group"> <!--CATEGORIES ÁREA DE TERRENO-->
           <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_terreno" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                   <h6 class="title">Área de terreno</h6>
               </a> </header>
@@ -265,36 +257,68 @@
           </div>
       </article>
 
-
-          <article class="filter-group"> <!--SIZE - CAPSULE CLICK-->
-              <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside3" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                      <h6 class="title">Size </h6>
-                  </a> </header>
-              <div class="filter-content collapse" id="collapse_aside3" style="">
-                  <div class="card-body"> <label class="checkbox-btn"> <input type="checkbox"> <span class="btn btn-light"> XS </span> </label> <label class="checkbox-btn"> <input type="checkbox"> <span class="btn btn-light"> SM </span> </label> <label class="checkbox-btn"> <input type="checkbox"> <span class="btn btn-light"> LG </span> </label> <label class="checkbox-btn"> <input type="checkbox"> <span class="btn btn-light"> XXL </span> </label> <label class="checkbox-btn"> <input type="checkbox"> <span class="btn btn-light"> XXXL </span> </label> </div>
-              </div>
-          </article>
-          <article class="filter-group"> <!--RATING - MULTIPLE CHECKBOX-->
-              <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside4" data-abc="true" class="collapsed" aria-expanded="false"> <i class="icon-control fa fa-chevron-down"></i>
-                      <h6 class="title">Rating </h6>
-                  </a> </header>
-              <div class="filter-content collapse" id="collapse_aside4" style="">
-                  <div class="card-body"> <label class="custom-control"> <input type="checkbox" checked="" class="custom-control-input">
-                          <div class="custom-control-label">Better </div>
-                      </label> <label class="custom-control"> <input type="checkbox" checked="" class="custom-control-input">
-                          <div class="custom-control-label">Best </div>
-                      </label> <label class="custom-control"> <input type="checkbox" checked="" class="custom-control-input">
-                          <div class="custom-control-label">Good</div>
-                      </label> <label class="custom-control"> <input type="checkbox" checked="" class="custom-control-input">
-                          <div class="custom-control-label">Not good</div>
-                      </label> </div>
-              </div>
-          </article>
+      <article class="filter-group"> <!--CATEGORIES ÁREA DE CONSTRUCCIÓN-->
+        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_baños" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                <h6 class="title">Número de baños</h6>
+            </a> </header>
+        <div class="filter-content collapse" id="collapse_aside_baños">
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="1">1<span class="float-right badge badge-light round">142</span> </a>
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="2">2<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="3">3<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4">4<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4-">4+<span class="float-right badge badge-light round">3</span>  </a>
+                </div>  <!-- list-group .// -->                
+            </div>
         </div>
+      </article>
+
+
+      <article class="filter-group"> <!--CATEGORIES PISOS-->
+        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_pisos" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                <h6 class="title">Número de pisos</h6>
+            </a> </header>
+        <div class="filter-content collapse" id="collapse_aside_pisos">
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="1">1<span class="float-right badge badge-light round">142</span> </a>
+                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="2">2<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3">3<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3-">3+<span class="float-right badge badge-light round">3</span>  </a>
+                </div>  <!-- list-group .// -->                
+            </div>
+        </div>
+      </article>
+
+        <article class="filter-group"> <!--RATING - MULTIPLE CHECKBOX - ESTACIONAMIENTO -->
+            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_estacionamiento" data-abc="true" class="collapsed" aria-expanded="false"> <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Estacionamiento</h6>
+                </a> </header>
+            <div class="filter-content collapse" id="collapse_aside_estacionamiento">
+                <div class="card-body"> 
+                    <label class="custom-control"> 
+                      <input type="checkbox" class="custom-control-input filter-click" data-name="garage" data-value="-">
+                      <div class="custom-control-label">Todos </div>
+                    </label> 
+                    <label class="custom-control"> 
+                      <input type="checkbox" class="custom-control-input filter-click" data-name="garage" data-value="1-">
+                      <div class="custom-control-label">Con estacionamiento </div>
+                    </label> 
+                    <label class="custom-control"> 
+                      <input type="checkbox" class="custom-control-input filter-click" data-name="garage" data-value="0">
+                      <div class="custom-control-label">Sin estacionamiento</div>
+                    </label> 
+                </div>
+            </div>
+        </article>
+        
+      </div>
       
 
-      </div>
-      <div class="col-sm-12 col-md-9 col-lg-9">
+    </div>
+
+    <div class="col-sm-12 col-md-9 col-lg-9">
    
         <!-- Listings Container -->
         <div class="listings_container">
@@ -349,9 +373,12 @@
           {% endif %}
           
         </div>
+        
+        <!--
         <div class="load_more">
           <div class="button ml-auto mr-auto"><a href="#">load more</a></div>
         </div>
+        -->
 
       </div>
     </div>

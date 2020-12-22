@@ -65,6 +65,9 @@ def indexView(request):
     habitaciones = request.GET.get('habitaciones')
     metros_terreno = request.GET.get('metros_terreno')
     metros_construccion = request.GET.get('metros_construccion')
+    banos = request.GET.get('banos')
+    pisos = request.GET.get('pisos')
+    garage = request.GET.get('garage')
 
     active_filters = []
 
@@ -122,6 +125,31 @@ def indexView(request):
             resultados = resultados.filter(metros_construccion__gte = limites[0])
             resultados = resultados.filter(metros_construccion__lte = limites[1])
             active_filters.append(ActiveFilter("Mínimo {}m2, Máximo {}m2 de construcción".format(limites[0], limites[1]), "metros_construccion" ))
+
+    if is_valid_queryparam(banos):
+        if banos == "4-":
+            resultados = resultados.filter(banos__gte = 4)
+            active_filters.append(ActiveFilter("más de 4 baños", "banos" ))
+        else:
+            resultados = resultados.filter(banos = banos)
+            active_filters.append(ActiveFilter("{} baños".format(banos), "banos" ))
+
+    if is_valid_queryparam(pisos):
+        if pisos == "3-":
+            resultados = resultados.filter(pisos__gte = 3)
+            active_filters.append(ActiveFilter("más de 3 pisos", "pisos" ))
+        else:
+            resultados = resultados.filter(pisos = pisos)
+            active_filters.append(ActiveFilter("{} pisos".format(pisos), "pisos" ))
+
+    if is_valid_queryparam(garage):
+        if garage == "1-":
+            resultados = resultados.filter(garaje__gte = 1)
+            active_filters.append(ActiveFilter("", "garage" ))
+        elif garage == "0":
+            resultados = resultados.filter(garaje = garage)
+            active_filters.append(ActiveFilter("Sin garaje", "garage" ))
+
 
     print(active_filters)
 
