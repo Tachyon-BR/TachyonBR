@@ -21,6 +21,9 @@ from .forms import *
 from django.core.serializers.json import DjangoJSONEncoder
 import locale
 from django.db.models import Q # new
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from django.conf import settings
 
 
 # Create your views here.
@@ -790,5 +793,45 @@ def modifyPropertyReviewerView(request, id):
             return redirect('/propiedades/mis-revisiones/')
         else:
             raise Http404
+    else:
+        raise Http404
+
+
+def contactOwnerView(request, id):
+    if request.method == 'POST':
+        propiedad = Propiedad.objects.filter(pk = id).first()
+        if propiedad:
+            user = propiedad.propietario.user
+            correo = request.POST.get('email')
+            asunto = request.POST.get('asunto')
+            msg = request.POST.get('msg')
+            print(user.email)
+            #return redirect('/propiedades/property/'+str(id))
+            if (user.email != 'test@test.com'):
+                # Enviar correo con codigo de registro
+                message = Mail(
+                    from_email='tachyon.icarus@gmail.com',
+                    to_emails=user.email,
+                    subject=asunto,
+                    html_content='<p>'+msg+'</p><br>\
+                        <p>Correo de Contacto del Usuario: </p>\
+                        <ul>\
+                        <li><strong>'+correo+'</strong></li>\
+                        </ul>')
+                try:
+                    sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                    response = sg.send(message)
+                    print(response.status_code)
+                    print(response.body)
+                    print(response.headers)
+                except Exception as e:
+                    print(e)
+
+            request.session['notification_session_msg'] = "Se ha mandado un correo al propietario."
+            request.session['notification_session_type'] = "Success"
+            return redirect('/propiedades/property/'+str(id))
+        else:
+            request.session['notification_session_msg'] = "Ha ocurrido un error, inténtelo de nuevo más tarde."
+            request.session['notification_session_type'] = "Danger"
     else:
         raise Http404

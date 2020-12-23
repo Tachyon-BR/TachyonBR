@@ -389,6 +389,46 @@
 			</div>
 		</div>
 
+		<br>
+
+		<div class="container">
+			<hr>
+			<div class="listing_features">
+				<div class="listing_title">
+					<h3>Contactar al Propietario</h3>
+				</div>
+			</div>
+			<br>
+			<form method="POST" action="/propiedades/contactOwner/{{ property.pk }}">
+				{% csrf_token %}
+				<div class="mb-3 row">
+			    <label for="email" class="col-sm-2 col-form-label">Correo de Contacto</label>
+			    <div class="col-sm-4">
+			      <input type="email" class="form-control" style="color: #495057;" id="email" name="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required> <!--pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"-->
+			    </div>
+			  </div>
+				<div class="mb-3 row">
+			    <label for="asunto" class="col-sm-2 col-form-label">Asunto</label>
+			    <div class="col-sm-4">
+			      <input type="text" class="form-control" style="color: #495057;" id="asunto" name="asunto" required>
+			    </div>
+			  </div>
+			  <div class="mb-3 row">
+			    <label for="msg" class="col-sm-2 col-form-label">Mensaje</label>
+			    <div class="col-sm-4">
+			      <textarea class="form-control" id="msg" name="msg" rows="5" style="color: #495057;" required></textarea>
+			    </div>
+			  </div>
+				<br>
+				<div class="mb-3 row">
+					<div class="col-sm-6">
+						<button class="btn btn-primary" style="display: block; margin-right: 0; margin-left:auto;" type="submit">Enviar</button>
+					</div>
+				</div>
+			</form>
+			<br>
+		</div>
+
 		<!--
 			Para la siguiente sección falta mandar el usuario con sus permisos a property
 			Para que solo se vea por revisores
@@ -445,4 +485,9 @@
 {% if revisor %}
 	<script type="text/javascript" src="{% static 'propiedades/js/editarPropiedadRevisor.js' %}"></script>
 {% endif %}
+
+<script type="text/javascript">
+    checkNotificationSession()
+</script>
+
 {% endblock %}
