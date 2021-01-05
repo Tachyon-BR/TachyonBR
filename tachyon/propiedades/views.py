@@ -91,6 +91,7 @@ def indexView(request):
     banos = request.GET.get('banos')
     pisos = request.GET.get('pisos')
     garage = request.GET.get('garage')
+    orden = request.GET.get('orden')
 
     active_filters = []
 
@@ -166,15 +167,20 @@ def indexView(request):
             active_filters.append(ActiveFilter("{} pisos".format(pisos), "pisos" ))
 
     if is_valid_queryparam(garage):
-        if garage == "1-":
-            resultados = resultados.filter(garaje__gte = 1)
-            active_filters.append(ActiveFilter("", "garage" ))
-        elif garage == "0":
+        if garage == "0":
+            resultados = resultados.filter(Q(garaje=None) | Q(garaje=0))
+            active_filters.append(ActiveFilter("sin estacionamiento", "garage" ))
+        elif garage == "3-":
+            resultados = resultados.filter(garaje__gte = 3)
+            active_filters.append(ActiveFilter("más de 3 lugares de estacionamiento", "garage" ))
+        else:
             resultados = resultados.filter(garaje = garage)
-            active_filters.append(ActiveFilter("Sin garaje", "garage" ))
+            active_filters.append(ActiveFilter("{} lugares de estacionamiento".format(garage), "garage" ))
 
-
-    print(active_filters)
+    if is_valid_queryparam(orden):
+        if orden == "precio":
+            resultados = resultados.order_by("-precio")
+            active_filters.append(ActiveFilter("Orden por precio", "orden" ))
 
     return render(request, 'propiedades/properties.html',{'resultados': resultados, 'active_filters': active_filters})
 
