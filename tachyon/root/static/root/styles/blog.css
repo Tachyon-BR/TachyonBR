@@ -922,7 +922,7 @@ section
 }
 .extra_button:hover
 {
-	background: #ff006c;
+	background: #e4ac00;
 }
 .extra_button a
 {
@@ -976,13 +976,13 @@ section
 
 .footer
 {
-	
+
 }
 .footer_content
 {
 	padding-top: 88px;
 	padding-bottom: 83px;
-	background: #1e1332;
+	background: #2B2E35;
 }
 .footer_logo a
 {
@@ -1160,7 +1160,7 @@ section
 }
 .tag_rent
 {
-	background: #588dfb;
+	background: #01b2bf;
 }
 .listing_small_price
 {
@@ -1171,7 +1171,7 @@ section
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
+	background: #e4ac00;
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
@@ -1229,7 +1229,7 @@ section
 }
 .footer_bar
 {
-	background: #110a1f;
+	background: #1e2024;
 }
 .footer_bar_content
 {
