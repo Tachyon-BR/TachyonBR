@@ -17,8 +17,8 @@ $( document ).ready(function() {
     $(`.filter-click[data-name='metros_construccion'][data-value='${searchParams.get("metros_construccion")}'`).addClass("active-filter");
     $(`.filter-click[data-name='banos'][data-value='${searchParams.get("banos")}'`).addClass("active-filter");
     $(`.filter-click[data-name='pisos'][data-value='${searchParams.get("pisos")}'`).addClass("active-filter");
-    
-    $(`.filter-click[data-name='garage'][data-value='${searchParams.get("garage")}'`).attr("checked", "");
+    $(`.filter-click[data-name='garage'][data-value='${searchParams.get("garage")}'`).addClass("active-filter");
+    //$(`.filter-click[data-name='garage'][data-value='${searchParams.get("garage")}'`).attr("checked", "");
 });
 
 

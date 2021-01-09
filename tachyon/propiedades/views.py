@@ -91,15 +91,16 @@ def indexView(request):
     banos = request.GET.get('banos')
     pisos = request.GET.get('pisos')
     garage = request.GET.get('garage')
+    orden = request.GET.get('orden')
 
     active_filters = []
 
     if is_valid_queryparam(tipo):
-        resultados = resultados.filter(tipo = tipo)
+        resultados = resultados.filter(tipo__icontains = tipo)
         active_filters.append(ActiveFilter("Propiedad: {}".format(tipo), "tipo"))
 
     if is_valid_queryparam(oferta):
-        resultados = resultados.filter(oferta = oferta)
+        resultados = resultados.filter(oferta__icontains = oferta)
         active_filters.append(ActiveFilter("Oferta: En {}".format(oferta), "oferta" ))
 
     if is_valid_queryparam(precio_min):
@@ -111,7 +112,7 @@ def indexView(request):
         active_filters.append(ActiveFilter("Precio max: {}".format(precio_max), "precio_max" ))
 
     if is_valid_queryparam(estado):
-            resultados = resultados.filter(estado = estado)
+            resultados = resultados.filter(estado__icontains = estado)
             active_filters.append(ActiveFilter("En: {}".format(estado), "estado" ))
 
 
@@ -166,15 +167,20 @@ def indexView(request):
             active_filters.append(ActiveFilter("{} pisos".format(pisos), "pisos" ))
 
     if is_valid_queryparam(garage):
-        if garage == "1-":
-            resultados = resultados.filter(garaje__gte = 1)
-            active_filters.append(ActiveFilter("", "garage" ))
-        elif garage == "0":
+        if garage == "0":
+            resultados = resultados.filter(Q(garaje=None) | Q(garaje=0))
+            active_filters.append(ActiveFilter("sin estacionamiento", "garage" ))
+        elif garage == "3-":
+            resultados = resultados.filter(garaje__gte = 3)
+            active_filters.append(ActiveFilter("más de 3 lugares de estacionamiento", "garage" ))
+        else:
             resultados = resultados.filter(garaje = garage)
-            active_filters.append(ActiveFilter("Sin garaje", "garage" ))
+            active_filters.append(ActiveFilter("{} lugares de estacionamiento".format(garage), "garage" ))
 
-
-    print(active_filters)
+    if is_valid_queryparam(orden):
+        if orden == "precio":
+            resultados = resultados.order_by("-precio")
+            active_filters.append(ActiveFilter("Orden por precio", "orden" ))
 
     return render(request, 'propiedades/properties.html',{'resultados': resultados, 'active_filters': active_filters})
 
@@ -280,6 +286,8 @@ def createPropertyView(request):
                 # extra = form.cleaned_data['extra']
                 video = form.cleaned_data['video']
 
+                if estado == "Queretaro" or estado == "querétaro" or estado == "queretaro":
+                    estado = "Querétaro"
                 # Crear el objeto de Propiedad
                 propiedad = Propiedad()
                 propiedad.propietario = user_logged
