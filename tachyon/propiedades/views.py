@@ -185,6 +185,11 @@ def indexView(request):
             resultados = resultados.order_by("-precio")
             active_filters.append(ActiveFilter("Orden por precio", "orden" ))
 
+    locale.setlocale( locale.LC_ALL, '' )
+    for r in resultados:
+        r.precio = locale.currency(r.precio, grouping=True)
+        r.precio = r.precio[0:-3]
+
     return render(request, 'propiedades/properties.html',{'resultados': resultados, 'active_filters': active_filters})
 
 
