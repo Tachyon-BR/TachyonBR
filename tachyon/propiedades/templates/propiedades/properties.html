@@ -319,10 +319,54 @@
         <div class="listings_container">
 
           {% if resultados %}
-            {% for p in resultados %}
+            {% for v in resultados %}
         
               <!-- Listing -->
               <div class="listing_box house sale">
+                
+                  <div class="listing">
+                      <div class="listing_image">
+                        <a href="/propiedades/property/{{ v.pk }}">
+                          <div class="listing_image_container">
+                              <img src="{{ v.portada.url }}" alt="">
+                          </div>
+                        </a>
+                          <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
+                              <div class="tag tag_house"><a href="/propiedades/property/{{ v.pk }}">{{ v.tipo }}</a></div>
+                              <div class="tag tag_sale"><a href="/propiedades/property/{{ v.pk }}">{{ v.oferta }}</a></div>
+                          </div>
+                          <div class="tag_price listing_price">{{ v.precio }}</div>
+                      </div>
+                      <div class="listing_content">
+                          <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
+                              <img src="{% static 'root/images/icon_1.png' %}" alt="">
+                              <a href="/propiedades/property/{{ v.pk }}">{{ v.direccion }}, {{ v.estado }}, {{ v.codigo_postal }}</a>
+                          </div>
+                          <div class="listing_info">
+                              <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
+                                  <li class="property_area d-flex flex-row align-items-center justify-content-start">
+                                      <img src="{% static 'root/images/icon_2.png' %}" alt="">
+                                      <span>{{ v.metros_terreno }}<!-- m<sup>2</sup>--></span>
+                                  </li>
+                                  {% if v.tipo != "Terreno" %}
+                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                        <img src="{% static 'root/images/icon_3.png' %}" alt="">
+                                        <span>{{ v.banos }}</span>
+                                    </li>
+                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                        <img src="{% static 'root/images/icon_4.png' %}" alt="">
+                                        <span>{{ v.habitaciones }}</span>
+                                    </li>
+                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                        <img src="{% static 'root/images/icon_5.png' %}" alt="">
+                                        <span>{{ v.garaje }}</span>
+                                    </li>
+                                  {% endif %}
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                <!--
                 <div class="listing">
                   <div class="listing_image">
                     <div class="listing_image_container">
@@ -361,7 +405,10 @@
                     </div>
                   </div>
                 </div>
-              </div>
+
+            -->
+            
+          </div>
             {% endfor %}
           {% else %}
           <h3>No hubo resultados en tu búsqueda</h3>

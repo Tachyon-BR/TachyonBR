@@ -96,11 +96,11 @@ def indexView(request):
     active_filters = []
 
     if is_valid_queryparam(tipo):
-        resultados = resultados.filter(tipo = tipo)
+        resultados = resultados.filter(tipo__icontains = tipo)
         active_filters.append(ActiveFilter("Propiedad: {}".format(tipo), "tipo"))
 
     if is_valid_queryparam(oferta):
-        resultados = resultados.filter(oferta = oferta)
+        resultados = resultados.filter(oferta__icontains = oferta)
         active_filters.append(ActiveFilter("Oferta: En {}".format(oferta), "oferta" ))
 
     if is_valid_queryparam(precio_min):
@@ -112,7 +112,7 @@ def indexView(request):
         active_filters.append(ActiveFilter("Precio max: {}".format(precio_max), "precio_max" ))
 
     if is_valid_queryparam(estado):
-            resultados = resultados.filter(estado = estado)
+            resultados = resultados.filter(estado__icontains = estado)
             active_filters.append(ActiveFilter("En: {}".format(estado), "estado" ))
 
 
@@ -286,6 +286,8 @@ def createPropertyView(request):
                 # extra = form.cleaned_data['extra']
                 video = form.cleaned_data['video']
 
+                if estado == "Queretaro" or estado == "querétaro" or estado == "queretaro":
+                    estado = "Querétaro"
                 # Crear el objeto de Propiedad
                 propiedad = Propiedad()
                 propiedad.propietario = user_logged
