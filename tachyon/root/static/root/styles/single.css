@@ -884,7 +884,7 @@ section
 	height: 40px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #FEC001;
+	background: #e4ac00;
 	line-height: 40px;
 	font-size: 25px;
 	font-weight: 500;
@@ -1121,10 +1121,6 @@ section
 {
 
 }
-.footer
-{
-
-}
 .footer_content
 {
 	padding-top: 88px;
@@ -1318,7 +1314,7 @@ section
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #FEC001;
+	background: #e4ac00;
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
@@ -1376,7 +1372,7 @@ section
 }
 .footer_bar
 {
-	background: #110a1f;
+	background: #1e2024;
 }
 .footer_bar_content
 {
