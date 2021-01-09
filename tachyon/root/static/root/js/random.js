@@ -3,8 +3,11 @@ function getRandomProperty(){
         url: '/root/randomProperty',
         dataType: 'json',
         success : function(response){
-              var data = JSON.parse(response.data[0]);
-              showProperty(data);
+							var error = JSON.parse(response.error);
+							if(!error){
+								var data = JSON.parse(response.data[0]);
+	              showProperty(data);
+							}
         }
     });
 }
