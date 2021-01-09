@@ -146,9 +146,8 @@
             <div class="sort">
               <span>Sort By</span>
               <ul>
-                <li class="sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>Default</li>
-                <li class="sorting_button" data-isotope-option='{ "sortBy": "price" }'>Price</li>
-                <li class="sorting_button" data-isotope-option='{ "sortBy": "area" }'>Area</li>
+                <li class="sorting_button filter-click" data-name="orden" data-value="default" data-isotope-option='{ "sortBy": "original-order" }'>Default</li>
+                <li class="sorting_button filter-click" data-name="orden" data-value="precio" data-isotope-option='{ "sortBy": "price" }'>Precio</li>
               </ul>
             </div>
           </div>
@@ -174,11 +173,12 @@
             </div>
           </div>
           
+          <!--Agrega clase "show" en #collapse_aside... para que se muestre por defautl-->
           <article class="filter-group"> <!--CATEGORIES  TIPO DE PROPIEDAD-->
             <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_tipo_propiedad" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                     <h6 class="title">Tipo de Propiedad</h6>
                 </a> </header>
-            <div class="filter-content collapse show" id="collapse_aside_tipo_propiedad">
+            <div class="filter-content collapse" id="collapse_aside_tipo_propiedad">
                 <div class="card-body">
                     <div class="list-group list-group-flush">
                       <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="casa">Casa<span class="float-right badge badge-light round">142</span> </a>
@@ -196,7 +196,7 @@
               <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside1" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                       <h6 class="title">Tipo de Oferta</h6>
                   </a> </header>
-              <div class="filter-content collapse show" id="collapse_aside1">
+              <div class="filter-content collapse" id="collapse_aside1">
                   <div class="card-body">
                       <div class="list-group list-group-flush">
                         <a href="#" class="list-group-item filter-click" data-name="oferta" data-value="venta">Venta <span class="float-right badge badge-light round">142</span> </a>
@@ -210,7 +210,7 @@
               <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside2" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                       <h6 class="title">Precio </h6>
                   </a> </header>
-              <div class="filter-content collapse show" id="collapse_aside2">
+              <div class="filter-content collapse" id="collapse_aside2">
                   <div class="card-body"> 
                     <div class="form-row">
                           <div class="form-group col-md-6"> <label>Min</label> <input class="form-control" placeholder="$0" type="number" id="precio_min" name="precio_min"> </div>
@@ -224,7 +224,7 @@
             <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_construccion" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                     <h6 class="title">Área de construcción</h6>
                 </a> </header>
-            <div class="filter-content collapse show" id="collapse_aside_area_construccion">
+            <div class="filter-content collapse" id="collapse_aside_area_construccion">
                 <div class="card-body">
                     <div class="list-group list-group-flush" id="estados-menu">
                       <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="-250">Menor a 250 m<sup>2</sup><span class="float-right badge badge-light round">142</span> </a>
@@ -243,7 +243,7 @@
           <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_terreno" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
                   <h6 class="title">Área de terreno</h6>
               </a> </header>
-          <div class="filter-content collapse show" id="collapse_aside_area_terreno">
+          <div class="filter-content collapse" id="collapse_aside_area_terreno">
               <div class="card-body">
                   <div class="list-group list-group-flush" id="estados-menu">
                     <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="-250">Menor a 250 m<sup>2</sup><span class="float-right badge badge-light round">142</span> </a>
@@ -291,29 +291,24 @@
         </div>
       </article>
 
-        <article class="filter-group"> <!--RATING - MULTIPLE CHECKBOX - ESTACIONAMIENTO -->
-            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_estacionamiento" data-abc="true" class="collapsed" aria-expanded="false"> <i class="icon-control fa fa-chevron-down"></i>
-                    <h6 class="title">Estacionamiento</h6>
-                </a> </header>
-            <div class="filter-content collapse" id="collapse_aside_estacionamiento">
-                <div class="card-body"> 
-                    <label class="custom-control"> 
-                      <input type="checkbox" class="custom-control-input filter-click" data-name="garage" data-value="-">
-                      <div class="custom-control-label">Todos </div>
-                    </label> 
-                    <label class="custom-control"> 
-                      <input type="checkbox" class="custom-control-input filter-click" data-name="garage" data-value="1-">
-                      <div class="custom-control-label">Con estacionamiento </div>
-                    </label> 
-                    <label class="custom-control"> 
-                      <input type="checkbox" class="custom-control-input filter-click" data-name="garage" data-value="0">
-                      <div class="custom-control-label">Sin estacionamiento</div>
-                    </label> 
-                </div>
+      <article class="filter-group"> <!--CATEGORIES PISOS-->
+        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_estacionamiento" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                <h6 class="title">Estacionamiento</h6>
+            </a> </header>
+        <div class="filter-content collapse" id="collapse_aside_estacionamiento">
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="0">0<span class="float-right badge badge-light round">142</span> </a>
+                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="1">1<span class="float-right badge badge-light round">142</span> </a>
+                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="2">2<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3">3<span class="float-right badge badge-light round">3</span>  </a>
+                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3-">3+<span class="float-right badge badge-light round">3</span>  </a>
+                </div>  <!-- list-group .// -->                
             </div>
-        </article>
+        </div>
+      </article>
         
-      </div>
+  </div>
       
 
     </div>
@@ -324,10 +319,54 @@
         <div class="listings_container">
 
           {% if resultados %}
-            {% for p in resultados %}
+            {% for v in resultados %}
         
               <!-- Listing -->
               <div class="listing_box house sale">
+                
+                  <div class="listing">
+                      <div class="listing_image">
+                        <a href="/propiedades/property/{{ v.pk }}">
+                          <div class="listing_image_container">
+                              <img src="{{ v.portada.url }}" alt="">
+                          </div>
+                        </a>
+                          <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
+                              <div class="tag tag_house"><a href="/propiedades/property/{{ v.pk }}">{{ v.tipo }}</a></div>
+                              <div class="tag tag_sale"><a href="/propiedades/property/{{ v.pk }}">{{ v.oferta }}</a></div>
+                          </div>
+                          <div class="tag_price listing_price">{{ v.precio }}</div>
+                      </div>
+                      <div class="listing_content">
+                          <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
+                              <img src="{% static 'root/images/icon_1.png' %}" alt="">
+                              <a href="/propiedades/property/{{ v.pk }}">{{ v.direccion }}, {{ v.estado }}, {{ v.codigo_postal }}</a>
+                          </div>
+                          <div class="listing_info">
+                              <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
+                                  <li class="property_area d-flex flex-row align-items-center justify-content-start">
+                                      <img src="{% static 'root/images/icon_2.png' %}" alt="">
+                                      <span>{{ v.metros_terreno }}<!-- m<sup>2</sup>--></span>
+                                  </li>
+                                  {% if v.tipo != "Terreno" %}
+                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                        <img src="{% static 'root/images/icon_3.png' %}" alt="">
+                                        <span>{{ v.banos }}</span>
+                                    </li>
+                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                        <img src="{% static 'root/images/icon_4.png' %}" alt="">
+                                        <span>{{ v.habitaciones }}</span>
+                                    </li>
+                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                        <img src="{% static 'root/images/icon_5.png' %}" alt="">
+                                        <span>{{ v.garaje }}</span>
+                                    </li>
+                                  {% endif %}
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+                <!--
                 <div class="listing">
                   <div class="listing_image">
                     <div class="listing_image_container">
@@ -366,7 +405,10 @@
                     </div>
                   </div>
                 </div>
-              </div>
+
+            -->
+            
+          </div>
             {% endfor %}
           {% else %}
           <h3>No hubo resultados en tu búsqueda</h3>
