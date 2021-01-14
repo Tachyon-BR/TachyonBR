@@ -67,7 +67,19 @@ def propertyView(request, id):
                 if propiedad.revisor == user_logged:
                     if propiedad.estado_revision:
                         revisor = True
-        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor})
+
+        is_revisor = False
+        if not request.user.is_anonymous:
+            if propiedad.revisor:
+                userloggednow = TachyonUsuario.objects.get(user = request.user)
+                rol = userloggednow.rol.nombre
+                revisorparaarriba= ["SuperAdministrador", "Administrador", "SuperUsaurus"]
+                if rol in revisorparaarriba:
+                    is_revisor = True
+                if userloggednow.pk == propiedad.revisor.pk:
+                    is_revisor = True
+
+        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor, 'is_revisor': is_revisor})
     else:
         raise Http404
 

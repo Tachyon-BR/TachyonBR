@@ -429,6 +429,7 @@
 			<br>
 		</div>
 
+		{% if is_revisor %}
 		<!--
 			Para la siguiente sección falta mandar el usuario con sus permisos a property
 			Para que solo se vea por revisores
@@ -436,7 +437,12 @@
 
 		<div class="container">
 			<hr>
-			<h3>Sección para el Revisor</h3> <br>
+			<div class="listing_features">
+				<div class="listing_title">
+					<h3>Sección de Revisor</h3>
+				</div>
+			</div>
+			<br>
 			<a id="validar" href="#" class="btn btn-primary" onclick="historial_propiedad_revisor({{ property.pk }})" data-toggle="modal" data-target="#historial-property-revisor">
 				Historial
 			</a>
@@ -447,6 +453,7 @@
 			{% endif %}
 		</div>
 		<br><br>
+		{% endif %}
 
 
 	</div>
