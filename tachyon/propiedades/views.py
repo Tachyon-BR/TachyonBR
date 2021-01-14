@@ -828,21 +828,23 @@ def contactOwnerView(request, id):
         if propiedad:
             user = propiedad.propietario.user
             correo = request.POST.get('email')
-            asunto = request.POST.get('asunto')
+            #asunto = request.POST.get('asunto')
             msg = request.POST.get('msg')
-            print(user.email)
+            print(msg)
             #return redirect('/propiedades/property/'+str(id))
             if (user.email != 'test@test.com'):
                 # Enviar correo con codigo de registro
                 message = Mail(
                     from_email='tachyon.icarus@gmail.com',
                     to_emails=user.email,
-                    subject=asunto,
-                    html_content='<p>'+msg+'</p><br>\
-                        <p>Correo de Contacto del Usuario: </p>\
-                        <ul>\
-                        <li><strong>'+correo+'</strong></li>\
-                        </ul>')
+                    subject='Tachyon - '+ propiedad.titulo,
+                    plain_text_content=''+msg+'\n\n\nCorreo de Contacto del Usuario:\n\t- '+correo+'\n\nFAVOR DE CONTACTAR AL USUARIO POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO'
+                    # html_content='<p>'+msg+'</p><br>\
+                    #     <p>Correo de Contacto del Usuario: </p>\
+                    #     <ul>\
+                    #     <li><strong>'+correo+'</strong></li>\
+                    #     </ul>'
+                    )
                 try:
                     sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
                     response = sg.send(message)
