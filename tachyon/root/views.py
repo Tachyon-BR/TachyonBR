@@ -29,9 +29,12 @@ def notificationSession(request):         # Funcion que se llama con un ajax par
 
 def randomProperty(request):
     locale.setlocale( locale.LC_ALL, '' )
-    last = Propiedad.objects.filter(estado_activo = True).count() - 1
+    last = Propiedad.objects.filter(estado_activo = True).count()
 
-    index = random.randint(0, last)
+    if last == 0:
+        return JsonResponse({"error": True})
+
+    index = random.randint(0, last-1)
 
     p = Propiedad.objects.filter(estado_activo = True)[index]
     p.precio = locale.currency(p.precio, grouping=True)
@@ -41,4 +44,4 @@ def randomProperty(request):
 
     data.append(serializers.serialize("json", [p], ensure_ascii = False))
 
-    return JsonResponse({"data": data})
+    return JsonResponse({"error": False, "data": data})

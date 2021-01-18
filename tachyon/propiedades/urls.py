@@ -21,4 +21,5 @@ urlpatterns = [
     path('modifyProperty/<int:id>',views.modifyPropertyView, name="modifyProperty"),
     path('search/', views.search, name="search"),
     path('modifyPropertyReviewer/<int:id>',views.modifyPropertyReviewerView, name="modifyPropertyReviewer"),
+    path('contactOwner/<int:id>',views.contactOwnerView, name="contactOwner"),
 ]

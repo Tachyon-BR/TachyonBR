@@ -6,6 +6,7 @@
     <div class="home_slider_container">
          <div class="owl-carousel owl-theme home_slider">
 
+            {% if p1 %}
             <!-- Slide -->
             <div class="slide">
                 <div class="background_image" style="background-image:url({{ p1.portada.url }})"></div>
@@ -24,7 +25,9 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
 
+            {% if p2 %}
             <!-- Slide -->
             <div class="slide">
                 <div class="background_image" style="background-image:url({{ p2.portada.url }})"></div>
@@ -43,7 +46,9 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
 
+            {% if p3 %}
             <!-- Slide -->
             <div class="slide">
                 <div class="background_image" style="background-image:url({{ p3.portada.url }})"></div>
@@ -62,6 +67,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
 
          </div>
 
@@ -91,7 +97,7 @@
                                         <option value="local">Local</option>
                                         <option value="terreno">Terreno</option>
                                       </select>
-                                    
+
                                         <select class="form-control search_input" name="oferta" id="oferta">
                                           <option disabled="disabled" value="" selected="selected">Tipo de oferta</option>
                                           <option value="venta">Venta</option>
@@ -131,12 +137,12 @@
                                         <option value="Veracruz">Veracruz</option>
                                         <option value="Yucatán">Yucatán</option>
                                         <option value="Zacatecas">Zacatecas</option>
-                                    </select>                    
+                                    </select>
                                 </div>
                                 <button class="search_button">Buscar propiedad</button>
                               </div>
                             </form>
-              
+
                     </div>
                 </div>
             </div>

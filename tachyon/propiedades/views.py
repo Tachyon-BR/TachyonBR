@@ -21,6 +21,9 @@ from .forms import *
 from django.core.serializers.json import DjangoJSONEncoder
 import locale
 from django.db.models import Q # new
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from django.conf import settings
 
 
 # Create your views here.
@@ -67,13 +70,14 @@ def propertyView(request, id):
 
         is_revisor = False
         if not request.user.is_anonymous:
-            userloggednow = TachyonUsuario.objects.get(user = request.user)
-            rol = userloggednow.rol.nombre
-            revisorparaarriba= ["SuperAdministrador", "Administrador", "SuperUsaurus"]
-            if rol in revisorparaarriba:
-                is_revisor = True
-            if userloggednow.pk == propiedad.revisor.pk:
-                is_revisor = True
+            if propiedad.revisor:
+                userloggednow = TachyonUsuario.objects.get(user = request.user)
+                rol = userloggednow.rol.nombre
+                revisorparaarriba= ["SuperAdministrador", "Administrador", "SuperUsaurus"]
+                if rol in revisorparaarriba:
+                    is_revisor = True
+                if userloggednow.pk == propiedad.revisor.pk:
+                    is_revisor = True
 
         return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor, 'is_revisor': is_revisor})
     else:
@@ -192,6 +196,11 @@ def indexView(request):
         if orden == "precio":
             resultados = resultados.order_by("-precio")
             active_filters.append(ActiveFilter("Orden por precio", "orden" ))
+
+    locale.setlocale( locale.LC_ALL, '' )
+    for r in resultados:
+        r.precio = locale.currency(r.precio, grouping=True)
+        r.precio = r.precio[0:-3]
 
     return render(request, 'propiedades/properties.html',{'resultados': resultados, 'active_filters': active_filters})
 
@@ -809,5 +818,47 @@ def modifyPropertyReviewerView(request, id):
             return redirect('/propiedades/mis-revisiones/')
         else:
             raise Http404
+    else:
+        raise Http404
+
+
+def contactOwnerView(request, id):
+    if request.method == 'POST':
+        propiedad = Propiedad.objects.filter(pk = id).first()
+        if propiedad:
+            user = propiedad.propietario.user
+            correo = request.POST.get('email')
+            #asunto = request.POST.get('asunto')
+            msg = request.POST.get('msg')
+            print(msg)
+            #return redirect('/propiedades/property/'+str(id))
+            if (user.email != 'test@test.com'):
+                # Enviar correo con codigo de registro
+                message = Mail(
+                    from_email='tachyon.icarus@gmail.com',
+                    to_emails=user.email,
+                    subject='Tachyon - '+ propiedad.titulo,
+                    plain_text_content=''+msg+'\n\n\nCorreo de Contacto del Usuario:\n\t- '+correo+'\n\nFAVOR DE CONTACTAR AL USUARIO POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO'
+                    # html_content='<p>'+msg+'</p><br>\
+                    #     <p>Correo de Contacto del Usuario: </p>\
+                    #     <ul>\
+                    #     <li><strong>'+correo+'</strong></li>\
+                    #     </ul>'
+                    )
+                try:
+                    sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                    response = sg.send(message)
+                    print(response.status_code)
+                    print(response.body)
+                    print(response.headers)
+                except Exception as e:
+                    print(e)
+
+            request.session['notification_session_msg'] = "Se ha mandado un correo al propietario."
+            request.session['notification_session_type'] = "Success"
+            return redirect('/propiedades/property/'+str(id))
+        else:
+            request.session['notification_session_msg'] = "Ha ocurrido un error, inténtelo de nuevo más tarde."
+            request.session['notification_session_type'] = "Danger"
     else:
         raise Http404
