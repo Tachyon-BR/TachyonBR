@@ -78,6 +78,12 @@ def propertyView(request, id):
                     is_revisor = True
                 if userloggednow.pk == propiedad.revisor.pk:
                     is_revisor = True
+            if propiedad.estado_activo:
+                userloggednow = TachyonUsuario.objects.get(user = request.user)
+                rol = userloggednow.rol.nombre
+                revisorparaarriba= ["SuperAdministrador", "Administrador", "SuperUsaurus"]
+                if rol in revisorparaarriba:
+                    is_revisor = True
 
         return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor, 'is_revisor': is_revisor})
     else:
@@ -594,23 +600,72 @@ def validateAsRevisorView(request):
 
             coms = propiedad.comentarios = request.POST.get('coms')
 
+            rvw = propiedad.revisor
+
             #La propiedad fue aceptada
             if request.POST.get('aor') == "aceptada":
                 print("aceptada")
                 propiedad.estado_revision = False
                 propiedad.estado_activo = True
                 propiedad.fecha_publicacion = datetime.date.today()
+                propiedad.revisor = None
                 propiedad.save()
+                if (user.email != 'test@test.com'):
+                    # Enviar correo con codigo de registro
+                    message = Mail(
+                        from_email='tachyon.icarus@gmail.com',
+                        to_emails=propiedad.propietario.user.email,
+                        subject='Tachyon - '+ propiedad.titulo +': Publicada',
+                        plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
+                        \n\nEstamos felices de informarle que su propiedad ha sido aceptada por nuestros revisores. Su propiedad ya fue publicada y podrá ser accedida por los usuarios de la página.
+                        \n\nEnlace a su Propiedad: \n\t - http://127.0.0.1:8000/propiedades/property/'''+ propiedad.pk +'''
+                        \nRecuerde que para editar su propiedad, primero debe darla de baja. Puede dar de baja su propiedad desde la página cuando lo necesite.
+                        \n\nMuchas gracias por elegirnos para promocionar su propiedad, le deseamos mucha suerte en la venta de la misma.
+                        \n\nPOR FAVOR NO RESPONDA A ESTE CORREO'''
+                        )
+                    try:
+                        sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                        response = sg.send(message)
+                        print(response.status_code)
+                        print(response.body)
+                        print(response.headers)
+                    except Exception as e:
+                        print(e)
+                request.session['notification_session_msg'] = "Se ha aceptado la propiedad exitosamente."
+                request.session['notification_session_type'] = "Success"
             elif request.POST.get('aor') == "rechazada":
                 print("rechazada")
                 propiedad.estado_revision = False
                 propiedad.estado_activo = False
                 propiedad.save()
+                if (user.email != 'test@test.com'):
+                    # Enviar correo con codigo de registro
+                    message = Mail(
+                        from_email='tachyon.icarus@gmail.com',
+                        to_emails=propiedad.propietario.user.email,
+                        subject='Tachyon - '+ propiedad.titulo +': Rechazada',
+                        plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
+                        \n\nLamentamos informarle que su propiedad ha sido rechazada por nuestros revisores, por favor lea los siguientes comentarios de nuestros revisores, realice las correcciones necesarias, y vuelva a mandar a revisión su propiedad.
+                        \n\nComentarios del Revisor: \n'''+ coms +'''
+                        \n\nPara cualquier otra duda sobre su propiedad, envíe un correo electrónico al revisor encargado mediante proporcionado a continuación.
+                        \n\nCorreo de Contacto del Revisor:\n\t- '''+rvw.user.email+'''
+                        \n\nFAVOR DE CONTACTAR AL REVISOR POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO'''
+                        )
+                    try:
+                        sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                        response = sg.send(message)
+                        print(response.status_code)
+                        print(response.body)
+                        print(response.headers)
+                    except Exception as e:
+                        print(e)
+                request.session['notification_session_msg'] = "Se ha rechazado la propiedad exitosamente."
+                request.session['notification_session_type'] = "Success"
 
             pc = PropiedadComentario()
             pc.propiedad = propiedad
             pc.comentario = coms
-            pc.revisor = propiedad.revisor
+            pc.revisor = rvw
             pc.save()
 
             return HttpResponse('OK')
