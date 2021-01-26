@@ -602,6 +602,8 @@ def validateAsRevisorView(request):
 
             rvw = propiedad.revisor
 
+            user = propiedad.propietario.user
+
             #La propiedad fue aceptada
             if request.POST.get('aor') == "aceptada":
                 print("aceptada")
@@ -614,13 +616,13 @@ def validateAsRevisorView(request):
                     # Enviar correo con codigo de registro
                     message = Mail(
                         from_email='tachyon.icarus@gmail.com',
-                        to_emails=propiedad.propietario.user.email,
+                        to_emails=user.email,
                         subject='Tachyon - '+ propiedad.titulo +': Publicada',
                         plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
                         \n\nEstamos felices de informarle que su propiedad ha sido aceptada por nuestros revisores. Su propiedad ya fue publicada y podrá ser accedida por los usuarios de la página.
-                        \n\nEnlace a su Propiedad: \n\t - http://127.0.0.1:8000/propiedades/property/'''+ propiedad.pk +'''
+                        \n\nEnlace a su Propiedad: \n\t - http://127.0.0.1:8000/propiedades/property/'''+ str(propiedad.pk) +'''
                         \nRecuerde que para editar su propiedad, primero debe darla de baja. Puede dar de baja su propiedad desde la página cuando lo necesite.
-                        \n\nMuchas gracias por elegirnos para promocionar su propiedad, le deseamos mucha suerte en la venta de la misma.
+                        \n\nMuchas gracias por elegirnos para promocionar su propiedad, le deseamos mucha suerte en la '''+ propiedad.oferta +''' de la misma.
                         \n\nPOR FAVOR NO RESPONDA A ESTE CORREO'''
                         )
                     try:
@@ -642,12 +644,12 @@ def validateAsRevisorView(request):
                     # Enviar correo con codigo de registro
                     message = Mail(
                         from_email='tachyon.icarus@gmail.com',
-                        to_emails=propiedad.propietario.user.email,
+                        to_emails=user.email,
                         subject='Tachyon - '+ propiedad.titulo +': Rechazada',
                         plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
                         \n\nLamentamos informarle que su propiedad ha sido rechazada por nuestros revisores, por favor lea los siguientes comentarios de nuestros revisores, realice las correcciones necesarias, y vuelva a mandar a revisión su propiedad.
                         \n\nComentarios del Revisor: \n'''+ coms +'''
-                        \n\nPara cualquier otra duda sobre su propiedad, envíe un correo electrónico al revisor encargado mediante proporcionado a continuación.
+                        \n\nPara cualquier otra duda sobre su propiedad, envíe un correo electrónico al revisor encargado.
                         \n\nCorreo de Contacto del Revisor:\n\t- '''+rvw.user.email+'''
                         \n\nFAVOR DE CONTACTAR AL REVISOR POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO'''
                         )
