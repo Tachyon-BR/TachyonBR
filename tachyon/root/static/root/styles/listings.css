@@ -114,12 +114,12 @@ p a:hover::after
 }
 ::selection
 {
-	background: #adc867;
+	background: #70AD47;
 	color: #ffffff;
 }
 p::selection
 {
-	
+
 }
 h1{font-size: 48px;}
 h2{font-size: 36px;}
@@ -137,14 +137,14 @@ h1, h2, h3, h4, h5, h6
 	font-weight: 600;
 	margin-bottom: 0;
 }
-h1::selection, 
-h2::selection, 
-h3::selection, 
-h4::selection, 
-h5::selection, 
+h1::selection,
+h2::selection,
+h3::selection,
+h4::selection,
+h5::selection,
 h6::selection
 {
-	
+
 }
 img
 {
@@ -320,7 +320,7 @@ section
 {
 	width: 247px;
 	height: 61px;
-	background: #adc867;
+	background: #70AD47;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -370,7 +370,7 @@ section
 {
 	width: 100%;
 	height: 55px;
-	background: #55407d;
+	background: #0171BF;
 	padding-left: 64px;
 	padding-right: 62px;
 }
@@ -401,7 +401,7 @@ section
 	width: 32px;
 	height: 32px;
 	border-radius: 50%;
-	background: #adc867;
+	background: #70AD47;
 	text-align: center;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
@@ -465,7 +465,7 @@ section
 }
 .log_reg ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .header_content
 {
@@ -515,7 +515,7 @@ section
 .main_nav ul li.active,
 .main_nav ul li:hover
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .main_nav ul li a
 {
@@ -539,7 +539,7 @@ section
 .submit
 {
 	width: 247px;
-	background: #adc867;
+	background: #70AD47;
 	height: 100%;
 	text-align: center;
 }
@@ -570,7 +570,7 @@ section
 }
 .hamburger:hover i
 {
-	color: #adc867;
+	color: #70AD47;
 }
 
 /*********************************
@@ -618,7 +618,7 @@ section
 }
 .menu_close:hover i
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .menu_log_reg
 {
@@ -635,7 +635,7 @@ section
 }
 .menu .log_reg ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .menu .log_reg ul li:not(:last-of-type)::after
 {
@@ -658,7 +658,7 @@ section
 }
 .menu_nav ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 
 /*********************************
@@ -672,6 +672,11 @@ section
 .home_content
 {
 	padding-top: 173px;
+	width: initial;
+	background: initial;
+	padding-left: initial;
+	padding-bottom: initial;
+	padding-right: initial;
 }
 .home_title
 {
@@ -690,6 +695,10 @@ section
 	padding-top: 92px;
 	padding-bottom: 15px;
 }
+.search_container
+{
+	margin-top: initial;
+}
 .search_form
 {
 	display: block;
@@ -697,7 +706,7 @@ section
 	padding-bottom: 15px;
 	padding-left: 23px;
 	padding-right: 24px;
-	background: #55407d;
+	background: #0171BF;
 }
 .search_inputs
 {
@@ -707,7 +716,7 @@ section
 {
 	width: 247px;
 	height: 51px;
-	background: #adc867;
+	background: #70AD47;
 	color: #ffffff;
 	border: none;
 	outline: none;
@@ -754,9 +763,9 @@ section
 	font-size: 14px !important;
 	font-weight: 600 !important;
 	color: #2b2e35 !important;
-} 
+}
 .search_input:-ms-input-placeholder
-{ 
+{
 	font-size: 14px !important;
 	font-weight: 600 !important;
 	color: #2b2e35 !important;
@@ -795,11 +804,11 @@ section
 }
 .search_button_1
 {
-	background: #55407d;
+	background: #0171BF;
 }
 .search_button_2
 {
-	background: #adc867;
+	background: #70AD47;
 }
 
 /*********************************
@@ -841,7 +850,7 @@ section
 }
 .listing_tags ul li:hover
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .listing_tags ul li:hover a
 {
@@ -939,7 +948,7 @@ section
 }
 .sort ul li:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listings_container
 {
@@ -1015,11 +1024,11 @@ section
 }
 .tag_house
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .tag_sale
 {
-	background: #55407d;
+	background: #0171BF;
 }
 .tag_rent
 {
@@ -1031,7 +1040,7 @@ section
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
+	background: #e4ac00;
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
@@ -1067,7 +1076,7 @@ section
 }
 .listing_location a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listing_info
 {
@@ -1104,13 +1113,13 @@ section
 
 .footer
 {
-	
+
 }
 .footer_content
 {
 	padding-top: 88px;
 	padding-bottom: 83px;
-	background: #1e1332;
+	background: #2B2E35;
 }
 .footer_logo a
 {
@@ -1140,7 +1149,7 @@ section
 {
 	max-width: 247px;
 	height: 61px;
-	background: #55407d;
+	background: #0171BF;
 	text-align: center;
 	margin-top: 53px;
 	-webkit-transition: all 200ms ease;
@@ -1151,7 +1160,7 @@ section
 }
 .footer_submit:hover
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .footer_submit a
 {
@@ -1218,7 +1227,7 @@ section
 }
 .footer_links ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listing_small
 {
@@ -1280,15 +1289,15 @@ section
 }
 .tag_house
 {
-	background: #adc867;
+	background: #70AD47;
 }
 .tag_sale
 {
-	background: #55407d;
+	background: #0171BF;
 }
 .tag_rent
 {
-	background: #588dfb;
+	background: #01b2bf;
 }
 .listing_small_price
 {
@@ -1299,7 +1308,7 @@ section
 	height: 37px;
 	padding-left: 27px;
 	padding-right: 26px;
-	background: #ff006c;
+	background: #e4ac00;
 	line-height: 37px;
 	font-size: 16px;
 	font-weight: 500;
@@ -1329,7 +1338,7 @@ section
 }
 .listing_small_location a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }
 .listing_small_info
 {
@@ -1357,7 +1366,7 @@ section
 }
 .footer_bar
 {
-	background: #110a1f;
+	background: #1e2024;
 }
 .footer_bar_content
 {
@@ -1381,5 +1390,5 @@ section
 }
 .footer_nav ul li a:hover
 {
-	color: #adc867;
+	color: #70AD47;
 }

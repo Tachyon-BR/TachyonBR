@@ -1,0 +1,14 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+{% include 'root/landing_content.html' %}
+{% endblock content %}
+
+{% block optionalJS %}
+<script type="text/javascript">
+    checkNotificationSession()
+</script>
+{% endblock %}

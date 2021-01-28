@@ -1,0 +1,113 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+{% block optionalCSS %}
+<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/lista.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="featured content-top-margin">
+  <div class="container">
+    {% if 'registrar_propiedad' in request.session.permissions %}
+      <a href="/propiedades/newProperty"><button class="btn btn-success" style="float: right; margin-top: 25px; margin-bottom: 25px;"><i class="fas fa-plus"></i> Añadir Propiedad</button></a>
+    {% endif %}
+    <br><br>
+    <div class="table-responsive">
+      <table class="table user-list" id="lista-propiedades">
+        <thead>
+          <tr>
+            <th><span>Propiedad</span></th>
+            <th><span>Oferta</span></th>
+            <th><span>Precio</span></th>
+            <th><span>Estado</span></th>
+            <th><span>Visitas</span></th>
+            <th><span>Fecha de Corte</span></th>  <!-- class="text-center" -->
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in list %}
+            <tr id="row-{{ p.pk }}">
+              <td>
+                <img src="{{ p.portada.url }}" alt="Portada de Propiedad" style="max-width: 100px;">
+                <a href="/propiedades/property/{{ p.pk }}" class="user-link" style="max-width: 200px;">{{ p.titulo }}</a>
+                <span class="user-subhead">{{ p.tipo }}</span>
+              </td>
+              <td>
+                {{ p.oferta }}
+              </td>
+              <td id="precio">
+                {{ p.precio }}
+              </td>
+              <td id="status">
+                {% if p.estado_activo %}
+                  <span class="badge badge-pill badge-success">Publicada</span>
+                {% else %}
+                  {% if p.estado_revision %} <!-- Cambiar variable -->
+                    <span class="badge badge-pill badge-info">En Revisión</span>
+                  {% else %}
+                    <span class="badge badge-pill badge-danger">No Publicada</span>
+                  {% endif %}
+                {% endif %}
+              </td>
+              <td>
+                <span>{{ p.visitas }}</span>
+              </td>
+              <td>
+                {% if p.fecha_corte != None %}
+                  {{ p.fecha_corte }}
+                {% else %}
+                  No Aplica
+                {% endif %}
+              </td>
+              <td id="icons" style="width: 15%;">
+                {% if p.estado_revision or p.estado_activo %}
+                  Sin Acciones
+                {% else %}
+                  <a href="#" class="table-link success" onclick="validar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#validate-property">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-check fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  <a href="/propiedades/editProperty/{{ p.pk }}" class="table-link">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  <a href="#" class="table-link danger" onclick="borrar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#delete-property-modal">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% include './modals/validate-property.html' %}
+{% include './modals/historial-property-revisor.html' %}
+{% include './modals/validate-property-revisor.html' %}
+{% include './modals/delete-property.html' %}
+
+{% endblock content %}
+
+{% block optionalJS %}
+<script type="text/javascript">
+    checkNotificationSession();
+</script>
+
+<script type="text/javascript" src="{% static 'propiedades/js/revisor-propiedades-historial.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'propiedades/js/table.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/borrar.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/validar.js' %}"></script>
+{% endblock %}

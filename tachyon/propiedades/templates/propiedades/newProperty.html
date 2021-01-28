@@ -1,0 +1,380 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+
+
+{% block optionalCSS %}
+    <!-- Vendor CSS-->
+    <link href="{% static 'usuarios/styles/vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'usuarios/fonts/iconic/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'usuarios/styles/vendor/datepicker/daterangepicker.css' %}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{% static 'usuarios/styles/main.css' %}" rel="stylesheet" media="all">
+
+    <!-- Formas CSS-->
+    <link href="{% static 'propiedades/css/forms.css' %}" rel="stylesheet" media="all">
+
+    <!--Button CSS -->
+    <link href="{% static 'usuarios/stylesButton/main.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'usuarios/stylesButton/util.css' %}" rel="stylesheet" media="all">
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="page-wrapper bg-gra-01 p-t-130 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w680" style="max-width: 900px;">
+        <div class="card card-4" style="margin-top: 50px;">
+            <div class="card-body">
+                <h1 class="text-center">Nueva Propiedad</h1>
+                <form method="POST" action="/propiedades/createProperty/" class="needs-validation" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label">Título</label>
+                                <input class="input--style-4 form-control validacion" type="text" name="titulo" id="titulo" pattern=".{1,}" required>
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, ingrese el título de la propiedad.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <label class="label">Descripción</label>
+                            <textarea class="input--style-4 form-control areatexto" type="text" name="desc" id="desc" pattern=".{1,}" required></textarea>
+                            <div class="valid-feedback">
+                                ¡Correcto!
+                            </div>
+                            <div class="invalid-feedback">
+                                Por favor, ingrese una descripción para su propiedad.
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <label class="label">Tipo de Oferta</label>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select class="form-control" name="oferta" required>
+                                    <option disabled="disabled" value="" selected="selected">Seleccione un tipo de oferta...</option>
+                                    <option>Venta</option>
+                                    <option>Renta</option>
+                                </select>
+                                <div class="select-dropdown"></div>
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, seleccione un tipo de oferta.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label class="label">Tipo de Propiedad</label>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select class="form-control" name="tipo" id="tipo" required>
+                                    <option disabled="disabled" value="" selected="selected">Seleccione un tipo de propiedad...</option>
+                                    <option>Casa</option>
+                                    <option>Departamento</option>
+                                    <option>Edificio</option>
+                                    <option>Local</option>
+                                    <option>Terreno</option>
+                                </select>
+                                <div class="select-dropdown"></div>
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, seleccione el tipo de propiedad.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="opcional" hidden>
+                        <div class="row row-space">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Cantidad de Habitaciones</label>
+                                    <input class="input--style-4 form-control validacion" type="number" name="habs" id="habs" min=0 onchange="positivo(this.id, this.value); decimal(this.id, this.value);">
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese la cantidad de habitaciones de su propiedad.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Cantidad de Baños</label>
+                                    <input class="input--style-4 form-control validacion" type="text" name="banos" id="banos" pattern=".{1,}" onchange="numero(this.id, this.value);">
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese la cantidad de baños de su propiedad.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Número de Pisos</label>
+                                    <input class="input--style-4 form-control validacion" type="number" name="pisos" id="pisos" min=1 onchange="positivo(this.id, this.value); decimal(this.id, this.value);">
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese la cantidad de pisos/el piso de su propiedad.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Lugares de Estacionamiento</label>
+                                    <input class="input--style-4 form-control validacion" type="number" name="garaje" id="garaje" min=0 onchange="positivo(this.id, this.value); decimal(this.id, this.value);">
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese la cantidad de lugares de estacionamiento.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Metros de Terreno</label>
+                                <input class="input--style-4 form-control validacion" type="text" name="m_terr" id="m_terr" pattern=".{1,}" onchange="numero(this.id, this.value);" required>
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, ingrese los metros cuadrados de su terreno.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <label class="label">Metros de Construcción</label>
+                                <input class="input--style-4 form-control validacion" type="text" name="m_cons" id="m_cons" pattern=".{1,}" onchange="numero(this.id, this.value);" required>
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, ingrese los metros cuadrados de construcción.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-6">
+                            <label class="label">País</label>
+                            <div class="rs-select2 js-select-simple select--no-search">
+                                <select class="form-control" name="pais" required>
+                                    <option disabled="disabled" value="" selected="selected">Seleccione un país...</option>
+                                    <option>México</option>
+                                </select>
+                                <div class="select-dropdown"></div>
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, seleccione el país donde se encuentra su propiedad.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group">
+                                <label class="label">Código Postal</label>
+                                <input class="input--style-4 form-control validacion" type="text" name="codigo_postal" id="codigo_postal" pattern=".{5,5}" onchange="numero(this.id, this.value); cp_hidden();" required>
+                                <div class="valid-feedback">
+                                    ¡Correcto!, recuerde validar su código postal.
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, ingrese el código postal de su propiedad.
+                                </div>
+                            </div>
+                        </div>
+                        <input class="input--style-4 form-control" type="text" name="cp_safe" id="cp_safe" pattern=".{6,}" required hidden>
+                        <div class="col-2">
+                          <button type="button" class="btn btn-secondary" id="checar" style="margin-top: 33px;" onclick="validar_cp()">Validar</button>
+                        </div>
+                    </div>
+                    <div id="ubicacion" hidden>
+                        <div class="row row-space">
+                            <div class="col-6">
+                                <div class="input-group">
+                                    <label class="label">Estado</label>
+                                    <input class="input--style-4 form-control validacion" type="text" name="estado" id="estado" readonly required>
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese el estado donde se encuentra su propiedad.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label class="label">Colonia</label>
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select class="form-control" name="colonia" id="colonia" required>
+                                        <option disabled="disabled" value="" selected="selected">Seleccione una colonia...</option>
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                    <div class="valid-feedback">
+                                        ¡Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, seleccione la colonia de su propiedad.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label">Dirección</label>
+                                <input class="input--style-4 form-control validacion" type="text" name="direccion" id="direccion" pattern=".{1,}" required>
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, ingrese la dirección exacta de su propiedad.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-md-6 col-lg-6 col-sm-12">
+                            <div class="input-group">
+                                <label class="label">Precio</label>
+                                <input class="input--style-4 form-control validacion" type="text" name="precio" id="precio" pattern=".{1,}" onchange="numero(this.id, this.value);" required>
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, ingrese el precio de su propiedad.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-lg-5 col-sm-12 align-self-center offset-md-1 offset-lg-1">
+                            <div class="input-group" style="margin-top: 20px;">
+                                <label class="label" for="negociable">¿Precio Negociable?</label>
+                                <input class="checkmark" type="checkbox" name="negociable" id="negociable" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label">Datos Extra/Información Importante</label>
+                                <input class="input--style-4" type="text" name="dif" id="dif">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <label class="label">Foto de Portada</label>
+                            <div class="custom-file">
+                                <label class="custom-file-label" id="file-label-1">Selecciona tu archivo...</label>
+                                {{ form.portada }}
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, seleccione una imagen de portada.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <input class="input--style-4 form-control" type="text" name="safe" id="safe" pattern=".{6,}" required hidden>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <label class="label" id="tipo_prop">Fotos de la Propiedad</label>
+                            <div class="w-100"></div>
+                            <label class="label" id="fotos_prop" style="font-size: 12px;"></label>
+                            <div class="custom-file">
+                                <label class="custom-file-label" id="file-label-2">Selecciona tus archivos...</label>
+                                {{ form.extra }}
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, seleccione un número de imagenes dentro del rango indicado.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="row row-space">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <label class="label">Enlace de Video (YouTube)</label>
+                                <div class="w-100"></div>
+                                <label class="label" style="font-size: 12px;">(Sube tu video previamente a YouTube y coloca el enlace aquí.)</label>
+                                <input class="input--style-4" type="text" name="video" id="video" onchange="val_video(this.value);">
+                                <input class="input--style-4 form-control" value="Qwerty" type="text" name="safe_vid" id="safe_vid" pattern=".{6,}" required hidden>
+                                <div class="valid-feedback">
+                                    ¡Correcto!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Por favor, ingrese un enlace de video válido.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="container-login100-form-btn">
+            						<button class="login100-form-btn" type="submit" id="submit" onclick="validate_files()">
+            							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
+            						</button>
+					          </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block optionalJS %}
+
+<script type="text/javascript">
+    checkNotificationSession()
+</script>
+
+<!-- Vendor JS-->
+<script src="{% static 'usuarios/js/vendor/select2/select2.min.js' %}"></script>
+<script src="{% static 'usuarios/js/vendor/datepicker/moment.min.js' %}"></script>
+<script src="{% static 'usuarios/js/vendor/datepicker/daterangepicker.js' %}"></script>
+
+<!-- Main JS-->
+<script src="{% static 'usuarios/js/global.js' %}"></script>
+
+<!-- Button JS -->
+<script src="{% static 'usuarios/jsButton/main.js' %}"></script>
+
+<!-- Contrasena JS -->
+<script src="{% static 'propiedades/js/crearPropiedad.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
+
+{% endblock %}
