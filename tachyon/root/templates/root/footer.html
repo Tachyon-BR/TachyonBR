@@ -8,9 +8,9 @@
                 <!-- Footer Column -->
                 <div class="col-xl-3 col-lg-6 footer_col">
                     <div class="footer_about">
-                        <div class="footer_logo"><a href="#"><span>TACHYON</span></a></div>
+                        <div class="footer_logo"><a href="/"><span>Conexión Inmueble</span></a></div>
                         <div class="footer_text">
-                            <p>Nulla aliquet bibendum sem, non placerat risus venenatis at. Prae sent vulputate bibendum dictum. Cras at vehicula urna. Suspendisse fringilla lobortis justo, ut tempor leo cursus in.</p>
+<!--                            <p>Nulla aliquet bibendum sem, non placerat risus venenatis at. Prae sent vulputate bibendum dictum. Cras at vehicula urna. Suspendisse fringilla lobortis justo, ut tempor leo cursus in.</p>-->
                         </div>
                         <div class="social">
                             <ul class="d-flex flex-row align-items-center justify-content-start">
@@ -19,39 +19,42 @@
                                 <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
                             </ul>
                         </div>
-                        <div class="footer_submit"><a href="#">Buscar propiedad</a></div>
+                        <div class="footer_submit"><a href="/propiedades">Buscar propiedad</a></div>
                     </div>
                 </div>
 
                 <!-- Footer Column -->
                 <div class="col-xl-3 col-lg-6 footer_col">
                     <div class="footer_column">
+<!--
                         <div class="footer_title">Información</div>
                         <div class="footer_info">
                             <ul>
-                                <!-- Phone -->
+                                Phone
                                 <li class="d-flex flex-row align-items-center justify-content-start">
                                     <div><img src="{% static 'root/images/phone-call.svg' %}" alt=""></div>
                                     <span>+546 990221 123</span>
                                 </li>
-                                <!-- Address -->
+                                Address
                                 <li class="d-flex flex-row align-items-center justify-content-start">
                                     <div><img src="{% static 'root/images/placeholder.svg' %}" alt=""></div>
                                     <span>Main Str, no 23, New York</span>
                                 </li>
-                                <!-- Email -->
+                                Email
                                 <li class="d-flex flex-row align-items-center justify-content-start">
                                     <div><img src="{% static 'root/images/envelope.svg' %}" alt=""></div>
                                     <span>hosting@contact.com</span>
                                 </li>
                             </ul>
                         </div>
-                        <div class="footer_links usefull_links">
+-->
+                        <div class="footer_links ">
+                            <!--usefull_links-->
                             <div class="footer_title">Enlaces Útiles</div>
                             <ul>
+                                <li><a href="/">Inicio</a></li>
+                                <li><a href="/propiedades/">Propiedades</a></li>
                                 <li><a href="#">Nosotros</a></li>
-                                <li><a href="#">Propiedades</a></li>
-                                <li><a href="#">Noticias</a></li>
                                 <li><a href="#">Contacto</a></li>
                             </ul>
                         </div>
@@ -63,15 +66,13 @@
                     <div class="footer_links">
                         <div class="footer_title">Tipos De Propiedades</div>
                         <ul>
-                            <li><a href="#">Properties for rent</a></li>
-                            <li><a href="#">Properties for sale</a></li>
-                            <li><a href="#">Commercial</a></li>
-                            <li><a href="#">Homes</a></li>
-                            <li><a href="#">Villas</a></li>
-                            <li><a href="#">Office</a></li>
-                            <li><a href="#">Residential</a></li>
-                            <li><a href="#">Appartments</a></li>
-                            <li><a href="#">Off plan</a></li>
+                            <li><a href="/propiedades/?tipo=&oferta=venta#">Propiedades en venta</a></li>
+                            <li><a href="/propiedades/?tipo=&oferta=renta#">Propiedades en renta</a></li>
+                            <li><a href="/propiedades/?tipo=casa#">Casas</a></li>
+                            <li><a href="/propiedades/?tipo=departamento#">Departamentos</a></li>
+                            <li><a href="/propiedades/?tipo=edificio#">Edificios</a></li>
+                            <li><a href="/propiedades/?tipo=local#">Locoales</a></li>
+                            <li><a href="/propiedades/?tipo=terreno#">Terrenos</a></li>
                         </ul>
                     </div>
                 </div>
@@ -138,11 +139,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
                         <nav class="footer_nav order-md-2 order-1 ml-md-auto">
                             <ul class="d-flex flex-md-row flex-column align-items-md-center align-items-start justify-content-start">
-                                <li><a href="index.html">Inicio</a></li>
-                                <li><a href="about.html">Nosotros</a></li>
-                                <li><a href="listings.html">Propiedades</a></li>
-                                <li><a href="blog.html">Noticias</a></li>
-                                <li><a href="contact.html">Contacto</a></li>
+                                <li><a href="/">Inicio</a></li>
+                                <li><a href="/propiedades/">Propiedades</a></li>
+                                <li><a href="#">Nosotros</a></li>
+                                <li><a href="#">Contacto</a></li>
                             </ul>
                         </nav>
                     </div>

@@ -47,7 +47,7 @@
 	}
 	.main_nav
 	{
-		margin-left: 106px;
+		margin-left: 50px;
 	}
 	.header_list ul li:not(:last-of-type)
 	{
@@ -95,11 +95,11 @@
 {
 	.main_nav ul li:not(:last-of-type)
 	{
-		margin-right: 13px;
+		margin-right: 1px;
 	}
 	.main_nav
 	{
-		margin-left: 81px;
+		margin-left: 50px;
 	}
 	.submit
 	{
