@@ -470,9 +470,9 @@ section
 .header_content
 {
 	width: 100%;
-	height: 61px;
+	height: 100%;
 	background: #ffffff;
-	padding-left: 64px;
+	padding-left: 50px;
 }
 .logo
 {
@@ -492,7 +492,7 @@ section
 .main_nav
 {
 	height: 100%;
-	margin-left: 133px;
+	margin-left: 50px;
 }
 .main_nav ul
 {
@@ -510,7 +510,7 @@ section
 }
 .main_nav ul li:not(:last-of-type)
 {
-	margin-right: 26px;
+	margin-right: 1px;
 }
 .main_nav ul li.active,
 .main_nav ul li:hover
@@ -521,7 +521,7 @@ section
 {
 	display: block;
 	height: 100%;
-	line-height: 61px;
+	line-height: 100px;
 	padding-left: 13px;
 	padding-right: 13px;
 	font-size: 16px;

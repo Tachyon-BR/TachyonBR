@@ -1,13 +1,13 @@
 {% load static %}
 
 <!-- Header Content -->
-<div class="header_content d-flex flex-row align-items-center justify-content-start">
-    <img src="{% static 'root/images/logo-png.png' %}" alt="Tachyon" width="25px">
-    <div class="logo"><a href="/"><span>Tachyon</span></a></div>
+<div class="header_content d-flex align-items-start">
+    <a href="/"><img src="{% static 'root/images/logo.png' %}" alt="logo de conexión inmueble" height="100px"></a>
+    <!--<div class="logo"><a href="/"><span>Tachyon</span></a></div>-->
 
 
     <nav class="main_nav">
-        <ul class="d-flex flex-row align-items-start justify-content-start">
+        <ul class="d-flex flex-row align-items-center justify-content-center">
             <li id="home" class="active"><a href="/">Inicio</a></li>
 
             <li id="properties"><a href="/propiedades">Propiedades</a></li>
@@ -35,6 +35,6 @@
             <li><a href="contact.html">Contacto</a></li> -->
         </ul>
     </nav>
-    <div class="submit ml-auto"><a href="#">Buscar Propiedad</a></div>
+<!--    <div class="submit ml-auto"><a href="#">Buscar Propiedad</a></div>-->
     <div class="hamburger ml-auto"><i class="fa fa-bars" aria-hidden="true"></i></div>
 </div>
