@@ -29,7 +29,7 @@
                 <h1 class="text-center">Registrar Usuario</h1>
                 <form method="POST" action="/usuarios/adminVerifyCreateUser">
                 {% else %}
-                <h1 class="text-center">Regístrate</h1>
+                <h1 class="text-center">Regístrate</h1><br>
                 <form method="POST" action="/usuarios/createUser">
                 {% endif %}
                     {% csrf_token %}
@@ -119,9 +119,38 @@
                             <div class="rs-select2 js-select-simple select--no-search">
                                 <select name="estado" required>
                                     <option disabled="disabled" selected="selected">Seleccione un estado...</option>
-                                    <option>Chihuahua</option>
-                                    <option>Sinaloa</option>
-                                    <option>Yucatán</option>
+                                    <option value="Aguascalientes">Aguascalientes</option>
+                                    <option value="Baja California">Baja California</option>
+                                    <option value="Baja California Sur">Baja California Sur</option>
+                                    <option value="Campeche">Campeche</option>
+                                    <option value="Chiapas">Chiapas</option>
+                                    <option value="Chihuahua">Chihuahua</option>
+                                    <option value="CDMX">Ciudad de México</option>
+                                    <option value="Coahuila">Coahuila</option>
+                                    <option value="Colima">Colima</option>
+                                    <option value="Durango">Durango</option>
+                                    <option value="Estado de México">Estado de México</option>
+                                    <option value="Guanajuato">Guanajuato</option>
+                                    <option value="Guerrero">Guerrero</option>
+                                    <option value="Hidalgo">Hidalgo</option>
+                                    <option value="Jalisco">Jalisco</option>
+                                    <option value="Michoacán">Michoacán</option>
+                                    <option value="Morelos">Morelos</option>
+                                    <option value="Nayarit">Nayarit</option>
+                                    <option value="Nuevo León">Nuevo León</option>
+                                    <option value="Oaxaca">Oaxaca</option>
+                                    <option value="Puebla">Puebla</option>
+                                    <option value="Querétaro">Querétaro</option>
+                                    <option value="Quintana Roo">Quintana Roo</option>
+                                    <option value="San Luis Potosí">San Luis Potosí</option>
+                                    <option value="Sinaloa">Sinaloa</option>
+                                    <option value="Sonora">Sonora</option>
+                                    <option value="Tabasco">Tabasco</option>
+                                    <option value="Tamaulipas">Tamaulipas</option>
+                                    <option value="Tlaxcala">Tlaxcala</option>
+                                    <option value="Veracruz">Veracruz</option>
+                                    <option value="Yucatán">Yucatán</option>
+                                    <option value="Zacatecas">Zacatecas</option>
                                 </select>
                                 <div class="select-dropdown"></div>
                             </div>
@@ -130,21 +159,27 @@
                         <div class="row row-space">
                             <div class="col-6">
                                 <div class="input-group">
-                                    <label class="label">Agencia (opcional)</label>
+                                    <label class="label">Nombre de Agencia (opcional)</label>
                                     <input class="input--style-4" type="text" name="nombre_agencia">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="input-group">
-                                    <label class="label">Número de Agencia (opcional)</label>
+                                    <label class="label">Teléfono de Agencia (opcional)</label>
                                     <input class="input--style-4" type="text" name="numero_agencia">
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <div class="row row-space">
+                      <div class="input-group" style="margin-top: 20px;">
+                          <input class="checkmark" type="checkbox" name="tyc" id="tyc" style="position: relative; margin-left: 30px; margin-right: 15px;" onchange="changeSend();" required>
+                          <label class="label" for="tyc" style="padding-top: 5px;"> He leído y acepto los <a href="#" data-toggle="modal" data-target="#tyc-modal">términos y condiciones</a> de la página.</label>
+                      </div>
+                    </div>
+                    <br>
                     <div class="container-login100-form-btn">
-						<button class="login100-form-btn" type="submit" id="submit">
+						<button class="login100-form-btn" type="submit" id="submit" disabled>
 							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
 						</button>
 					</div>
@@ -153,6 +188,8 @@
         </div>
     </div>
 </div>
+
+{% include './modals/tyc.html' %}
 
 
 {% endblock content %}
@@ -180,5 +217,8 @@
 {% if adminCreator %}
 <script type="text/javascript" src="{% static 'usuarios/js/navbar.js' %}"></script>
 {% endif %}
+
+<!-- Terminos y condiciones-->
+<script src="{% static 'usuarios/js/tyc.js' %}"></script>
 
 {% endblock %}
