@@ -16,7 +16,7 @@ def path_imagenes(instance, filename):
 class Propiedad(models.Model):
     # Llave foranea del rol al que pertenece
     propietario = models.ForeignKey(TachyonUsuario, on_delete=models.CASCADE)
-    revisor = models.ForeignKey(TachyonUsuario, on_delete=models.SET_NULL, null=True, related_name='revisor_propiedad')
+    revisor = models.ForeignKey(TachyonUsuario, on_delete=models.SET_NULL, blank=True, null=True, related_name='revisor_propiedad')
     # Campos adicionales
     titulo = models.CharField(max_length = 200)
     tipo = models.CharField(max_length = 100)
@@ -70,7 +70,7 @@ class PropiedadComentario(models.Model):
     comentario = models.CharField(max_length = 500)
     fecha = models.DateTimeField(auto_now_add = True)
     revisor = models.ForeignKey(TachyonUsuario, on_delete=models.CASCADE)
-    
+
     class Meta:
        ordering = ('fecha',)
 
