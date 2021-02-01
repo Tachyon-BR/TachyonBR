@@ -620,7 +620,7 @@ def validateAsRevisorView(request):
                         subject='Tachyon - '+ propiedad.titulo +': Publicada',
                         plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
                         \n\nEstamos felices de informarle que su propiedad ha sido aceptada por nuestros revisores. Su propiedad ya fue publicada y podrá ser accedida por los usuarios de la página.
-                        \n\nEnlace a su Propiedad: \n\t - http://127.0.0.1:8000/propiedades/property/'''+ str(propiedad.pk) +'''
+                        \n\nEnlace a su Propiedad: \n\t - https://conexioninmueble.com/propiedades/property/'''+ str(propiedad.pk) +'''
                         \nRecuerde que para editar su propiedad, primero debe darla de baja. Puede dar de baja su propiedad desde la página cuando lo necesite.
                         \n\nMuchas gracias por elegirnos para promocionar su propiedad, le deseamos mucha suerte en la '''+ propiedad.oferta +''' de la misma.
                         \n\nPOR FAVOR NO RESPONDA A ESTE CORREO'''
