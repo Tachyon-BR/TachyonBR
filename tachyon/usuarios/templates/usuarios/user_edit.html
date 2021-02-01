@@ -2,36 +2,44 @@
 {% load static %}
 
 {% block optionalCSS %}
+<style>
+  .form-control {
+    color: #495057;
+  }
+</style
 
 {% endblock %}
 
 
 {% block content %}
 
+<div class="content-top-margin">
+
 <div class="featured content-top-margin" style="margin-top:10px;">
     <div class="container">
-        <h1 class="text-center">Editar perfil</h1>
-        <div class="card card-4" style="margin-top: 50px;">
-            <form method="POST" action="{% url 'edit_user' user.id %}">
+        <h1 class="text-center">Editar Perfil</h1>
+        <div class="card" style="margin-top: 50px;">
+          <div class="card-body">
+            <form method="POST" action="{% url 'edit_user' user.user.pk %}">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label for="nombre">Nombre</label>
+                            <h4><label for="nombre">Nombre</label></h4>
                             <input class="form-control" type="text" name="nombre" required value="{{ user.nombre }}"/>
                         </div>
                     </div>
-            
+
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label for="apellido_paterno">Apellido Paterno</label>
+                            <h4><label for="apellido_paterno">Apellido Paterno</label></h4>
                             <input class="form-control" type="text" name="apellido_paterno" value="{{ user.apellido_paterno }}" required>
                         </div>
                     </div>
 
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label for="apellido_materno">Apellido Materno</label>
+                            <h4><label for="apellido_materno">Apellido Materno</label></h4>
                             <input class="form-control" type="text" name="apellido_materno" value="{{ user.apellido_materno }}" required>
                         </div>
                     </div>
@@ -39,16 +47,16 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label for="email">Correo</label>
+                            <h4><label for="email">Correo</label></h4>
                             <div class="invalid-feedback invalid-mail">
                                 ¡Oops! El correo que ingresaste ya existe.
                             </div>
-                            <input class="form-control" type="email" name="email" id="email" value="{{ user.user.email }}" required>
+                            <input class="form-control" type="email" name="email" id="email" value="{{ user.user.email }}" required readonly disabled>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label for="telefono">Teléfono</label>
+                            <h4><label for="telefono">Teléfono</label></h4>
                             <input class="form-control" type="text" name="telefono" value="{{ user.telefono }}" required>
                         </div>
                     </div>
@@ -56,32 +64,65 @@
                 <!--<div class="ocultable">-->
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4">
-                        <label for="estado">Estado</label>
+                        <h4><label for="estado">Estado</label></h4>
                         <select name="estado" id="estado" class="form-control" required>
                             <option disabled="disabled" value="">Seleccione un estado...</option>
+                            <option value="Aguascalientes">Aguascalientes</option>
+                            <option value="Baja California">Baja California</option>
+                            <option value="Baja California Sur">Baja California Sur</option>
+                            <option value="Campeche">Campeche</option>
+                            <option value="Chiapas">Chiapas</option>
                             <option value="Chihuahua">Chihuahua</option>
+                            <option value="CDMX">Ciudad de México</option>
+                            <option value="Coahuila">Coahuila</option>
+                            <option value="Colima">Colima</option>
+                            <option value="Durango">Durango</option>
+                            <option value="Estado de México">Estado de México</option>
+                            <option value="Guanajuato">Guanajuato</option>
+                            <option value="Guerrero">Guerrero</option>
+                            <option value="Hidalgo">Hidalgo</option>
+                            <option value="Jalisco">Jalisco</option>
+                            <option value="Michoacán">Michoacán</option>
+                            <option value="Morelos">Morelos</option>
+                            <option value="Nayarit">Nayarit</option>
+                            <option value="Nuevo León">Nuevo León</option>
+                            <option value="Oaxaca">Oaxaca</option>
+                            <option value="Puebla">Puebla</option>
+                            <option value="Querétaro">Querétaro</option>
+                            <option value="Quintana Roo">Quintana Roo</option>
+                            <option value="San Luis Potosí">San Luis Potosí</option>
                             <option value="Sinaloa">Sinaloa</option>
+                            <option value="Sonora">Sonora</option>
+                            <option value="Tabasco">Tabasco</option>
+                            <option value="Tamaulipas">Tamaulipas</option>
+                            <option value="Tlaxcala">Tlaxcala</option>
+                            <option value="Veracruz">Veracruz</option>
                             <option value="Yucatán">Yucatán</option>
+                            <option value="Zacatecas">Zacatecas</option>
                         </select>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label for="nombre_agencia">Agencia (opcional)</label>
+                            <h4><label for="nombre_agencia">Agencia (opcional)</label></h4>
                             <input class="form-control" type="text" name="nombre_agencia" value="{{ user.nombre_agencia }}" >
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <label for="numero_agencia">Número de Agencia (opcional)</label>
+                            <h4><label for="numero_agencia">Número de Agencia (opcional)</label></h4>
                             <input class="form-control" type="text" name="numero_agencia" value="{{ user.numero_agencia }}" >
                         </div>
                     </div>
                 </div>
-                <button type="submit" id="submit" class="btn btn-success">Guardar</button>
 
-                
+
         </div>
+        </div>
+        <br><br>
+        <button type="submit" id="submit" class="btn btn-success" style="display: block; margin-right: 0; margin-left:auto;">Guardar</button>
     </div>
+</div>
+<br><br><br>
 </div>
 
 
@@ -91,14 +132,24 @@
 
 {% block optionalJS %}
 <script type="text/javascript">
+$(document).ready(function() {
+    $(".main_nav").find(".active").removeClass("active");
+
+    $("#profile").addClass("active");
+  });
+</script>
+
+<script type="text/javascript">
         var estado = '{{ user.estado }}';
+        if(estado === "CDMX"){
+          estado = "Ciudad de México";
+        }
         console.log(estado);
         $("select > option").each(function(){
-            console.log(estado);
             if($(this).text() === estado){
                 $(this).attr('selected', 'selected');
             }
         });
-    
+
 </script>
 {% endblock %}

@@ -17,7 +17,7 @@
             {% endif %}
 
             {% if request.user.is_authenticated %}
-            <li id="profile"><a href="/usuarios/{{ request.user.id }}">Perfil</a></li>
+            <li id="profile"><a href="/usuarios/{{ request.user.pk }}">Perfil</a></li>
             {% endif %}
 
             {% if 'visualizar_mis_propiedades' in request.session.permissions %}

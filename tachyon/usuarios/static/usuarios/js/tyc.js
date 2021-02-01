@@ -6,3 +6,9 @@ function changeSend(){
     $('#submit').prop('disabled', true);
   }
 }
+
+function checkTyC(){
+  if(!$('#tyc').prop('checked')){
+    showNotificationInfo('top','right','Debe aceptar los términos y condiciones para continuar.');
+  }
+}

@@ -287,7 +287,7 @@ def createPropertyView(request):
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
             form = CrearPropiedadForma(request.POST, request.FILES)
             files = request.FILES.getlist('extra')
-            print(form.errors)
+            #print(form.errors)
             if form.is_valid():
                 # Sacar los datos del la forma
                 oferta = form.cleaned_data['oferta']
