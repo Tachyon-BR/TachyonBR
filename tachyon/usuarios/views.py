@@ -56,7 +56,7 @@ def verifyLogin(request):
 
                 if tachyon_user.estado_eliminado:
                     return render(request,'usuarios/login.html', {
-                        'warning': 'Tu cuenta se encuentra temporalmente suspendida, comunícate con el equipo de Tachyon para más información.'
+                        'warning': 'Tu cuenta se encuentra temporalmente suspendida, comunícate con el equipo de Conexión Inmueble para más información.'
                     })
 
                 login(request, user)
@@ -177,8 +177,8 @@ def createUser(request):
                     message = Mail(
                         from_email='tachyon.icarus@gmail.com',
                         to_emails=email,
-                        subject='Verificacion de registro a Tachyon',
-                        html_content='<p>Gracias por registrarte a Tachyon B.R. [Nombre sujeto a cambios]</p><p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>')
+                        subject='Verificacion de registro a Conexión Inmueble',
+                        html_content='<p>Gracias por registrarte a Conexión Inmueble</p><p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>')
                     try:
                         sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
                         response = sg.send(message)
@@ -342,9 +342,9 @@ def adminVerifyCreateUser(request):
                     message = Mail(
                         from_email='tachyon.icarus@gmail.com',
                         to_emails=email,
-                        subject='Bienvenido a Tachyon',
+                        subject='Bienvenido a Conexión Inmueble',
                         html_content='<p>Saludos '+nombre+'. </p>\
-                            <p>¡Ya eres miembro de Tachyon B.R.!</p>\
+                            <p>¡Ya eres miembro de Conexión Inmueble!</p>\
                             <p>Tus datos para iniciar sesión son los siguientes: </p>\
                             <ul>\
                             <li>Correo: <strong>'+email.lower()+'</strong></li>\
