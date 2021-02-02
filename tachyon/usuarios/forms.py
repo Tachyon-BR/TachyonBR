@@ -13,6 +13,7 @@ class CrearUsuarioForma(forms.Form):
     confirmar_contrasena = forms.CharField(max_length = 32, min_length=6)
     email = forms.EmailField()
     rol = forms.CharField(max_length = 200, required=False)
+    tyc = forms.BooleanField(widget=forms.CheckboxInput(), required=True)
 
 
 class UpdateUsuarioForma(forms.Form):
@@ -23,4 +24,4 @@ class UpdateUsuarioForma(forms.Form):
     estado = forms.CharField(max_length = 500, required=False)
     nombre_agencia = forms.CharField(max_length = 500, required=False)
     numero_agencia = forms.CharField(max_length = 500, required=False)
-    email = forms.EmailField()
+    email = forms.EmailField(required=False)

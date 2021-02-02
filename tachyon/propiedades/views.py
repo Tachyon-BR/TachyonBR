@@ -287,7 +287,7 @@ def createPropertyView(request):
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
             form = CrearPropiedadForma(request.POST, request.FILES)
             files = request.FILES.getlist('extra')
-            print(form.errors)
+            #print(form.errors)
             if form.is_valid():
                 # Sacar los datos del la forma
                 oferta = form.cleaned_data['oferta']
@@ -617,7 +617,7 @@ def validateAsRevisorView(request):
                     message = Mail(
                         from_email='tachyon.icarus@gmail.com',
                         to_emails=user.email,
-                        subject='Tachyon - '+ propiedad.titulo +': Publicada',
+                        subject='Conexión Inmueble - '+ propiedad.titulo +': Publicada',
                         plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
                         \n\nEstamos felices de informarle que su propiedad ha sido aceptada por nuestros revisores. Su propiedad ya fue publicada y podrá ser accedida por los usuarios de la página.
                         \n\nEnlace a su Propiedad: \n\t - https://conexioninmueble.com/propiedades/property/'''+ str(propiedad.pk) +'''
@@ -645,7 +645,7 @@ def validateAsRevisorView(request):
                     message = Mail(
                         from_email='tachyon.icarus@gmail.com',
                         to_emails=user.email,
-                        subject='Tachyon - '+ propiedad.titulo +': Rechazada',
+                        subject='Conexión Inmueble - '+ propiedad.titulo +': Rechazada',
                         plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
                         \n\nLamentamos informarle que su propiedad ha sido rechazada por nuestros revisores, por favor lea los siguientes comentarios de nuestros revisores, realice las correcciones necesarias, y vuelva a mandar a revisión su propiedad.
                         \n\nComentarios del Revisor: \n'''+ coms +'''
@@ -894,7 +894,7 @@ def contactOwnerView(request, id):
                 message = Mail(
                     from_email='tachyon.icarus@gmail.com',
                     to_emails=user.email,
-                    subject='Tachyon - '+ propiedad.titulo,
+                    subject='Conexión Inmueble - '+ propiedad.titulo,
                     plain_text_content=''+msg+'\n\n\nCorreo de Contacto del Usuario:\n\t- '+correo+'\n\nFAVOR DE CONTACTAR AL USUARIO POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO'
                     # html_content='<p>'+msg+'</p><br>\
                     #     <p>Correo de Contacto del Usuario: </p>\

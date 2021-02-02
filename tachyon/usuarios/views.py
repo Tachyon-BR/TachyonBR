@@ -56,7 +56,7 @@ def verifyLogin(request):
 
                 if tachyon_user.estado_eliminado:
                     return render(request,'usuarios/login.html', {
-                        'warning': 'Tu cuenta se encuentra temporalmente suspendida, comunícate con el equipo de Tachyon para más información.'
+                        'warning': 'Tu cuenta se encuentra temporalmente suspendida, comunícate con el equipo de Conexión Inmueble para más información.'
                     })
 
                 login(request, user)
@@ -129,6 +129,7 @@ def createUser(request):
     else:
         if request.method == 'POST':
             form = CrearUsuarioForma(request.POST)
+            #print(form.errors)
             if form.is_valid():
                 nombre = form.cleaned_data['nombre']
                 apellido_paterno = form.cleaned_data['apellido_paterno']
@@ -140,11 +141,17 @@ def createUser(request):
                 contrasena = form.cleaned_data['contrasena']
                 confirmar_contrasena = form.cleaned_data['confirmar_contrasena']
                 email = form.cleaned_data['email']
+                tyc = form.cleaned_data['tyc']
+
+                if not tyc:
+                    request.session['notification_session_msg'] = "Los términos y condiciones no fueron aceptados."
+                    request.session['notification_session_type'] = "Danger"
+                    return redirect('/usuarios/create')
 
 
                 checkEmail = User.objects.filter(email=email)
                 if(len(checkEmail)>0):
-                    request.session['notification_session_msg'] = "El correo ya existe."
+                    request.session['notification_session_msg'] = "El correo electrónico ya está registrado."
                     request.session['notification_session_type'] = "Danger"
                     return redirect('/usuarios/create')
 
@@ -177,8 +184,8 @@ def createUser(request):
                     message = Mail(
                         from_email='tachyon.icarus@gmail.com',
                         to_emails=email,
-                        subject='Verificacion de registro a Tachyon',
-                        html_content='<p>Gracias por registrarte a Tachyon B.R. [Nombre sujeto a cambios]</p><p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>')
+                        subject='Verificacion de registro a Conexión Inmueble',
+                        html_content='<p>Gracias por registrarte a Conexión Inmueble</p><p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>')
                     try:
                         sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
                         response = sg.send(message)
@@ -342,9 +349,9 @@ def adminVerifyCreateUser(request):
                     message = Mail(
                         from_email='tachyon.icarus@gmail.com',
                         to_emails=email,
-                        subject='Bienvenido a Tachyon',
+                        subject='Bienvenido a Conexión Inmueble',
                         html_content='<p>Saludos '+nombre+'. </p>\
-                            <p>¡Ya eres miembro de Tachyon B.R.!</p>\
+                            <p>¡Ya eres miembro de Conexión Inmueble!</p>\
                             <p>Tus datos para iniciar sesión son los siguientes: </p>\
                             <ul>\
                             <li>Correo: <strong>'+email.lower()+'</strong></li>\
@@ -380,7 +387,7 @@ def getLoggedUserJson(request):
 
 
 def profile(request, user_id):
-    user = get_object_or_404(TachyonUsuario, pk=user_id)
+    user = get_object_or_404(TachyonUsuario, user__pk=user_id)
     return render(request, 'usuarios/user_detail.html', {'user': user})
 
 
@@ -388,7 +395,7 @@ def profile(request, user_id):
 def edit_user(request, user_id):
     if request.user.id != user_id:
         raise Http404
-    user = get_object_or_404(TachyonUsuario, pk=user_id)
+    user = get_object_or_404(TachyonUsuario, user__pk=user_id)
     if request.method == 'GET':
         return render(request, 'usuarios/user_edit.html', {'user': user})
 
@@ -421,7 +428,7 @@ def edit_user(request, user_id):
             # Actualizar usuario del modelo de django
             u = User.objects.get(pk = user.pk)
             u.username=uname
-            u.email=email
+            #u.email=email
             u.save()
 
             print("nombre")
@@ -438,6 +445,10 @@ def edit_user(request, user_id):
             tUser.numero_agencia = numero_agencia
             tUser.save()
 
-            return render(request, 'usuarios/user_edit.html', {'user': user})
+            request.session['notification_session_msg'] = "Se ha editado su perfil existosamente."
+            request.session['notification_session_type'] = "Success"
+            return redirect('/usuarios/'+ str(user.user.pk))
         else:
+            request.session['notification_session_msg'] = "Ha ocurrido un error. Inténtelo de nuevo más tarde."
+            request.session['notification_session_type'] = "Danger"
             return render(request, 'usuarios/user_edit.html', {'user': user})

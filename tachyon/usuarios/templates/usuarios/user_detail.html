@@ -8,39 +8,42 @@
 
 {% block content %}
 
+<div class="content-top-margin">
 
 <div class="featured content-top-margin" style="margin-top:10px;">
     <div class="container">
-        <h1>Perfil</h1>
-        
-        {% if request.user.id == user.id %}
+        <h1>Perfil: {{ user.user.email }}</h1>
+        <br>
+        {% if request.user.pk == user.user.pk %}
         <!--Se agrega si el user req es igual al user consultado-->
-        <a href="{% url 'edit_user' user.id %}"><button class="btn btn-success" style="float: right;"><i class="fas fa-user-edit"></i> Editar</button></a>
+        <a href="{% url 'edit_user' user.user.pk %}"><button class="btn btn-success" style="float: right;"><i class="fas fa-user-edit"></i> Editar</button></a>
         {% endif %}
 
-        <div class="card">                
+        <div class="card">
             <div class="card-body">
-                <h4>Información de {{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}</h4>
+                <h3>Información de {{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}</h3>
                 <hr>
-                <div class="row">
+                <div class="row" style="padding-top: 15px;">
                     <div class="col-12 col-md-6 col-lg-4">
-                        <h6>Nombre completo</h6>
-                        <p>{{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}</p>    
+                        <h4>Nombre completo</h4>
+                        <p>{{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}</p>
                     </div>
                    <div class="col-12 col-md-6 col-lg-4">
-                        <h6>Rol</h6>
+                        <h4>Rol</h4>
                         <p>{{ user.rol.nombre }}</p>
                    </div>
                     <div class="col-12 col-md-6 col-lg-4">
-                        <h6>Teléfono</h6>
-                        <p>{{ user.telefono }}</p>    
+                        <h4>Teléfono</h4>
+                        <p>{{ user.telefono }}</p>
                     </div>
+                </div>
+                <div class="row" style="padding-top: 50px;">
                     <div class="col-12 col-md-6 col-lg-4">
-                        <h6>Correo electrónico</h6>
+                        <h4>Correo electrónico</h4>
                         <p>{{ user.user.email }}</p>
                     </div>
                     <div class="col-12 col-md-6 col-lg-4">
-                        <h6>Nombre de agencia</h6>
+                        <h4>Nombre de agencia</h4>
                         {% if user.nombre_agencia %}
                         <p>{{ user.nombre_agencia }}</p>
                         {% else %}
@@ -48,15 +51,17 @@
                         {% endif %}
                     </div>
                     <div class="col-12 col-md-6 col-lg-4">
-                        <h6>Número de agencia</h6>
+                        <h4>Número de agencia</h4>
                         {% if user.numero_agencia %}
                         <p>{{ user.numero_agencia }}</p>
                         {% else %}
                         <p>No proporcionado</p>
                         {% endif %}
                     </div>
+                </div>
+                <div class="row" style="padding-top: 50px;">
                     <div class="col-12 col-md-6 col-lg-4">
-                        <h6>Estado</h6>
+                        <h4>Estado</h4>
                         {% if user.estado %}
                         <p>{{ user.estado }}</p>
                         {% else %}
@@ -64,7 +69,7 @@
                         {% endif %}
                     </div>
                     <div class="col-12 col-md-6 col-lg-4">
-                        <h6>Estado de registro</h6>
+                        <h4>Estado de registro</h4>
                         {% if user.estado_registro %}
                         <p>Verificado</p>
                         {% else %}
@@ -72,23 +77,22 @@
                         {% endif %}
                     </div>
                     <div class="col-12 col-md-6 col-lg-4">
-                        <h6>Estado de visibilidad</h6>
+                        <h4>Estado de actividad</h4>
                         {% if user.estado_eliminado %}
                         <p>Eliminado</p>
                         {% else %}
-                        <p>Visible</p>
+                        <p>Activo</p>
                         {% endif %}
                     </div>
-
                 </div>
             </div>
         </div>
 
 
-//propiedades
-
 
     </div>
+</div>
+<br><br><br>
 </div>
 
 
@@ -99,4 +103,9 @@
 
 {% block optionalJS %}
 <script type="text/javascript" src="{% static 'usuarios/js/navbar_perfil.js' %}"></script>
+
+<script type="text/javascript">
+    checkNotificationSession();
+</script>
+
 {% endblock %}
