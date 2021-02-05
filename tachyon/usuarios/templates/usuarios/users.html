@@ -28,7 +28,7 @@
           <tr id="row-{{ t.pk }}">
             <td>
               <img src="{% static 'root/images/user.png' %}" alt="Ícono de usuario">
-              <a href="{% url 'profile' t.id %}" class="user-link">{{ t.nombre }} {{ t.apellido_paterno }} {{t.apellido_materno }}</a>
+              <a href="{% url 'profile' t.user.pk %}" class="user-link">{{ t.nombre }} {{ t.apellido_paterno }} {{t.apellido_materno }}</a>
               <span class="user-subhead">{{ t.rol.nombre }}</span>
             </td>
             <td>
@@ -50,18 +50,20 @@
               <span>{{ t.user.email }}</span>
             </td>
             <td id="icons" style="width: 20%;">
-              <a href="#" class="table-link info">
+              <a href="{% url 'profile' t.user.pk %}" class="table-link info">
                 <span class="fa-stack">
                   <i class="fa fa-square fa-stack-2x"></i>
                   <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
+              <!--
               <a href="#" class="table-link">
                 <span class="fa-stack">
                   <i class="fa fa-square fa-stack-2x"></i>
                   <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
                 </span>
               </a>
+              -->
               {% if 'eliminar_usuario' in request.session.permissions %}
                 {% if t.estado_eliminado %}
                   <a href="#" class="table-link success" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#restore-user">

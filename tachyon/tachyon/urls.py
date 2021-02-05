@@ -25,7 +25,8 @@ urlpatterns = [
     path('pagos/', include('pagos.urls')),
     path('propiedades/', include('propiedades.urls')),
     path('usuarios/', include('usuarios.urls')),
-    path('', views.home, name='home')
+    path('', views.home, name='home'),
+    path('nosotros', views.nosotrosView, name='nosotros'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

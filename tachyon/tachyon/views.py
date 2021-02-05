@@ -72,3 +72,7 @@ def home(request):
         return render(request, 'tachyon/homepage.html', {'p1': p1, 'p2': p2, 'p3': p3, 'views': vistas, 'new': nuevas})
     else:
         raise Http404
+
+
+def nosotrosView(request):
+    return render(request, 'root/nosotros.html')
