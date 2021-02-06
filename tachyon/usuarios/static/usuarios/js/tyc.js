@@ -9,6 +9,6 @@ function changeSend(){
 
 function checkTyC(){
   if(!$('#tyc').prop('checked')){
-    showNotificationInfo('top','right','Debe aceptar los términos y condiciones para continuar.');
+    showNotificationInfo('top','right','Debe aceptar los términos y condiciones y las políticas de privacidad para continuar.');
   }
 }
