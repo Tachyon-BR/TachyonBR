@@ -241,9 +241,9 @@ def enRevisionView(request):
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
 
         if user_logged.rol.nombre is 'Revisor':
-            list = Propiedad.objects.filter(estado_revision = True, revisor__isnull=True)
+            list = Propiedad.objects.filter(estado_revision = True, revisor__isnull=True, estado_visible = True)
         else:
-            list = Propiedad.objects.filter(estado_revision = True)
+            list = Propiedad.objects.filter(estado_revision = True, estado_visible = True)
 
         for l in list:
             l.precio = locale.currency(l.precio, grouping=True)
@@ -531,7 +531,7 @@ def misRevisionesView(request):
     if 'seleccionar_peticion' in request.session['permissions']:
         locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
-        list = Propiedad.objects.filter(revisor = user_logged)
+        list = Propiedad.objects.filter(revisor = user_logged, estado_visible = True)
         for l in list:
             l.precio = locale.currency(l.precio, grouping=True)
             l.precio = l.precio[0:-3]
