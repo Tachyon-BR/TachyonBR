@@ -62,7 +62,12 @@
               </td>
               <td id="icons" style="width: 15%;">
                 {% if p.estado_revision or p.estado_activo %}
-                  Sin Acciones
+                  <a href="#" class="table-link danger" onclick="despublicar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#despublicar-propiedad">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-arrow-circle-down fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
                 {% else %}
                   <a href="#" class="table-link success" onclick="validar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#validate-property">
                     <span class="fa-stack">
@@ -92,6 +97,7 @@
   </div>
 </div>
 
+{% include './modals/despublicar-propiedad.html' %}
 {% include './modals/validate-property.html' %}
 {% include './modals/historial-property-revisor.html' %}
 {% include './modals/validate-property-revisor.html' %}
