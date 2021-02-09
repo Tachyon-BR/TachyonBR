@@ -919,3 +919,30 @@ def contactOwnerView(request, id):
             request.session['notification_session_type'] = "Danger"
     else:
         raise Http404
+
+
+
+def unpublishPropertyView(request):
+    if request.method == 'POST':
+        user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+        id = request.POST.get('id')
+        propiedad = Propiedad.objects.filter(pk = id).first()
+        if propiedad:
+            if propiedad.propietario == user_logged:    # Evitar que los usuarios puedan editar propiedades ajenas
+                propiedad.estado_activo = False
+                propiedad.estado_revision = False
+                propiedad.save()
+                return HttpResponse('OK')
+            else:
+                response = JsonResponse({"error": "No puedes editar propiedades ajenas"})
+                response.status_code = 401
+                return response
+        else:
+            response = JsonResponse({"error": "No existe esta propiedad"})
+            response.status_code = 402
+            return response
+    else:
+        response = JsonResponse({"error": "La solicitud no se mandó por el método correcto"})
+        response.status_code = 500
+        # Regresamos la respuesta de error interno del servidor
+        return response
