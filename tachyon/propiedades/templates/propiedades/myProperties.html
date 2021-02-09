@@ -61,7 +61,7 @@
                 {% endif %}
               </td>
               <td id="icons" style="width: 15%;">
-                {% if p.estado_revision or p.estado_activo %}
+                {% if or p.estado_activo %}
                   <a href="#" class="table-link danger" onclick="despublicar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#despublicar-propiedad">
                     <span class="fa-stack">
                       <i class="fa fa-square fa-stack-2x"></i>
