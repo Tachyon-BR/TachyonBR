@@ -198,7 +198,7 @@
                         <div class="col-4">
                             <div class="input-group">
                                 <label class="label">Código Postal</label>
-                                <input class="input--style-4 form-control validacion" type="text" name="codigo_postal" id="codigo_postal" pattern=".{5,5}" onchange="numero(this.id, this.value); cp_hidden();" required>
+                                <input class="input--style-4 form-control validacion" type="text" name="codigo_postal" id="codigo_postal" pattern=".{5,5}" onkeyup="numero(this.id, this.value); cp_hidden();" required>
                                 <div class="valid-feedback">
                                     ¡Correcto!, recuerde validar su código postal.
                                 </div>

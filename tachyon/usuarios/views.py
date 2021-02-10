@@ -182,7 +182,7 @@ def createUser(request):
                 if (email != 'test@test.com'):
                     # Enviar correo con codigo de registro
                     message = Mail(
-                        from_email='tachyon.icarus@gmail.com',
+                        from_email='no-reply@conexioninmueble.com',
                         to_emails=email,
                         subject='Verificacion de registro a Conexión Inmueble',
                         html_content='<p>Gracias por registrarte a Conexión Inmueble</p><p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>')
@@ -347,7 +347,7 @@ def adminVerifyCreateUser(request):
                 if (email != 'test@test.com'):
                     # Enviar correo con codigo de registro
                     message = Mail(
-                        from_email='tachyon.icarus@gmail.com',
+                        from_email='no-reply@conexioninmueble.com',
                         to_emails=email,
                         subject='Bienvenido a Conexión Inmueble',
                         html_content='<p>Saludos '+nombre+'. </p>\
