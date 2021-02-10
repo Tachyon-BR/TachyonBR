@@ -615,7 +615,7 @@ def validateAsRevisorView(request):
                 if (user.email != 'test@test.com'):
                     # Enviar correo con codigo de registro
                     message = Mail(
-                        from_email='tachyon.icarus@gmail.com',
+                        from_email='no-reply@conexioninmueble.com',
                         to_emails=user.email,
                         subject='Conexión Inmueble - '+ propiedad.titulo +': Publicada',
                         plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
@@ -643,7 +643,7 @@ def validateAsRevisorView(request):
                 if (user.email != 'test@test.com'):
                     # Enviar correo con codigo de registro
                     message = Mail(
-                        from_email='tachyon.icarus@gmail.com',
+                        from_email='no-reply@conexioninmueble.com',
                         to_emails=user.email,
                         subject='Conexión Inmueble - '+ propiedad.titulo +': Rechazada',
                         plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
@@ -892,7 +892,7 @@ def contactOwnerView(request, id):
             if (user.email != 'test@test.com'):
                 # Enviar correo con codigo de registro
                 message = Mail(
-                    from_email='tachyon.icarus@gmail.com',
+                    from_email='no-reply@conexioninmueble.com',
                     to_emails=user.email,
                     subject='Conexión Inmueble - '+ propiedad.titulo,
                     plain_text_content=''+msg+'\n\n\nCorreo de Contacto del Usuario:\n\t- '+correo+'\n\nFAVOR DE CONTACTAR AL USUARIO POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO'

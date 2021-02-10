@@ -77,6 +77,13 @@ function numero(id, val){
     $('#'+id).val('');
     showNotificationWarning('bottom', 'center', 'Número inválido. Por favor, ingrese sólo números.');
   }
+  else{
+    if(id === "codigo_postal"){
+      if(val.length == 5){
+        validar_cp();
+      }
+    }
+  }
 }
 
 function positivo(id, val){
