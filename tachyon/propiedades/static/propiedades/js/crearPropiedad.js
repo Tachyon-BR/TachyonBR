@@ -1,10 +1,66 @@
 var min = -1;
 var max = -1;
+var xtr = 0;
+var f = [];
 
 // A $( document ).ready() block.
 $( document ).ready(function() {
   $('#id_portada').addClass('custom-file-input');
   $('#id_extra').addClass('custom-file-input');
+
+
+  $('#id_portada').change(function() {
+    img = document.getElementById('prtd');
+    if($('#id_portada').prop('files').length >= 1){ //$('#id_portada').prop('files')[0];
+      $('#prtd').prop('hidden', false);
+      img.src = URL.createObjectURL(this.files[0]);
+      img.onload = function() {
+        URL.revokeObjectURL(this.src);
+      }
+    }
+    else{
+      $('#prtd').prop('hidden', true);
+    }
+  });
+  $('#prtd').click(function() {
+    $('#prtd').prop('hidden', true);
+    $('#id_portada').val('');
+    var len = $('#id_portada').get(0).files.length;
+    if(len <= 0){
+      $('#file-label-1').html('Selecciona tu archivo...');
+    }
+    else{
+      $('#file-label-1').html($('#id_portada').get(0).files[0].name);
+    }
+  });
+
+
+  $('#id_extra').change(function() {
+    if($('#id_extra').prop('files').length >= 1){ //$('#id_portada').prop('files')[0];
+      $('#xtr').empty();
+      xtr = 0;
+      var i;
+      for(i = 0; i < $('#id_extra').prop('files').length; i++){
+        $('#xtr').append('<img id="xtr'+ xtr +'" alt="Extra'+ xtr +'" width="100" height="100" style="margin: 15px;" onclick="destroyImg(this.id);" />');
+        img = document.getElementById('xtr'+xtr);
+        xtr += 1;
+        img.src = URL.createObjectURL(this.files[i]);
+        img.onload = function() {
+          URL.revokeObjectURL(this.src);
+        }
+      }
+      /*
+      files = $('#id_extra').prop('files');
+      files.forEach(function (file) {
+        f.push(file);
+      });
+      */
+    }
+    else{
+      $('#xtr').empty();
+      xtr = 0;
+    }
+  });
 });
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -221,4 +277,9 @@ function val_video(val){
   if(!ban && val != ""){
     $("#safe_vid").val('')
   }
+}
+
+function destroyImg(id){
+  var val = id.slice(-1);
+  $('#'+id).remove();
 }
