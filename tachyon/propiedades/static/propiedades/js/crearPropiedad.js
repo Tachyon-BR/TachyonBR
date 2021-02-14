@@ -21,6 +21,13 @@ $( document ).ready(function() {
     else{
       $('#prtd').prop('hidden', true);
     }
+    var len = $('#id_portada').get(0).files.length;
+    if(len <= 0){
+      $('#file-label-1').html('Selecciona tu archivo...');
+    }
+    else{
+      $('#file-label-1').html($('#id_portada').get(0).files[0].name);
+    }
   });
   $('#prtd').click(function() {
     $('#prtd').prop('hidden', true);
@@ -37,10 +44,11 @@ $( document ).ready(function() {
 
   $('#id_extra').change(function() {
     if($('#id_extra').prop('files').length >= 1){ //$('#id_portada').prop('files')[0];
-      $('#xtr').empty();
-      xtr = 0;
+      //$('#xtr').empty();
+      //xtr = 0;
+      var files = $('#id_extra').prop('files');
       var i;
-      for(i = 0; i < $('#id_extra').prop('files').length; i++){
+      for(i = 0; i < files.length; i++){
         $('#xtr').append('<img id="xtr'+ xtr +'" alt="Extra'+ xtr +'" width="100" height="100" style="margin: 15px;" onclick="destroyImg(this.id);" />');
         img = document.getElementById('xtr'+xtr);
         xtr += 1;
@@ -48,17 +56,32 @@ $( document ).ready(function() {
         img.onload = function() {
           URL.revokeObjectURL(this.src);
         }
+        f.push(files[i]);
       }
-      /*
-      files = $('#id_extra').prop('files');
-      files.forEach(function (file) {
-        f.push(file);
-      });
-      */
     }
     else{
-      $('#xtr').empty();
-      xtr = 0;
+      //$('#xtr').empty();
+      //xtr = 0;
+    }
+    var filtered = f.filter(function (el) {
+      return el != null;
+    });
+    var len = filtered.length;
+    if(len <= 0){
+      $('#file-label-2').html('Selecciona tus archivos...');
+    }
+    else{
+      $('#file-label-2').html(len +' archivos seleccionados');
+    }
+    if((parseInt(len) >= min) && (parseInt(len) <= max)){
+      $('#id_extra').removeClass('is-invalid').addClass('is-valid')
+      $('#id_extra').next().prop('hidden', false)
+      $('#safe').val('Qwerty')
+    }
+    else{
+      $('#id_extra').removeClass('is-valid').addClass('is-invalid')
+      $('#id_extra').next().prop('hidden', true)
+      $('#safe').val('')
     }
   });
 });
@@ -154,44 +177,6 @@ function decimal(id, val){
   }
 }
 
-$('#id_portada').change(function(){
-  var len = $('#id_portada').get(0).files.length;
-  if(len <= 0){
-    $('#file-label-1').html('Selecciona tu archivo...');
-  }
-  else{
-    $('#file-label-1').html($('#id_portada').get(0).files[0].name);
-  }
-});
-
-$('#id_extra').change(function(){
-  var len = $('#id_extra').get(0).files.length;
-  if(len <= 0){
-    $('#file-label-2').html('Selecciona tus archivos...');
-  }
-  else{
-    $('#file-label-2').html(len +' archivos seleccionados');
-  }
-  // for(i = 0; i < len; i++){
-  //   if(i == 0){
-  //     $('#file-label-2').html($('#id_extra').get(0).files[i].name);
-  //   }
-  //   else{
-  //     $('#file-label-2').html($('#file-label-2').html()+ ", " + $('#id_extra').get(0).files[i].name);
-  //   }
-  // }
-  if((parseInt($('#id_extra').get(0).files.length) >= min) && (parseInt($('#id_extra').get(0).files.length) <= max)){
-    $('#id_extra').removeClass('is-invalid').addClass('is-valid')
-    $('#id_extra').next().prop('hidden', false)
-    $('#safe').val('Qwerty')
-  }
-  else{
-    $('#id_extra').removeClass('is-valid').addClass('is-invalid')
-    $('#id_extra').next().prop('hidden', true)
-    $('#safe').val('')
-  }
-});
-
 function validate_files(){
   if((parseInt($('#id_extra').get(0).files.length) >= min) && (parseInt($('#id_extra').get(0).files.length) <= max)){
     $('#id_extra').removeClass('is-invalid').addClass('is-valid')
@@ -282,4 +267,10 @@ function val_video(val){
 function destroyImg(id){
   var val = id.slice(-1);
   $('#'+id).remove();
+  f[val] = null;
+  var filtered = f.filter(function (el) {
+    return el != null;
+  });
+  var len = filtered.length;
+  $('#file-label-2').html(len +' archivos seleccionados');
 }
