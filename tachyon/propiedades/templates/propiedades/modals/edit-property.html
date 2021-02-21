@@ -1,0 +1,27 @@
+<!-- Modal que forma parte de editar usuario -->
+<div class="modal fade" id="edit-property-modal" tabindex="-1" role="dialog" aria-labelledby="edit_property_modal" aria-hidden="true">
+    <div class="modal-dialog modal-info modal-dialog-centered" role="document">
+        <div class="modal-content bg-info">
+            <div class="align-text-right pr-4 mt-3">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">×</span>
+                </button>
+            </div>
+            <div class="modal-body text-white mt-0 pt-0">
+                <div class="py-2 text-center">
+                    <i class="fas fa-bell fa-5x" id="delete-icon-modal"></i>
+                    <h4 class="text-uppercase mt-4 text-white">¡Está a punto de editar su propiedad publicada!</h4>
+                    <br>
+                    <p class="text-light" style="line-height: inherit">
+                        Si completa la edición, su propiedad se despublicará.<br>
+                        Si desea volver a publicar su propiedad, tendrá que pasar por el proceso de revisión de nuevo.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none;">
+                <button type="button" class="btn btn-danger bg-transparent border-0 text-white ml-auto" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success bg-white border-0 text-dark" onclick="confirmar_editar_propiedad()" data-dismiss="modal">Aceptar</button> <!-- bg-white border-white text-dark -->
+            </div>
+        </div>
+    </div>
+</div>

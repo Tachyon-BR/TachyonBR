@@ -1,5 +1,5 @@
-var min = -1;
-var max = -1;
+var min = 5;
+var max = 20;
 
 // A $( document ).ready() block.
 $( document ).ready(function() {
@@ -55,6 +55,8 @@ $('#tipo').change(function() {
     $('#opcional').prop('hidden', false);
     forzar_required();
   }
+  min = 5;
+  max = 20;
   $('#fotos_prop').html('Mínimo '+ min +' <=> Máximo '+ max);
 });
 

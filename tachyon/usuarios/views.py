@@ -386,12 +386,18 @@ def getLoggedUserJson(request):
     return JsonResponse({"user": data})
 
 
+@login_required
 def profile(request, user_id):
     user = get_object_or_404(TachyonUsuario, user__pk=user_id)
-    return render(request, 'usuarios/user_detail.html', {'user': user})
+    user_logged = TachyonUsuario.objects.get(user = request.user)
+    super = False
+    if user_logged.rol.nombre == "SuperUsaurus" or user_logged.rol.nombre == "SuperAdministrador":
+        if user.rol.nombre != "SuperUsaurus" and user.rol.nombre != "SuperAdministrador":
+            super = True
+    return render(request, 'usuarios/user_detail.html', {'user': user, 'super': super})
 
 
-
+@login_required
 def edit_user(request, user_id):
     if request.user.id != user_id:
         raise Http404
@@ -426,7 +432,7 @@ def edit_user(request, user_id):
                     # letras del nombre y cada apellido más el número de usuarios en el sistema
 
             # Actualizar usuario del modelo de django
-            u = User.objects.get(pk = user.pk)
+            u = User.objects.get(pk = user_id)
             u.username=uname
             #u.email=email
             u.save()
@@ -439,7 +445,7 @@ def edit_user(request, user_id):
             tUser.nombre = nombre
             tUser.apellido_paterno = apellido_paterno
             tUser.apellido_materno = apellido_materno
-            tUser.telefono = telefono
+            #tUser.telefono = telefono
             tUser.estado = estado
             tUser.nombre_agencia = nombre_agencia
             tUser.numero_agencia = numero_agencia

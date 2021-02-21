@@ -1,0 +1,13 @@
+.danger a {
+	color: #fe635f;
+}
+.danger a:hover {
+	color: #dd504c;
+}
+
+.success a {
+	color: #28a745;
+}
+.success a:hover {
+	color: #28753a;
+}

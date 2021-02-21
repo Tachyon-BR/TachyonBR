@@ -62,10 +62,24 @@
               </td>
               <td id="icons" style="width: 15%;">
                 {% if p.estado_activo %}
+                  <!--
                   <a href="#" class="table-link danger" onclick="despublicar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#despublicar-propiedad">
                     <span class="fa-stack">
                       <i class="fa fa-square fa-stack-2x"></i>
                       <i class="fas fa-arrow-circle-down fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  -->
+                  <a href="#" class="table-link" onclick="editar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#edit-property-modal">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  <a href="#" class="table-link danger" onclick="borrar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#delete-property-modal">
+                    <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
                     </span>
                   </a>
                 {% elif p.estado_revision %}
@@ -104,6 +118,7 @@
 {% include './modals/historial-property-revisor.html' %}
 {% include './modals/validate-property-revisor.html' %}
 {% include './modals/delete-property.html' %}
+{% include './modals/edit-property.html' %}
 
 {% endblock content %}
 
@@ -118,4 +133,5 @@
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/borrar.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/validar.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/editar.js' %}"></script>
 {% endblock %}

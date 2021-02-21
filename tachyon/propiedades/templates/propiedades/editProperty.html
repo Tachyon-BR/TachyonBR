@@ -348,6 +348,11 @@
                         </div>
                     </div>
                     <br>
+                    {% if property.estado_activo %}
+                    <div class="alert alert-info" role="alert" style="text-align: center; border-color: #bee5eb; background-color: #d1ecf1; border-radius: .25rem; border: 1px solid transparent; color: #0c5460; font: caption; padding: 20px;">
+                      Recuerde que al completar la edición, su propiedad se despublicará
+                    </div>
+                    {% endif %}
                     <br>
                     <div class="container-login100-form-btn">
             						<button class="login100-form-btn" type="submit" id="submit">

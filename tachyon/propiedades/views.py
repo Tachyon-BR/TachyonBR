@@ -806,6 +806,8 @@ def modifyPropertyView(request, id):
                         propiedad.diferenciador = dif
                     if(video != None):
                         propiedad.video = video
+                    propiedad.estado_revision = False
+                    propiedad.estado_activo = False
 
                     # Guardar propiedad para poder guardar las imagenes
                     propiedad.save()
