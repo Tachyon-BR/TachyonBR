@@ -250,9 +250,14 @@ def randomString(stringLength=10):
 def indexView(request):
     if 'visualizar_usuarios' in request.session['permissions']:
         tachyons = TachyonUsuario.objects.all().exclude(user = request.user)
-
+        user_logged = TachyonUsuario.objects.get(user = request.user)
+        if user_logged.rol.nombre == "Administrador":
+            tachyons = tachyons.exclude(rol__nombre__in=["SuperUsaurus","SuperAdministrador"])
+        elif user_logged.rol.nombre == "SuperAdministrador":
+            tachyons = tachyons.exclude(rol__nombre="SuperUsaurus")
         context = {
-            'tachyons': tachyons
+            'tachyons': tachyons,
+            'rol': user_logged.rol.nombre
         }
 
         return render(request, 'usuarios/users.html', context)
@@ -287,8 +292,13 @@ def deleteUserView(request, id):
 @login_required
 def adminCreateUserView(request):
     if 'crear_staff' in request.session['permissions']:
+        super = False
+        user_logged = TachyonUsuario.objects.get(user = request.user)
+        if user_logged.rol.nombre == "SuperUsaurus":
+            super = True
         context = {
-            'adminCreator': True
+            'adminCreator': True,
+            'super': super
         }
         return render(request, 'usuarios/create.html', context)
     else: # Si el rol del usuario no es ventas no puede entrar a la página
@@ -386,12 +396,24 @@ def getLoggedUserJson(request):
     return JsonResponse({"user": data})
 
 
+@login_required
 def profile(request, user_id):
     user = get_object_or_404(TachyonUsuario, user__pk=user_id)
-    return render(request, 'usuarios/user_detail.html', {'user': user})
+    user_logged = TachyonUsuario.objects.get(user = request.user)
+    super = False
+    admin = False
+    if user_logged.rol.nombre == "SuperAdministrador":
+        if user.rol.nombre != "SuperUsaurus" and user.rol.nombre != "SuperAdministrador":
+            super = True
+    if user_logged.rol.nombre == "SuperUsaurus":
+        if user.rol.nombre != "SuperUsaurus":
+            super = True
+            admin = True
+
+    return render(request, 'usuarios/user_detail.html', {'user': user, 'super': super, 'admin': admin})
 
 
-
+@login_required
 def edit_user(request, user_id):
     if request.user.id != user_id:
         raise Http404
@@ -426,7 +448,7 @@ def edit_user(request, user_id):
                     # letras del nombre y cada apellido más el número de usuarios en el sistema
 
             # Actualizar usuario del modelo de django
-            u = User.objects.get(pk = user.pk)
+            u = User.objects.get(pk = user_id)
             u.username=uname
             #u.email=email
             u.save()
@@ -439,7 +461,7 @@ def edit_user(request, user_id):
             tUser.nombre = nombre
             tUser.apellido_paterno = apellido_paterno
             tUser.apellido_materno = apellido_materno
-            tUser.telefono = telefono
+            #tUser.telefono = telefono
             tUser.estado = estado
             tUser.nombre_agencia = nombre_agencia
             tUser.numero_agencia = numero_agencia
@@ -452,3 +474,28 @@ def edit_user(request, user_id):
             request.session['notification_session_msg'] = "Ha ocurrido un error. Inténtelo de nuevo más tarde."
             request.session['notification_session_type'] = "Danger"
             return render(request, 'usuarios/user_edit.html', {'user': user})
+
+
+@login_required
+def changeRolView(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        id_rol = request.POST.get('rol')
+        user = TachyonUsuario.objects.filter(pk = id).first()
+
+        if user:
+            rol = Rol.objects.filter(nombre = id_rol).first()
+
+            if rol:
+                user.rol = rol
+                user.save()
+
+                request.session['notification_session_msg'] = "Se ha cambiado el rol existosamente."
+                request.session['notification_session_type'] = "Success"
+                return redirect('/usuarios/'+ str(user.user.pk))
+            else:
+                raise Http404
+        else:
+            raise Http404
+    else:
+        raise Http404

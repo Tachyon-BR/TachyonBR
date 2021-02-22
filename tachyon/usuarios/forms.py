@@ -20,7 +20,7 @@ class UpdateUsuarioForma(forms.Form):
     nombre = forms.CharField(max_length = 30)
     apellido_paterno = forms.CharField(max_length = 30)
     apellido_materno = forms.CharField(max_length = 30)
-    telefono = forms.CharField(max_length = 20)
+    telefono = forms.CharField(max_length = 20, required=False)
     estado = forms.CharField(max_length = 500, required=False)
     nombre_agencia = forms.CharField(max_length = 500, required=False)
     numero_agencia = forms.CharField(max_length = 500, required=False)

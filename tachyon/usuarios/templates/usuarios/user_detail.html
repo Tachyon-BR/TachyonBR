@@ -2,7 +2,12 @@
 {% load static %}
 
 {% block optionalCSS %}
-
+<link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/botones.css' %}">
+<style>
+  .form-control {
+    color: #495057;
+  }
+</style>
 {% endblock %}
 
 
@@ -30,7 +35,47 @@
                     </div>
                    <div class="col-12 col-md-6 col-lg-4">
                         <h4>Rol</h4>
+                        {% if super %}
+                        <a id="edit" href="#" style="position: absolute; bottom: 37px; left: 150px;" onclick="mostrar_rol();">
+  			                  <span class="fa-stack">
+  			                    <i class="fa fa-square fa-stack-2x"></i>
+  			                    <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
+  			                  </span>
+  			                </a>
+                        <form id="form" method="POST" action="/usuarios/changeRol">
+                        {% csrf_token %}
+                          <div id="accept" class="success" hidden>
+                            <a id ="enviar" href="#" style="position: absolute; bottom: 7px; left: 115px;">
+                              <span class="fa-stack">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fas fa-check fa-stack-1x fa-inverse"></i>
+                              </span>
+                            </a>
+                          </div>
+                          <div id="cancel" class="danger" hidden>
+                            <a href="#" style="position: absolute; bottom: 7px; left: 150px;" onclick="esconder_rol();">
+                              <span class="fa-stack">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fas fa-times fa-stack-1x fa-inverse"></i>
+                              </span>
+                            </a>
+                          </div>
+                          <p id="rol_name">{{ user.rol.nombre }}</p>
+                          <div id="rol_div" class="form-group" hidden>
+                            <select class="form-control" name="rol" required>
+                              <option value="Propietario">Propietario</option>
+                              <option value="Revisor">Revisor</option>
+                              <option value="Administrador">Administrador</option>
+                              {% if admin %}
+                              <option value="SuperAdministrador">SuperAdministrador</option>
+                              {% endif %}
+                            </select>
+                          </div>
+                          <input type="text" name="id" value="{{ user.pk }}" hidden required>
+          							</form>
+                        {% else %}
                         <p>{{ user.rol.nombre }}</p>
+                        {% endif %}
                    </div>
                     <div class="col-12 col-md-6 col-lg-4">
                         <h4>Teléfono</h4>
@@ -47,7 +92,7 @@
                         {% if user.nombre_agencia %}
                         <p>{{ user.nombre_agencia }}</p>
                         {% else %}
-                        <p>No proporcionado</p>
+                        <p>No Proporcionado</p>
                         {% endif %}
                     </div>
                     <div class="col-12 col-md-6 col-lg-4">
@@ -55,7 +100,7 @@
                         {% if user.numero_agencia %}
                         <p>{{ user.numero_agencia }}</p>
                         {% else %}
-                        <p>No proporcionado</p>
+                        <p>No Proporcionado</p>
                         {% endif %}
                     </div>
                 </div>
@@ -65,7 +110,7 @@
                         {% if user.estado %}
                         <p>{{ user.estado }}</p>
                         {% else %}
-                        <p>No proporcionado</p>
+                        <p>No Proporcionado</p>
                         {% endif %}
                     </div>
                     <div class="col-12 col-md-6 col-lg-4">
@@ -103,9 +148,21 @@
 
 {% block optionalJS %}
 <script type="text/javascript" src="{% static 'usuarios/js/navbar_perfil.js' %}"></script>
+<script type="text/javascript" src="{% static 'usuarios/js/rol.js' %}"></script>
 
 <script type="text/javascript">
     checkNotificationSession();
+</script>
+
+<script type="text/javascript">
+        var rol = '{{ user.rol.nombre }}';
+        console.log(rol);
+        $("select > option").each(function(){
+            if($(this).text() === rol){
+                $(this).attr('selected', 'selected');
+            }
+        });
+
 </script>
 
 {% endblock %}

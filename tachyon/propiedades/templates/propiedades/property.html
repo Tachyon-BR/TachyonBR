@@ -17,8 +17,8 @@
 {% block content %}
 
 <div class="content-top-margin">
-	 <!-- Listing :D-->
 
+	<!-- Listing :D-->
 	<div id="portada" class="listing_container">
 		<div class="container">
 			<div class="row">
@@ -141,7 +141,7 @@
 											{% else %}
 											<li>Precio Negociable: No</li>
 											{% endif %}
-											<li>Publicada: {{ property.fecha_creacion.day }} de {{ property.fecha_creacion|date:'F' }} del {{ property.fecha_creacion.year }}</li>
+											<li>Publicada: {{ property.fecha_creacion.day }} de {{ property.fecha_creacion|date:'F' }} de {{ property.fecha_creacion.year }}</li>
 											<!-- <li>Publicada: {{ property.fecha_publicacion }}</li> -->
 										</ul>
 									</div>
@@ -151,12 +151,16 @@
 										<div class="prop_agent_name"><a href="#">{{ property.propietario.nombre }} {{ property.propietario.apellido_paterno }} {{ property.propietario.apellido_materno }}</a>, {% if property.propietario.nombre_agencia %} Agente
 											Inmobiliario{% else %} Dueño{% endif %}
 											<br>
-											Telefono: {{ property.propietario.telefono }}
+											Teléfono: {{ property.propietario.telefono }}
 											<br>
 											Correo: {{ property.propietario.user.email }}
 											{% if property.propietario.nombre_agencia %}
 											<br>
 											Agencia: {{ property.propietario.nombre_agencia }}
+											{% endif %}
+											{% if property.propietario.numero_agencia %}
+											<br>
+											Teléfono de Agencia: {{ property.propietario.numero_agencia }}
 											{% endif %}
 										</div>
 									</div>
