@@ -110,7 +110,7 @@ def ayudaView(request):
     return render(request, 'root/ayuda.html', context)
 
 def saveayuda(request):
-    politicas = TextMD.objects.all().filter(nombre = "politicas").first()
-    politicas.texto = request.POST['texto']
-    politicas.save()
-    return redirect('nosotros')
+    ayuda = TextMD.objects.all().filter(nombre = "ayuda").first()
+    ayuda.texto = request.POST['texto']
+    ayuda.save()
+    return redirect('ayuda')

@@ -19,9 +19,9 @@
 
   <div class="featured content-top-margin" style="margin-top:10px;">
       <div class="container">
-          <h1>Políticas de Privacidad</h1>
+          <h1>Nosotros</h1>
           <br>
-          
+
           {% if can_edit %}
             <h4>Editar texto</h4>
             <form action="savepoliticas" method="POST">
@@ -31,10 +31,14 @@
 
               <button type="submit" class="btn btn-success">Guardar</button>
             </form>
-            
+
 
             <br>
           {% endif %}
+
+          <br>
+          <h1>Políticas de Privacidad</h1>
+          <br>
           <div style="color: black; font-size: 15px; text-align: justify;">
             {{ politicas.texto | safe }}
           </div>
