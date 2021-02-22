@@ -43,6 +43,7 @@
   			                  </span>
   			                </a>
                         <form id="form" method="POST" action="/usuarios/changeRol">
+                        {% csrf_token %}
                           <div id="accept" class="success" hidden>
                             <a id ="enviar" href="#" style="position: absolute; bottom: 7px; left: 115px;">
                               <span class="fa-stack">
@@ -62,11 +63,15 @@
                           <p id="rol_name">{{ user.rol.nombre }}</p>
                           <div id="rol_div" class="form-group" hidden>
                             <select class="form-control" name="rol" required>
-                              <option value="Administrador">Administrador</option>
-                              <option value="Revisor">Revisor</option>
                               <option value="Propietario">Propietario</option>
+                              <option value="Revisor">Revisor</option>
+                              <option value="Administrador">Administrador</option>
+                              {% if admin %}
+                              <option value="SuperAdministrador">SuperAdministrador</option>
+                              {% endif %}
                             </select>
                           </div>
+                          <input type="text" name="id" value="{{ user.pk }}" hidden required>
           							</form>
                         {% else %}
                         <p>{{ user.rol.nombre }}</p>
