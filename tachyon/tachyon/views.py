@@ -2,6 +2,10 @@ from django.shortcuts import render
 from propiedades.models import *
 import random
 import locale
+from root.models import *
+from django.shortcuts import redirect
+from root.forms import TextMDForm
+
 
 # Create your views here.
 def home(request):
@@ -75,4 +79,38 @@ def home(request):
 
 
 def nosotrosView(request):
-    return render(request, 'root/nosotros.html')
+    can_edit = False
+    if not request.user.is_anonymous:
+        can_edit_list = ["Administrador", "SuperAdministrador", "SuperUsaurus"]
+        userloggednow = TachyonUsuario.objects.get(user = request.user)
+        if userloggednow.rol.nombre in can_edit_list:
+            can_edit = True
+    politicas = TextMD.objects.all().filter(nombre = "politicas").first()
+    form = TextMDForm(instance = politicas)
+    context = {'can_edit': can_edit, 'politicas':politicas, 'form':form}
+    return render(request, 'root/nosotros.html', context )
+
+def savepoliticas(request):
+    politicas = TextMD.objects.all().filter(nombre = "politicas").first()
+    politicas.texto = request.POST['texto']
+    politicas.save()
+    return redirect('nosotros')
+
+
+def ayudaView(request):
+    can_edit = False
+    if not request.user.is_anonymous:
+        can_edit_list = ["Administrador", "SuperAdministrador", "SuperUsaurus"]
+        userloggednow = TachyonUsuario.objects.get(user = request.user)
+        if userloggednow.rol.nombre in can_edit_list:
+            can_edit = True
+    ayuda = TextMD.objects.all().filter(nombre = "ayuda").first()
+    form = TextMDForm(instance = ayuda)
+    context = {'can_edit': can_edit, 'ayuda':ayuda, 'form':form}
+    return render(request, 'root/ayuda.html', context)
+
+def saveayuda(request):
+    ayuda = TextMD.objects.all().filter(nombre = "ayuda").first()
+    ayuda.texto = request.POST['texto']
+    ayuda.save()
+    return redirect('ayuda')
