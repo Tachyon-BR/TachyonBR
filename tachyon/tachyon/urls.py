@@ -19,6 +19,8 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('root/', include('root.urls')),
@@ -27,6 +29,10 @@ urlpatterns = [
     path('usuarios/', include('usuarios.urls')),
     path('', views.home, name='home'),
     path('nosotros', views.nosotrosView, name='nosotros'),
+    path('savepoliticas', views.savepoliticas, name='savepoliticas'),
+    path('ayuda', views.ayudaView, name='ayuda'),
+    path('saveayuda', views.saveayuda, name='saveayuda'),
+
 ]
 
 if settings.DEBUG:

@@ -1,8 +1,15 @@
 {% extends 'root/base.html' %}
 {% load static %}
 
-{% block optionalCSS %}
 
+{% block optionalCSS %}
+<style>
+  p{
+    color:black;
+    font-size: 15px;
+    text-align: justify;
+  }
+</style>
 {% endblock %}
 
 
@@ -14,6 +21,25 @@
       <div class="container">
           <h1>Políticas de Privacidad</h1>
           <br>
+          
+          {% if can_edit %}
+            <h4>Editar texto</h4>
+            <form action="savepoliticas" method="POST">
+              {% csrf_token %}
+              {{ form.media }}
+              {{ form.as_p }}
+
+              <button type="submit" class="btn btn-success">Guardar</button>
+            </form>
+            
+
+            <br>
+          {% endif %}
+          <div style="color: black; font-size: 15px; text-align: justify;">
+            {{ politicas.texto | safe }}
+          </div>
+
+
 
           <div class="card">
               <div class="card-body">
