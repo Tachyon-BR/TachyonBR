@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from django.contrib.sessions.models import Session
 
 # Create your models here.
 
@@ -40,6 +42,14 @@ class TachyonUsuario(models.Model):
 
     def __str__(self):
         return "%s %s %s" % (self.id, self.nombre, self.apellido_paterno)
+
+    def remove_all_sessions(self):
+        user_sessions = []
+        all_sessions  = Session.objects.filter(expire_date__gte=timezone.now())
+        for session in Session.objects.all():
+            if str(self.user.pk) == session.get_decoded().get('_auth_user_id'):
+                user_sessions.append(session.pk)
+        return Session.objects.filter(pk__in=user_sessions).delete()
 
 
 # Modelos de los permisos de usuario
