@@ -19,14 +19,15 @@
     <div class="container">
         <h1>Perfil: {{ user.user.email }}</h1>
         <br>
-        {% if request.user.pk == user.user.pk %}
-        <!--Se agrega si el user req es igual al user consultado-->
-        <a href="{% url 'edit_user' user.user.pk %}"><button class="btn btn-success" style="float: right;"><i class="fas fa-user-edit"></i> Editar</button></a>
-        {% endif %}
 
         <div class="card">
             <div class="card-body">
-                <h3>Información de {{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}</h3>
+                <h3 style="display: inline;">Información de {{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}</h3>
+                {% if request.user.pk == user.user.pk %}
+                <!--Se agrega si el user req es igual al user consultado-->
+                <a href="{% url 'editPassword' %}"><button class="btn btn-warning" style="float: right;"><i class="fas fa-key"></i> Cambiar Contraseña</button></a>
+                <a href="{% url 'edit_user' user.user.pk %}"><button class="btn btn-success" style="float: right; margin-right: 10px;"><i class="fas fa-user-edit"></i> Editar</button></a>
+                {% endif %}
                 <hr>
                 <div class="row" style="padding-top: 15px;">
                     <div class="col-12 col-md-6 col-lg-4">
