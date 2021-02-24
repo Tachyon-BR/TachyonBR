@@ -275,6 +275,11 @@ def deleteUserView(request, id):
             if user:
                 user.estado_eliminado = not user.estado_eliminado
                 user.save()
+
+                if user.estado_eliminado:
+                    # logout user
+                    user.remove_all_sessions()
+
                 return HttpResponse('OK')
             else:
                 response = JsonResponse({"error": "No existe ese usuario"})
@@ -491,6 +496,9 @@ def changeRolView(request):
             if rol:
                 user.rol = rol
                 user.save()
+
+                # logout user
+                user.remove_all_sessions()
 
                 request.session['notification_session_msg'] = "Se ha cambiado el rol exitosamente."
                 request.session['notification_session_type'] = "Success"
