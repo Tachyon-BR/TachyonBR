@@ -20,6 +20,8 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from django.conf import settings
 from django.http import HttpResponse
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 
@@ -472,7 +474,7 @@ def edit_user(request, user_id):
             tUser.numero_agencia = numero_agencia
             tUser.save()
 
-            request.session['notification_session_msg'] = "Se ha editado su perfil existosamente."
+            request.session['notification_session_msg'] = "Se ha editado su perfil exitosamente."
             request.session['notification_session_type'] = "Success"
             return redirect('/usuarios/'+ str(user.user.pk))
         else:
@@ -498,11 +500,56 @@ def changeRolView(request):
                 # logout user
                 user.remove_all_sessions()
 
-                request.session['notification_session_msg'] = "Se ha cambiado el rol existosamente."
+                request.session['notification_session_msg'] = "Se ha cambiado el rol exitosamente."
                 request.session['notification_session_type'] = "Success"
                 return redirect('/usuarios/'+ str(user.user.pk))
             else:
                 raise Http404
+        else:
+            raise Http404
+    else:
+        raise Http404
+
+
+@login_required
+def editPasswordView(request):
+    return render(request, 'usuarios/change_password.html')
+
+
+@login_required
+def changePasswordView(request):
+    if request.method == 'POST':
+        last = request.POST.get('last')
+        pass1 = request.POST.get('new')
+        pass2 = request.POST.get('new2')
+
+        user = User.objects.filter(pk = request.user.pk).first()
+
+        if user:
+            if not (check_password(last, user.password)):
+                request.session['notification_session_msg'] = "La contraseña original no fue la correcta, no se modificó la contraseña."
+                request.session['notification_session_type'] = "Warning"
+                return redirect('/usuarios/'+ str(user.pk))
+
+            if pass1 != "" and pass2 != "":
+                if pass1 == pass2:
+                    user.set_password(pass1)
+                else:
+                    request.session['notification_session_msg'] = "La contraseñas proporcionadas no coincidian, no se modificó la contraseña."
+                    request.session['notification_session_type'] = "Warning"
+                    return redirect('/usuarios/'+ str(user.pk))
+            else:
+                request.session['notification_session_msg'] = "Ha ocurrido un error, no se modificó la contraseña."
+                request.session['notification_session_type'] = "Danger"
+                return redirect('/usuarios/'+ str(user.pk))
+
+            user.save()
+
+            update_session_auth_hash(request, user)
+
+            request.session['notification_session_msg'] = "Se ha modificado la contraseña exitosamente."
+            request.session['notification_session_type'] = "Success"
+            return redirect('/usuarios/'+ str(user.pk))
         else:
             raise Http404
     else:
