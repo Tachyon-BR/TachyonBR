@@ -311,9 +311,12 @@ def createPropertyView(request):
                 portada = form.cleaned_data['portada']
                 # extra = form.cleaned_data['extra']
                 video = form.cleaned_data['video']
+                otros = request.POST.getlist('otros[]')
+                rest = request.POST.getlist('rest[]')
 
                 if estado == "Queretaro" or estado == "querétaro" or estado == "queretaro":
                     estado = "Querétaro"
+
                 # Crear el objeto de Propiedad
                 propiedad = Propiedad()
                 propiedad.propietario = user_logged
@@ -321,10 +324,13 @@ def createPropertyView(request):
                 propiedad.tipo = tipo
                 propiedad.oferta = oferta
                 propiedad.descripcion = desc
-                if(tipo != 'Terreno'):
+                if(habs != None):
                     propiedad.habitaciones = habs
+                if(banos != None):
                     propiedad.banos = banos
+                if(garaje != None):
                     propiedad.garaje = garaje
+                if(pisos != None):
                     propiedad.pisos = pisos
                 propiedad.metros_terreno = m_terr
                 propiedad.metros_construccion = m_cons
@@ -339,6 +345,10 @@ def createPropertyView(request):
                     propiedad.diferenciador = dif
                 if(video != None):
                     propiedad.video = video
+                if len(otros) > 0:
+                    propiedad.otros = otros
+                if len(rest) > 0:
+                    propiedad.restricciones = rest
 
                 # Guardar propiedad para poder guardar las imagenes
                 propiedad.save()
@@ -780,6 +790,8 @@ def modifyPropertyView(request, id):
                 portada = form.cleaned_data['portada']
                 extra = form.cleaned_data['extra']
                 video = form.cleaned_data['video']
+                otros = request.POST.getlist('otros[]')
+                rest = request.POST.getlist('rest[]')
 
                 # Crear el objeto de Propiedad
                 propiedad = Propiedad.objects.filter(pk = id).first()
@@ -788,11 +800,13 @@ def modifyPropertyView(request, id):
                     propiedad.tipo = tipo
                     propiedad.oferta = oferta
                     propiedad.descripcion = desc
-                    if(tipo != 'Terreno'):
-                        propiedad.habitaciones = habs
+                    propiedad.habitaciones = habs
+                    if banos:
                         propiedad.banos = banos
-                        propiedad.garaje = garaje
-                        propiedad.pisos = pisos
+                    else:
+                        propiedad.banos = None
+                    propiedad.garaje = garaje
+                    propiedad.pisos = pisos
                     propiedad.metros_terreno = m_terr
                     propiedad.metros_construccion = m_cons
                     propiedad.pais = pais
@@ -808,6 +822,8 @@ def modifyPropertyView(request, id):
                         propiedad.video = video
                     propiedad.estado_revision = False
                     propiedad.estado_activo = False
+                    propiedad.otros = otros
+                    propiedad.restricciones = rest
 
                     # Guardar propiedad para poder guardar las imagenes
                     propiedad.save()
