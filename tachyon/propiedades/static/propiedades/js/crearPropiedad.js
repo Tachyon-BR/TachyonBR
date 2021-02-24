@@ -29,50 +29,91 @@ $( document ).ready(function() {
 $('#tipo').change(function() {
   var val = $(this).val();
   $('#tipo_prop').html('Fotos de la Propiedad     ('+ val +')');
-  if(val == "Terreno"){
-    min = 5;
-    max = 7;
-    $('#opcional').prop('hidden', true);
-    quitar_required();
+  if(val == "Bodega Comercial" || val == "Bodega Industrial" || val == "Nave Industrial"){
+    $('#div_hab').prop('hidden', true);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', true);
+    $('#div_est').prop('hidden', false);
+  }
+  else if(val == "Casa" || val == "Departamento" || val == "Edificio" || val == "Local" || val == "Oficina"){
+    $('#div_hab').prop('hidden', false);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', false);
+    $('#div_est').prop('hidden', false);
+  }
+  else if(val == "Consultorio"){
+    $('#div_hab').prop('hidden', false);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', true);
+    $('#div_est').prop('hidden', false);
+  }
+  else if(val == "Cuartos"){
+    $('#div_hab').prop('hidden', false);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', false);
+    $('#div_est').prop('hidden', false);
+    $('#oferta').val('Renta');
+    $('#select2-oferta-container').attr('title', 'Renta');
+    $('#select2-oferta-container').text('Renta');
+  }
+  else if(val == "Rancho"){
+    $('#div_hab').prop('hidden', true);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', true);
+    $('#div_est').prop('hidden', true);
   }
   else{
-    if(val == "Casa"){
-      min = 10;
-      max = 20;
-    }
-    else if(val == "Departamento"){
-      min = 10;
-      max = 15;
-    }
-    else if(val == "Edificio"){
-      min = 10;
-      max = 20;
-    }
-    else if(val == "Local"){
-      min = 5;
-      max = 7;
-    }
-    $('#opcional').prop('hidden', false);
-    forzar_required();
+    $('#div_hab').prop('hidden', true);
+    $('#div_banos').prop('hidden', true);
+    $('#div_pisos').prop('hidden', true);
+    $('#div_est').prop('hidden', true);
   }
+  forzar_required();
+
   min = 5;
   max = 20;
   $('#fotos_prop').html('Mínimo '+ min +' <=> Máximo '+ max);
 });
 
+
+$('#oferta').change(function() {
+  if($(this).val() !== "Renta"){
+    if($('#tipo').val() === "Cuartos"){
+      $('#tipo').val('Casa');
+      $('#select2-tipo-container').attr('title', 'Casa');
+      $('#select2-tipo-container').text('Casa');
+    }
+  }
+});
+
+
 function forzar_required(){
-  $('#habs').prop('required', true);
-  $('#banos').prop('required', true);
-  $('#pisos').prop('required', true);
-  $('#garaje').prop('required', true);
+  if($('#div_banos').prop('hidden')){
+    $('#div_banos').find('input').prop('required', false);
+  }
+  else{
+    $('#div_banos').find('input').prop('required', true);
+  }
+  if($('#div_hab').prop('hidden')){
+    $('#div_hab').find('input').prop('required', false);
+  }
+  else{
+    $('#div_hab').find('input').prop('required', true);
+  }
+  if($('#div_pisos').prop('hidden')){
+    $('#div_pisos').find('input').prop('required', false);
+  }
+  else{
+    $('#div_pisos').find('input').prop('required', true);
+  }
+  if($('#div_est').prop('hidden')){
+    $('#div_est').find('input').prop('required', false);
+  }
+  else{
+    $('#div_est').find('input').prop('required', true);
+  }
 }
 
-function quitar_required(){
-  $('#habs').prop('required', false);
-  $('#banos').prop('required', false);
-  $('#pisos').prop('required', false);
-  $('#garaje').prop('required', false);
-}
 
 function numero(id, val){
   if(isNaN($('#'+id).val())){
