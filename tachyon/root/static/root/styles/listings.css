@@ -887,7 +887,7 @@ section
 	line-height: 44px;
 	padding-left: 21px;
 }
-.sort::after
+.sort::before
 {
 	position: absolute;
 	top: 50%;
@@ -897,8 +897,9 @@ section
 	-o-transform: translateY(-50%);
 	transform: translateY(-50%);
 	right: 10px;
-	font-family: 'FontAwesome';
-	content: '\f107';
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+	content: '\f078';
 	font-size: 20px;
 	color: #dbe7f1;
 }

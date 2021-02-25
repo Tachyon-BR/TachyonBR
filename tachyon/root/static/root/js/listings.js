@@ -16,7 +16,7 @@ $(document).ready(function()
 {
 	"use strict";
 
-	/* 
+	/*
 
 	1. Vars and Inits
 
@@ -44,7 +44,7 @@ $(document).ready(function()
 		setHeader();
 	});
 
-	/* 
+	/*
 
 	2. Set Header
 
@@ -62,7 +62,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	3. Init Menu
 
@@ -97,7 +97,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	4. Init Isotope
 
@@ -112,12 +112,14 @@ $(document).ready(function()
 			{
 				itemSelector:'.listing_box',
 				layoutMode: 'fitRows',
+				sortAscending: false,
 				getSortData:
 	            {
 	            	price: function(itemElement)
 	            	{
 	            		var priceEle = $(itemElement).find('.listing_price').text().replace( '$', '' );
 	            		priceEle = priceEle.replace(/\s/g, '');
+									priceEle = priceEle.replace(/,/g, '');
 	            		return parseFloat(priceEle);
 	            	},
 	            	area: function(itemElement)
