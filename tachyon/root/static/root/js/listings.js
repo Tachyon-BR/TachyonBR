@@ -124,10 +124,33 @@ $(document).ready(function()
 	            	},
 	            	area: function(itemElement)
 	            	{
-	            		var propertyArea = $(itemElement).find('.property_area span').text().replace(' sq ft', '');
-	            		console.log(propertyArea);
+	            		var propertyArea = $(itemElement).find('.property_area span').text().replace(' m2', '');
 	            		return parseFloat(propertyArea);
-	            	}
+	            	},
+								banos: function(itemElement)
+	            	{
+	            		var propertyBanos = $(itemElement).find('.property_banos span').text();
+									if(propertyBanos == "" || propertyBanos == null){
+										propertyBanos = 0;
+									}
+	            		return parseFloat(propertyBanos);
+	            	},
+								habs: function(itemElement)
+	            	{
+	            		var propertyHabs = $(itemElement).find('.property_habs span').text();
+									if(propertyHabs == "" || propertyHabs == null){
+										propertyHabs = 0;
+									}
+	            		return parseFloat(propertyHabs);
+	            	},
+								garaje: function(itemElement)
+	            	{
+	            		var propertyGaraje = $(itemElement).find('.property_garaje span').text();
+									if(propertyGaraje == "" || propertyGaraje == null){
+										propertyGaraje = 0;
+									}
+	            		return parseFloat(propertyGaraje);
+	            	},
 	            }
 			});
 
@@ -140,6 +163,15 @@ $(document).ready(function()
 	        		var parent = $(this).parent().parent().find('span');
 		        		parent.text($(this).text());
 		        		var option = $(this).attr('data-isotope-option');
+								if(sort == parent.text()){
+									var temp = !bool;
+									option = option.replace(bool.toString(), temp.toString());
+									bool = !bool;
+								}
+								else{
+									bool = false;
+								}
+								sort = parent.text();
 		        		option = JSON.parse( option );
 	    				grid.isotope( option );
 	        	});

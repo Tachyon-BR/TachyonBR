@@ -85,7 +85,31 @@ def propertyView(request, id):
                 if rol in revisorparaarriba:
                     is_revisor = True
 
-        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor, 'is_revisor': is_revisor})
+        otros = propiedad.otros
+        ofirst = []
+        olast = []
+        if otros:
+            bool = True
+            for o in otros:
+                if bool:
+                    ofirst.append(o)
+                else:
+                    olast.append(o)
+                bool = not bool
+
+        rest = propiedad.restricciones
+        rfirst = []
+        rlast = []
+        if rest:
+            bool = True
+            for r in rest:
+                if bool:
+                    rfirst.append(r)
+                else:
+                    rlast.append(r)
+                bool = not bool
+
+        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor, 'is_revisor': is_revisor, 'ofirst': ofirst, 'olast': olast, 'rfirst': rfirst, 'rlast': rlast})
     else:
         raise Http404
 

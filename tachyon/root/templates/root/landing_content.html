@@ -199,7 +199,7 @@
                               <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
                                   <li class="property_area d-flex flex-row align-items-center justify-content-start">
                                       <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                                      <span>{{ v.metros_terreno|floatformat }}<!-- m<sup>2</sup>--></span>
+                                      <span>{{ v.metros_terreno|floatformat }} m<sup>2</sup></span>
                                   </li>
                                   {% if v.banos or v.banos == 0 %}
                                     <li class="d-flex flex-row align-items-center justify-content-start">
@@ -269,7 +269,7 @@
                               <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
                                   <li class="property_area d-flex flex-row align-items-center justify-content-start">
                                       <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                                      <span>{{ n.metros_terreno|floatformat }}</span>
+                                      <span>{{ n.metros_terreno|floatformat }} m<sup>2</sup></span>
                                   </li>
                                   {% if n.banos or n.banos == 0 %}
                                     <li class="d-flex flex-row align-items-center justify-content-start">

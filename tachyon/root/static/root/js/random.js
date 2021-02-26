@@ -51,7 +51,7 @@ function showProperty(property){
 		$('#rp_tipo3').remove();
 	}
 	if(i < 3){
-		$('#rp_metros').html(property[0].fields.metros_terreno);
+		$('#rp_metros').html(property[0].fields.metros_terreno+" m<sup>2</sup>");
 	}
 	else{
 		$('#rp_tipo4').remove();

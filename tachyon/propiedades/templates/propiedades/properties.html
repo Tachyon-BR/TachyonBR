@@ -143,9 +143,12 @@
 						<div class="sort">
 							<span>Ordenar</span>
 							<ul>
-								<li class="sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>Por Defecto</li>
-								<li class="sorting_button" data-isotope-option='{ "sortBy": "price" }'>Precio</li>
-								<li class="sorting_button" data-isotope-option='{ "sortBy": "area" }'>Area</li>
+								<li class="sorting_button" data-isotope-option='{ "sortBy": "original-order", "sortAscending" : false }'>Por Defecto</li>
+								<li class="sorting_button" data-isotope-option='{ "sortBy": "price", "sortAscending" : false }'>Precio</li>
+								<li class="sorting_button" data-isotope-option='{ "sortBy": "area", "sortAscending" : false }'>m<sup>2</sup></li>
+                <li class="sorting_button" data-isotope-option='{ "sortBy": "banos", "sortAscending" : false }'>Baños</li>
+                <li class="sorting_button" data-isotope-option='{ "sortBy": "habs", "sortAscending" : false }'>Habitaciones</li>
+                <li class="sorting_button" data-isotope-option='{ "sortBy": "garaje", "sortAscending" : false }'>Garaje</li>
 							</ul>
 						</div>
 					</div>
@@ -243,84 +246,82 @@
                     </div>  <!-- list-group .// -->
                 </div>
             </div>
+          </article>
+
+
+          <article class="filter-group"> <!--CATEGORIES ÁREA DE TERRENO-->
+            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_terreno" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Área de terreno</h6>
+                </a> </header>
+            <div class="filter-content collapse" id="collapse_aside_area_terreno">
+                <div class="card-body">
+                    <div class="list-group list-group-flush" id="estados-menu">
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="-250">Menor a 250 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="250-500">De 250 m<sup>2</sup> a 500 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="500-1000">De 500 m<sup>2</sup> a 1000 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="1000-2000">De 1000 m<sup>2</sup> a 2000 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="2000-5000">De 2000 m<sup>2</sup> a 5000 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="5000-">Mayor a 5000 m<sup>2</sup></a>
+                  </div>  <!-- list-group .// -->
+                </div>
+            </div>
+        </article>
+
+        <article class="filter-group"> <!--CATEGORIES ÁREA DE CONSTRUCCIÓN-->
+          <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_baños" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                  <h6 class="title">Número de baños</h6>
+              </a> </header>
+          <div class="filter-content collapse" id="collapse_aside_baños">
+              <div class="card-body">
+                  <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="1">1</a>
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="2">2</a>
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="3">3</a>
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4">4</a>
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4-">4+</a>
+                  </div>  <!-- list-group .// -->
+              </div>
+          </div>
         </article>
 
 
-        <article class="filter-group"> <!--CATEGORIES ÁREA DE TERRENO-->
-          <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_terreno" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                  <h6 class="title">Área de terreno</h6>
+        <article class="filter-group"> <!--CATEGORIES PISOS-->
+          <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_pisos" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                  <h6 class="title">Número de pisos</h6>
               </a> </header>
-          <div class="filter-content collapse" id="collapse_aside_area_terreno">
+          <div class="filter-content collapse" id="collapse_aside_pisos">
               <div class="card-body">
-                  <div class="list-group list-group-flush" id="estados-menu">
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="-250">Menor a 250 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="250-500">De 250 m<sup>2</sup> a 500 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="500-1000">De 500 m<sup>2</sup> a 1000 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="1000-2000">De 1000 m<sup>2</sup> a 2000 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="2000-5000">De 2000 m<sup>2</sup> a 5000 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="5000-">Mayor a 5000 m<sup>2</sup></a>
-                </div>  <!-- list-group .// -->
+                  <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="1">1</a>
+                    <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="2">2</a>
+                    <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3">3</a>
+                    <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3-">3+</a>
+                  </div>  <!-- list-group .// -->
               </div>
           </div>
-      </article>
+        </article>
 
-      <article class="filter-group"> <!--CATEGORIES ÁREA DE CONSTRUCCIÓN-->
-        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_baños" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Número de baños</h6>
-            </a> </header>
-        <div class="filter-content collapse" id="collapse_aside_baños">
-            <div class="card-body">
-                <div class="list-group list-group-flush">
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="1">1</a>
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="2">2</a>
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="3">3</a>
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4">4</a>
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4-">4+</a>
-                </div>  <!-- list-group .// -->
-            </div>
+        <article class="filter-group"> <!--CATEGORIES PISOS-->
+          <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_estacionamiento" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                  <h6 class="title">Estacionamiento</h6>
+              </a> </header>
+          <div class="filter-content collapse" id="collapse_aside_estacionamiento">
+              <div class="card-body">
+                  <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="0">0</a>
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="1">1</a>
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="2">2</a>
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3">3</a>
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3-">3+</a>
+                  </div>  <!-- list-group .// -->
+              </div>
+          </div>
+        </article>
+
         </div>
-      </article>
+      </div>
 
-
-      <article class="filter-group"> <!--CATEGORIES PISOS-->
-        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_pisos" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Número de pisos</h6>
-            </a> </header>
-        <div class="filter-content collapse" id="collapse_aside_pisos">
-            <div class="card-body">
-                <div class="list-group list-group-flush">
-                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="1">1</a>
-                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="2">2</a>
-                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3">3</a>
-                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3-">3+</a>
-                </div>  <!-- list-group .// -->
-            </div>
-        </div>
-      </article>
-
-      <article class="filter-group"> <!--CATEGORIES PISOS-->
-        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_estacionamiento" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Estacionamiento</h6>
-            </a> </header>
-        <div class="filter-content collapse" id="collapse_aside_estacionamiento">
-            <div class="card-body">
-                <div class="list-group list-group-flush">
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="0">0</a>
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="1">1</a>
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="2">2</a>
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3">3</a>
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3-">3+</a>
-                </div>  <!-- list-group .// -->
-            </div>
-        </div>
-      </article>
-
-  </div>
-
-
-    </div>
-
-    <div class="col-sm-12 col-md-9 col-lg-9">
+      <div class="col-sm-12 col-md-9 col-lg-9">
 
         <!-- Listings Container -->
         <div class="listings_container">
@@ -353,22 +354,22 @@
                               <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
                                   <li class="property_area d-flex flex-row align-items-center justify-content-start">
                                       <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                                      <span>{{ v.metros_terreno|floatformat }}</span>
+                                      <span>{{ v.metros_terreno|floatformat }} m<sup>2</sup></span>
                                   </li>
                                   {% if v.banos or v.banos == 0 %}
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                    <li class="property_banos d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_3.png' %}" alt="">
                                         <span>{{ v.banos|rounding }}</span>
                                     </li>
                                   {% endif %}
                                   {% if v.habitaciones or v.habitaciones == 0 %}
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                    <li class="property_habs d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_4.png' %}" alt="">
                                         <span>{{ v.habitaciones }}</span>
                                     </li>
                                   {% endif %}
                                   {% if v.garaje or v.garaje == 0 %}
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                    <li class="property_garaje d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_5.png' %}" alt="">
                                         <span>{{ v.garaje }}</span>
                                     </li>
@@ -391,6 +392,7 @@
         </div>
         -->
 
+
       </div>
     </div>
 
@@ -402,6 +404,7 @@
 {% endblock content %}
 
 {% block optionalJS %}
+<script>var sort = ""; var bool = false;</script>
 <script src="{% static 'root/plugins/Isotope/isotope.pkgd.min.js' %}"></script>
 <script src="{% static 'root/js/listings.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
