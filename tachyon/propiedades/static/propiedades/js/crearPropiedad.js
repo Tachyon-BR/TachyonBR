@@ -29,50 +29,184 @@ $( document ).ready(function() {
 $('#tipo').change(function() {
   var val = $(this).val();
   $('#tipo_prop').html('Fotos de la Propiedad     ('+ val +')');
-  if(val == "Terreno"){
-    min = 5;
-    max = 7;
-    $('#opcional').prop('hidden', true);
-    quitar_required();
+  if(val == "Bodega Comercial" || val == "Bodega Industrial" || val == "Nave Industrial"){
+    $('#div_hab').prop('hidden', true);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', true);
+    $('#div_est').prop('hidden', false);
+    $('.cisterna').show();
+    $('.bodega').show();
+    $('.elevador').hide();
+    $('.elevador').find('input').prop('checked', false);
+    $('.terreno').hide();
+    $('.terreno').find('input').prop('checked', false);
+    $('.mueble').hide();
+    $('.mueble').find('input').prop('checked', false);
+    $('.oficina').hide();
+    $('.oficina').find('input').prop('checked', false);
+    $('.rancho').hide();
+    $('.rancho').find('input').prop('checked', false);
   }
-  else{
-    if(val == "Casa"){
-      min = 10;
-      max = 20;
-    }
-    else if(val == "Departamento"){
-      min = 10;
-      max = 15;
+  else if(val == "Casa" || val == "Departamento" || val == "Edificio" || val == "Local" || val == "Oficina"){
+    $('#div_hab').prop('hidden', false);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', false);
+    $('#div_est').prop('hidden', false);
+    if(val == "Oficina"){
+      $('.elevador').show();
+      $('.oficina').show();
+      $('.cisterna').hide();
+      $('.cisterna').find('input').prop('checked', false);
+      $('.terreno').hide();
+      $('.terreno').find('input').prop('checked', false);
+      $('.bodega').hide();
+      $('.bodega').find('input').prop('checked', false);
+      $('.mueble').hide();
+      $('.mueble').find('input').prop('checked', false);
+      $('.rancho').hide();
+      $('.rancho').find('input').prop('checked', false);
     }
     else if(val == "Edificio"){
-      min = 10;
-      max = 20;
+      $('.elevador').show();
+      $('.cisterna').hide();
+      $('.cisterna').find('input').prop('checked', false);
+      $('.terreno').hide();
+      $('.terreno').find('input').prop('checked', false);
+      $('.bodega').hide();
+      $('.bodega').find('input').prop('checked', false);
+      $('.mueble').hide();
+      $('.mueble').find('input').prop('checked', false);
+      $('.oficina').hide();
+      $('.oficina').find('input').prop('checked', false);
+      $('.rancho').hide();
+      $('.rancho').find('input').prop('checked', false);
     }
-    else if(val == "Local"){
-      min = 5;
-      max = 7;
-    }
-    $('#opcional').prop('hidden', false);
-    forzar_required();
   }
+  else if(val == "Consultorio"){
+    $('#div_hab').prop('hidden', false);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', true);
+    $('#div_est').prop('hidden', false);
+    $('.cisterna').hide();
+    $('.cisterna').find('input').prop('checked', false);
+    $('.elevador').hide();
+    $('.elevador').find('input').prop('checked', false);
+    $('.terreno').hide();
+    $('.terreno').find('input').prop('checked', false);
+    $('.bodega').hide();
+    $('.bodega').find('input').prop('checked', false);
+    $('.mueble').hide();
+    $('.mueble').find('input').prop('checked', false);
+    $('.oficina').hide();
+    $('.oficina').find('input').prop('checked', false);
+    $('.rancho').hide();
+    $('.rancho').find('input').prop('checked', false);
+  }
+  else if(val == "Cuartos"){
+    $('#div_hab').prop('hidden', false);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', false);
+    $('#div_est').prop('hidden', false);
+    $('#oferta').val('Renta').change();
+    $('.mueble').show();
+    $('.cisterna').hide();
+    $('.cisterna').find('input').prop('checked', false);
+    $('.elevador').hide();
+    $('.elevador').find('input').prop('checked', false);
+    $('.terreno').hide();
+    $('.terreno').find('input').prop('checked', false);
+    $('.bodega').hide();
+    $('.bodega').find('input').prop('checked', false);
+    $('.oficina').hide();
+    $('.oficina').find('input').prop('checked', false);
+    $('.rancho').hide();
+    $('.rancho').find('input').prop('checked', false);
+  }
+  else if(val == "Rancho"){
+    $('#div_hab').prop('hidden', true);
+    $('#div_banos').prop('hidden', false);
+    $('#div_pisos').prop('hidden', true);
+    $('#div_est').prop('hidden', true);
+    $('.cisterna').show();
+    $('.rancho').show();
+    $('.elevador').hide();
+    $('.elevador').find('input').prop('checked', false);
+    $('.terreno').hide();
+    $('.terreno').find('input').prop('checked', false);
+    $('.bodega').hide();
+    $('.bodega').find('input').prop('checked', false);
+    $('.mueble').hide();
+    $('.mueble').find('input').prop('checked', false);
+    $('.oficina').hide();
+    $('.oficina').find('input').prop('checked', false);
+  }
+  else{
+    $('#div_hab').prop('hidden', true);
+    $('#div_banos').prop('hidden', true);
+    $('#div_pisos').prop('hidden', true);
+    $('#div_est').prop('hidden', true);
+    $('.terreno').show();
+    $('.cisterna').hide();
+    $('.cisterna').find('input').prop('checked', false);
+    $('.elevador').hide();
+    $('.elevador').find('input').prop('checked', false);
+    $('.bodega').hide();
+    $('.bodega').find('input').prop('checked', false);
+    $('.mueble').hide();
+    $('.mueble').find('input').prop('checked', false);
+    $('.oficina').hide();
+    $('.oficina').find('input').prop('checked', false);
+    $('.rancho').hide();
+    $('.rancho').find('input').prop('checked', false);
+  }
+  forzar_required();
+
   min = 5;
   max = 20;
   $('#fotos_prop').html('Mínimo '+ min +' <=> Máximo '+ max);
 });
 
+
+$('#oferta').change(function() {
+  if($(this).val() !== "Renta"){
+    if($('#tipo').val() === "Cuartos"){
+      $('#tipo').val('Casa').change();
+    }
+  }
+});
+
+
 function forzar_required(){
-  $('#habs').prop('required', true);
-  $('#banos').prop('required', true);
-  $('#pisos').prop('required', true);
-  $('#garaje').prop('required', true);
+  if($('#div_banos').prop('hidden')){
+    $('#div_banos').find('input').prop('required', false);
+    $('#div_banos').find('input').val(null);
+  }
+  else{
+    $('#div_banos').find('input').prop('required', true);
+  }
+  if($('#div_hab').prop('hidden')){
+    $('#div_hab').find('input').prop('required', false);
+    $('#div_hab').find('input').val(null);
+  }
+  else{
+    $('#div_hab').find('input').prop('required', true);
+  }
+  if($('#div_pisos').prop('hidden')){
+    $('#div_pisos').find('input').prop('required', false);
+    $('#div_pisos').find('input').val(null);
+  }
+  else{
+    $('#div_pisos').find('input').prop('required', true);
+  }
+  if($('#div_est').prop('hidden')){
+    $('#div_est').find('input').prop('required', false);
+    $('#div_est').find('input').val(null);
+  }
+  else{
+    $('#div_est').find('input').prop('required', true);
+  }
 }
 
-function quitar_required(){
-  $('#habs').prop('required', false);
-  $('#banos').prop('required', false);
-  $('#pisos').prop('required', false);
-  $('#garaje').prop('required', false);
-}
 
 function numero(id, val){
   if(isNaN($('#'+id).val())){

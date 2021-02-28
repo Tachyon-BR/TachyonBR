@@ -1,5 +1,6 @@
 {% extends 'root/base.html' %}
 {% load static %}
+{% load filters %}
 
 {% block optionalCSS %}
 <link href="{% static 'root/plugins/colorbox/colorbox.css' %}" rel="stylesheet" type="text/css">
@@ -23,7 +24,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col">
-
+					<br><br>
 					<!-- Image -->
 					<div class="listing_image"><img src="{{ property.portada.url }}" alt="Listing" style="width: 100%"></div>
 
@@ -141,7 +142,11 @@
 											{% else %}
 											<li>Precio Negociable: No</li>
 											{% endif %}
-											<li>Publicada: {{ property.fecha_creacion.day }} de {{ property.fecha_creacion|date:'F' }} de {{ property.fecha_creacion.year }}</li>
+											{% if property.estado_activo %}
+											<li>Publicada: {{ property.fecha_publicacion.day }} de {{ property.fecha_publicacion|date:'F' }} de {{ property.fecha_publicacion.year }}</li>
+											{% else %}
+											<li>Creada: {{ property.fecha_creacion.day }} de {{ property.fecha_creacion|date:'F' }} de {{ property.fecha_creacion.year }}</li>
+											{% endif %}
 											<!-- <li>Publicada: {{ property.fecha_publicacion }}</li> -->
 										</ul>
 									</div>
@@ -169,32 +174,36 @@
 											<li class="d-flex flex-row align-items-center justify-content-start">
 												<img src="{% static 'root/images/icon_2_large.png' %}" alt="icon">
 												<div>
-													<div>{{ property.metros_terreno }}</div>
+													<div>{{ property.metros_terreno|floatformat }}</div>
 													<div>m<sup>2</sup></div>
 												</div>
 											</li>
-											{% if property.tipo != "Terreno" %}
-											<li class="d-flex flex-row align-items-center justify-content-start">
-												<img src="{% static 'root/images/icon_3_large.png' %}" alt="icon">
-												<div>
-													<div>{{ property.banos }}</div>
-													<div>baños</div>
-												</div>
-											</li>
-											<li class="d-flex flex-row align-items-center justify-content-start">
-												<img src="{% static 'root/images/icon_4_large.png' %}" alt="icon">
-												<div>
-													<div>{{ property.habitaciones }}</div>
-													<div>habitaciones</div>
-												</div>
-											</li>
-											<li class="d-flex flex-row align-items-center justify-content-start">
-												<img src="{% static 'root/images/icon_5_large.png' %}" alt="House Image">
-												<div>
-													<div>{{ property.garaje }}</div>
-													<div>lugares de estac.</div>
-												</div>
-											</li>
+											{% if property.banos or property.banos == 0 %}
+												<li class="d-flex flex-row align-items-center justify-content-start">
+													<img src="{% static 'root/images/icon_3_large.png' %}" alt="icon">
+													<div>
+														<div>{{ property.banos|rounding }}</div>
+														<div>baños</div>
+													</div>
+												</li>
+											{% endif %}
+											{% if property.habitaciones or property.habitaciones == 0 %}
+												<li class="d-flex flex-row align-items-center justify-content-start">
+													<img src="{% static 'root/images/icon_4_large.png' %}" alt="icon">
+													<div>
+														<div>{{ property.habitaciones }}</div>
+														<div>habitaciones</div>
+													</div>
+												</li>
+											{% endif %}
+											{% if property.garaje or property.garaje == 0 %}
+												<li class="d-flex flex-row align-items-center justify-content-start">
+													<img src="{% static 'root/images/icon_5_large.png' %}" alt="House Image">
+													<div>
+														<div>{{ property.garaje }}</div>
+														<div>lugares de estac.</div>
+													</div>
+												</li>
 											{% endif %}
 										</ul>
 									</div>
@@ -288,18 +297,32 @@
 										<h3>Detalles</h3>
 									</div>
 									<div class="row">
-										<div class="col-lg-6">
+										<div class="col-6">
 											<ul>
-												<li style="height: 55px;">{{ property.habitaciones}} habitacione(s)</li>
-												<li style="height: 55px;">{{ property.banos }} baño(s)</li>
-												<li style="height: 55px;">{{ property.garaje }} estacionamiento(s)</li>
+												<li style="height: 55px;">{{ property.metros_terreno|floatformat }} m<sup>2</sup> de terreno</li>
+												{% if property.habitaciones or property.habitaciones == 0 %}
+													<li style="height: 55px;">{{ property.habitaciones}} habitacione(s)</li>
+												{% endif %}
+												{% if property.banos or property.banos == 0 %}
+													<li style="height: 55px;">{{ property.banos|rounding }} baño(s)</li>
+												{% endif %}
+												{% for of in ofirst %}
+													<li style="height: 55px;">{{ of }}</li>
+												{% endfor %}
 											</ul>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-6">
 											<ul>
-												<li style="height: 55px;">{{ property.metros_terreno }}m<sup>2</sup> de terreno</li>
-												<li style="height: 55px;">{{ property.metros_construccion }}m<sup>2</sup> de construcción</li>
+												<li style="height: 55px;">{{ property.metros_construccion|floatformat }} m<sup>2</sup> de construcción</li>
+												{% if property.garaje or property.garaje == 0 %}
+												<li style="height: 55px;">{{ property.garaje }} estacionamiento(s)</li>
+												{% endif %}
+												{% if property.pisos or property.pisos == 0 %}
 												<li style="height: 55px;">{{ property.pisos }} piso(s)</li>
+												{% endif %}
+												{% for ol in olast %}
+													<li style="height: 55px;">{{ ol }}</li>
+												{% endfor %}
 											</ul>
 										</div>
 									</div>
@@ -323,33 +346,59 @@
 										<h3>Detalles</h3>
 									</div>
 									<div class="row">
-										{% if property.tipo != "Terreno" %}
-										<div class="col-lg-6">
+										<div class="col-6">
 											<ul>
-												<li style="height: 55px;">{{ property.habitaciones}} habitacione(s)</li>
-												<li style="height: 55px;">{{ property.banos }} baño(s)</li>
+												<li style="height: 55px;">{{ property.metros_terreno|floatformat }} m<sup>2</sup> de terreno</li>
+												{% if property.habitaciones or property.habitaciones == 0 %}
+													<li style="height: 55px;">{{ property.habitaciones}} habitacione(s)</li>
+												{% endif %}
+												{% if property.banos or property.banos == 0 %}
+													<li style="height: 55px;">{{ property.banos|rounding }} baño(s)</li>
+												{% endif %}
+												{% for of in ofirst %}
+													<li style="height: 55px;">{{ of }}</li>
+												{% endfor %}
+											</ul>
+										</div>
+										<div class="col-6">
+											<ul>
+												<li style="height: 55px;">{{ property.metros_construccion|floatformat }} m<sup>2</sup> de construcción</li>
+												{% if property.garaje or property.garaje == 0 %}
 												<li style="height: 55px;">{{ property.garaje }} estacionamiento(s)</li>
-											</ul>
-										</div>
-										<div class="col-lg-6">
-											<ul>
-												<li style="height: 55px;">{{ property.metros_terreno }}m<sup>2</sup> de terreno</li>
-												<li style="height: 55px;">{{ property.metros_construccion }}m<sup>2</sup> de construcción</li>
+												{% endif %}
+												{% if property.pisos or property.pisos == 0 %}
 												<li style="height: 55px;">{{ property.pisos }} piso(s)</li>
+												{% endif %}
+												{% for ol in olast %}
+													<li style="height: 55px;">{{ ol }}</li>
+												{% endfor %}
 											</ul>
 										</div>
-										{% else %}
-										<div class="col-lg-6">
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							{% if rfirst %}
+							<div class="col-lg-12">
+								<div id="restricciones" class="listing_features">
+									<div class="listing_title">
+										<h3>Restricciones</h3>
+									</div>
+									<div class="row">
+										<div class="col-6">
 											<ul>
-												<li style="height: 55px;">{{ property.metros_terreno }}m<sup>2</sup> de terreno</li>
+												{% for rf in rfirst %}
+													<li style="height: 55px;">{{ rf }}</li>
+												{% endfor %}
 											</ul>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-6">
 											<ul>
-												<li style="height: 55px;">{{ property.metros_construccion }}m<sup>2</sup> de construcción</li>
+												{% for rl in rlast %}
+													<li style="height: 55px;">{{ rl }}</li>
+												{% endfor %}
 											</ul>
 										</div>
-										{% endif %}
 									</div>
 								</div>
 							</div>
@@ -477,6 +526,16 @@
 
 <script type="text/javascript">
     checkNotificationSession()
+</script>
+
+<script type="text/javascript">
+	$( document ).ready(function() {
+		$('#tab_title').text("{{ property.titulo }} - Conexión Inmueble");
+		var str = "{{ property.descripcion }}";
+		str = str.substring(0,280);
+		str += "...";
+		$('#tab_description').attr('content', str);
+	});
 </script>
 
 {% endblock %}

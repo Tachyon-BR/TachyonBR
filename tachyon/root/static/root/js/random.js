@@ -22,15 +22,39 @@ function showProperty(property){
   $('#rp_price').html(property[0].fields.precio);
   $('#rp_address').html("" + property[0].fields.direccion + ", " + property[0].fields.estado + ", " + property[0].fields.codigo_postal);
   $('#rp_address').attr('href', "/propiedades/property/" + property[0].pk);
-	if(property[0].fields.tipo != "Terreno"){
-		$('#rp_banos').html(property[0].fields.banos);
-		$('#rp_habs').html(property[0].fields.habitaciones);
-		$('#rp_gar').html(property[0].fields.garaje);
+	var i = 0;
+	if(property[0].fields.habitaciones != null){
+		if(property[0].fields.habitaciones.toString() != ""){
+			$('#rp_habs').html(property[0].fields.habitaciones);
+			i++;
+		}
 	}
 	else{
-		$('#rp_metros').html(property[0].fields.metros_terreno);
-		$('#rp_tipo1').prop('hidden', true);
-		$('#rp_tipo2').prop('hidden', false);
+		$('#rp_tipo1').remove();
+	}
+	if(property[0].fields.banos != null){
+		if(property[0].fields.banos.toString() != ""){
+			$('#rp_banos').html(property[0].fields.banos);
+			i++;
+		}
+	}
+	else{
+		$('#rp_tipo2').remove();
+	}
+	if(property[0].fields.garaje != null){
+		if(property[0].fields.garaje.toString() != ""){
+			$('#rp_gar').html(property[0].fields.garaje);
+			i++;
+		}
+	}
+	else{
+		$('#rp_tipo3').remove();
+	}
+	if(i < 3){
+		$('#rp_metros').html(property[0].fields.metros_terreno+" m<sup>2</sup>");
+	}
+	else{
+		$('#rp_tipo4').remove();
 	}
   $('#random_property').prop('hidden', false);
 }

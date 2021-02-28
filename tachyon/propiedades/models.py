@@ -1,6 +1,7 @@
 from django.db import models
 from .models import *
 from usuarios.models import *
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 
@@ -46,6 +47,8 @@ class Propiedad(models.Model):
     video = models.CharField(max_length = 150, null=True, blank=True)
     estado_revision = models.BooleanField(default = False)
     estado_visible = models.BooleanField(default = True)
+    otros = ArrayField(models.CharField(max_length=200), null=True, blank=True)
+    restricciones = ArrayField(models.CharField(max_length=200), null=True, blank=True)
 
     def save(self, *args, **kwargs):
         try:

@@ -1,4 +1,5 @@
 {% load static %}
+{% load numbers %}
 <!-- Home -->
 <div class="home">
 
@@ -91,11 +92,20 @@
                                 <div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
                                       <select class="form-control search_input" name="tipo" id="tipo">
                                         <option disabled="disabled" value="" selected="selected">Tipo de propiedad</option>
-                                        <option value="casa">Casa</option>
-                                        <option value="departamento">Departamento</option>
-                                        <option value="edificio">Edificio</option>
-                                        <option value="local">Local</option>
-                                        <option value="terreno">Terreno</option>
+                                        <option>Bodega Comercial</option>
+                                        <option>Bodega Industrial</option>
+                                        <option>Casa</option>
+                                        <option>Consultorio</option>
+                                        <option>Cuartos</option>
+                                        <option>Departamento</option>
+                                        <option>Edificio</option>
+                                        <option>Local</option>
+                                        <option>Nave Industrial</option>
+                                        <option>Oficina</option>
+                                        <option>Rancho</option>
+                                        <option>Terreno Comercial</option>
+                                        <option>Terreno Habitacional</option>
+                                        <option>Terreno Industrial</option>
                                       </select>
 
                                         <select class="form-control search_input" name="oferta" id="oferta">
@@ -189,17 +199,21 @@
                               <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
                                   <li class="property_area d-flex flex-row align-items-center justify-content-start">
                                       <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                                      <span>{{ v.metros_terreno }}<!-- m<sup>2</sup>--></span>
+                                      <span>{{ v.metros_terreno|floatformat }} m<sup>2</sup></span>
                                   </li>
-                                  {% if v.tipo != "Terreno" %}
+                                  {% if v.banos or v.banos == 0 %}
                                     <li class="d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_3.png' %}" alt="">
-                                        <span>{{ v.banos }}</span>
+                                        <span>{{ v.banos|rounding }}</span>
                                     </li>
+                                  {% endif %}
+                                  {% if v.habitaciones or v.habitaciones == 0 %}
                                     <li class="d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_4.png' %}" alt="">
                                         <span>{{ v.habitaciones }}</span>
                                     </li>
+                                  {% endif %}
+                                  {% if v.garaje or v.garaje == 0 %}
                                     <li class="d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_5.png' %}" alt="">
                                         <span>{{ v.garaje }}</span>
@@ -255,17 +269,21 @@
                               <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
                                   <li class="property_area d-flex flex-row align-items-center justify-content-start">
                                       <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                                      <span>{{ n.metros_terreno }}</span>
+                                      <span>{{ n.metros_terreno|floatformat }} m<sup>2</sup></span>
                                   </li>
-                                  {% if n.tipo != "Terreno" %}
+                                  {% if n.banos or n.banos == 0 %}
                                     <li class="d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_3.png' %}" alt="">
-                                        <span>{{ n.banos }}</span>
+                                        <span>{{ n.banos|rounding }}</span>
                                     </li>
+                                  {% endif %}
+                                  {% if n.habitaciones or n.habitaciones == 0 %}
                                     <li class="d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_4.png' %}" alt="">
                                         <span>{{ n.habitaciones }}</span>
                                     </li>
+                                  {% endif %}
+                                  {% if n.garaje or n.garaje == 0 %}
                                     <li class="d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_5.png' %}" alt="">
                                         <span>{{ n.garaje }}</span>
