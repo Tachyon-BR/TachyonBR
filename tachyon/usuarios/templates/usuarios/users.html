@@ -65,20 +65,22 @@
               </a>
               -->
               {% if 'eliminar_usuario' in request.session.permissions %}
-                {% if t.estado_eliminado %}
-                  <a href="#" class="table-link success" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#restore-user">
+                {% if t.rol.nombre != rol %}
+                  {% if t.estado_eliminado %}
+                    <a href="#" class="table-link success" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#restore-user">
+                      <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fas fa-trash-restore fa-stack-1x fa-inverse"></i>
+                      </span>
+                    </a>
+                  {% else %}
+                  <a href="#" class="table-link danger" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#delete-user">
                     <span class="fa-stack">
                       <i class="fa fa-square fa-stack-2x"></i>
-                      <i class="fas fa-trash-restore fa-stack-1x fa-inverse"></i>
+                      <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
                     </span>
                   </a>
-                {% else %}
-                <a href="#" class="table-link danger" onclick="borrar_usuario({{ t.pk }})" data-toggle="modal" data-target="#delete-user">
-                  <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
+                  {% endif %}
                 {% endif %}
               {% endif %}
             </td>

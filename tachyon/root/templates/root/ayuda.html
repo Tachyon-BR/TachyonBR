@@ -1,0 +1,62 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+
+{% block optionalCSS %}
+<style>
+  p{
+    color:black;
+    font-size: 15px;
+    text-align: justify;
+  }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="content-top-margin">
+
+  <div class="featured content-top-margin" style="margin-top:10px;">
+      <div class="container">
+          <h1>Ayuda</h1>
+          <br>
+
+          {% if can_edit %}
+            <h4>Editar texto</h4>
+            <form action="saveayuda" method="POST">
+              {% csrf_token %}
+              {{ form.media }}
+              {{ form.as_p }}
+
+              <button type="submit" class="btn btn-success">Guardar</button>
+            </form>
+
+
+            <br>
+          {% endif %}
+          <div style="color: black; font-size: 15px; text-align: justify;">
+            {{ ayuda.texto | safe }}
+          </div>
+
+
+      </div>
+  </div>
+<br><br><br>
+</div>
+
+
+
+
+{% endblock content %}
+
+
+{% block optionalJS %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".main_nav").find(".active").removeClass("active");
+
+    $("#ayuda").addClass("active");
+  });
+</script>
+{% endblock %}

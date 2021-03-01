@@ -1,8 +1,15 @@
 {% extends 'root/base.html' %}
 {% load static %}
 
-{% block optionalCSS %}
 
+{% block optionalCSS %}
+<style>
+  p{
+    color:black;
+    font-size: 15px;
+    text-align: justify;
+  }
+</style>
 {% endblock %}
 
 
@@ -12,27 +19,27 @@
 
   <div class="featured content-top-margin" style="margin-top:10px;">
       <div class="container">
-          <h1>Políticas de Privacidad</h1>
+          <h1>Nosotros</h1>
           <br>
 
-          <div class="card">
-              <div class="card-body">
-                  <h3>Aviso de Privacidad Integral Simplificado</h3>
-                  <hr>
-                  <div class="row" style="padding-top: 15px;">
-                    <div class="col-12">
-                      <p style="color: black; font-size: 15px; text-align: justify;">
-                        CONEXIÓN INMUEBLE BIENES RAÍCES mejor conocido como Conexión Inmueble, con portal de internet www.conexioninmueble.com, es el responsable del uso y protección de sus datos personales, y al respecto le informamos lo siguiente:<br><br>
-                        <b>-&nbsp;&nbsp;&nbsp;&nbsp;¿Para qué fines utilizaremos sus datos personales?</b><br><br>
-                        Los datos personales que recabamos de usted, los utilizaremos para las siguientes finalidades que son necesarias para el servicio que solicita:<br><br>
-                        Respuesta a mensajes del formulario de contacto, Prestación de cualquier servicio solicitado Comunicación facilitada con usuarios por parte de clientes interesados, Informar a los usuarios del estatus de las propiedades que ellos manejen.<br><br>
-                      </p>
-                    </div>
-                  </div>
-              </div>
+          {% if can_edit %}
+            <h4>Editar texto</h4>
+            <form action="savepoliticas" method="POST">
+              {% csrf_token %}
+              {{ form.media }}
+              {{ form.as_p }}
+
+              <button type="submit" class="btn btn-success">Guardar</button>
+            </form>
+
+
+            <br>
+          {% endif %}
+
+          <br>
+          <div style="color: black; font-size: 15px; text-align: justify;">
+            {{ politicas.texto | safe }}
           </div>
-
-
 
       </div>
   </div>

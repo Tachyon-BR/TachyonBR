@@ -1,5 +1,6 @@
 {% extends 'root/base.html' %}
 {% load static %}
+{% load filters %}
 
 {% block optionalCSS %}
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/properties.css' %}">
@@ -29,14 +30,23 @@
               <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
                   <div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
                         <select class="form-control search_input" name="tipo" id="tipo">
-                          <option value="" selected="selected">Tipo de propiedad</option>
-                          <option value="casa">Casa</option>
-                          <option value="departamento">Departamento</option>
-                          <option value="edificio">Edificio</option>
-                          <option value="local">Local</option>
-                          <option value="terreno">Terreno</option>
+                          <option disabled="disabled" value="" selected="selected">Tipo de propiedad</option>
+                          <option value="Bodega Comercial">Bodega Comercial</option>
+                          <option value="Bodega Industrial">Bodega Industrial</option>
+                          <option value="Casa">Casa</option>
+                          <option value="Consultorio">Consultorio</option>
+                          <option value="Cuartos">Cuartos</option>
+                          <option value="Departamento">Departamento</option>
+                          <option value="Edificio">Edificio</option>
+                          <option value="Local">Local</option>
+                          <option value="Nave Industrial">Nave Industrial</option>
+                          <option value="Oficina">Oficina</option>
+                          <option value="Rancho">Rancho</option>
+                          <option value="Terreno Comercial">Terreno Comercial</option>
+                          <option value="Terreno Habitacional">Terreno Habitacional</option>
+                          <option value="Terreno Industrial">Terreno Industrial</option>
                         </select>
-                      
+
                           <select class="form-control search_input" name="oferta" id="oferta">
                             <option disabled="disabled" value="" selected="selected">Tipo de oferta</option>
                             <option value="venta">Venta</option>
@@ -76,7 +86,7 @@
                           <option value="Veracruz">Veracruz</option>
                           <option value="Yucatán">Yucatán</option>
                           <option value="Zacatecas">Zacatecas</option>
-                      </select>                    
+                      </select>
                   </div>
                   <button class="search_button">Buscar propiedad</button>
                 </div>
@@ -89,7 +99,7 @@
             <div class="extra_search_button search_button_2"><a href="#">Show Map</a></div>
           </div>
           -->
-        
+
         </div>
       </div>
     </div>
@@ -130,14 +140,18 @@
 
           <!-- Sort -->
           <div class="sorting_container">
-            <div class="sort">
-              <span>Sort By</span>
-              <ul>
-                <li class="sorting_button filter-click" data-name="orden" data-value="default" data-isotope-option='{ "sortBy": "original-order" }'>Default</li>
-                <li class="sorting_button filter-click" data-name="orden" data-value="precio" data-isotope-option='{ "sortBy": "price" }'>Precio</li>
-              </ul>
-            </div>
-          </div>
+						<div class="sort">
+							<span>Ordenar</span>
+							<ul>
+								<li class="sorting_button" data-isotope-option='{ "sortBy": "original-order", "sortAscending" : false }'>Por Defecto</li>
+								<li class="sorting_button" data-isotope-option='{ "sortBy": "price", "sortAscending" : false }'>Precio</li>
+								<li class="sorting_button" data-isotope-option='{ "sortBy": "area", "sortAscending" : false }'>m<sup>2</sup></li>
+                <li class="sorting_button" data-isotope-option='{ "sortBy": "banos", "sortAscending" : false }'>Baños</li>
+                <li class="sorting_button" data-isotope-option='{ "sortBy": "habs", "sortAscending" : false }'>Habitaciones</li>
+                <li class="sorting_button" data-isotope-option='{ "sortBy": "garaje", "sortAscending" : false }'>Garaje</li>
+							</ul>
+						</div>
+					</div>
 
         </div>
 
@@ -159,7 +173,7 @@
               </div>
             </div>
           </div>
-          
+
           <!--Agrega clase "show" en #collapse_aside... para que se muestre por defautl-->
           <article class="filter-group"> <!--CATEGORIES  TIPO DE PROPIEDAD-->
             <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_tipo_propiedad" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
@@ -168,12 +182,21 @@
             <div class="filter-content collapse" id="collapse_aside_tipo_propiedad">
                 <div class="card-body">
                     <div class="list-group list-group-flush">
-                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="casa">Casa</a>
-                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="departamento">Departamento</a>
-                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="edificio">Edificio</a>
-                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="local">Local</a>
-                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="terreno">Terreno</a>
-                    </div>  <!-- list-group .// -->                
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Bodega Comercial">Bodega Comercial</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Bodega Industrial">Bodega Industrial</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Casa">Casa</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Consultorio">Consultorio</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Cuartos">Cuartos</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Departamento">Departamento</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Edificio">Edificio</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Local">Local</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Nave Industrial">Nave Industrial</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Oficina">Oficina</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Rancho">Rancho</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Terreno Comercial">Terreno Comercial</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Terreno Habitacional">Terreno Habitacional</a>
+                      <a href="#" class="list-group-item filter-click" data-name="tipo" data-value="Terreno Industrial">Terreno Industrial</a>
+                    </div>  <!-- list-group .// -->
                 </div>
             </div>
         </article>
@@ -188,7 +211,7 @@
                       <div class="list-group list-group-flush">
                         <a href="#" class="list-group-item filter-click" data-name="oferta" data-value="venta">Venta</a>
                         <a href="#" class="list-group-item filter-click" data-name="oferta" data-value="renta">Renta</a>
-                      </div>  <!-- list-group .// -->                
+                      </div>  <!-- list-group .// -->
                   </div>
               </div>
           </article>
@@ -198,7 +221,7 @@
                       <h6 class="title">Precio </h6>
                   </a> </header>
               <div class="filter-content collapse" id="collapse_aside2">
-                  <div class="card-body"> 
+                  <div class="card-body">
                     <div class="form-row">
                           <div class="form-group col-md-6"> <label>Min</label> <input class="form-control" placeholder="$0" type="number" id="precio_min" name="precio_min"> </div>
                           <div class="form-group text-right col-md-6"> <label>Max</label> <input class="form-control" placeholder="$1,000" type="number" id="precio_max" name="precio_max"> </div>
@@ -220,97 +243,95 @@
                       <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="1000-2000">De 1000 m<sup>2</sup> a 2000 m<sup>2</sup></a>
                       <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="2000-5000">De 2000 m<sup>2</sup> a 5000 m<sup>2</sup></a>
                       <a href="#" class="list-group-item filter-click" data-name="metros_construccion" data-value="5000-">Mayor a 5000 m<sup>2</sup></a>
-                    </div>  <!-- list-group .// -->                
+                    </div>  <!-- list-group .// -->
+                </div>
+            </div>
+          </article>
+
+
+          <article class="filter-group"> <!--CATEGORIES ÁREA DE TERRENO-->
+            <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_terreno" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Área de terreno</h6>
+                </a> </header>
+            <div class="filter-content collapse" id="collapse_aside_area_terreno">
+                <div class="card-body">
+                    <div class="list-group list-group-flush" id="estados-menu">
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="-250">Menor a 250 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="250-500">De 250 m<sup>2</sup> a 500 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="500-1000">De 500 m<sup>2</sup> a 1000 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="1000-2000">De 1000 m<sup>2</sup> a 2000 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="2000-5000">De 2000 m<sup>2</sup> a 5000 m<sup>2</sup></a>
+                      <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="5000-">Mayor a 5000 m<sup>2</sup></a>
+                  </div>  <!-- list-group .// -->
                 </div>
             </div>
         </article>
 
-      
-        <article class="filter-group"> <!--CATEGORIES ÁREA DE TERRENO-->
-          <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_area_terreno" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                  <h6 class="title">Área de terreno</h6>
+        <article class="filter-group"> <!--CATEGORIES ÁREA DE CONSTRUCCIÓN-->
+          <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_baños" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                  <h6 class="title">Número de baños</h6>
               </a> </header>
-          <div class="filter-content collapse" id="collapse_aside_area_terreno">
+          <div class="filter-content collapse" id="collapse_aside_baños">
               <div class="card-body">
-                  <div class="list-group list-group-flush" id="estados-menu">
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="-250">Menor a 250 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="250-500">De 250 m<sup>2</sup> a 500 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="500-1000">De 500 m<sup>2</sup> a 1000 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="1000-2000">De 1000 m<sup>2</sup> a 2000 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="2000-5000">De 2000 m<sup>2</sup> a 5000 m<sup>2</sup></a>
-                    <a href="#" class="list-group-item filter-click" data-name="metros_terreno" data-value="5000-">Mayor a 5000 m<sup>2</sup></a>
-                </div>  <!-- list-group .// -->                
+                  <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="1">1</a>
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="2">2</a>
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="3">3</a>
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4">4</a>
+                    <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4-">4+</a>
+                  </div>  <!-- list-group .// -->
               </div>
           </div>
-      </article>
+        </article>
 
-      <article class="filter-group"> <!--CATEGORIES ÁREA DE CONSTRUCCIÓN-->
-        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_baños" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Número de baños</h6>
-            </a> </header>
-        <div class="filter-content collapse" id="collapse_aside_baños">
-            <div class="card-body">
-                <div class="list-group list-group-flush">
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="1">1</a>
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="2">2</a>
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="3">3</a>
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4">4</a>
-                  <a href="#" class="list-group-item filter-click" data-name="banos" data-value="4-">4+</a>
-                </div>  <!-- list-group .// -->                
-            </div>
+
+        <article class="filter-group"> <!--CATEGORIES PISOS-->
+          <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_pisos" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                  <h6 class="title">Número de pisos</h6>
+              </a> </header>
+          <div class="filter-content collapse" id="collapse_aside_pisos">
+              <div class="card-body">
+                  <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="1">1</a>
+                    <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="2">2</a>
+                    <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3">3</a>
+                    <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3-">3+</a>
+                  </div>  <!-- list-group .// -->
+              </div>
+          </div>
+        </article>
+
+        <article class="filter-group"> <!--CATEGORIES PISOS-->
+          <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_estacionamiento" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
+                  <h6 class="title">Estacionamiento</h6>
+              </a> </header>
+          <div class="filter-content collapse" id="collapse_aside_estacionamiento">
+              <div class="card-body">
+                  <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="0">0</a>
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="1">1</a>
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="2">2</a>
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3">3</a>
+                    <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3-">3+</a>
+                  </div>  <!-- list-group .// -->
+              </div>
+          </div>
+        </article>
+
         </div>
-      </article>
+      </div>
 
+      <div class="col-sm-12 col-md-9 col-lg-9">
 
-      <article class="filter-group"> <!--CATEGORIES PISOS-->
-        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_pisos" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Número de pisos</h6>
-            </a> </header>
-        <div class="filter-content collapse" id="collapse_aside_pisos">
-            <div class="card-body">
-                <div class="list-group list-group-flush">
-                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="1">1</a>
-                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="2">2</a>
-                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3">3</a>
-                  <a href="#" class="list-group-item filter-click" data-name="pisos" data-value="3-">3+</a>
-                </div>  <!-- list-group .// -->                
-            </div>
-        </div>
-      </article>
-
-      <article class="filter-group"> <!--CATEGORIES PISOS-->
-        <header class="card-header"> <a href="#" data-toggle="collapse" data-target="#collapse_aside_estacionamiento" data-abc="true" aria-expanded="false" class="collapsed"> <i class="icon-control fa fa-chevron-down"></i>
-                <h6 class="title">Estacionamiento</h6>
-            </a> </header>
-        <div class="filter-content collapse" id="collapse_aside_estacionamiento">
-            <div class="card-body">
-                <div class="list-group list-group-flush">
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="0">0</a>
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="1">1</a>
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="2">2</a>
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3">3</a>
-                  <a href="#" class="list-group-item filter-click" data-name="garage" data-value="3-">3+</a>
-                </div>  <!-- list-group .// -->                
-            </div>
-        </div>
-      </article>
-        
-  </div>
-      
-
-    </div>
-
-    <div class="col-sm-12 col-md-9 col-lg-9">
-   
         <!-- Listings Container -->
         <div class="listings_container">
 
           {% if resultados %}
             {% for v in resultados %}
-        
+
               <!-- Listing -->
               <div class="listing_box house sale">
-                
+
                   <div class="listing">
                       <div class="listing_image">
                         <a href="/propiedades/property/{{ v.pk }}">
@@ -333,18 +354,22 @@
                               <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
                                   <li class="property_area d-flex flex-row align-items-center justify-content-start">
                                       <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                                      <span>{{ v.metros_terreno }}</span>
+                                      <span>{{ v.metros_terreno|floatformat }} m<sup>2</sup></span>
                                   </li>
-                                  {% if v.tipo != "Terreno" %}
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                  {% if v.banos or v.banos == 0 %}
+                                    <li class="property_banos d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_3.png' %}" alt="">
-                                        <span>{{ v.banos }}</span>
+                                        <span>{{ v.banos|rounding }}</span>
                                     </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                  {% endif %}
+                                  {% if v.habitaciones or v.habitaciones == 0 %}
+                                    <li class="property_habs d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_4.png' %}" alt="">
                                         <span>{{ v.habitaciones }}</span>
                                     </li>
-                                    <li class="d-flex flex-row align-items-center justify-content-start">
+                                  {% endif %}
+                                  {% if v.garaje or v.garaje == 0 %}
+                                    <li class="property_garaje d-flex flex-row align-items-center justify-content-start">
                                         <img src="{% static 'root/images/icon_5.png' %}" alt="">
                                         <span>{{ v.garaje }}</span>
                                     </li>
@@ -353,61 +378,20 @@
                           </div>
                       </div>
                   </div>
-                <!--
-                <div class="listing">
-                  <div class="listing_image">
-                    <div class="listing_image_container">
-                      <img src="{% static 'root/images/listing_1.jpg' %}" alt="">
-                    </div>
-                    <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
-                      <div class="tag tag_house"><a href="listings.html">{{ p.tipo }}</a></div>
-                      <div class="tag tag_sale"><a href="listings.html">{{ p.oferta }}</a></div>
-                    </div>
-                    <div class="tag_price listing_price">$ {{ p.precio }}</div>
-                  </div>
-                  <div class="listing_content">
-                    <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
-                      <img src="{% static 'root/images/icon_1.png' %}" alt="">
-                      <a href="property/{{ p.id }}">{{ p.direccion }} {{ p.colonia }}, {{ p.estado }} {{ p.codigo_postal }}</a>
-                    </div>
-                    <div class="listing_info">
-                      <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
-                        <li class="property_area d-flex flex-row align-items-center justify-content-start">
-                          <img src="{% static 'root/images/icon_2.png' %}" alt="">
-                          <span>{{ p.metros_terreno }} m<sup>2</sup></span>
-                        </li>
-                        <li class="d-flex flex-row align-items-center justify-content-start">
-                          <img src="{% static 'root/images/icon_3.png' %}" alt="">
-                          <span>{{ p.banos }}</span>
-                        </li>
-                        <li class="d-flex flex-row align-items-center justify-content-start">
-                          <img src="{% static 'root/images/icon_4.png' %}" alt="">
-                          <span>{{ p.habitaciones }}</span>
-                        </li>
-                        <li class="d-flex flex-row align-items-center justify-content-start">
-                          <img src="{% static 'root/images/icon_5.png' %}" alt="">
-                          <span>{{ p.garage }}</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-            -->
-            
           </div>
             {% endfor %}
           {% else %}
-          <h3>No hubo resultados en tu búsqueda</h3>
+          <h3>No se encontraron resultados con esas características</h3>
           {% endif %}
-          
+
         </div>
-        
+
         <!--
         <div class="load_more">
           <div class="button ml-auto mr-auto"><a href="#">load more</a></div>
         </div>
         -->
+
 
       </div>
     </div>
@@ -420,6 +404,7 @@
 {% endblock content %}
 
 {% block optionalJS %}
+<script>var sort = ""; var bool = false;</script>
 <script src="{% static 'root/plugins/Isotope/isotope.pkgd.min.js' %}"></script>
 <script src="{% static 'root/js/listings.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>

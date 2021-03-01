@@ -20,6 +20,8 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from django.conf import settings
 from django.http import HttpResponse
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 
@@ -250,9 +252,14 @@ def randomString(stringLength=10):
 def indexView(request):
     if 'visualizar_usuarios' in request.session['permissions']:
         tachyons = TachyonUsuario.objects.all().exclude(user = request.user)
-
+        user_logged = TachyonUsuario.objects.get(user = request.user)
+        if user_logged.rol.nombre == "Administrador":
+            tachyons = tachyons.exclude(rol__nombre__in=["SuperUsaurus","SuperAdministrador"])
+        elif user_logged.rol.nombre == "SuperAdministrador":
+            tachyons = tachyons.exclude(rol__nombre="SuperUsaurus")
         context = {
-            'tachyons': tachyons
+            'tachyons': tachyons,
+            'rol': user_logged.rol.nombre
         }
 
         return render(request, 'usuarios/users.html', context)
@@ -268,6 +275,11 @@ def deleteUserView(request, id):
             if user:
                 user.estado_eliminado = not user.estado_eliminado
                 user.save()
+
+                if user.estado_eliminado:
+                    # logout user
+                    user.remove_all_sessions()
+
                 return HttpResponse('OK')
             else:
                 response = JsonResponse({"error": "No existe ese usuario"})
@@ -287,8 +299,13 @@ def deleteUserView(request, id):
 @login_required
 def adminCreateUserView(request):
     if 'crear_staff' in request.session['permissions']:
+        super = False
+        user_logged = TachyonUsuario.objects.get(user = request.user)
+        if user_logged.rol.nombre == "SuperUsaurus":
+            super = True
         context = {
-            'adminCreator': True
+            'adminCreator': True,
+            'super': super
         }
         return render(request, 'usuarios/create.html', context)
     else: # Si el rol del usuario no es ventas no puede entrar a la página
@@ -386,12 +403,24 @@ def getLoggedUserJson(request):
     return JsonResponse({"user": data})
 
 
+@login_required
 def profile(request, user_id):
     user = get_object_or_404(TachyonUsuario, user__pk=user_id)
-    return render(request, 'usuarios/user_detail.html', {'user': user})
+    user_logged = TachyonUsuario.objects.get(user = request.user)
+    super = False
+    admin = False
+    if user_logged.rol.nombre == "SuperAdministrador":
+        if user.rol.nombre != "SuperUsaurus" and user.rol.nombre != "SuperAdministrador":
+            super = True
+    if user_logged.rol.nombre == "SuperUsaurus":
+        if user.rol.nombre != "SuperUsaurus":
+            super = True
+            admin = True
+
+    return render(request, 'usuarios/user_detail.html', {'user': user, 'super': super, 'admin': admin})
 
 
-
+@login_required
 def edit_user(request, user_id):
     if request.user.id != user_id:
         raise Http404
@@ -426,7 +455,7 @@ def edit_user(request, user_id):
                     # letras del nombre y cada apellido más el número de usuarios en el sistema
 
             # Actualizar usuario del modelo de django
-            u = User.objects.get(pk = user.pk)
+            u = User.objects.get(pk = user_id)
             u.username=uname
             #u.email=email
             u.save()
@@ -439,16 +468,89 @@ def edit_user(request, user_id):
             tUser.nombre = nombre
             tUser.apellido_paterno = apellido_paterno
             tUser.apellido_materno = apellido_materno
-            tUser.telefono = telefono
+            #tUser.telefono = telefono
             tUser.estado = estado
             tUser.nombre_agencia = nombre_agencia
             tUser.numero_agencia = numero_agencia
             tUser.save()
 
-            request.session['notification_session_msg'] = "Se ha editado su perfil existosamente."
+            request.session['notification_session_msg'] = "Se ha editado su perfil exitosamente."
             request.session['notification_session_type'] = "Success"
             return redirect('/usuarios/'+ str(user.user.pk))
         else:
             request.session['notification_session_msg'] = "Ha ocurrido un error. Inténtelo de nuevo más tarde."
             request.session['notification_session_type'] = "Danger"
             return render(request, 'usuarios/user_edit.html', {'user': user})
+
+
+@login_required
+def changeRolView(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        id_rol = request.POST.get('rol')
+        user = TachyonUsuario.objects.filter(pk = id).first()
+
+        if user:
+            rol = Rol.objects.filter(nombre = id_rol).first()
+
+            if rol:
+                user.rol = rol
+                user.save()
+
+                # logout user
+                user.remove_all_sessions()
+
+                request.session['notification_session_msg'] = "Se ha cambiado el rol exitosamente."
+                request.session['notification_session_type'] = "Success"
+                return redirect('/usuarios/'+ str(user.user.pk))
+            else:
+                raise Http404
+        else:
+            raise Http404
+    else:
+        raise Http404
+
+
+@login_required
+def editPasswordView(request):
+    return render(request, 'usuarios/change_password.html')
+
+
+@login_required
+def changePasswordView(request):
+    if request.method == 'POST':
+        last = request.POST.get('last')
+        pass1 = request.POST.get('new')
+        pass2 = request.POST.get('new2')
+
+        user = User.objects.filter(pk = request.user.pk).first()
+
+        if user:
+            if not (check_password(last, user.password)):
+                request.session['notification_session_msg'] = "La contraseña original no fue la correcta, no se modificó la contraseña."
+                request.session['notification_session_type'] = "Warning"
+                return redirect('/usuarios/'+ str(user.pk))
+
+            if pass1 != "" and pass2 != "":
+                if pass1 == pass2:
+                    user.set_password(pass1)
+                else:
+                    request.session['notification_session_msg'] = "La contraseñas proporcionadas no coincidian, no se modificó la contraseña."
+                    request.session['notification_session_type'] = "Warning"
+                    return redirect('/usuarios/'+ str(user.pk))
+            else:
+                request.session['notification_session_msg'] = "Ha ocurrido un error, no se modificó la contraseña."
+                request.session['notification_session_type'] = "Danger"
+                return redirect('/usuarios/'+ str(user.pk))
+
+            user.save()
+
+            update_session_auth_hash(request, user)
+
+            request.session['notification_session_msg'] = "Se ha modificado la contraseña exitosamente."
+            request.session['notification_session_type'] = "Success"
+            return redirect('/usuarios/'+ str(user.pk))
+        else:
+            raise Http404
+    else:
+        raise Http404

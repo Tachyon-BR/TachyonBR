@@ -24,7 +24,7 @@ $( document ).ready(function() {
 
 /* APILA LOS DIFERENTES FILTROS
 obtiene los params del url
-cacha los clicks del menu de filtros, 
+cacha los clicks del menu de filtros,
 dependiendo de cual filtro se hizo clik, lo agrega al stack de parametros de filtros
 si se hace click a un filtro que ya existe, lo reemplaza
 */
@@ -40,13 +40,13 @@ $('.filter-click').on('click', function(){
     }else{
         searchParams.set(name, value);
     }
-    
+
     let params = searchParams.keys();
     let url = "/propiedades/?";
 
     for(const param of params){
         url+=`&${param}=${searchParams.get(param)}`;
-    }   
+    }
     window.location.href = url;
 });
 
@@ -59,7 +59,7 @@ $(".clickToDeleteFilter").on("click", function(){
     let params = searchParams.keys();
     for(const param of params){
         url+=`&${param}=${searchParams.get(param)}`;
-    }   
+    }
     window.location.href = url;
 
 });
