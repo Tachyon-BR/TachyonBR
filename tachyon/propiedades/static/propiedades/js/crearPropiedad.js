@@ -2,6 +2,7 @@ var min = 5;
 var max = 20;
 var xtr = 0;
 var f = [];
+var submit = false;
 
 // A $( document ).ready() block.
 $( document ).ready(function() {
@@ -63,26 +64,7 @@ $( document ).ready(function() {
       //$('#xtr').empty();
       //xtr = 0;
     }
-    var filtered = f.filter(function (el) {
-      return el != null;
-    });
-    var len = filtered.length;
-    if(len <= 0){
-      $('#file-label-2').html('Selecciona tus archivos...');
-    }
-    else{
-      $('#file-label-2').html(len +' archivos seleccionados');
-    }
-    if((parseInt(len) >= min) && (parseInt(len) <= max)){
-      $('#id_extra').removeClass('is-invalid').addClass('is-valid')
-      $('#id_extra').next().prop('hidden', false)
-      $('#safe').val('Qwerty')
-    }
-    else{
-      $('#id_extra').removeClass('is-valid').addClass('is-invalid')
-      $('#id_extra').next().prop('hidden', true)
-      $('#safe').val('')
-    }
+    validate_files();
   });
 });
 
@@ -95,11 +77,14 @@ $( document ).ready(function() {
     // Loop over them and prevent submission
     var validation = Array.prototype.filter.call(forms, function(form) {
       form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        submit = true;
         if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
+          submit = false;
         }
         form.classList.add('was-validated');
+        sendForm();
       }, false);
     });
   }, false);
@@ -314,7 +299,17 @@ function decimal(id, val){
 }
 
 function validate_files(){
-  if((parseInt($('#id_extra').get(0).files.length) >= min) && (parseInt($('#id_extra').get(0).files.length) <= max)){
+  var filtered = f.filter(function (el) {
+    return el != null;
+  });
+  var len = filtered.length;
+  if(len <= 0){
+    $('#file-label-2').html('Selecciona tus archivos...');
+  }
+  else{
+    $('#file-label-2').html(len +' archivos seleccionados');
+  }
+  if((parseInt(len) >= min) && (parseInt(len) <= max)){
     $('#id_extra').removeClass('is-invalid').addClass('is-valid')
     $('#id_extra').next().prop('hidden', false)
     $('#safe').val('Qwerty')
@@ -401,12 +396,55 @@ function val_video(val){
 }
 
 function destroyImg(id){
-  var val = id.slice(-1);
+  var val = id.slice(-2);
+  if(isNaN(val)){
+    val = id.slice(-1);
+  }
   $('#'+id).remove();
   f[val] = null;
-  var filtered = f.filter(function (el) {
-    return el != null;
-  });
-  var len = filtered.length;
-  $('#file-label-2').html(len +' archivos seleccionados');
+  validate_files();
+}
+
+function sendForm(){
+  if(submit){
+    var filtered = f.filter(function (el) {
+      return el != null;
+    });
+    var len = filtered.length;
+
+    var data = new FormData();
+    for(var i = 0; i < len; i++){
+      data.append('file-'+i, filtered[i]);
+    }
+
+    /*
+    var xhr = new XMLHttpRequest;
+    xhr.open('POST', '/', true);
+    xhr.send(data);
+    */
+
+
+    var token = csrftoken;
+    var forma = $('#form').serializeArray();
+
+    return;
+
+    $.ajax({
+        url: "/propiedades/createProperty/",
+        dataType: 'json',
+        // Seleccionar información que se mandara al controlador
+        data: forma,
+        // cache: false,
+        // contentType: false,
+        // processData: false,
+        // method: 'POST',
+        type: 'POST',
+        success: function (response) {
+            console.log('Éxito');
+        },
+        error: function (data) {
+            showNotificationWarning('top', 'right', 'Ha ocurrido un error, inténtelo de nuevo más tarde.');
+        }
+    });
+  }
 }

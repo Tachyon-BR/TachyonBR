@@ -308,6 +308,9 @@ def codigosView(request):
 def createPropertyView(request):
     if 'registrar_propiedad' in request.session['permissions']:
         if request.method == 'POST':
+            print(request.POST.get('form'))
+            print(request.FILES.getlist('data'))
+            return JsonResponse({"data": 1})
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
             form = CrearPropiedadForma(request.POST, request.FILES)
             files = request.FILES.getlist('extra')

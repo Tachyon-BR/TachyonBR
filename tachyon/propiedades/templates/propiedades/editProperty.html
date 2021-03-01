@@ -29,7 +29,7 @@
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
                 <h1 class="text-center">Edición de Propiedad</h1>
-                <form method="POST" action="/propiedades/modifyProperty/{{ property.pk }}" class="needs-validation" enctype="multipart/form-data" novalidate>
+                <form id="form" class="needs-validation" novalidate> <!-- method="POST" action="/propiedades/modifyProperty/{{ property.pk }}" enctype="multipart/form-data" -->
                     {% csrf_token %}
                     <div class="row row-space">
                         <div class="col-12">
@@ -557,6 +557,7 @@
                                 <div class="invalid-feedback">
                                     Por favor, seleccione una imagen de portada.
                                 </div>
+                                <img id="prtd" alt="Portada" width="100" height="100" style="margin: 15px; margin-bottom: 100px;" hidden />
                             </div>
                         </div>
                     </div>
@@ -575,6 +576,8 @@
                                 </div>
                                 <div class="invalid-feedback">
                                     Por favor, seleccione un número de imagenes dentro del rango indicado.
+                                </div>
+                                <div id="xtr">
                                 </div>
                             </div>
                         </div>
@@ -610,7 +613,7 @@
                     {% endif %}
                     <br>
                     <div class="container-login100-form-btn">
-            						<button class="login100-form-btn" type="submit" id="submit">
+            						<button class="login100-form-btn" id="submit">
             							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
             						</button>
 					          </div>

@@ -29,7 +29,7 @@
         <div class="card card-4" style="margin-top: 50px;">
             <div class="card-body">
                 <h1 class="text-center">Nueva Propiedad</h1>
-                <form method="POST" action="/propiedades/createProperty/" class="needs-validation" enctype="multipart/form-data" novalidate>
+                <form id="form" class="needs-validation" novalidate> <!-- method="POST" action="/propiedades/createProperty/ enctype="multipart/form-data"" -->
                     {% csrf_token %}
                     <div class="row row-space">
                         <div class="col-12">
@@ -598,14 +598,9 @@
                         </div>
                     </div>
                     <br>
-                    <!--
-                    <div id="extrafiles">
-                        <input type="file" name="img[]" accept="image/*" required id="img*">
-                    </div>
-                    -->
                     <br>
                     <div class="container-login100-form-btn">
-            						<button class="login100-form-btn" type="submit" id="submit" onclick="validate_files()">
+            						<button class="login100-form-btn" id="submit" onclick="validate_files();">
             							<span style='font-size:35px;'>&#10142;</span> <!-- main.css línea 425 -->
             						</button>
 					          </div>
