@@ -7,18 +7,18 @@
     <div class="home_slider_container">
          <div class="owl-carousel owl-theme home_slider">
 
-            {% if p1 %}
+            {% for p in properties %}
             <!-- Slide -->
             <div class="slide">
-                <div class="background_image" style="background-image:url({{ p1.portada.url }})"></div>
+                <div class="background_image" style="background-image:url({{ p.portada.url }})"></div>
                 <div class="home_container">
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                              <a href="/propiedades/property/{{ p1.pk }}">
+                              <a href="/propiedades/property/{{ p.pk }}">
                                 <div class="home_content">
-                                    <div class="home_title"><h1>{{ p1.titulo }}</h1></div>
-                                    <div class="home_price_tag">{{ p1.precio }}</div>
+                                    <div class="home_title"><h1>{{ p.titulo }}</h1></div>
+                                    <div class="home_price_tag">{{ p.precio }}</div>
                                 </div>
                               </a>
                             </div>
@@ -26,49 +26,26 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
+            {% endfor %}
 
-            {% if p2 %}
             <!-- Slide -->
             <div class="slide">
-                <div class="background_image" style="background-image:url({{ p2.portada.url }})"></div>
+                <div class="background_image" style="background-image:url(https://www.conexioninmueble.com/Imagenes_Ayuda/ayuda_owl.png)"></div>
                 <div class="home_container">
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                              <a href="/propiedades/property/{{ p2.pk }}">
-                                <div class="home_content">
-                                    <div class="home_title"><h1>{{ p2.titulo }}</h1></div>
-                                    <div class="home_price_tag">{{ p2.precio }}</div>
-                                </div>
-                              </a>
+                                <a href="/ayuda">
+                                  <div class="home_content" style="opacity: 0%;">
+                                    <div class="home_title"><h1>Ayuda</h1></div>
+                                    <div class="home_price_tag">Pública una Propiedad</div>
+                                  </div>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% endif %}
-
-            {% if p3 %}
-            <!-- Slide -->
-            <div class="slide">
-                <div class="background_image" style="background-image:url({{ p3.portada.url }})"></div>
-                <div class="home_container">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                              <a href="/propiedades/property/{{ p3.pk }}">
-                                <div class="home_content">
-                                    <div class="home_title"><h1>{{ p3.titulo }}</h1></div>
-                                    <div class="home_price_tag">{{ p3.precio }}</div>
-                                </div>
-                              </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
 
          </div>
 

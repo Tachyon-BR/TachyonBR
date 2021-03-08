@@ -11,3 +11,8 @@ def rounding(value):
     if value.is_integer():
         return math.floor(value)
     return myround(value)
+
+
+@register.filter
+def truncate_string(value):
+    return (value[:280] + '...') if len(value) > 283 else value
