@@ -1,9 +1,68 @@
 {% load static %}
+{% load filters %}
 
-<title id="tab_title">Conexión Inmueble</title>
+{% if property_meta %}
+<title>{{ property.titulo }} - Conexión Inmueble</title>
+<!-- MS, fb & Whatsapp -->
+
+<!-- MS Tile - for Microsoft apps-->
+<meta name="msapplication-TileImage" content="http://www.conexioninmueble.com{{ property.portada.url }}">
+
+<!-- fb & Whatsapp -->
+
+<!-- Site Name, Title, and Description to be displayed -->
+<meta property="og:site_name" content="Conexión Inmueble">
+<meta property="og:title" content="{{ property.titulo }} - Conexión Inmueble">
+<meta property="og:description" content="{{ property.descripcion|truncate_string }}">
+
+<!-- Image to display -->
+<!-- Replace   «example.com/image01.jpg» with your own -->
+<meta property="og:image" content="http://www.conexioninmueble.com{{ property.portada.url }}">
+
+<!-- No need to change anything here -->
+<meta property="og:type" content="website" />
+<meta property="og:image:type" content="image/jpeg">
+
+<!-- Size of image. Any size up to 300. Anything above 300px will not work in WhatsApp
+<meta property="og:image:width" content="300">
+<meta property="og:image:height" content="300">
+-->
+
+<!-- Website to visit when clicked in fb or WhatsApp-->
+<meta property="og:url" content="http://www.conexioninmueble.com/propiedades/property/{{ property.pk }}">
+{% else %}
+<title>Conexión Inmueble</title>
+<!-- MS, fb & Whatsapp -->
+
+<!-- MS Tile - for Microsoft apps-->
+<meta name="msapplication-TileImage" content="http://www.conexioninmueble.com/logos/LOGO.png">
+
+<!-- fb & Whatsapp -->
+
+<!-- Site Name, Title, and Description to be displayed -->
+<meta property="og:site_name" content="Conexión Inmueble">
+<meta property="og:title" content="Conexión Inmueble">
+<meta property="og:description" content="Conexión Inmueble es un portal inmobiliario cuyo proposito es permitir que las personas puedan comprar, vender o rentar propiedades. Ya sea que estas propiedades sean ofrecidas con ayuda de agentes inmobiliarios o directamente por los dueños de estas. Además, Conexión Inmueble ofrece un ambiente profesional en el que se puede trabajar en la busqueda de buenos resultados.">
+
+<!-- Image to display -->
+<!-- Replace   «example.com/image01.jpg» with your own -->
+<meta property="og:image" content="http://www.conexioninmueble.com/logos/LOGO.png">
+
+<!-- No need to change anything here -->
+<meta property="og:type" content="website" />
+<meta property="og:image:type" content="image/png">
+
+<!-- Size of image. Any size up to 300. Anything above 300px will not work in WhatsApp
+<meta property="og:image:width" content="300">
+<meta property="og:image:height" content="300">
+-->
+
+<!-- Website to visit when clicked in fb or WhatsApp-->
+<meta property="og:url" content="https://www.conexioninmueble.com">
+{% endif %}
+<meta name="twitter:card" content="summary_large_image">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta id="tab_description" name="description" content="Conexión Inmueble">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 <link rel="icon" type="image/png" href="{% static 'usuarios/images/icons/logo-png.png' %}"/>
 <link href="{% static 'root/plugins/font-awesome-5.15.2/css/fontawesome.min.css' %}" rel="stylesheet" type="text/css">

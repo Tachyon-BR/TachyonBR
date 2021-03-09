@@ -24,6 +24,7 @@ from django.db.models import Q # new
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from django.conf import settings
+import calendar
 
 
 # Create your views here.
@@ -109,7 +110,7 @@ def propertyView(request, id):
                     rlast.append(r)
                 bool = not bool
 
-        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor, 'is_revisor': is_revisor, 'ofirst': ofirst, 'olast': olast, 'rfirst': rfirst, 'rlast': rlast})
+        return render(request, 'propiedades/property.html', {'property': propiedad, 'images': fotos, 'link': link, 'index': index, 'revisor': revisor, 'is_revisor': is_revisor, 'ofirst': ofirst, 'olast': olast, 'rfirst': rfirst, 'rlast': rlast, 'property_meta': True})
     else:
         raise Http404
 
@@ -245,6 +246,8 @@ def myPropertiesView(request):
         for l in list:
             l.precio = locale.currency(l.precio, grouping=True)
             l.precio = l.precio[0:-3]
+            if l.fecha_corte:
+                l.fecha_modificacion = (l.fecha_corte - l.fecha_publicacion).days
         return render(request, 'propiedades/myProperties.html', {'list': list})
     else:
         raise Http404
@@ -436,6 +439,9 @@ def deletePropertyView(request, id):
                 if propiedad.propietario == user_logged:    # Evitar que los usuarios puedan borrar propiedades ajenas
 
                     propiedad.estado_visible = False
+                    propiedad.estado_activo = False
+                    propiedad.estado_revision = False
+                    propiedad.fecha_corte = None
                     propiedad.save()
                     return HttpResponse('OK')
                 else:
@@ -644,6 +650,7 @@ def validateAsRevisorView(request):
                 propiedad.estado_revision = False
                 propiedad.estado_activo = True
                 propiedad.fecha_publicacion = datetime.date.today()
+                propiedad.fecha_corte = add_months(datetime.date.today(), 3)
                 propiedad.revisor = None
                 propiedad.save()
                 if (user.email != 'test@test.com'):
@@ -848,6 +855,7 @@ def modifyPropertyView(request, id):
                     propiedad.estado_activo = False
                     propiedad.otros = otros
                     propiedad.restricciones = rest
+                    propiedad.fecha_corte = None
 
                     # Guardar propiedad para poder guardar las imagenes
                     propiedad.save()
@@ -988,3 +996,11 @@ def unpublishPropertyView(request):
         response.status_code = 500
         # Regresamos la respuesta de error interno del servidor
         return response
+
+
+def add_months(sourcedate, months):
+    month = sourcedate.month - 1 + months
+    year = sourcedate.year + month // 12
+    month = month % 12 + 1
+    day = min(sourcedate.day, calendar.monthrange(year,month)[1])
+    return datetime.date(year, month, day)
