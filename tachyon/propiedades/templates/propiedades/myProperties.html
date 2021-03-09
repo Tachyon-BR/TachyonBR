@@ -55,7 +55,8 @@
               </td>
               <td>
                 {% if p.fecha_corte != None %}
-                  {{ p.fecha_corte }}
+                  {{ p.fecha_corte }}<br>
+                  <span style="font-size: x-small;"><i>(Faltan {{ p.fecha_modificacion }} días)</i></span>
                 {% else %}
                   No Aplica
                 {% endif %}

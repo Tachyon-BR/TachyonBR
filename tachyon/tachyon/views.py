@@ -18,6 +18,8 @@ def home(request):
     # Here's one simple way to keep even distribution for
     # index2 while still gauranteeing not to match index1.
 
+    index = []
+
     if last > 0:
         index1 = random.randint(0, last-1)
 
@@ -35,32 +37,69 @@ def home(request):
         if index3 == index1:
             index3 = last-1
 
-    p1 = False
-    p2 = False
-    p3 = False
+    if last > 3:
+        index4 = random.randint(0, last-4)
+        if index4 == index1:
+            index4 = last-1
+        if index4 == index2:
+            index4 = last-2
+        if index4 == index3:
+            index4 = last-3
+        if index4 == index2:
+            index4 = last-2
+        if index4 == index1:
+            index4 = last-1
+        if index4 == index2:
+            index4 = last-2
+
+    if last > 4:
+        index5 = random.randint(0, last-5)
+        if index5 == index1:
+            index5 = last-1
+        if index5 == index2:
+            index5 = last-2
+        if index5 == index3:
+            index5 = last-3
+        if index5 == index4:
+            index5 = last-4
+        if index5 == index3:
+            index5 = last-3
+        if index5 == index2:
+            index5 = last-2
+        if index5 == index1:
+            index5 = last-1
+        if index5 == index2:
+            index5 = last-2
+        if index5 == index3:
+            index5 = last-3
+        if index5 == index4:
+            index5 = last-4
+
+    index.append(index1)
+    index.append(index2)
+    index.append(index3)
+    index.append(index4)
+    index.append(index5)
+
+    p = []
 
     # This syntax will generate "OFFSET=indexN LIMIT=1" queries
     # so each returns a single record with no extraneous data.
 
-    if last > 0:
-        p1 = Propiedad.objects.filter(estado_activo = True)[index1]
-        p1.precio = locale.currency(p1.precio, grouping=True)
-        p1.precio = p1.precio[0:-3]
 
-    if last > 1:
-        p2 = Propiedad.objects.filter(estado_activo = True)[index2]
-        p2.precio = locale.currency(p2.precio, grouping=True)
-        p2.precio = p2.precio[0:-3]
+    for i in index:
+        aux = Propiedad.objects.filter(estado_activo = True)[i]
+        aux.precio = locale.currency(aux.precio, grouping=True)
+        aux.precio = aux.precio[0:-3]
+        p.append(aux)
 
-    if last > 2:
-        p3 = Propiedad.objects.filter(estado_activo = True)[index3]
-        p3.precio = locale.currency(p3.precio, grouping=True)
-        p3.precio = p3.precio[0:-3]
 
-    if last < 6:
+    limit = 9
+
+    if last < limit:
         c = last
     else:
-        c = 6
+        c = limit
 
     vistas = Propiedad.objects.filter(estado_activo = True).order_by('-visitas')[:c] #Set the amount of entries
     for v in vistas:
@@ -73,7 +112,7 @@ def home(request):
         n.precio = n.precio[0:-3]
 
     if vistas and nuevas:
-        return render(request, 'tachyon/homepage.html', {'p1': p1, 'p2': p2, 'p3': p3, 'views': vistas, 'new': nuevas})
+        return render(request, 'tachyon/homepage.html', {'properties': p, 'views': vistas, 'new': nuevas})
     else:
         raise Http404
 
