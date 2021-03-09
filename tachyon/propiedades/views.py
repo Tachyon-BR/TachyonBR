@@ -981,6 +981,7 @@ def unpublishPropertyView(request):
             if propiedad.propietario == user_logged:    # Evitar que los usuarios puedan editar propiedades ajenas
                 propiedad.estado_activo = False
                 propiedad.estado_revision = False
+                propiedad.fecha_corte = None
                 propiedad.save()
                 return HttpResponse('OK')
             else:
@@ -1004,3 +1005,35 @@ def add_months(sourcedate, months):
     month = month % 12 + 1
     day = min(sourcedate.day, calendar.monthrange(year,month)[1])
     return datetime.date(year, month, day)
+
+
+@login_required
+def uploadImagesView(request):
+    if 'registrar_propiedad' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+            files = [request.FILES.get('images[%d]' % i)
+                for i in range(0, len(request.FILES))]
+
+            # print(len(files))
+            # print(files)
+
+            # Guardar imagenes de la propiedad
+            # i = 1
+            # for f in files:
+            #     fotos = Foto()
+            #     fotos.propiedad = propiedad
+            #     fotos.orden = i
+            #     fotos.save()
+            #     fotos.imagen = f
+            #     fotos.save()
+            #     i = i + 1
+
+            #request.session['notification_session_msg'] = "Se ha añadido la propiedad exitosamente."
+            #request.session['notification_session_type'] = "Success"
+            return HttpResponse('OK')
+
+        else:
+            raise Http404
+    else:
+        raise Http404

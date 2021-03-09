@@ -18,6 +18,9 @@
     <!--Button CSS -->
     <link href="{% static 'usuarios/stylesButton/main.css' %}" rel="stylesheet" media="all">
     <link href="{% static 'usuarios/stylesButton/util.css' %}" rel="stylesheet" media="all">
+
+    <!-- Dropzone CSS -->
+    <link href="{% static 'root/plugins/dropzone-5.7.0/dropzone.css' %}" rel="stylesheet" media="all">
 {% endblock %}
 
 
@@ -553,6 +556,7 @@
                                 <div class="invalid-feedback">
                                     Por favor, seleccione una imagen de portada.
                                 </div>
+                                <img id="prtd" alt="Portada" width="250" height="250" style="margin: 15px; margin-bottom: 250px; border-radius: 20px; overflow: hidden; z-index: 10;" hidden />
                             </div>
                         </div>
                     </div>
@@ -602,6 +606,8 @@
             						</button>
 					          </div>
                 </form>
+                <div id="myDropZone" class="dropzone">
+                </div>
             </div>
         </div>
     </div>
@@ -615,6 +621,8 @@
 <script type="text/javascript">
     checkNotificationSession()
 </script>
+
+<script src="{% static 'root/plugins/dropzone-5.7.0/dropzone.js' %}"></script>
 
 <!-- Vendor JS-->
 <script src="{% static 'usuarios/js/vendor/select2/select2.min.js' %}"></script>

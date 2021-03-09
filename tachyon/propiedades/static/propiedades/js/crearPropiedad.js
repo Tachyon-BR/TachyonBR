@@ -1,10 +1,54 @@
 var min = 5;
 var max = 20;
+Dropzone.options.myDropZone = false;
 
 // A $( document ).ready() block.
 $( document ).ready(function() {
   $('#id_portada').addClass('custom-file-input');
   $('#id_extra').addClass('custom-file-input');
+  Dropzone.options.myDropZone = false;
+  Dropzone.options.myDropZone = {
+    paramName: "images",
+    parallelUploads: 3,
+    uploadMultiple: true,
+    dictDefaultMessage: "Arrastra imágenes aquí o haz clic para subirlas",
+    params: {'csrfmiddlewaretoken': csrftoken},
+  }
+  $('div#myDropZone').dropzone({ url: "/propiedades/uploadImages/" });
+
+  $('#id_portada').change(function() {
+    img = document.getElementById('prtd');
+    if($('#id_portada').prop('files').length >= 1){ //$('#id_portada').prop('files')[0];
+      $('#prtd').prop('hidden', false);
+      img.src = URL.createObjectURL(this.files[0]);
+      img.onload = function() {
+        URL.revokeObjectURL(this.src);
+      }
+    }
+    else{
+      $('#prtd').prop('hidden', true);
+    }
+    var len = $('#id_portada').get(0).files.length;
+    if(len <= 0){
+      $('#file-label-1').html('Selecciona tu archivo...');
+    }
+    else{
+      $('#file-label-1').html($('#id_portada').get(0).files[0].name);
+    }
+  });
+
+  $('#prtd').click(function() {
+    $('#prtd').prop('hidden', true);
+    $('#id_portada').val('');
+    var len = $('#id_portada').get(0).files.length;
+    if(len <= 0){
+      $('#file-label-1').html('Selecciona tu archivo...');
+    }
+    else{
+      $('#file-label-1').html($('#id_portada').get(0).files[0].name);
+    }
+  });
+
 });
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
