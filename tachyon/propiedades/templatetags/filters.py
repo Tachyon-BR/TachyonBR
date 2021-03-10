@@ -1,5 +1,6 @@
 from django import template
 import math
+import locale
 
 register = template.Library()
 
@@ -16,3 +17,11 @@ def rounding(value):
 @register.filter
 def truncate_string(value):
     return (value[:280] + '...') if len(value) > 283 else value
+
+
+@register.filter
+def money(value):
+    locale.setlocale( locale.LC_ALL, '' )
+    precio = locale.currency(value, grouping=True)
+    precio = precio[0:-3]
+    return precio
