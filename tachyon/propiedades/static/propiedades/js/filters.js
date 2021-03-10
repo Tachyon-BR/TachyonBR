@@ -2,6 +2,7 @@
 
 $( document ).ready(function() {
 
+    $('#filtros_avanzados').hide()
     //Cambiar los filtros si ya hay uno presente
     let searchParams = new URLSearchParams(window.location.search);
     //Campos select de hasta arriba
@@ -21,6 +22,9 @@ $( document ).ready(function() {
     //$(`.filter-click[data-name='garage'][data-value='${searchParams.get("garage")}'`).attr("checked", "");
 });
 
+$('#toggle_chk').on('click', function(){
+    $('#filtros_avanzados').toggle();
+});
 
 /* APILA LOS DIFERENTES FILTROS
 obtiene los params del url

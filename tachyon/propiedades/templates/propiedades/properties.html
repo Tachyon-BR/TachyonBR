@@ -93,12 +93,271 @@
               </form>
           </div>
 
-          <!--
+          
           <div class="extra_search_buttons d-flex flex-row align-items-start justify-content-start">
-            <div class="extra_search_button search_button_1"><a href="#">Detailed Search</a></div>
-            <div class="extra_search_button search_button_2"><a href="#">Show Map</a></div>
+            <div class="extra_search_button search_button_1" id="toggle_chk"><a href="#">Avanzado</a></div>
+            <!--
+              <div class="extra_search_button search_button_2"><a href="#">Show Map</a></div>
+            -->
           </div>
-          -->
+          <div class="search_form_container" id="filtros_avanzados" style="color: white;">
+            <form action="#" class="search_form" id="filtros_avanzados_chk">
+
+                    <label class="label"><b>Otros:</b></label>
+                    <div class="row row-space">
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="A-C" value="A/C" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">A/C</label>
+                        </div>
+                      </div>
+                      <div class="col-4 terreno" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Agua" value="Agua" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Agua</label>
+                        </div>
+                      </div>
+                      <div class="col-4 bodega" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="AguaPotable" value="Agua Potable" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Agua Potable</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Alberca" value="Alberca" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Alberca</label>
+                        </div>
+                      </div>
+                      <div class="col-4 bodega" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="AltoVoltaje" value="Alto Voltaje" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Alto Voltaje</label>
+                        </div>
+                      </div>
+                      <div class="col-4 mueble" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Amueblados" value="Amueblados" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Amueblados</label>
+                        </div>
+                      </div>
+                      <div class="col-4 bodega" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="AndénTráiler" value="Andén Tráiler" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Andén Tráiler</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Asador" value="Asador" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Asador</label>
+                        </div>
+                      </div>
+                      <div class="col-4 bodega" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="BañosObreros" value="Baños Obreros" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Baños Obreros</label>
+                        </div>
+                      </div>
+                      <div class="col-4 bodega" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="BañosOficina" value="Baños Oficina" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Baños Oficina</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Bar" value="Bar" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Bar</label>
+                        </div>
+                      </div>
+                      <div class="col-4 bodega" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Báscula" value="Báscula" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Báscula</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Calefacción" value="Calefacción" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Calefacción</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Chimenea" value="Chimenea" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Chimenea</label>
+                        </div>
+                      </div>
+                      <div class="col-4 cisterna" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Cisterna" value="Cisterna" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Cisterna</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="ClubDeportivo" value="Club Deportivo" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Club Deportivo</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="CocinaIntegral" value="Cocina Integral" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Cocina Integral</label>
+                        </div>
+                      </div>
+                      <div class="col-4 oficina" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Conmutador" value="Conmutador" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Conmutador</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="CuartodeServicio" value="Cuarto de Servicio" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Cuarto de Servicio</label>
+                        </div>
+                      </div>
+                      <div class="col-4 elevador" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Elevador" value="Elevador" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Elevador</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Estudio" value="Estudio" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Estudio</label>
+                        </div>
+                      </div>
+                      <div class="col-4 terreno" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Gas" value="Gas" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Gas</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Hidroneumático" value="Hidroneumático" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Hidroneumático</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Jacuzzi" value="Jacuzzi" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Jacuzzi</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Jardín" value="Jardín" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Jardín</label>
+                        </div>
+                      </div>
+                      <div class="col-4 terreno" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Luz" value="Luz" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Luz</label>
+                        </div>
+                      </div>
+                      <div class="col-4 bodega" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Oficinas" value="Oficinas" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Oficinas</label>
+                        </div>
+                      </div>
+                      <div class="col-4 oficina" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="PlantaEléctrica" value="Planta Eléctrica" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Planta Eléctrica</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Privada" value="Privada" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Privada</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="SaladeJuegos" value="Sala de Juegos" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Sala de Juegos</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="SaladeTV" value="Sala de TV" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Sala de TV</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Teléfono" value="Teléfono" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Teléfono</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Vigilancia" value="Vigilancia" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Vigilancia</label>
+                        </div>
+                      </div>
+                      <div class="col-4 bodega" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Voltaje110" value="Voltaje 110" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Voltaje 110</label>
+                        </div>
+                      </div>
+                      <div class="col-4 bodega" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="Voltaje220" value="Voltaje 220" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Voltaje 220</label>
+                        </div>
+                      </div>
+                      <div class="col-4 rancho" style="display: none;">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="otros[]" id="ZonadeÁrboles" value="Zona de Árboles" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Zona de Árboles</label>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <br>
+                    <label class="label"><b>Restricciones:</b></label>
+                    <div class="row row-space">
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="rest[]" id="NoMascotas" value="No Mascotas" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">No Mascotas</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="rest[]" id="NoNiños" value="No Niños" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">No Niños</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="rest[]" id="ParaEjecutivos" value="Para Ejecutivos" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Para Ejecutivos</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="input-group" style="margin-top: 20px;">
+                            <input class="checkmark" type="checkbox" name="rest[]" id="SóloFamilias" value="Sólo Familias" style="position: relative; margin-top: 12px; margin-left: 30px;">
+                            <label class="label" for="" style="padding-left: 10px;">Sólo Familias</label>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                  
+                  <button class="search_button">Buscar propiedad</button>
+                
+              </form>
+          </div>
+          
 
         </div>
       </div>

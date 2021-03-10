@@ -138,6 +138,8 @@ def indexView(request):
     pisos = request.GET.get('pisos')
     garage = request.GET.get('garage')
     orden = request.GET.get('orden')
+    otros = request.GET.getlist('otros[]')
+    rest = request.GET.getlist('rest[]')
 
     active_filters = []
 
@@ -227,6 +229,12 @@ def indexView(request):
         if orden == "precio":
             resultados = resultados.order_by("-precio")
             active_filters.append(ActiveFilter("Orden por precio", "orden" ))
+
+    if len(otros)>0:
+        resultados = resultados.filter(otros__contains=otros)
+        
+    if len(rest)>0:
+        resultados = resultados.filter(restricciones__contains=rest)
 
     locale.setlocale( locale.LC_ALL, '' )
     for r in resultados:
