@@ -6,6 +6,7 @@ Dropzone.options.myDropZone = false;
 $( document ).ready(function() {
   $('#id_portada').addClass('custom-file-input');
   $('#id_extra').addClass('custom-file-input');
+
   Dropzone.options.myDropZone = false;
   Dropzone.options.myDropZone = {
     paramName: "images",
@@ -13,8 +14,20 @@ $( document ).ready(function() {
     uploadMultiple: true,
     dictDefaultMessage: "Arrastra imágenes aquí o haz clic para subirlas",
     params: {'csrfmiddlewaretoken': csrftoken},
+    init: function() {
+      dropZone = this;
+      dropZone.on("addedfile", function(file) {
+        validate_files();
+        file.previewElement.addEventListener("click", function() {
+          dropZone.removeFile(file);
+          validate_files();
+        });
+      });
+    },
   }
+
   $('div#myDropZone').dropzone({ url: "/propiedades/uploadImages/" });
+
 
   $('#id_portada').change(function() {
     img = document.getElementById('prtd');
