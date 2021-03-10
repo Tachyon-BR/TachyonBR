@@ -3,19 +3,45 @@
 <div class="menu text-right">
     <div class="menu_close"><i class="fa fa-times" aria-hidden="true"></i></div>
     <div class="menu_log_reg">
+        
+        {% if not request.user.is_authenticated %}
         <div class="log_reg d-flex flex-row align-items-center justify-content-end">
             <ul class="d-flex flex-row align-items-start justify-content-start">
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Register</a></li>
+                <li><a href="/usuarios/login/">INICIAR SESIÓN</a></li>
+                <li><a href="/usuarios/create">REGÍSTRATE</a></li>
             </ul>
         </div>
+        {% else %}
+        <div class="log_reg d-flex flex-row align-items-center justify-content-end">
+            <ul class="d-flex flex-row align-items-start justify-content-start">
+                <li><a href="/usuarios/logout/">CERRAR SESIÓN</a></li>
+            </ul>
+        </div>
+        {% endif %}
         <nav class="menu_nav">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About us</a></li>
-                <li><a href="listings.html">Listings</a></li>
-                <li><a href="blog.html">News</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="/">Inicio</a></li>
+                <li id="properties"><a href="/propiedades">Propiedades</a></li>
+                {% if 'visualizar_usuarios' in request.session.permissions %}
+                <li id="users"><a href="/usuarios">Usuarios</a></li>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+                <li id="profile"><a href="/usuarios/{{ request.user.pk }}">Perfil</a></li>
+                {% endif %}
+
+                {% if 'visualizar_mis_propiedades' in request.session.permissions %}
+                <li id="my_pro"><a href="/propiedades/myProperties">Mis Propiedades</a></li>
+                {% endif %}
+
+                {% if 'visualizar_peticiones' in request.session.permissions %}
+                <li id="en_revision"><a href="/propiedades/enRevision">En Revisión</a></li>
+                <li id="mis_revisiones"><a href="/propiedades/mis-revisiones">Mis Revisiones</a></li>
+                {% endif %}
+
+                <li><a href="/nosotros">Nosotros</a></li>
+                <li><a href="/ayuda">Ayuda</a></li>
+
             </ul>
         </nav>
     </div>
