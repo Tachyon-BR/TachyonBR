@@ -568,12 +568,12 @@
                             <div class="w-100"></div>
                             <label class="label" id="fotos_prop" style="font-size: 12px;"></label>
                             <div class="custom-file">
-                                <label class="custom-file-label" id="file-label-2">Selecciona tus archivos...</label>
-                                {{ form.extra }}
-                                <div class="valid-feedback">
+                                <div id="myDropZone" class="dropzone">
+                                </div>
+                                <div id="validDZ" class="valid-feedback" style="display: block" hidden>
                                     ¡Correcto!
                                 </div>
-                                <div class="invalid-feedback">
+                                <div id="invalidDZ" class="invalid-feedback" style="display: block">
                                     Por favor, seleccione un número de imagenes dentro del rango indicado.
                                 </div>
                             </div>
@@ -606,8 +606,6 @@
             						</button>
 					          </div>
                 </form>
-                <div id="myDropZone" class="dropzone">
-                </div>
             </div>
         </div>
     </div>

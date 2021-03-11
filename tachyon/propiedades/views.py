@@ -1012,8 +1012,14 @@ def uploadImagesView(request):
     if 'registrar_propiedad' in request.session['permissions']:
         if request.method == 'POST':
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
-            files = [request.FILES.get('images[%d]' % i)
-                for i in range(0, len(request.FILES))]
+
+            file = request.FILES.get('images')
+            i = request.POST.get('i')
+
+            print(file.name)
+            print(i)
+            # files = [request.FILES.get('images[%d]' % i)
+            #     for i in range(0, len(request.FILES))]
 
             # print(len(files))
             # print(files)
@@ -1032,6 +1038,42 @@ def uploadImagesView(request):
             #request.session['notification_session_msg'] = "Se ha añadido la propiedad exitosamente."
             #request.session['notification_session_type'] = "Success"
             return HttpResponse('OK')
+
+        else:
+            raise Http404
+    else:
+        raise Http404
+
+
+@login_required
+def deleteImagesView(request):
+    if 'registrar_propiedad' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+
+            i = request.POST.get('id')
+
+            print(i)
+            # files = [request.FILES.get('images[%d]' % i)
+            #     for i in range(0, len(request.FILES))]
+
+            # print(len(files))
+            # print(files)
+
+            # Guardar imagenes de la propiedad
+            # i = 1
+            # for f in files:
+            #     fotos = Foto()
+            #     fotos.propiedad = propiedad
+            #     fotos.orden = i
+            #     fotos.save()
+            #     fotos.imagen = f
+            #     fotos.save()
+            #     i = i + 1
+
+            #request.session['notification_session_msg'] = "Se ha añadido la propiedad exitosamente."
+            #request.session['notification_session_type'] = "Success"
+            return JsonResponse({"info": "Éxito"})
 
         else:
             raise Http404

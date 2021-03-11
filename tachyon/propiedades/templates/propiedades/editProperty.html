@@ -18,6 +18,9 @@
     <!--Button CSS -->
     <link href="{% static 'usuarios/stylesButton/main.css' %}" rel="stylesheet" media="all">
     <link href="{% static 'usuarios/stylesButton/util.css' %}" rel="stylesheet" media="all">
+
+    <!-- Dropzone CSS -->
+    <link href="{% static 'root/plugins/dropzone-5.7.0/dropzone.css' %}" rel="stylesheet" media="all">
 {% endblock %}
 
 
@@ -557,6 +560,7 @@
                                 <div class="invalid-feedback">
                                     Por favor, seleccione una imagen de portada.
                                 </div>
+                                <img id="prtd" alt="Portada" width="250" height="250" style="margin: 15px; margin-bottom: 250px; border-radius: 20px; overflow: hidden; z-index: 10;" hidden />
                             </div>
                         </div>
                     </div>
@@ -568,12 +572,12 @@
                             <div class="w-100"></div>
                             <label class="label" id="fotos_prop" style="font-size: 12px;"></label>
                             <div class="custom-file">
-                                <label class="custom-file-label" id="file-label-2">Selecciona tus archivos...</label>
-                                {{ form.extra }}
-                                <div class="valid-feedback">
+                                <div id="myDropZone" class="dropzone">
+                                </div>
+                                <div id="validDZ" class="valid-feedback" style="display: block" hidden>
                                     ¡Correcto!
                                 </div>
-                                <div class="invalid-feedback">
+                                <div id="invalidDZ" class="invalid-feedback" style="display: block">
                                     Por favor, seleccione un número de imagenes dentro del rango indicado.
                                 </div>
                             </div>
@@ -686,6 +690,8 @@
       }
     });
 </script>
+
+<script src="{% static 'root/plugins/dropzone-5.7.0/dropzone.js' %}"></script>
 
 <!-- Vendor JS-->
 <script src="{% static 'usuarios/js/vendor/select2/select2.min.js' %}"></script>

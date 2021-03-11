@@ -1,10 +1,87 @@
 var min = 5;
 var max = 20;
+var i = 0;
+Dropzone.options.myDropZone = false;
 
 // A $( document ).ready() block.
 $( document ).ready(function() {
   $('#id_portada').addClass('custom-file-input');
   $('#id_extra').addClass('custom-file-input');
+
+  Dropzone.options.myDropZone = false;
+  Dropzone.options.myDropZone = {
+    acceptedFiles: "image/*",
+    paramName: "images",
+    dictDefaultMessage: "Arrastra imágenes aquí o haz clic para subirlas",
+    dictInvalidFileType: "No se pueden subir archivos de este formato",
+    params: {'csrfmiddlewaretoken': csrftoken},
+    init: function() {
+      dropZone = this;
+      dropZone.on("addedfile", function(file) {
+        validate_files();
+        i++;
+        var q = file.previewElement;
+        $(q).attr('id', 'previewFile'+i);
+        file.previewElement.addEventListener("click", function() {
+          dropZone.removeFile(file);
+          validate_files();
+        });
+      });
+      dropZone.on("error", function(file, errorMessage) {
+        if(errorMessage === "No se pueden subir archivos de este formato"){
+          dropZone.removeFile(file);
+          validate_files();
+          showNotificationDanger('bottom', 'center', 'No se pueden subir archivos de este formato.');
+        }
+      });
+      dropZone.on("sending", function(file, xhr, formData) {
+        // Will send the filesize along with the file as POST data.
+        var id = file.previewElement.id
+        formData.append("i", id.slice(11));
+      });
+      dropZone.on("removedfile", function(file) {
+        var id = file.previewElement.id.slice(11);
+        deleteImage(id);
+      });
+    },
+  }
+
+  $('div#myDropZone').dropzone({ url: "/propiedades/uploadImages/" });
+
+
+  $('#id_portada').change(function() {
+    img = document.getElementById('prtd');
+    if($('#id_portada').prop('files').length >= 1){ //$('#id_portada').prop('files')[0];
+      $('#prtd').prop('hidden', false);
+      img.src = URL.createObjectURL(this.files[0]);
+      img.onload = function() {
+        URL.revokeObjectURL(this.src);
+      }
+    }
+    else{
+      $('#prtd').prop('hidden', true);
+    }
+    var len = $('#id_portada').get(0).files.length;
+    if(len <= 0){
+      $('#file-label-1').html('Selecciona tu archivo...');
+    }
+    else{
+      $('#file-label-1').html($('#id_portada').get(0).files[0].name);
+    }
+  });
+
+  $('#prtd').click(function() {
+    $('#prtd').prop('hidden', true);
+    $('#id_portada').val('');
+    var len = $('#id_portada').get(0).files.length;
+    if(len <= 0){
+      $('#file-label-1').html('Selecciona tu archivo...');
+    }
+    else{
+      $('#file-label-1').html($('#id_portada').get(0).files[0].name);
+    }
+  });
+
 });
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -244,43 +321,17 @@ $('#id_portada').change(function(){
   }
 });
 
-$('#id_extra').change(function(){
-  var len = $('#id_extra').get(0).files.length;
-  if(len <= 0){
-    $('#file-label-2').html('Selecciona tus archivos...');
-  }
-  else{
-    $('#file-label-2').html(len +' archivos seleccionados');
-  }
-  // for(i = 0; i < len; i++){
-  //   if(i == 0){
-  //     $('#file-label-2').html($('#id_extra').get(0).files[i].name);
-  //   }
-  //   else{
-  //     $('#file-label-2').html($('#file-label-2').html()+ ", " + $('#id_extra').get(0).files[i].name);
-  //   }
-  // }
-  if(((parseInt($('#id_extra').get(0).files.length) >= min) && (parseInt($('#id_extra').get(0).files.length) <= max)) || ((parseInt($('#id_extra').get(0).files.length)) == 0)){
-    $('#id_extra').removeClass('is-invalid').addClass('is-valid')
-    $('#id_extra').next().prop('hidden', false)
-    $('#safe').val('Qwerty')
-  }
-  else{
-    $('#id_extra').removeClass('is-valid').addClass('is-invalid')
-    $('#id_extra').next().prop('hidden', true)
-    $('#safe').val('')
-  }
-});
 
 function validate_files(){
-  if((parseInt($('#id_extra').get(0).files.length) >= min) && (parseInt($('#id_extra').get(0).files.length) <= max)){
-    $('#id_extra').removeClass('is-invalid').addClass('is-valid')
-    $('#id_extra').next().prop('hidden', false)
+  var tam = $('#myDropZone')[0].dropzone.files.length;
+  if((tam >= min) && (tam <= max)){
+    $('#validDZ').prop('hidden', false)
+    $('#invalidDZ').prop('hidden', true)
     $('#safe').val('Qwerty')
   }
   else{
-    $('#id_extra').removeClass('is-valid').addClass('is-invalid')
-    $('#id_extra').next().prop('hidden', true)
+    $('#validDZ').prop('hidden', true)
+    $('#invalidDZ').prop('hidden', false)
     $('#safe').val('')
   }
 }
@@ -357,4 +408,24 @@ function val_video(val){
   if(!ban && val != ""){
     $("#safe_vid").val('')
   }
+}
+
+function deleteImage(id){
+  var token = csrftoken;
+  $.ajax({
+      url: "/propiedades/deleteImages/",
+      dataType: 'json',
+      // Seleccionar información que se mandara al controlador
+      data: {
+          'id': id,
+          'csrfmiddlewaretoken': token
+      },
+      type: "POST",
+      success: function (response) {
+          var data = response.info;
+      },
+      error: function (data) {
+          showNotificationDanger('top', 'right', 'Ha ocurrido un error.');
+      }
+  });
 }
