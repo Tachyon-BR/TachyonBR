@@ -22,11 +22,13 @@ def home(request):
 
     if last > 0:
         index1 = random.randint(0, last-1)
+        index.append(index1)
 
     if last > 1:
         index2 = random.randint(0, last-2)
         if index2 == index1:
             index2 = last-1
+        index.append(index2)
 
     if last > 2:
         index3 = random.randint(0, last-3)
@@ -36,6 +38,7 @@ def home(request):
             index3 = last-2
         if index3 == index1:
             index3 = last-1
+        index.append(index3)
 
     if last > 3:
         index4 = random.randint(0, last-4)
@@ -51,6 +54,7 @@ def home(request):
             index4 = last-1
         if index4 == index2:
             index4 = last-2
+        index.append(index4)
 
     if last > 4:
         index5 = random.randint(0, last-5)
@@ -74,12 +78,8 @@ def home(request):
             index5 = last-3
         if index5 == index4:
             index5 = last-4
+        index.append(index5)
 
-    index.append(index1)
-    index.append(index2)
-    index.append(index3)
-    index.append(index4)
-    index.append(index5)
 
     p = []
 

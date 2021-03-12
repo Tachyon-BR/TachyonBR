@@ -248,7 +248,7 @@ def myPropertiesView(request):
             l.precio = locale.currency(l.precio, grouping=True)
             l.precio = l.precio[0:-3]
             if l.fecha_corte:
-                l.fecha_modificacion = (l.fecha_corte - l.fecha_publicacion).days
+                l.fecha_modificacion = (l.fecha_corte - datetime.date.today()).days
         return render(request, 'propiedades/myProperties.html', {'list': list})
     else:
         raise Http404

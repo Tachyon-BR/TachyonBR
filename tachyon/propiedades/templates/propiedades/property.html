@@ -103,7 +103,7 @@
 						<div class="row">
 							<div class="col-lg-8">
 								<div class="property_info">
-									<div class="tag_price listing_price" id="price">{{ property.precio }}</div>
+									<div class="tag_price listing_price" id="price">{{ property.precio|money }}</div>
 									<div class="listing_name">
 										<h1 id="title" style="display: inline;">{{ property.titulo }}</h1>
 										{% if revisor %}
@@ -172,15 +172,22 @@
 									<div class="prop_info">
 										<ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
 											<li class="d-flex flex-row align-items-center justify-content-start">
-												<img src="{% static 'root/images/icon_2_large.png' %}" alt="icon">
+												<img src="{% static 'root/images/area32.png' %}" alt="icon">
 												<div>
 													<div>{{ property.metros_terreno|floatformat }}</div>
 													<div>m<sup>2</sup></div>
 												</div>
 											</li>
+											<li class="d-flex flex-row align-items-center justify-content-start">
+												<img src="{% static 'root/images/construccion32.png' %}" alt="icon">
+												<div>
+													<div>{{ property.metros_construccion|floatformat }}</div>
+													<div>m<sup>2</sup></div>
+												</div>
+											</li>
 											{% if property.banos or property.banos == 0 %}
 												<li class="d-flex flex-row align-items-center justify-content-start">
-													<img src="{% static 'root/images/icon_3_large.png' %}" alt="icon">
+													<img src="{% static 'root/images/bano32.png' %}" alt="icon">
 													<div>
 														<div>{{ property.banos|rounding }}</div>
 														<div>baños</div>
@@ -189,7 +196,7 @@
 											{% endif %}
 											{% if property.habitaciones or property.habitaciones == 0 %}
 												<li class="d-flex flex-row align-items-center justify-content-start">
-													<img src="{% static 'root/images/icon_4_large.png' %}" alt="icon">
+													<img src="{% static 'root/images/cama32.png' %}" alt="icon">
 													<div>
 														<div>{{ property.habitaciones }}</div>
 														<div>habitaciones</div>
@@ -198,7 +205,7 @@
 											{% endif %}
 											{% if property.garaje or property.garaje == 0 %}
 												<li class="d-flex flex-row align-items-center justify-content-start">
-													<img src="{% static 'root/images/icon_5_large.png' %}" alt="House Image">
+													<img src="{% static 'root/images/carro32.png' %}" alt="House Image">
 													<div>
 														<div>{{ property.garaje }}</div>
 														<div>lugares de estac.</div>
@@ -251,7 +258,7 @@
 									</a>
 									<div class="row">
 										<div class="col-9">
-											<textarea class="input--style-4 form-control areatexto" type="text" name="desc" id="desc" pattern=".{1,}" hidden></textarea>
+											<textarea class="input--style-4 form-control areatexto" style="height: 300px;" type="text" name="desc" id="desc" pattern=".{1,}" hidden></textarea>
 										</div>
 										<div class="col-3">
 											<div id="cancelar3" class="danger" hidden>
@@ -268,7 +275,7 @@
 							</div>
 
 							{% if revisor %}
-							<button class="btn btn-primary" style="display: block; margin-right: 0; margin-left:auto;" type="submit">Guardar Cambios</button>
+							<button class="btn btn-primary" style="display: block; margin-right: 0; margin-left:auto; margin-top: 30px" type="submit">Guardar Cambios</button>
 							</form>
 							{% endif %}
 
@@ -499,27 +506,30 @@
 
 {% block optionalJS %}
 
+{% if revisor %}
 <script type="text/javascript">
 		var titulo;
 		var diferenciador;
 		var descripcion;
   	$( document ).ready(function() {
-			titulo = "{{ property.titulo }}";
-			diferenciador = "{{ property.diferenciador }}";
-			descripcion = "{{ property.descripcion }}";
+			titulo = `{{ property.titulo }}`;
+			diferenciador = `{{ property.diferenciador }}`;
+			descripcion = `{{ property.descripcion }}`;
     	$('#desc').val(descripcion);
 		});
 </script>
+{% endif %}
 
 <script type="text/javascript" src="{% static 'propiedades/js/revisor-propiedades-historial.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/validar-revisor.js' %}"></script>
 <script src="{% static 'root/plugins/colorbox/jquery.colorbox-min.js' %}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCxiVzHjuGTAraaNgVRmU6yuEqUB972kiA"></script>
 <script src="{% static 'root/js/single.js' %}"></script>
-<script type="text/javascript" src="{% static 'propiedades/js/propiedad.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'propiedades/js/propiedad.js' %}"></script> -->
 <script src="{% static 'propiedades/js/swiper.min.js' %}"></script>
 <script src="{% static 'propiedades/js/swpr.js' %}"></script>
 <script src="{% static 'propiedades/js/lightbox.js' %}"></script>
+<script src="{% static 'propiedades/js/mobile.js' %}"></script>
 {% if revisor %}
 	<script type="text/javascript" src="{% static 'propiedades/js/editarPropiedadRevisor.js' %}"></script>
 {% endif %}
