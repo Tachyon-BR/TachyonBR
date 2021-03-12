@@ -560,7 +560,7 @@
                                 <div class="invalid-feedback">
                                     Por favor, seleccione una imagen de portada.
                                 </div>
-                                <img id="prtd" alt="Portada" width="250" height="250" style="margin: 15px; margin-bottom: 250px; border-radius: 20px; overflow: hidden; z-index: 10;" hidden />
+                                <img id="prtd" src="{{ property.portada.url }}" alt="Portada" width="250" height="250" style="margin: 15px; margin-bottom: 250px; border-radius: 20px; overflow: hidden; z-index: 10;" />
                             </div>
                         </div>
                     </div>
@@ -688,6 +688,8 @@
         rest[i] = rest[i].replace(/\s+/g, '');
         $('#'+rest[i]).prop('checked', true);
       }
+
+      $('#file-label-1').html("{{ property.portada.name }}");
     });
 </script>
 

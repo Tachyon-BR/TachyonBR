@@ -324,7 +324,7 @@ $('#id_portada').change(function(){
 
 function validate_files(){
   var tam = $('#myDropZone')[0].dropzone.files.length;
-  if((tam >= min) && (tam <= max)){
+  if(((tam >= min) && (tam <= max)) || tam == 0){
     $('#validDZ').prop('hidden', false)
     $('#invalidDZ').prop('hidden', true)
     $('#safe').val('Qwerty')

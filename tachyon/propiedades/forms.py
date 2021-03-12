@@ -7,7 +7,7 @@ class CrearPropiedadForma(forms.Form):
     titulo = forms.CharField(max_length = 200)
     desc = forms.CharField()
     habs = forms.IntegerField(required=False)
-    banos = forms.CharField(max_length = 30, required=False)
+    banos = forms.FloatField(required=False)
     garaje = forms.IntegerField(required=False)
     pais = forms.CharField(max_length = 100)
     estado = forms.CharField(max_length = 100)
@@ -21,7 +21,7 @@ class CrearPropiedadForma(forms.Form):
     m_cons = forms.CharField(max_length = 30)
     pisos = forms.IntegerField(required=False)
     portada = forms.ImageField(widget=forms.ClearableFileInput())
-    extra = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    # extra = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     video = forms.CharField(max_length = 150, required=False)
 
 class EditarPropiedadForma(forms.Form):
@@ -30,7 +30,7 @@ class EditarPropiedadForma(forms.Form):
     titulo = forms.CharField(max_length = 200)
     desc = forms.CharField()
     habs = forms.IntegerField(required=False)
-    banos = forms.CharField(max_length = 30, required=False)
+    banos = forms.FloatField(required=False)
     garaje = forms.IntegerField(required=False)
     pais = forms.CharField(max_length = 100)
     estado = forms.CharField(max_length = 100)

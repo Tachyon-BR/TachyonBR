@@ -119,7 +119,7 @@ $(document).ready(function()
 				autoplay:true,
 				autoplayTimeout:8000,
 				loop:true,
-				dots:false,
+				dots:true,
 				nav:false,
 				mouseDrag:false,
 				smartSpeed:1200
@@ -127,10 +127,16 @@ $(document).ready(function()
 
 			if($('.home_slider_nav').length)
 			{
-				var next = $('.home_slider_nav');
+				var next = $('#owl_next');
 				next.on('click', function()
 				{
 					homeSlider.trigger('next.owl.carousel');
+				});
+
+				var prev = $('#owl_prev');
+				prev.on('click', function()
+				{
+					homeSlider.trigger('prev.owl.carousel');
 				});
 			}
 		}

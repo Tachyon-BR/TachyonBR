@@ -137,6 +137,7 @@ class Temp(models.Model):
     orden = models.PositiveSmallIntegerField()
     fecha_creacion = models.DateField(auto_now_add = True)
     fecha_modificacion = models.DateField(auto_now = True)
+    activo = models.BooleanField(default = True)
 
     def save(self, *args, **kwargs):
         try:
