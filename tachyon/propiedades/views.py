@@ -812,12 +812,16 @@ def editPropertyView(request, id):
         propiedad = Propiedad.objects.filter(pk = id).first()
         if propiedad:
             user_logged = TachyonUsuario.objects.get(user = request.user)
+
             images = Temp.objects.filter(propietario = user_logged)
             for img in images:
                 img.imagen = None
                 img.save()
             images.delete()
-            return render(request, 'propiedades/editProperty.html', {'property': propiedad, 'form': form})
+
+            images = Foto.objects.filter(propiedad = propiedad)
+
+            return render(request, 'propiedades/editProperty.html', {'property': propiedad, 'form': form, 'files': images})
         else:
             raise Http404
     else:
@@ -859,16 +863,15 @@ def modifyPropertyView(request, id):
 
                 files = Temp.objects.filter(propietario = user_logged)
 
-                if files.filter(activo = True).count() != 0:
-                    if files.filter(activo = True).count() < 5 or files.filter(activo = True).count() > 20:
-                        # Eliminar las imagenes temporales
-                        for f in files:
-                            f.imagen = None
-                            f.save()
-                        files.delete()
-                        request.session['notification_session_msg'] = "La cantidad de imágenes es incorrecta, por favor inténtelo de nuevo."
-                        request.session['notification_session_type'] = "Danger"
-                        return redirect('/propiedades/myProperties/')
+                if files.filter(activo = True).count() < 5 or files.filter(activo = True).count() > 20:
+                    # Eliminar las imagenes temporales
+                    for f in files:
+                        f.imagen = None
+                        f.save()
+                    files.delete()
+                    request.session['notification_session_msg'] = "La cantidad de imágenes es incorrecta, por favor inténtelo de nuevo."
+                    request.session['notification_session_type'] = "Danger"
+                    return redirect('/propiedades/myProperties/')
 
                 # Crear el objeto de Propiedad
                 propiedad = Propiedad.objects.filter(pk = id).first()
@@ -912,30 +915,30 @@ def modifyPropertyView(request, id):
                         propiedad.save()
 
                     # Guardar imagenes de la propiedad nuevas si se añadieron
-                    if files.filter(activo = True).count() != 0:
-                        images = Foto.objects.filter(propiedad = id)
-                        for img in images:
-                            img.imagen = None
-                            img.save()
-                        images.delete()
-                        # Guardar imagenes de la propiedad
-                        i = 1
-                        for f in files.filter(activo = True):
-                            fotos = Foto()
-                            fotos.propiedad = propiedad
-                            fotos.orden = i
-                            fotos.save()
-                            img = f.imagen
-                            fotos.imagen = File(img, os.path.basename(img.name))
-                            fotos.save()
-                            img.close()
-                            i = i + 1
+                    images = Foto.objects.filter(propiedad = id)
+                    for img in images:
+                        img.imagen = None
+                        img.save()
+                    images.delete()
 
-                        # Eliminar las imagenes temporales
-                        for f in files:
-                            f.imagen = None
-                            f.save()
-                        files.delete()
+                    # Guardar imagenes de la propiedad
+                    i = 1
+                    for f in files.filter(activo = True):
+                        fotos = Foto()
+                        fotos.propiedad = propiedad
+                        fotos.orden = i
+                        fotos.save()
+                        img = f.imagen
+                        fotos.imagen = File(img, os.path.basename(img.name))
+                        fotos.save()
+                        img.close()
+                        i = i + 1
+
+                    # Eliminar las imagenes temporales
+                    for f in files:
+                        f.imagen = None
+                        f.save()
+                    files.delete()
 
                     request.session['notification_session_msg'] = "Se ha modificado la propiedad exitosamente."
                     request.session['notification_session_type'] = "Success"

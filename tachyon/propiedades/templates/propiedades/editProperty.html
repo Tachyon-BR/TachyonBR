@@ -1,5 +1,6 @@
 {% extends 'root/base.html' %}
 {% load static %}
+{% load filters %}
 
 
 
@@ -633,6 +634,9 @@
     checkNotificationSession()
 </script>
 
+<!-- Dropzone.js -->
+<script src="{% static 'root/plugins/dropzone-5.7.0/dropzone.js' %}"></script>
+
 <script type="text/javascript">
     $( document ).ready(function() {
       $('#desc').val("{{ property.descripcion }}");
@@ -689,11 +693,19 @@
         $('#'+rest[i]).prop('checked', true);
       }
 
-      $('#file-label-1').html("{{ property.portada.name }}");
+      $('#file-label-1').html("{{ property.portada.name|filename }}");
+
+      {% for f in files %}
+        fetch("{{ f.imagen.url }}")
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], '{{ f.imagen.name|filename }}', blob);
+          $('#myDropZone')[0].dropzone.addFile(file);
+        })
+      {% endfor %}
+
     });
 </script>
-
-<script src="{% static 'root/plugins/dropzone-5.7.0/dropzone.js' %}"></script>
 
 <!-- Vendor JS-->
 <script src="{% static 'usuarios/js/vendor/select2/select2.min.js' %}"></script>
