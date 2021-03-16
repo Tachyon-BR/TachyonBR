@@ -382,7 +382,7 @@
             <ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
               {% if active_filters %}
               {% for f in active_filters %}
-              <li><a href="#" class="clickToDeleteFilter" data-filtername="{{ f.attr }}">{{ f.text }}<span>x</span></a></li>
+              <li><a href="#" class="clickToDeleteFilter" data-filtername="{{ f.attr }}" {% if f.val %} data-value="{{ f.val }}" {% endif %}>{{ f.text }}<span>x</span></a></li>
               {% endfor %}
               {% else %}
               {% endif %}
