@@ -23,4 +23,6 @@ urlpatterns = [
     path('search/', views.search, name="search"),
     path('modifyPropertyReviewer/<int:id>',views.modifyPropertyReviewerView, name="modifyPropertyReviewer"),
     path('contactOwner/<int:id>',views.contactOwnerView, name="contactOwner"),
+    path('uploadImages/',views.uploadImagesView, name="uploadImages"),
+    path('deleteImages/',views.deleteImagesView, name="deleteImages"),
 ]
