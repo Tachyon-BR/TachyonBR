@@ -1,5 +1,6 @@
 {% extends 'root/base.html' %}
 {% load static %}
+{% load filters %}
 
 
 
@@ -18,6 +19,9 @@
     <!--Button CSS -->
     <link href="{% static 'usuarios/stylesButton/main.css' %}" rel="stylesheet" media="all">
     <link href="{% static 'usuarios/stylesButton/util.css' %}" rel="stylesheet" media="all">
+
+    <!-- Dropzone CSS -->
+    <link href="{% static 'root/plugins/dropzone-5.7.0/dropzone.css' %}" rel="stylesheet" media="all">
 {% endblock %}
 
 
@@ -557,6 +561,7 @@
                                 <div class="invalid-feedback">
                                     Por favor, seleccione una imagen de portada.
                                 </div>
+                                <img id="prtd" src="{{ property.portada.url }}" alt="Portada" width="250" height="250" style="margin: 15px; margin-bottom: 250px; border-radius: 20px; overflow: hidden; z-index: 10;" />
                             </div>
                         </div>
                     </div>
@@ -568,12 +573,12 @@
                             <div class="w-100"></div>
                             <label class="label" id="fotos_prop" style="font-size: 12px;"></label>
                             <div class="custom-file">
-                                <label class="custom-file-label" id="file-label-2">Selecciona tus archivos...</label>
-                                {{ form.extra }}
-                                <div class="valid-feedback">
+                                <div id="myDropZone" class="dropzone">
+                                </div>
+                                <div id="validDZ" class="valid-feedback" style="display: block" hidden>
                                     ¡Correcto!
                                 </div>
-                                <div class="invalid-feedback">
+                                <div id="invalidDZ" class="invalid-feedback" style="display: block">
                                     Por favor, seleccione un número de imagenes dentro del rango indicado.
                                 </div>
                             </div>
@@ -628,6 +633,9 @@
 <script type="text/javascript">
     checkNotificationSession()
 </script>
+
+<!-- Dropzone.js -->
+<script src="{% static 'root/plugins/dropzone-5.7.0/dropzone.js' %}"></script>
 
 <script type="text/javascript">
     $( document ).ready(function() {
@@ -684,6 +692,18 @@
         rest[i] = rest[i].replace(/\s+/g, '');
         $('#'+rest[i]).prop('checked', true);
       }
+
+      $('#file-label-1').html("{{ property.portada.name|filename }}");
+
+      {% for f in files %}
+        fetch("{{ f.imagen.url }}")
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], '{{ f.imagen.name|filename }}', blob);
+          $('#myDropZone')[0].dropzone.addFile(file);
+        })
+      {% endfor %}
+
     });
 </script>
 

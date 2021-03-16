@@ -1,6 +1,7 @@
 from django import template
 import math
 import locale
+import os
 
 register = template.Library()
 
@@ -25,3 +26,8 @@ def money(value):
     precio = locale.currency(value, grouping=True)
     precio = precio[0:-3]
     return precio
+
+
+@register.filter
+def filename(value):
+    return os.path.basename(value)

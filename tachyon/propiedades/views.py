@@ -25,6 +25,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from django.conf import settings
 import calendar
+from django.core.files import File
 
 
 # Create your views here.
@@ -121,9 +122,10 @@ def is_valid_queryparam(param):
 def indexView(request):
 
     class ActiveFilter():
-        def __init__(self, text, attr):
+        def __init__(self, text, attr, val = None):
             self.text = text
             self.attr = attr
+            self.val = val
 
     resultados = Propiedad.objects.filter(estado_activo = True)
     tipo = request.GET.get('tipo')
@@ -138,6 +140,8 @@ def indexView(request):
     pisos = request.GET.get('pisos')
     garage = request.GET.get('garage')
     orden = request.GET.get('orden')
+    otros = request.GET.getlist('otros[]')
+    rest = request.GET.getlist('rest[]')
 
     active_filters = []
 
@@ -228,6 +232,19 @@ def indexView(request):
             resultados = resultados.order_by("-precio")
             active_filters.append(ActiveFilter("Orden por precio", "orden" ))
 
+    if len(otros)>0:
+        resultados = resultados.filter(otros__contains=otros)
+        for o in otros:
+            active_filters.append(ActiveFilter("Otros: " + o, "otros[]", o ))
+        
+    if len(rest)>0:
+        resultados = resultados.filter(restricciones__contains=rest)
+        for r in rest:
+            active_filters.append(ActiveFilter("Restricciones: " + r, "rest[]", r ))
+
+    
+    
+
     locale.setlocale( locale.LC_ALL, '' )
     for r in resultados:
         r.precio = locale.currency(r.precio, grouping=True)
@@ -284,6 +301,12 @@ def enRevisionView(request):
 def newPropertyView(request):
     if 'registrar_propiedad' in request.session['permissions']:
         form = CrearPropiedadForma()
+        user_logged = TachyonUsuario.objects.get(user = request.user)
+        images = Temp.objects.filter(propietario = user_logged)
+        for img in images:
+            img.imagen = None
+            img.save()
+        images.delete()
         return render(request, 'propiedades/newProperty.html', {'form': form})
     else:
         raise Http404
@@ -313,8 +336,8 @@ def createPropertyView(request):
         if request.method == 'POST':
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
             form = CrearPropiedadForma(request.POST, request.FILES)
-            files = request.FILES.getlist('extra')
-            #print(form.errors)
+            # files = request.FILES.getlist('extra')
+            # print(form.errors)
             if form.is_valid():
                 # Sacar los datos del la forma
                 oferta = form.cleaned_data['oferta']
@@ -343,6 +366,18 @@ def createPropertyView(request):
 
                 if estado == "Queretaro" or estado == "querétaro" or estado == "queretaro":
                     estado = "Querétaro"
+
+                files = Temp.objects.filter(propietario = user_logged)
+
+                if files.filter(activo = True).count() < 5 or files.filter(activo = True).count() > 20:
+                    # Eliminar las imagenes temporales
+                    for f in files:
+                        f.imagen = None
+                        f.save()
+                    files.delete()
+                    request.session['notification_session_msg'] = "La cantidad de imágenes es incorrecta, por favor inténtelo de nuevo."
+                    request.session['notification_session_type'] = "Danger"
+                    return redirect('/propiedades/myProperties/')
 
                 # Crear el objeto de Propiedad
                 propiedad = Propiedad()
@@ -386,14 +421,22 @@ def createPropertyView(request):
 
                 # Guardar imagenes de la propiedad
                 i = 1
-                for f in files:
+                for f in files.filter(activo = True):
                     fotos = Foto()
                     fotos.propiedad = propiedad
                     fotos.orden = i
                     fotos.save()
-                    fotos.imagen = f
+                    img = f.imagen
+                    fotos.imagen = File(img, os.path.basename(img.name))
                     fotos.save()
+                    img.close()
                     i = i + 1
+
+                # Eliminar las imagenes temporales
+                for f in files:
+                    f.imagen = None
+                    f.save()
+                files.delete()
 
                 request.session['notification_session_msg'] = "Se ha añadido la propiedad exitosamente."
                 request.session['notification_session_type'] = "Success"
@@ -784,7 +827,17 @@ def editPropertyView(request, id):
         form = EditarPropiedadForma()
         propiedad = Propiedad.objects.filter(pk = id).first()
         if propiedad:
-            return render(request, 'propiedades/editProperty.html', {'property': propiedad, 'form': form})
+            user_logged = TachyonUsuario.objects.get(user = request.user)
+
+            images = Temp.objects.filter(propietario = user_logged)
+            for img in images:
+                img.imagen = None
+                img.save()
+            images.delete()
+
+            images = Foto.objects.filter(propiedad = propiedad)
+
+            return render(request, 'propiedades/editProperty.html', {'property': propiedad, 'form': form, 'files': images})
         else:
             raise Http404
     else:
@@ -796,8 +849,8 @@ def modifyPropertyView(request, id):
         if request.method == 'POST':
             user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
             form = EditarPropiedadForma(request.POST, request.FILES)
-            files = request.FILES.getlist('extra')
-            print(form.errors)
+            # files = request.FILES.getlist('extra')
+            # print(form.errors)
             if form.is_valid():
                 # Sacar los datos del la forma
                 oferta = form.cleaned_data['oferta']
@@ -823,6 +876,18 @@ def modifyPropertyView(request, id):
                 video = form.cleaned_data['video']
                 otros = request.POST.getlist('otros[]')
                 rest = request.POST.getlist('rest[]')
+
+                files = Temp.objects.filter(propietario = user_logged)
+
+                if files.filter(activo = True).count() < 5 or files.filter(activo = True).count() > 20:
+                    # Eliminar las imagenes temporales
+                    for f in files:
+                        f.imagen = None
+                        f.save()
+                    files.delete()
+                    request.session['notification_session_msg'] = "La cantidad de imágenes es incorrecta, por favor inténtelo de nuevo."
+                    request.session['notification_session_type'] = "Danger"
+                    return redirect('/propiedades/myProperties/')
 
                 # Crear el objeto de Propiedad
                 propiedad = Propiedad.objects.filter(pk = id).first()
@@ -866,21 +931,30 @@ def modifyPropertyView(request, id):
                         propiedad.save()
 
                     # Guardar imagenes de la propiedad nuevas si se añadieron
-                    if extra:
-                        images = Foto.objects.filter(propiedad = id)
-                        for img in images:
-                            img.imagen = None
-                            img.save()
-                        images.delete()
-                        i = 1
-                        for f in files:
-                            fotos = Foto()
-                            fotos.propiedad = propiedad
-                            fotos.orden = i
-                            fotos.save()
-                            fotos.imagen = f
-                            fotos.save()
-                            i = i + 1
+                    images = Foto.objects.filter(propiedad = id)
+                    for img in images:
+                        img.imagen = None
+                        img.save()
+                    images.delete()
+
+                    # Guardar imagenes de la propiedad
+                    i = 1
+                    for f in files.filter(activo = True):
+                        fotos = Foto()
+                        fotos.propiedad = propiedad
+                        fotos.orden = i
+                        fotos.save()
+                        img = f.imagen
+                        fotos.imagen = File(img, os.path.basename(img.name))
+                        fotos.save()
+                        img.close()
+                        i = i + 1
+
+                    # Eliminar las imagenes temporales
+                    for f in files:
+                        f.imagen = None
+                        f.save()
+                    files.delete()
 
                     request.session['notification_session_msg'] = "Se ha modificado la propiedad exitosamente."
                     request.session['notification_session_type'] = "Success"
@@ -981,6 +1055,7 @@ def unpublishPropertyView(request):
             if propiedad.propietario == user_logged:    # Evitar que los usuarios puedan editar propiedades ajenas
                 propiedad.estado_activo = False
                 propiedad.estado_revision = False
+                propiedad.fecha_corte = None
                 propiedad.save()
                 return HttpResponse('OK')
             else:
@@ -1004,3 +1079,60 @@ def add_months(sourcedate, months):
     month = month % 12 + 1
     day = min(sourcedate.day, calendar.monthrange(year,month)[1])
     return datetime.date(year, month, day)
+
+
+@login_required
+def uploadImagesView(request):
+    if 'registrar_propiedad' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+
+            file = request.FILES.get('images')
+            i = request.POST.get('i')
+
+            # print(file.name)
+            # print(i)
+            # files = [request.FILES.get('images[%d]' % i)
+            #     for i in range(0, len(request.FILES))]
+
+            # Guardar imagenes de la propiedad
+            temp = Temp()
+            temp.propietario = user_logged
+            temp.orden = i
+            temp.save()
+            temp.imagen = file
+            temp.save()
+
+            return HttpResponse('OK')
+
+        else:
+            raise Http404
+    else:
+        raise Http404
+
+
+@login_required
+def deleteImagesView(request):
+    if 'registrar_propiedad' in request.session['permissions']:
+        if request.method == 'POST':
+            user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
+
+            i = request.POST.get('id')
+
+            # print(i)
+
+            # Desactivar imagenes de la propiedad
+            t = Temp.objects.filter(orden = i).first()
+
+            if t:
+                t.activo = False
+                t.save()
+                return JsonResponse({"info": "Éxito"})
+            else:
+                response = JsonResponse({"error": "No existe esa imagen"})
+                response.status_code = 401
+                return response
+        else:
+            raise Http404
+    else:
+        raise Http404
