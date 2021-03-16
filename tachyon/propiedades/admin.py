@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(Propiedad)
 admin.site.register(Foto)
 admin.site.register(PropiedadComentario)
+admin.site.register(CodigoPostal)

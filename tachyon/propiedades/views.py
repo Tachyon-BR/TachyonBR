@@ -122,9 +122,10 @@ def is_valid_queryparam(param):
 def indexView(request):
 
     class ActiveFilter():
-        def __init__(self, text, attr):
+        def __init__(self, text, attr, val = None):
             self.text = text
             self.attr = attr
+            self.val = val
 
     resultados = Propiedad.objects.filter(estado_activo = True)
     tipo = request.GET.get('tipo')
@@ -139,6 +140,8 @@ def indexView(request):
     pisos = request.GET.get('pisos')
     garage = request.GET.get('garage')
     orden = request.GET.get('orden')
+    otros = request.GET.getlist('otros[]')
+    rest = request.GET.getlist('rest[]')
 
     active_filters = []
 
@@ -228,6 +231,19 @@ def indexView(request):
         if orden == "precio":
             resultados = resultados.order_by("-precio")
             active_filters.append(ActiveFilter("Orden por precio", "orden" ))
+
+    if len(otros)>0:
+        resultados = resultados.filter(otros__contains=otros)
+        for o in otros:
+            active_filters.append(ActiveFilter("Otros: " + o, "otros[]", o ))
+        
+    if len(rest)>0:
+        resultados = resultados.filter(restricciones__contains=rest)
+        for r in rest:
+            active_filters.append(ActiveFilter("Restricciones: " + r, "rest[]", r ))
+
+    
+    
 
     locale.setlocale( locale.LC_ALL, '' )
     for r in resultados:
