@@ -257,6 +257,8 @@ def indexView(request):
             tachyons = tachyons.exclude(rol__nombre__in=["SuperUsaurus","SuperAdministrador"])
         elif user_logged.rol.nombre == "SuperAdministrador":
             tachyons = tachyons.exclude(rol__nombre="SuperUsaurus")
+        for t in tachyons:
+            t.user.date_joined = t.user.date_joined.date()
         context = {
             'tachyons': tachyons,
             'rol': user_logged.rol.nombre

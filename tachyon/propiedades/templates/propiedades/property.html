@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/lightbox.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/buttons.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/popovers.css' %}">
 {% if revisor %}
 	<link href="{% static 'propiedades/css/forms.css' %}" rel="stylesheet" media="all">
 {% endif %}
@@ -433,6 +434,28 @@
 			<hr>
 			<div class="listing_features">
 				<div class="listing_title">
+					<h3>Compartir Propiedad</h3>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="mb-3 row">
+				<div class="col-6">
+					<div class="input-group mb-2 mr-sm-2">
+					<input type="text" class="form-control inputpop" style="color: #495057;" id="enlace" value="https://conexioninmueble.com{{ request.path }}" onclick="copy_link();" onmouseout="show_tip();" readonly>
+					<div class="input-group-append">
+			      <div id="pop1" class="input-group-text custompop" data-toggle="popover" data-placement="top" data-content="Copiar Enlace" onclick="copy_link();"><i class="far fa-copy"></i></div>
+			    </div>
+  				</div>
+				</div>
+			</div>
+			<br>
+		</div>
+
+		<div class="container">
+			<hr>
+			<div class="listing_features">
+				<div class="listing_title">
 					<h3>Contactar al Propietario</h3>
 				</div>
 			</div>
@@ -466,6 +489,7 @@
 			</form>
 			<br>
 		</div>
+
 
 		{% if is_revisor %}
 		<!--
@@ -525,7 +549,7 @@
 <script src="{% static 'root/plugins/colorbox/jquery.colorbox-min.js' %}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCxiVzHjuGTAraaNgVRmU6yuEqUB972kiA"></script>
 <script src="{% static 'root/js/single.js' %}"></script>
-<!-- <script type="text/javascript" src="{% static 'propiedades/js/propiedad.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'propiedades/js/propiedad.js' %}"></script>
 <script src="{% static 'propiedades/js/swiper.min.js' %}"></script>
 <script src="{% static 'propiedades/js/swpr.js' %}"></script>
 <script src="{% static 'propiedades/js/lightbox.js' %}"></script>
