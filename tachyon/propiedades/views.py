@@ -1,3 +1,4 @@
+from PIL import Image
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -330,6 +331,20 @@ def codigosView(request):
         # Regresamos la respuesta de error interno del servidor
         return response
 
+# Aplicar marca de agua a fotos de un folder
+def add_watermark(path):
+    wm = MARCA_AGUA.objects.first().imagen
+    for filename in os.listdir(path):
+        image = Image.open(path + '/' + filename)
+        imageWidth, imageHeight = image.width, image.height
+        watermark = Image.open(wm)
+        watermark.thumbnail((imageWidth, imageHeight))
+        image.paste(watermark, (0,0), watermark)
+        image.save(path + '/' + filename)
+        image.close()
+        watermark.close()
+        print("WM Saved at " + path + '/' + filename)
+
 @login_required
 def createPropertyView(request):
     if 'registrar_propiedad' in request.session['permissions']:
@@ -431,6 +446,12 @@ def createPropertyView(request):
                     fotos.save()
                     img.close()
                     i = i + 1
+                # Add marca agua
+                image_folder = "{}\\user_{}\\property_{}\\".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
+                image_folder_extra = image_folder + "extra\\"
+                image_folder_main = image_folder + "main\\"
+                add_watermark(image_folder_extra)
+                add_watermark(image_folder_main)
 
                 # Eliminar las imagenes temporales
                 for f in files:
