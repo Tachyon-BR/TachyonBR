@@ -1,0 +1,23 @@
+.custompop:hover {
+  color: #FFFFFF;
+  background: #a0acb0;
+  cursor: pointer;
+}
+
+.popover {
+  color: #FFFFFF;
+  background: #000000;
+}
+
+.popover-body {
+  color: #FFFFFF;
+  padding: .25rem .55rem;
+}
+
+.bs-popover-top .arrow::after {
+    border-top-color: #000000;
+}
+
+.inputpop:hover {
+  cursor: pointer;
+}
