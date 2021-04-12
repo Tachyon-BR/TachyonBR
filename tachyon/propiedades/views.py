@@ -333,17 +333,20 @@ def codigosView(request):
 
 # Aplicar marca de agua a fotos de un folder
 def add_watermark(path):
-    wm = MARCA_AGUA.objects.first().imagen
-    for filename in os.listdir(path):
-        image = Image.open(path + '/' + filename)
-        imageWidth, imageHeight = image.width, image.height
-        watermark = Image.open(wm)
-        watermark.thumbnail((imageWidth, imageHeight))
-        image.paste(watermark, (0,0), watermark)
-        image.save(path + '/' + filename)
-        image.close()
-        watermark.close()
-        print("WM Saved at " + path + '/' + filename)
+    if MARCA_AGUA.objects.count() == 0:
+        return
+    else:
+        wm = MARCA_AGUA.objects.first().imagen
+        for filename in os.listdir(path):
+            image = Image.open(path + '/' + filename)
+            imageWidth, imageHeight = image.width, image.height
+            watermark = Image.open(wm)
+            watermark.thumbnail((imageWidth, imageHeight))
+            image.paste(watermark, (0,0), watermark)
+            image.save(path + '/' + filename)
+            image.close()
+            watermark.close()
+            print("WM Saved at " + path + '/' + filename)
 
 @login_required
 def createPropertyView(request):
