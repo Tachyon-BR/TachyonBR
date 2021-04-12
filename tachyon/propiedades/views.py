@@ -56,7 +56,10 @@ def propertyView(request, id):
                 if propiedad.propietario != user_logged and user_logged.rol.nombre == 'Propietario':
                     return HttpResponseRedirect(reverse('home'))
         revisor = False
+
         fotos = Foto.objects.filter(propiedad = id)
+        fotos = fotos.order_by('orden')
+
         link = propiedad.video
         index = -1
         if link:
@@ -236,14 +239,14 @@ def indexView(request):
         resultados = resultados.filter(otros__contains=otros)
         for o in otros:
             active_filters.append(ActiveFilter("Otros: " + o, "otros[]", o ))
-        
+
     if len(rest)>0:
         resultados = resultados.filter(restricciones__contains=rest)
         for r in rest:
             active_filters.append(ActiveFilter("Restricciones: " + r, "rest[]", r ))
 
-    
-    
+
+
 
     locale.setlocale( locale.LC_ALL, '' )
     for r in resultados:

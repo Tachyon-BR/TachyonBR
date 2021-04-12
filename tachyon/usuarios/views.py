@@ -22,6 +22,8 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import update_session_auth_hash
+from propiedades.models import *
+from django.db.models import Sum, Count
 
 # Create your views here.
 
@@ -251,12 +253,21 @@ def randomString(stringLength=10):
 #Controlador para lista de usuarios
 def indexView(request):
     if 'visualizar_usuarios' in request.session['permissions']:
-        tachyons = TachyonUsuario.objects.all().exclude(user = request.user)
+        tachyons = TachyonUsuario.objects.all().exclude(user = request.user).annotate(num_prop=Count('telefono')).annotate(num_vis=Count('telefono'))
         user_logged = TachyonUsuario.objects.get(user = request.user)
         if user_logged.rol.nombre == "Administrador":
             tachyons = tachyons.exclude(rol__nombre__in=["SuperUsaurus","SuperAdministrador"])
         elif user_logged.rol.nombre == "SuperAdministrador":
             tachyons = tachyons.exclude(rol__nombre="SuperUsaurus")
+
+        for t in tachyons:
+            t.user.date_joined = t.user.date_joined.date()
+            if t.rol.nombre == "Propietario":
+                query = Propiedad.objects.filter(propietario = t, estado_visible = True, estado_activo = True)
+                t.num_prop = query.count()
+                q = query.aggregate(Sum('visitas'))
+                t.num_vis = 0 if q['visitas__sum'] == None else q['visitas__sum']
+
         context = {
             'tachyons': tachyons,
             'rol': user_logged.rol.nombre

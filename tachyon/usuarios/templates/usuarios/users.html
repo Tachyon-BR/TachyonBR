@@ -20,6 +20,8 @@
             <th><span>Creado</span></th>
             <th><span>Estado</span></th>  <!-- class="text-center" -->
             <th><span>Email</span></th>
+            <th><span>Propiedades</span></th>
+            <th><span>Visitas</span></th>
             <th></th>
           </tr>
         </thead>
@@ -48,6 +50,20 @@
             </td>
             <td>
               <span>{{ t.user.email }}</span>
+            </td>
+            <td>
+              {% if t.rol.nombre == "Propietario" %}
+              <span>{{ t.num_prop }}</span>
+              {% else %}
+              <span>N/A</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if t.rol.nombre == "Propietario" %}
+              <span>{{ t.num_vis }}</span>
+              {% else %}
+              <span>N/A</span>
+              {% endif %}
             </td>
             <td id="icons" style="width: 20%;">
               <a href="{% url 'profile' t.user.pk %}" class="table-link info">
