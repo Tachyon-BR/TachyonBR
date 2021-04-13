@@ -41,6 +41,8 @@ class LazyEncoder(DjangoJSONEncoder):
 def propertyView(request, id):
     propiedad = Propiedad.objects.filter(pk = id).first()
     if propiedad:
+        if not propiedad.estado_visible:
+            return HttpResponseRedirect(reverse('home'))
         if request.user.is_anonymous:
             if not propiedad.estado_activo:
                 return HttpResponseRedirect(reverse('home'))
@@ -268,6 +270,13 @@ def myPropertiesView(request):
             l.precio = l.precio[0:-3]
             if l.fecha_corte:
                 l.fecha_modificacion = (l.fecha_corte - datetime.date.today()).days
+
+        images = Temp.objects.filter(propietario = user_logged)
+        for img in images:
+            img.imagen = None
+            img.save()
+        images.delete()
+
         return render(request, 'propiedades/myProperties.html', {'list': list})
     else:
         raise Http404
@@ -488,7 +497,15 @@ def deletePropertyView(request, id):
                     propiedad.estado_activo = False
                     propiedad.estado_revision = False
                     propiedad.fecha_corte = None
+                    propiedad.portada = None
                     propiedad.save()
+
+                    images = Foto.objects.filter(propiedad = id)
+                    for img in images:
+                        img.imagen = None
+                        img.save()
+                    images.delete()
+
                     return HttpResponse('OK')
                 else:
                     response = JsonResponse({"error": "No puedes borrar propiedades ajenas"})
