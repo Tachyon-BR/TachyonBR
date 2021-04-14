@@ -277,7 +277,9 @@ def myPropertiesView(request):
             img.save()
         images.delete()
 
-        return render(request, 'propiedades/myProperties.html', {'list': list})
+        no_pub = Propiedad.objects.filter(propietario = user_logged, estado_visible = True, estado_activo = False, estado_revision = False).count()
+
+        return render(request, 'propiedades/myProperties.html', {'list': list, 'no_pub': no_pub})
     else:
         raise Http404
 
