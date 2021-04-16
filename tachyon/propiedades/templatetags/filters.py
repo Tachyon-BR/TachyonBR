@@ -31,3 +31,8 @@ def money(value):
 @register.filter
 def filename(value):
     return os.path.basename(value)
+
+
+@register.filter
+def strdate(value):
+    return value.strftime('%Y%m%d')
