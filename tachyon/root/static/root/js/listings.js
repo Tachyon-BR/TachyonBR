@@ -151,6 +151,14 @@ $(document).ready(function()
 									}
 	            		return parseFloat(propertyGaraje);
 	            	},
+								date: function(itemElement)
+	            	{
+	            		var propertyDate = $(itemElement).find('.property_date').text();
+									if(propertyDate == "" || propertyDate == null){
+										propertyDate = 0;
+									}
+	            		return parseFloat(propertyDate);
+	            	},
 	            }
 			});
 

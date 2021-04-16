@@ -3,6 +3,7 @@
 
 {% block optionalCSS %}
 <link rel="stylesheet" type="text/css" href="{% static 'usuarios/css/lista.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/popovers.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -12,6 +13,14 @@
       <a href="/propiedades/newProperty"><button class="btn btn-success" style="float: right; margin-top: 25px; margin-bottom: 25px;"><i class="fas fa-plus"></i> Añadir Propiedad</button></a>
     {% endif %}
     <br><br>
+    {% if no_pub > 0 %}
+      <div class="alert alert-info alert-dismissible fade show" role="alert" style="margin-top: 35px; color: #606060; font-size: large;">
+        Tienes <strong>{{ no_pub }}</strong> propiedades sin publicar, recuerda mandar tus propiedades creadas a validar.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true"><i class="fas fa-times" style="color: black; font-size: 60%;"></i></span>
+        </button>
+      </div>
+    {% endif %}
     <div class="table-responsive">
       <table class="table user-list" id="lista-propiedades">
         <thead>
@@ -72,13 +81,13 @@
                   </a>
                   -->
                   <a href="#" class="table-link" onclick="editar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#edit-property-modal">
-                    <span class="fa-stack">
+                    <span class="fa-stack pop2" data-toggle="popover" data-placement="top" data-content="Editar">
                       <i class="fa fa-square fa-stack-2x"></i>
                       <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
                     </span>
                   </a>
                   <a href="#" class="table-link danger" onclick="borrar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#delete-property-modal">
-                    <span class="fa-stack">
+                    <span class="fa-stack pop3" data-toggle="popover" data-placement="top" data-content="Borrar">
                       <i class="fa fa-square fa-stack-2x"></i>
                       <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
                     </span>
@@ -87,19 +96,19 @@
                   Sin acciones
                 {% else %}
                   <a href="#" class="table-link success" onclick="validar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#validate-property">
-                    <span class="fa-stack">
+                    <span class="fa-stack pop1" data-toggle="popover" data-placement="top" data-content="Publicar">
                       <i class="fa fa-square fa-stack-2x"></i>
                       <i class="fas fa-check fa-stack-1x fa-inverse"></i>
                     </span>
                   </a>
                   <a href="/propiedades/editProperty/{{ p.pk }}" class="table-link">
-                    <span class="fa-stack">
+                    <span class="fa-stack pop2" data-toggle="popover" data-placement="top" data-content="Editar">
                       <i class="fa fa-square fa-stack-2x"></i>
                       <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
                     </span>
                   </a>
                   <a href="#" class="table-link danger" onclick="borrar_propiedad({{ p.pk }})" data-toggle="modal" data-target="#delete-property-modal">
-                    <span class="fa-stack">
+                    <span class="fa-stack pop3" data-toggle="popover" data-placement="top" data-content="Borrar">
                       <i class="fa fa-square fa-stack-2x"></i>
                       <i class="fas fa-trash fa-stack-1x fa-inverse"></i>
                     </span>
@@ -135,4 +144,5 @@
 <script type="text/javascript" src="{% static 'propiedades/js/borrar.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/validar.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/editar.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/propiedades.js' %}"></script>
 {% endblock %}
