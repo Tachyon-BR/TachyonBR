@@ -25,4 +25,5 @@ urlpatterns = [
     path('contactOwner/<int:id>',views.contactOwnerView, name="contactOwner"),
     path('uploadImages/',views.uploadImagesView, name="uploadImages"),
     path('deleteImages/',views.deleteImagesView, name="deleteImages"),
+    path('user/<slug:id>',views.userView, name="user"),
 ]
