@@ -7,6 +7,27 @@
     <div class="home_slider_container">
          <div class="owl-carousel owl-theme home_slider">
 
+            {% if not request.user.is_authenticated %}
+            <!-- Slide -->
+            <div class="slide">
+                <div class="background_image" style="background-image:url(https://www.conexioninmueble.com/Imagenes_Ayuda/PortadaRegistro.jpg); top: 15%;"></div>
+                <div class="home_container">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <a href="/usuarios/create">
+                                  <div class="home_content" style="opacity: 0%;">
+                                    <div class="home_title"><h1>Regístrate</h1></div>
+                                    <div class="home_price_tag">Inicia Sesión</div>
+                                  </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
             {% for p in properties %}
             <!-- Slide -->
             <div class="slide">
@@ -30,7 +51,7 @@
 
             <!-- Slide -->
             <div class="slide">
-                <div class="background_image" style="background-image:url(https://www.conexioninmueble.com/Imagenes_Ayuda/ayuda_owl.png)"></div>
+                <div class="background_image" style="background-image:url(https://www.conexioninmueble.com/Imagenes_Ayuda/ayuda_owl.png); top: 15%;"></div>
                 <div class="home_container">
                     <div class="container">
                         <div class="row">

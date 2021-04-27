@@ -3,7 +3,7 @@
 <div class="menu text-right">
     <div class="menu_close"><i class="fa fa-times" aria-hidden="true"></i></div>
     <div class="menu_log_reg">
-        
+
         {% if not request.user.is_authenticated %}
         <div class="log_reg d-flex flex-row align-items-center justify-content-end">
             <ul class="d-flex flex-row align-items-start justify-content-start">
@@ -18,6 +18,7 @@
             </ul>
         </div>
         {% endif %}
+
         <nav class="menu_nav">
             <ul>
                 <li><a href="/">Inicio</a></li>
@@ -44,5 +45,27 @@
 
             </ul>
         </nav>
+
+        <br><br>
+
+        <div class="social">
+            <ul class="d-flex flex-row align-items-right justify-content-end">
+                <li style="background: none"><a href="https://www.facebook.com/ConexionInmueble" target="_blank"><i class="fab fa-facebook" aria-hidden="true" style="color: black"></i></a></li>
+                <li style="background: none"><a href="https://twitter.com/ConexinInmueble" target="_blank"><i class="fab fa-twitter" aria-hidden="true" style="color: black"></i></a></li>
+                <li style="background: none"><a href="https://www.instagram.com/conexioninmueble/" target="_blank"><i class="fab fa-instagram" aria-hidden="true" style="color: black"></i></a></li>
+            </ul>
+        </div>
+
+        <br>
+
+        <div class="log_reg d-flex flex-row align-items-center justify-content-end">
+            <ul class="d-flex flex-row align-items-center justify-content-start">
+              <!-- Email -->
+              <li class="d-flex flex-row align-items-center justify-content-start">
+                  <span style="color: #2b2e35;"><strong>info@conexioninmueble.com</strong></span>
+              </li>
+            </ul>
+        </div>
+
     </div>
 </div>
