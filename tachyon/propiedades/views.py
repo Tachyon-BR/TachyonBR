@@ -1158,3 +1158,29 @@ def deleteImagesView(request):
             raise Http404
     else:
         raise Http404
+
+
+# Vista de las Propiedades de usuario/agencia
+def userView(request, id):
+
+    resultados = Propiedad.objects.filter(estado_activo = True)
+    user = id
+    agencia = True
+
+    if id.isnumeric():
+        resultados = resultados.filter(propietario__pk = id)
+        user = TachyonUsuario.objects.filter(pk = id, estado_eliminado = False, estado_registro = True).first()
+        if not user:
+            raise Http404
+        agencia = False
+    else:
+        resultados = resultados.filter(propietario__nombre_agencia__icontains = id)
+        if resultados.count() <= 0:
+            raise Http404
+
+    locale.setlocale( locale.LC_ALL, '' )
+    for r in resultados:
+        r.precio = locale.currency(r.precio, grouping=True)
+        r.precio = r.precio[0:-3]
+
+    return render(request, 'propiedades/propertiesUser.html',{'resultados': resultados, 'user': user, 'agencia': agencia})
