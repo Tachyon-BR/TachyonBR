@@ -154,7 +154,7 @@
 									<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
 										<!--<div class="prop_agent_image"><img src="{% static 'root/images/agent_1.jpg' %}" alt="Profile picture"></div>-->
 										<div class="prop_agent_image" style="background-color: #70AD47;"></div>
-										<div class="prop_agent_name"><a href="#">{{ property.propietario.nombre }} {{ property.propietario.apellido_paterno }} {{ property.propietario.apellido_materno }}</a>, {% if property.propietario.nombre_agencia %} Agente
+										<div class="prop_agent_name"><a href="/propiedades/user/{{ property.propietario.pk }}">{{ property.propietario.nombre }} {{ property.propietario.apellido_paterno }} {{ property.propietario.apellido_materno }}</a>, {% if property.propietario.nombre_agencia %} Agente
 											Inmobiliario{% else %} Dueño{% endif %}
 											<br>
 											Teléfono: {{ property.propietario.telefono }}
@@ -162,7 +162,7 @@
 											Correo: {{ property.propietario.user.email }}
 											{% if property.propietario.nombre_agencia %}
 											<br>
-											Agencia: {{ property.propietario.nombre_agencia }}
+											Agencia: <a href="/propiedades/user/{{ property.propietario.nombre_agencia }}">{{ property.propietario.nombre_agencia }}</a>
 											{% endif %}
 											{% if property.propietario.numero_agencia %}
 											<br>

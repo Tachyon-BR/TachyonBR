@@ -100,7 +100,7 @@
               <div class="extra_search_button search_button_2"><a href="#">Show Map</a></div>
             -->
           </div>
-          <div class="search_form_container" id="filtros_avanzados" style="color: white;">
+          <div class="search_form_container" id="filtros_avanzados" style="color: white; display: none;">
             <form action="#" class="search_form" id="filtros_avanzados_chk">
 
                     <label class="label"><b>Otros:</b></label>
@@ -634,7 +634,7 @@
                                     </li>
                                   {% endif %}
                               </ul>
-                              <span style="color: #606060; font-size: 10px;">{{ v.fecha_publicacion }}</span>
+                              <span style="color: #606060; font-size: 10px;">Publicada el {{ v.fecha_publicacion }}</span>
                               <span class="property_date" hidden>{{ v.fecha_publicacion|strdate }}</span>
                           </div>
                       </div>
