@@ -25,6 +25,10 @@ def home(request):
 
     p = random.sample(properties, banner)
 
+    for i in p:
+        i.precio = locale.currency(i.precio, grouping=True)
+        i.precio = i.precio[0:-3]
+
 
     limit = 9
 
