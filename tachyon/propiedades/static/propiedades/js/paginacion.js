@@ -1,15 +1,6 @@
 var url = '' + window.location.href;
 
 
-if(url.slice(-1) === "/"){
-  url += "?pageNumber="+ pageNumber +"&pageSize="+ pageSize;
-}
-else{
-  if(url.indexOf("pageNumber=") == -1 && url.indexOf("pageSize=") == -1){
-    url += "&pageNumber="+ pageNumber +"&pageSize="+ pageSize;
-  }
-}
-
 var searchParams = new URLSearchParams(window.location.search);
 
 if(`${searchParams.get("pageNumber")}` != "null"){
@@ -18,6 +9,15 @@ if(`${searchParams.get("pageNumber")}` != "null"){
 
 if(`${searchParams.get("pageSize")}` != "null"){
   pageSize = `${searchParams.get("pageSize")}`;
+}
+
+if(url.slice(-1) === "/"){
+  url += "?pageNumber="+ pageNumber +"&pageSize="+ pageSize;
+}
+else{
+  if(url.indexOf("pageNumber=") == -1 && url.indexOf("pageSize=") == -1){
+    url += "&pageNumber="+ pageNumber +"&pageSize="+ pageSize;
+  }
 }
 
 
@@ -51,6 +51,6 @@ $(document).ready(function() {
   });
 
   $('.paginationjs-page').each(function(){
-    $(this).find('a').attr('href', '#');
+    $(this).find('a').attr('href', '');
   });
 });
