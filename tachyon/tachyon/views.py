@@ -15,83 +15,19 @@ def home(request):
     if last <= 0:
         return render(request, 'tachyon/homepage.html')
 
-    # Here's one simple way to keep even distribution for
-    # index2 while still gauranteeing not to match index1.
 
-    index = []
+    banner = 5
 
-    if last > 0:
-        index1 = random.randint(0, last-1)
-        index.append(index1)
+    if last < banner:
+        banner = last
 
-    if last > 1:
-        index2 = random.randint(0, last-2)
-        if index2 == index1:
-            index2 = last-1
-        index.append(index2)
+    properties = list(Propiedad.objects.filter(estado_activo = True))
 
-    if last > 2:
-        index3 = random.randint(0, last-3)
-        if index3 == index1:
-            index3 = last-1
-        if index3 == index2:
-            index3 = last-2
-        if index3 == index1:
-            index3 = last-1
-        index.append(index3)
+    p = random.sample(properties, banner)
 
-    if last > 3:
-        index4 = random.randint(0, last-4)
-        if index4 == index1:
-            index4 = last-1
-        if index4 == index2:
-            index4 = last-2
-        if index4 == index3:
-            index4 = last-3
-        if index4 == index2:
-            index4 = last-2
-        if index4 == index1:
-            index4 = last-1
-        if index4 == index2:
-            index4 = last-2
-        index.append(index4)
-
-    if last > 4:
-        index5 = random.randint(0, last-5)
-        if index5 == index1:
-            index5 = last-1
-        if index5 == index2:
-            index5 = last-2
-        if index5 == index3:
-            index5 = last-3
-        if index5 == index4:
-            index5 = last-4
-        if index5 == index3:
-            index5 = last-3
-        if index5 == index2:
-            index5 = last-2
-        if index5 == index1:
-            index5 = last-1
-        if index5 == index2:
-            index5 = last-2
-        if index5 == index3:
-            index5 = last-3
-        if index5 == index4:
-            index5 = last-4
-        index.append(index5)
-
-
-    p = []
-
-    # This syntax will generate "OFFSET=indexN LIMIT=1" queries
-    # so each returns a single record with no extraneous data.
-
-
-    for i in index:
-        aux = Propiedad.objects.filter(estado_activo = True)[i]
-        aux.precio = locale.currency(aux.precio, grouping=True)
-        aux.precio = aux.precio[0:-3]
-        p.append(aux)
+    for i in p:
+        i.precio = locale.currency(i.precio, grouping=True)
+        i.precio = i.precio[0:-3]
 
 
     limit = 9

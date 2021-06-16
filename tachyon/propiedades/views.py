@@ -42,6 +42,8 @@ class LazyEncoder(DjangoJSONEncoder):
 def propertyView(request, id):
     propiedad = Propiedad.objects.filter(pk = id).first()
     if propiedad:
+        if not propiedad.estado_visible:
+            return HttpResponseRedirect(reverse('home'))
         if request.user.is_anonymous:
             if not propiedad.estado_activo:
                 return HttpResponseRedirect(reverse('home'))
@@ -57,7 +59,10 @@ def propertyView(request, id):
                 if propiedad.propietario != user_logged and user_logged.rol.nombre == 'Propietario':
                     return HttpResponseRedirect(reverse('home'))
         revisor = False
+
         fotos = Foto.objects.filter(propiedad = id)
+        fotos = fotos.order_by('orden')
+
         link = propiedad.video
         index = -1
         if link:
@@ -237,14 +242,14 @@ def indexView(request):
         resultados = resultados.filter(otros__contains=otros)
         for o in otros:
             active_filters.append(ActiveFilter("Otros: " + o, "otros[]", o ))
-        
+
     if len(rest)>0:
         resultados = resultados.filter(restricciones__contains=rest)
         for r in rest:
             active_filters.append(ActiveFilter("Restricciones: " + r, "rest[]", r ))
 
-    
-    
+
+
 
     locale.setlocale( locale.LC_ALL, '' )
     for r in resultados:
@@ -266,7 +271,16 @@ def myPropertiesView(request):
             l.precio = l.precio[0:-3]
             if l.fecha_corte:
                 l.fecha_modificacion = (l.fecha_corte - datetime.date.today()).days
-        return render(request, 'propiedades/myProperties.html', {'list': list})
+
+        images = Temp.objects.filter(propietario = user_logged)
+        for img in images:
+            img.imagen = None
+            img.save()
+        images.delete()
+
+        no_pub = Propiedad.objects.filter(propietario = user_logged, estado_visible = True, estado_activo = False, estado_revision = False).count()
+
+        return render(request, 'propiedades/myProperties.html', {'list': list, 'no_pub': no_pub})
     else:
         raise Http404
 
@@ -531,7 +545,15 @@ def deletePropertyView(request, id):
                     propiedad.estado_activo = False
                     propiedad.estado_revision = False
                     propiedad.fecha_corte = None
+                    propiedad.portada = None
                     propiedad.save()
+
+                    images = Foto.objects.filter(propiedad = id)
+                    for img in images:
+                        img.imagen = None
+                        img.save()
+                    images.delete()
+
                     return HttpResponse('OK')
                 else:
                     response = JsonResponse({"error": "No puedes borrar propiedades ajenas"})
@@ -1182,3 +1204,29 @@ def deleteImagesView(request):
             raise Http404
     else:
         raise Http404
+
+
+# Vista de las Propiedades de usuario/agencia
+def userView(request, id):
+
+    resultados = Propiedad.objects.filter(estado_activo = True)
+    user = id
+    agencia = True
+
+    if id.isnumeric():
+        resultados = resultados.filter(propietario__pk = id)
+        user = TachyonUsuario.objects.filter(pk = id, estado_eliminado = False, estado_registro = True).first()
+        if not user:
+            raise Http404
+        agencia = False
+    else:
+        resultados = resultados.filter(propietario__nombre_agencia__icontains = id)
+        if resultados.count() <= 0:
+            raise Http404
+
+    locale.setlocale( locale.LC_ALL, '' )
+    for r in resultados:
+        r.precio = locale.currency(r.precio, grouping=True)
+        r.precio = r.precio[0:-3]
+
+    return render(request, 'propiedades/propertiesUser.html',{'resultados': resultados, 'user': user, 'agencia': agencia})

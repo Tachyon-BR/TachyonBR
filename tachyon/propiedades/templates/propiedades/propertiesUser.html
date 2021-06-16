@@ -1,0 +1,264 @@
+{% extends 'root/base.html' %}
+{% load static %}
+{% load filters %}
+
+{% block optionalCSS %}
+<link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/properties.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'root/styles/listings.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'root/styles/listings_responsive.css' %}">
+<style>
+  .input-group > .input-group-prepend > .input-group-text {
+  background-color: rgb(69, 233, 164);
+  border: none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<br><br>
+<!-- Search -->
+
+<div class="search">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="search_container">
+          <div class="search_form_container">
+            <form action="/propiedades/" class="search_form" id="search_form">
+              <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
+                  <div class="search_inputs d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
+                        <select class="form-control search_input" name="tipo" id="tipo">
+                          <option disabled="disabled" value="" selected="selected">Tipo de propiedad</option>
+                          <option value="Bodega Comercial">Bodega Comercial</option>
+                          <option value="Bodega Industrial">Bodega Industrial</option>
+                          <option value="Casa">Casa</option>
+                          <option value="Consultorio">Consultorio</option>
+                          <option value="Cuartos">Cuartos</option>
+                          <option value="Departamento">Departamento</option>
+                          <option value="Edificio">Edificio</option>
+                          <option value="Local">Local</option>
+                          <option value="Nave Industrial">Nave Industrial</option>
+                          <option value="Oficina">Oficina</option>
+                          <option value="Rancho">Rancho</option>
+                          <option value="Terreno Comercial">Terreno Comercial</option>
+                          <option value="Terreno Habitacional">Terreno Habitacional</option>
+                          <option value="Terreno Industrial">Terreno Industrial</option>
+                        </select>
+
+                          <select class="form-control search_input" name="oferta" id="oferta">
+                            <option disabled="disabled" value="" selected="selected">Tipo de oferta</option>
+                            <option value="venta">Venta</option>
+                            <option value="renta">Renta</option>
+                        </select>
+                        <select class="form-control search_input" name="estado" id="estado">
+                          <option disabled="disabled" value="" selected="selected">Estado</option>
+                          <option value="Aguascalientes">Aguascalientes</option>
+                          <option value="Baja California">Baja California</option>
+                          <option value="Baja California Sur">Baja California Sur</option>
+                          <option value="Campeche">Campeche</option>
+                          <option value="Chiapas">Chiapas</option>
+                          <option value="Chihuahua">Chihuahua</option>
+                          <option value="CDMX">Ciudad de México</option>
+                          <option value="Coahuila">Coahuila</option>
+                          <option value="Colima">Colima</option>
+                          <option value="Durango">Durango</option>
+                          <option value="Estado de México">Estado de México</option>
+                          <option value="Guanajuato">Guanajuato</option>
+                          <option value="Guerrero">Guerrero</option>
+                          <option value="Hidalgo">Hidalgo</option>
+                          <option value="Jalisco">Jalisco</option>
+                          <option value="Michoacán">Michoacán</option>
+                          <option value="Morelos">Morelos</option>
+                          <option value="Nayarit">Nayarit</option>
+                          <option value="Nuevo León">Nuevo León</option>
+                          <option value="Oaxaca">Oaxaca</option>
+                          <option value="Puebla">Puebla</option>
+                          <option value="Querétaro">Querétaro</option>
+                          <option value="Quintana Roo">Quintana Roo</option>
+                          <option value="San Luis Potosí">San Luis Potosí</option>
+                          <option value="Sinaloa">Sinaloa</option>
+                          <option value="Sonora">Sonora</option>
+                          <option value="Tabasco">Tabasco</option>
+                          <option value="Tamaulipas">Tamaulipas</option>
+                          <option value="Tlaxcala">Tlaxcala</option>
+                          <option value="Veracruz">Veracruz</option>
+                          <option value="Yucatán">Yucatán</option>
+                          <option value="Zacatecas">Zacatecas</option>
+                      </select>
+                  </div>
+                  <button class="search_button">Buscar propiedad</button>
+                </div>
+              </form>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Listings -->
+
+<div class="listings">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+
+        <br>
+        {% if agencia %}
+        <h1>Propiedades de <a href="/propiedades/user/{{ user }}" style="color: #70AD47;">{{ user }}</a></h1>
+        {% else %}
+        <h1>Propiedades de <a href="/propiedades/user/{{ user.pk }}" style="color: #70AD47;">{{ user.nombre }} {{ user.apellido_paterno }} {{ user.apellido_materno }}</a></h1>
+        {% endif %}
+        <br>
+        {% if not agencia %}
+        <h4>Correo: {{ user.user.email }}</h4>
+        <br>
+        {% endif %}
+
+        <!-- Sorting -->
+        <div class="sorting d-flex flex-md-row flex-column align-items-start justify-content-start">
+
+          <!-- Tags -->
+          <div class="listing_tags">
+            <ul class="d-flex flex-row align-items-start justify-content-start flex-wrap">
+              {% if active_filters %}
+              {% for f in active_filters %}
+              <li><a href="#" class="clickToDeleteFilter" data-filtername="{{ f.attr }}" {% if f.val %} data-value="{{ f.val }}" {% endif %}>{{ f.text }}<span>x</span></a></li>
+              {% endfor %}
+              {% else %}
+              {% endif %}
+              <!--
+              <li><a href="#">2 baths<span>x</span></a></li>
+              <li><a href="#">garage<span>x</span></a></li>
+              <li><a href="#">swimming pool<span>x</span></a></li>
+              <li><a href="#">patio<span>x</span></a></li>
+              <li><a href="#">heated floors<span>x</span></a></li>
+              <li><a href="#">garden<span>x</span></a></li>
+              -->
+            </ul>
+          </div>
+
+          <!-- Sort -->
+          <div class="sorting_container">
+						<div class="sort">
+							<span>Ordenar</span>
+							<ul>
+								<li class="sorting_button" data-isotope-option='{ "sortBy": "date", "sortAscending" : false }'>Por Fecha</li>
+								<li class="sorting_button" data-isotope-option='{ "sortBy": "price", "sortAscending" : false }'>Precio</li>
+								<li class="sorting_button" data-isotope-option='{ "sortBy": "area", "sortAscending" : false }'>m<sup>2</sup></li>
+                <li class="sorting_button" data-isotope-option='{ "sortBy": "banos", "sortAscending" : false }'>Baños</li>
+                <li class="sorting_button" data-isotope-option='{ "sortBy": "habs", "sortAscending" : false }'>Habitaciones</li>
+                <li class="sorting_button" data-isotope-option='{ "sortBy": "garaje", "sortAscending" : false }'>Garaje</li>
+							</ul>
+						</div>
+					</div>
+
+        </div>
+
+
+
+<!--FILTERS-->
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-12">
+
+        <!-- Listings Container -->
+        <div class="listings_container">
+
+          {% if resultados %}
+            {% for v in resultados %}
+
+              <!-- Listing -->
+              <div class="listing_box house sale">
+
+                  <div class="listing">
+                      <div class="listing_image">
+                        <a href="/propiedades/property/{{ v.pk }}">
+                          <div class="listing_image_container">
+                              <img src="{{ v.portada.url }}" alt="">
+                          </div>
+                        </a>
+                          <div class="tags d-flex flex-row align-items-start justify-content-start flex-wrap">
+                              <div class="tag tag_house"><a href="/propiedades/property/{{ v.pk }}">{{ v.tipo }}</a></div>
+                              <div class="tag tag_sale"><a href="/propiedades/property/{{ v.pk }}">{{ v.oferta }}</a></div>
+                          </div>
+                          <div class="tag_price listing_price">{{ v.precio }}</div>
+                      </div>
+                      <div class="listing_content">
+                          <div class="prop_location listing_location d-flex flex-row align-items-start justify-content-start">
+                              <img src="{% static 'root/images/icon_1.png' %}" alt="">
+                              <a href="/propiedades/property/{{ v.pk }}">{{ v.direccion }}, {{ v.estado }}, {{ v.codigo_postal }}</a>
+                          </div>
+                          <div class="listing_info">
+                              <ul class="d-flex flex-row align-items-center justify-content-start flex-wrap">
+                                  <li class="property_area d-flex flex-row align-items-center justify-content-start">
+                                      <img src="{% static 'root/images/area20.png' %}" alt="">
+                                      <span>{{ v.metros_terreno|floatformat }} m<sup>2</sup></span>
+                                  </li>
+                                  {% if v.banos or v.banos == 0 %}
+                                    <li class="property_banos d-flex flex-row align-items-center justify-content-start">
+                                        <img src="{% static 'root/images/bano20.png' %}" alt="">
+                                        <span>{{ v.banos|rounding }}</span>
+                                    </li>
+                                  {% endif %}
+                                  {% if v.habitaciones or v.habitaciones == 0 %}
+                                    <li class="property_habs d-flex flex-row align-items-center justify-content-start">
+                                        <img src="{% static 'root/images/cama20.png' %}" alt="">
+                                        <span>{{ v.habitaciones }}</span>
+                                    </li>
+                                  {% endif %}
+                                  {% if v.garaje or v.garaje == 0 %}
+                                    <li class="property_garaje d-flex flex-row align-items-center justify-content-start">
+                                        <img src="{% static 'root/images/carro20.png' %}" alt="">
+                                        <span>{{ v.garaje }}</span>
+                                    </li>
+                                  {% endif %}
+                              </ul>
+                              <span style="color: #606060; font-size: 10px;">{{ v.fecha_publicacion }}</span>
+                              <span class="property_date" hidden>{{ v.fecha_publicacion|strdate }}</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            {% endfor %}
+          {% else %}
+          <h3>No se encontraron propiedades publicadas</h3>
+          {% endif %}
+
+        </div>
+
+        <br><br>
+
+        <!-- <div id="pag" style="display: flex; justify-content: center;"></div>
+
+        <!--
+        <div class="load_more">
+          <div class="button ml-auto mr-auto"><a href="#">load more</a></div>
+        </div>
+        -->
+
+
+      </div>
+    </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block optionalJS %}
+<script>var sort = ""; var bool = false;</script>
+<script src="{% static 'root/plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'root/js/listings.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/filters.js' %}"></script>
+<script src="{% static 'propiedades/js/mobile.js' %}"></script>
+<!-- <script src="{% static 'propiedades/js/paginacion.js' %}"></script> -->
+{% endblock %}

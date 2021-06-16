@@ -5,7 +5,7 @@ $( document ).ready(function() {
     $('#filtros_avanzados').hide()
     //Cambiar los filtros si ya hay uno presente
     let searchParams = new URLSearchParams(window.location.search);
-    
+
     //Campos select de hasta arriba
     $(`select option[value='${searchParams.get("tipo")}']`).attr("selected","selected");
     $(`select option[value='${searchParams.get("oferta")}']`).attr("selected","selected");
@@ -32,7 +32,13 @@ $( document ).ready(function() {
 });
 
 $('#toggle_chk').on('click', function(){
+    $('#filtros_avanzados2').hide();
     $('#filtros_avanzados').toggle();
+});
+
+$('#toggle_chk2').on('click', function(){
+    $('#filtros_avanzados').hide();
+    $('#filtros_avanzados2').toggle();
 });
 
 /* APILA LOS DIFERENTES FILTROS
