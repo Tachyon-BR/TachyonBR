@@ -1,3 +1,4 @@
+from PIL import Image
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -344,6 +345,45 @@ def codigosView(request):
         # Regresamos la respuesta de error interno del servidor
         return response
 
+# Aplicar marca de agua a fotos de un folder
+def add_watermark(path):
+    # Si no hay objeto de la marca de agua, no hace nada
+    if MARCA_AGUA.objects.count() == 0:
+        print("no hay logo para la marca de agua")
+        return
+    else: 
+        # Atrapar cualquier error, ya sea archivo no compatible, dimensiones, accesos, etc
+        try:
+            # Dimensiones auxiliares, m = fracción de la imagen a usar, margen = margen lateral
+            # ej m = 6, el logo ocupa 1/6. margen = 10, 10 pixeles desde el borde al logo
+            m = 6
+            margen = 10
+            wm = MARCA_AGUA.objects.first().imagen # Recuperar el obj
+            for filename in os.listdir(path):
+                image = Image.open(path + '/' + filename)
+                imageWidth, imageHeight = image.width, image.height
+                watermark = Image.open(wm)
+                # dividir la imagen entre m y actualizarla
+                logoW, logoH = int(imageWidth/m), int(imageHeight/m)
+                watermark.thumbnail( (logoW, logoH) )
+                # el thumbnail no divide exactamente, recuperar nuevas dimensiones
+                newW, newH = watermark.width, watermark.height
+                # Usar la esquina inf der
+                placeToPaste = (imageWidth - newW - margen, imageHeight - newH - margen)
+                image.paste(watermark, placeToPaste, watermark)
+                image.save(path + '/' + filename)
+                print("WM Saved at " + path + '/' + filename)
+                image.close()
+                if filename == os.listdir(path)[-1]:
+                    watermark.close()
+        except Exception as e:
+            print("no se pudo aplicar marca de agua")
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
+
+
 @login_required
 def createPropertyView(request):
     if 'registrar_propiedad' in request.session['permissions']:
@@ -445,6 +485,12 @@ def createPropertyView(request):
                     fotos.save()
                     img.close()
                     i = i + 1
+                # Add marca agua
+                image_folder = "{}\\user_{}\\property_{}\\".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
+                image_folder_extra = image_folder + "extra\\"
+                image_folder_main = image_folder + "main\\"
+                add_watermark(image_folder_extra)
+                add_watermark(image_folder_main)
 
                 # Eliminar las imagenes temporales
                 for f in files:
