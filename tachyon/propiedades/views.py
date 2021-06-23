@@ -486,9 +486,13 @@ def createPropertyView(request):
                     img.close()
                     i = i + 1
                 # Add marca agua
-                image_folder = "{}\\user_{}\\property_{}\\".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
-                image_folder_extra = image_folder + "extra\\"
-                image_folder_main = image_folder + "main\\"
+                #image_folder = "{}\\user_{}\\property_{}\\".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
+                #image_folder_extra = image_folder + "extra\\"
+                #image_folder_main = image_folder + "main\\"
+                image_folder = "{}/user_{}/property_{}/".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
+                image_folder_extra = image_folder + "extra/"
+                image_folder_main = image_folder + "main/"
+
                 add_watermark(image_folder_extra)
                 add_watermark(image_folder_main)
 
@@ -993,6 +997,9 @@ def modifyPropertyView(request, id):
                     # Guardar propiedad para poder guardar las imagenes
                     propiedad.save()
 
+                    nuevaPortada = False
+                    nuevasImagenes = False
+
                     # Guardar imagen de portada nueva si se añadio una
                     if portada:
                         propiedad.portada = portada
@@ -1023,6 +1030,15 @@ def modifyPropertyView(request, id):
                         f.imagen = None
                         f.save()
                     files.delete()
+
+
+                    image_folder = "{}/user_{}/property_{}/".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
+                    image_folder_extra = image_folder + "extra/"
+                    image_folder_main = image_folder + "main/"
+                    
+                    add_watermark(image_folder_extra)
+                    add_watermark(image_folder_main)
+
 
                     request.session['notification_session_msg'] = "Se ha modificado la propiedad exitosamente."
                     request.session['notification_session_type'] = "Success"
