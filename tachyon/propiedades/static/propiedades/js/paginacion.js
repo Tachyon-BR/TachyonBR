@@ -1,56 +1,45 @@
-var url = '' + window.location.href;
+var params = new URLSearchParams(location.search);
+params.delete('pageNumber');
 
-
-if(url.slice(-1) === "/"){
-  url += "?pageNumber="+ pageNumber +"&pageSize="+ pageSize;
-}
-else{
-  if(url.indexOf("pageNumber=") == -1 && url.indexOf("pageSize=") == -1){
-    url += "&pageNumber="+ pageNumber +"&pageSize="+ pageSize;
-  }
-}
-
-var searchParams = new URLSearchParams(window.location.search);
-
-if(`${searchParams.get("pageNumber")}` != "null"){
-  pageNumber = `${searchParams.get("pageNumber")}`;
-}
-
-if(`${searchParams.get("pageSize")}` != "null"){
-  pageSize = `${searchParams.get("pageSize")}`;
-}
-
-
-function simpleTemplating(data) {
-    var html = '<ul>';
-    $.each(data, function(index, item){
-        html += '<li>'+ item +'</li>';
-    });
-    html += '</ul>';
-    return html;
-}
-
+var url = window.location.pathname + "?" + params.toString();
 
 $(document).ready(function() {
-  $('#pag').pagination({
-      className: "paginationjs-big",
-      ulClassName: "pagination pagination-lg",
-      dataSource: "/propiedades/",
-      pageLink: url,
-      totalNumber: 300,
-      pageNumber: pageNumber,
-      pageSize: pageSize,
-      pageRange: 2,
-      autoHidePrevious: true,
-      autoHideNext: true,
-      callback: function(data, pagination) {
-          // template method of yourself
-          var html = simpleTemplating(data);
-          $('#data-container').html(html);
-      }
-  });
+  let i = 0;
 
-  $('.paginationjs-page').each(function(){
-    $(this).find('a').attr('href', '#');
-  });
+  $('#pagination').append('<li id="first" class="page-item"><a class="page-link" href="'+ url +'&pageNumber=1" tabindex="-1">&#x226A</a></li>');
+  $('#pagination').append('<li id="prev" class="page-item"><a class="page-link" href="'+ url +'&pageNumber='+ parseInt(pageNumber - 1) +'">Anterior</a></li>');
+  if(pageNumber <= 1){
+    $('#first').addClass('disabled');
+    $('#prev').addClass('disabled');
+  }
+
+  if(pageNumber > 3 && totalPages > 5 && pageNumber < totalPages - 2){
+    $('#pagination').append('<li id="pag-'+ parseInt(pageNumber - 3) +'" class="page-item disabled"><a class="page-link" href="#">...</a></li>');
+    for(i = pageNumber - 2; i <= pageNumber + 2; i++){
+      $('#pagination').append('<li id="pag-'+ i +'" class="page-item"><a class="page-link" href="'+ url +'&pageNumber='+ i +'">'+ i +'</a></li>');
+      if(i == pageNumber){
+        $('#pag-'+pageNumber).addClass('active');
+      }
+    }
+    $('#pagination').append('<li id="pag-'+ parseInt(pageNumber + 3) +'" class="page-item disabled"><a class="page-link" href="#">...</a></li>');
+  }
+  else if(pageNumber <= 3 || totalPages <= 5){
+    let limit = totalPages;
+    if(totalPages > 5){
+      limit = 5;
+    }
+    for(i = 1; i <= limit; i++){
+      $('#pagination').append('<li id="pag-'+ i +'" class="page-item"><a class="page-link" href="'+ url +'&pageNumber='+ i +'">'+ i +'</a></li>');
+      if(i == pageNumber){
+        $('#pag-'+pageNumber).addClass('active');
+      }
+    }
+  }
+
+  $('#pagination').append('<li id="next" class="page-item"><a class="page-link" href="'+ url +'&pageNumber='+ parseInt(pageNumber + 1) +'">Siguiente</a></li>');
+  $('#pagination').append('<li id="last" class="page-item"><a class="page-link" href="'+ url +'&pageNumber='+ totalPages +'">&#x226B</a></li>');
+  if(pageNumber >= totalPages){
+    $('#next').addClass('disabled');
+    $('#last').addClass('disabled');
+  }
 });
