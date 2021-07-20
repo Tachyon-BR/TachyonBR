@@ -251,16 +251,20 @@ def indexView(request):
             active_filters.append(ActiveFilter("Restricciones: " + r, "rest[]", r ))
 
 
-    pageItems = 1
+    pageItems = 30
 
     total = resultados.count()
 
     totalPages = math.ceil(total/pageItems)
 
     if is_valid_queryparam(pageNumber):
-        print("HOLA")
+        if not pageNumber.isnumeric():
+            pageNumber = 1
+        pageNumber = int(pageNumber)
+        resultados = resultados[pageItems*(pageNumber-1):pageItems*pageNumber]
     else:
         pageNumber = 1
+        resultados = resultados[pageItems*(pageNumber-1):pageItems*pageNumber]
 
 
 

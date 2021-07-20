@@ -34,6 +34,21 @@ $(document).ready(function() {
         $('#pag-'+pageNumber).addClass('active');
       }
     }
+    if(totalPages > 5){
+      $('#pagination').append('<li id="pag-'+ parseInt(pageNumber + 3) +'" class="page-item disabled"><a class="page-link" href="#">...</a></li>');
+    }
+  }
+  else if(totalPages > 5 && pageNumber >= totalPages - 2){
+    $('#pagination').append('<li id="pag-'+ parseInt(pageNumber - 3) +'" class="page-item disabled"><a class="page-link" href="#">...</a></li>');
+    for(i = totalPages - 4; i <= totalPages; i++){
+      $('#pagination').append('<li id="pag-'+ i +'" class="page-item"><a class="page-link" href="'+ url +'&pageNumber='+ i +'">'+ i +'</a></li>');
+      if(i == pageNumber){
+        $('#pag-'+pageNumber).addClass('active');
+      }
+    }
+  }
+  else {
+    $('#pagination').append('<li id="pag-1" class="page-item"><a class="page-link" href="'+ url +'&pageNumber=1">1</a></li>');
   }
 
   $('#pagination').append('<li id="next" class="page-item"><a class="page-link" href="'+ url +'&pageNumber='+ parseInt(pageNumber + 1) +'">Siguiente</a></li>');
