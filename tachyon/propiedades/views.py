@@ -27,6 +27,7 @@ from sendgrid.helpers.mail import Mail
 from django.conf import settings
 import calendar
 from django.core.files import File
+import math
 
 
 # Create your views here.
@@ -148,6 +149,7 @@ def indexView(request):
     orden = request.GET.get('orden')
     otros = request.GET.getlist('otros[]')
     rest = request.GET.getlist('rest[]')
+    pageNumber = request.GET.get('pageNumber')
 
     active_filters = []
 
@@ -249,6 +251,22 @@ def indexView(request):
             active_filters.append(ActiveFilter("Restricciones: " + r, "rest[]", r ))
 
 
+    pageItems = 30
+
+    total = resultados.count()
+
+    totalPages = math.ceil(total/pageItems)
+
+    if is_valid_queryparam(pageNumber):
+        if not pageNumber.isnumeric():
+            pageNumber = 1
+        pageNumber = int(pageNumber)
+        resultados = resultados[pageItems*(pageNumber-1):pageItems*pageNumber]
+    else:
+        pageNumber = 1
+        resultados = resultados[pageItems*(pageNumber-1):pageItems*pageNumber]
+
+
 
 
     locale.setlocale( locale.LC_ALL, '' )
@@ -256,7 +274,7 @@ def indexView(request):
         r.precio = locale.currency(r.precio, grouping=True)
         r.precio = r.precio[0:-3]
 
-    return render(request, 'propiedades/properties.html',{'resultados': resultados, 'active_filters': active_filters})
+    return render(request, 'propiedades/properties.html',{'resultados': resultados, 'active_filters': active_filters, 'pageNumber': pageNumber, 'totalPages': totalPages})
 
 
 
@@ -351,7 +369,7 @@ def add_watermark(path):
     if MARCA_AGUA.objects.count() == 0:
         print("no hay logo para la marca de agua")
         return
-    else: 
+    else:
         # Atrapar cualquier error, ya sea archivo no compatible, dimensiones, accesos, etc
         try:
             # Dimensiones auxiliares, m = fracción de la imagen a usar, margen = margen lateral
@@ -1035,7 +1053,7 @@ def modifyPropertyView(request, id):
                     image_folder = "{}/user_{}/property_{}/".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
                     image_folder_extra = image_folder + "extra/"
                     image_folder_main = image_folder + "main/"
-                    
+
                     add_watermark(image_folder_extra)
                     add_watermark(image_folder_main)
 

@@ -52,6 +52,8 @@ $('.filter-click').on('click', function(){
     let name = $(this).attr("data-name");
     let value = $(this).attr("data-value");
     let searchParams = new URLSearchParams(window.location.search);
+    searchParams.delete('pageNumber');
+
 
     if(name=="precio"){
         searchParams.set("precio_min", $("#precio_min").val());
@@ -92,6 +94,7 @@ $('.filter-click').on('click', function(){
 $(".clickToDeleteFilter").on("click", function(){
     let searchParams = new URLSearchParams(window.location.search);
     let url = "/propiedades/?";
+    searchParams.delete('pageNumber');
 
     let name = $(this).attr("data-filtername");
     if(name === "otros[]" || name === "rest[]"){
