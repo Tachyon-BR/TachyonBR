@@ -657,7 +657,10 @@
 
         <br><br>
 
-        <!-- <div id="pag" style="display: flex; justify-content: center;"></div> -->
+        <nav aria-label="Page navigation example">
+          <ul id="pagination" class="pagination justify-content-center pagination-lg">
+          </ul>
+        </nav>
 
         <!--
         <div class="load_more">
@@ -677,11 +680,11 @@
 {% endblock content %}
 
 {% block optionalJS %}
-<script>var sort = ""; var bool = false; var pageNumber = 1; var pageSize = 30;</script>
+<script>var sort = ""; var bool = false; var pageNumber = {{ pageNumber }}; var totalPages = {{ totalPages }}</script>
 <script src="{% static 'root/plugins/Isotope/isotope.pkgd.min.js' %}"></script>
 <script src="{% static 'root/js/listings.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
 <script type="text/javascript" src="{% static 'propiedades/js/filters.js' %}"></script>
 <script src="{% static 'propiedades/js/mobile.js' %}"></script>
-<!-- <script src="{% static 'propiedades/js/paginacion.js' %}"></script> -->
+<script src="{% static 'propiedades/js/paginacion.js' %}"></script>
 {% endblock %}

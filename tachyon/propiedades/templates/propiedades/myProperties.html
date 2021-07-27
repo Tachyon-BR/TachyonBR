@@ -30,7 +30,7 @@
             <th><span>Precio</span></th>
             <th><span>Estado</span></th>
             <th><span>Visitas</span></th>
-            <th><span>Periodo en Publicación</span></th>  <!-- class="text-center" -->
+            <!-- <th><span>Periodo en Publicación</span></th>  <!-- class="text-center" -->
             <th></th>
           </tr>
         </thead>
@@ -62,14 +62,14 @@
               <td>
                 <span>{{ p.visitas }}</span>
               </td>
-              <td>
+              <!-- <td>
                 {% if p.fecha_corte != None %}
                   {{ p.fecha_corte }}<br>
                   <span style="font-size: x-small;"><i>(Faltan {{ p.fecha_modificacion }} días)</i></span>
                 {% else %}
                   No Aplica
                 {% endif %}
-              </td>
+              </td> -->
               <td id="icons" style="width: 15%;">
                 {% if p.estado_activo %}
                   <!--
