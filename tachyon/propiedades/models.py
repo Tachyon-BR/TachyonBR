@@ -70,7 +70,10 @@ class Propiedad(models.Model):
         verbose_name_plural = 'Propiedades'
 
     def __str__(self):
-        return "%s" % (self.titulo)
+        status = "No Publicada"
+        if self.estado_activo:
+            status = "Publicada"
+        return "%s: %s | %s" % (self.pk, self.titulo, status)
 
 
 
