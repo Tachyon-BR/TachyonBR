@@ -27,6 +27,7 @@ from sendgrid.helpers.mail import Mail
 from django.conf import settings
 import calendar
 from django.core.files import File
+import requests
 import math
 
 
@@ -712,6 +713,55 @@ def misRevisionesView(request):
     else: # Si el rol del usuario no es revisor no puede entrar a la página
         raise Http404
 
+# Docs: https://developers.facebook.com/docs/pages/publishing
+# Publica el link de la propiedad en feed de fb
+# Retorna True si la operación ha sido exitosa
+# Retorna False si la operación no ha sido exitosa
+# Causas de error: el link ha expirado, cerrado sesión
+def publicar_fb(propiedad):
+    fbpage = FB_Page.objects.first()
+    page_id, access_token = fbpage.page_id, fbpage.access_token
+    post_url = "https://graph.facebook.com/{}/feed".format(page_id)
+    prop_id = propiedad.id
+    link_url = fbpage.link_url
+    link_to_prop = link_url + str(prop_id)
+    payload = {
+        'message' : "",
+        'access_token': access_token,
+        'link' : link_to_prop,
+    }
+    r = requests.post(post_url, data = payload)
+    response_data = r.json()
+    if "id" in response_data.keys():
+        propiedad.fb_id = response_data["id"]
+        propiedad.save()
+        return True, response_data
+    else:
+        return False, response_data
+
+# Docs: https://developers.facebook.com/docs/pages/publishing
+# Borra el post de la propiedad del feed de fb
+# Retorna True si la operación ha sido exitosa
+# Retorna False si la operación no ha sido exitosa
+def borrar_fb(propiedad):
+    fbpage = FB_Page.objects.first()
+    page_post_id, access_token = propiedad.fb_id, fbpage.access_token
+    post_url = "https://graph.facebook.com/{}".format(page_post_id)
+    fb_id = propiedad.fb_id
+    payload = {
+        'access_token': access_token,
+    }
+    r = requests.delete(post_url, data = payload)
+    response_data = r.json()
+    if "success" in response_data.keys():
+        if response_data["success"]:
+            propiedad.fb_id = None
+            propiedad.save()
+            return True, response_data
+        return False, response_data
+    else:
+        return False, response_data
+
 
 @login_required
 def validateAsRevisorView(request):
@@ -722,7 +772,7 @@ def validateAsRevisorView(request):
 
             #No se mandó nada por el POST
             if id_prop is None:
-                response = JsonResponse({"error": "Error en el servidor, intente acualizar la página e inténtelo de nuevo (e-id00)"})
+                response = JsonResponse({"error": "Error en el servidor, intente actualizar la página e inténtelo de nuevo (e-id00)"})
                 response.status_code = 400
                 # Regresamos la respuesta de error interno del servidor
                 return response
@@ -807,8 +857,18 @@ def validateAsRevisorView(request):
                         print(response.headers)
                     except Exception as e:
                         print(e)
-                request.session['notification_session_msg'] = "Se ha aceptado la propiedad exitosamente."
-                request.session['notification_session_type'] = "Success"
+                
+                #publicar en fb
+                publicada, data = publicar_fb(propiedad)
+                if publicada:
+                    request.session['notification_session_msg'] = "Se ha aceptado la propiedad exitosamente."
+                    request.session['notification_session_type'] = "Success"
+                else:
+                    request.session['notification_session_msg'] = "Se ha aceptado la propiedad exitosamente. NOTA: No se pudo publicar en fb, hacer la operación de forma manual."
+                    request.session['notification_session_type'] = "Warning"
+                print(data)
+            
+            # Si la propiedad fue rechazada
             elif request.POST.get('aor') == "rechazada":
                 print("rechazada")
                 propiedad.estado_revision = False
@@ -843,6 +903,8 @@ def validateAsRevisorView(request):
             pc.comentario = coms
             pc.revisor = rvw
             pc.save()
+
+            
 
             return HttpResponse('OK')
 
@@ -896,7 +958,6 @@ def propertyCommentHistoryView(request):
                 data.append(d)
             #data = serializers.serialize('json', data)
             return JsonResponse({"info": data})
-
 
         #No se hizo método GET
         else:
