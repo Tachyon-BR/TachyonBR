@@ -90,13 +90,6 @@ class PropiedadComentario(models.Model):
     class Meta:
        ordering = ('fecha',)
 
-def path_marcaAgua(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'marca_agua/{0}'.format(filename)
-
-
-class MARCA_AGUA(models.Model):
-    imagen = models.ImageField(upload_to = path_marcaAgua)
 
 def path_marcaAgua(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
