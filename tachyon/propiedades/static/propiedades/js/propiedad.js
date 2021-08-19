@@ -1,11 +1,28 @@
-// A $( document ).ready() block.
-$( document ).ready(function() {
-  var str = $('#price').html().trim();
-  str = formatter.format(str); /* $2,500.00 */
-  $('#price').html(str.slice(0, str.length-3));
-});
+$(function () {
+  $('#pop1').popover({
+    container: 'body',
+    trigger: 'hover'
+  })
+})
 
-var formatter = new Intl.NumberFormat('es-MX', {
-  style: 'currency',
-  currency: 'MXN',
-});
+function copy_link(){
+  /* Get the text field */
+  var copyText = document.getElementById("enlace");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+
+  /* Alert the copied text */
+  $('#pop1').popover('show');
+  var pop = $('#pop1').data('bs.popover').tip;
+  $(pop).find('.popover-body').html("¡Copiado!");
+  $('#pop1').data('bs.popover').update();
+}
+
+function show_tip(){
+  $('#pop1').popover('hide');
+}

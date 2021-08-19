@@ -1,3 +1,4 @@
+from PIL import Image
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -27,6 +28,8 @@ from django.conf import settings
 import calendar
 from django.core.files import File
 import requests
+import math
+
 
 # Create your views here.
 
@@ -41,6 +44,8 @@ class LazyEncoder(DjangoJSONEncoder):
 def propertyView(request, id):
     propiedad = Propiedad.objects.filter(pk = id).first()
     if propiedad:
+        if not propiedad.estado_visible:
+            return HttpResponseRedirect(reverse('home'))
         if request.user.is_anonymous:
             if not propiedad.estado_activo:
                 return HttpResponseRedirect(reverse('home'))
@@ -56,7 +61,10 @@ def propertyView(request, id):
                 if propiedad.propietario != user_logged and user_logged.rol.nombre == 'Propietario':
                     return HttpResponseRedirect(reverse('home'))
         revisor = False
+
         fotos = Foto.objects.filter(propiedad = id)
+        fotos = fotos.order_by('orden')
+
         link = propiedad.video
         index = -1
         if link:
@@ -142,6 +150,7 @@ def indexView(request):
     orden = request.GET.get('orden')
     otros = request.GET.getlist('otros[]')
     rest = request.GET.getlist('rest[]')
+    pageNumber = request.GET.get('pageNumber')
 
     active_filters = []
 
@@ -236,21 +245,37 @@ def indexView(request):
         resultados = resultados.filter(otros__contains=otros)
         for o in otros:
             active_filters.append(ActiveFilter("Otros: " + o, "otros[]", o ))
-        
+
     if len(rest)>0:
         resultados = resultados.filter(restricciones__contains=rest)
         for r in rest:
             active_filters.append(ActiveFilter("Restricciones: " + r, "rest[]", r ))
 
-    
-    
+
+    pageItems = 30
+
+    total = resultados.count()
+
+    totalPages = math.ceil(total/pageItems)
+
+    if is_valid_queryparam(pageNumber):
+        if not pageNumber.isnumeric():
+            pageNumber = 1
+        pageNumber = int(pageNumber)
+        resultados = resultados[pageItems*(pageNumber-1):pageItems*pageNumber]
+    else:
+        pageNumber = 1
+        resultados = resultados[pageItems*(pageNumber-1):pageItems*pageNumber]
+
+
+
 
     locale.setlocale( locale.LC_ALL, '' )
     for r in resultados:
         r.precio = locale.currency(r.precio, grouping=True)
         r.precio = r.precio[0:-3]
 
-    return render(request, 'propiedades/properties.html',{'resultados': resultados, 'active_filters': active_filters})
+    return render(request, 'propiedades/properties.html',{'resultados': resultados, 'active_filters': active_filters, 'pageNumber': pageNumber, 'totalPages': totalPages})
 
 
 
@@ -265,7 +290,16 @@ def myPropertiesView(request):
             l.precio = l.precio[0:-3]
             if l.fecha_corte:
                 l.fecha_modificacion = (l.fecha_corte - datetime.date.today()).days
-        return render(request, 'propiedades/myProperties.html', {'list': list})
+
+        images = Temp.objects.filter(propietario = user_logged)
+        for img in images:
+            img.imagen = None
+            img.save()
+        images.delete()
+
+        no_pub = Propiedad.objects.filter(propietario = user_logged, estado_visible = True, estado_activo = False, estado_revision = False).count()
+
+        return render(request, 'propiedades/myProperties.html', {'list': list, 'no_pub': no_pub})
     else:
         raise Http404
 
@@ -329,6 +363,45 @@ def codigosView(request):
         response.status_code = 500
         # Regresamos la respuesta de error interno del servidor
         return response
+
+# Aplicar marca de agua a fotos de un folder
+def add_watermark(path):
+    # Si no hay objeto de la marca de agua, no hace nada
+    if MARCA_AGUA.objects.count() == 0:
+        print("no hay logo para la marca de agua")
+        return
+    else:
+        # Atrapar cualquier error, ya sea archivo no compatible, dimensiones, accesos, etc
+        try:
+            # Dimensiones auxiliares, m = fracción de la imagen a usar, margen = margen lateral
+            # ej m = 6, el logo ocupa 1/6. margen = 10, 10 pixeles desde el borde al logo
+            m = 6
+            margen = 10
+            wm = MARCA_AGUA.objects.first().imagen # Recuperar el obj
+            for filename in os.listdir(path):
+                image = Image.open(path + '/' + filename)
+                imageWidth, imageHeight = image.width, image.height
+                watermark = Image.open(wm)
+                # dividir la imagen entre m y actualizarla
+                logoW, logoH = int(imageWidth/m), int(imageHeight/m)
+                watermark.thumbnail( (logoW, logoH) )
+                # el thumbnail no divide exactamente, recuperar nuevas dimensiones
+                newW, newH = watermark.width, watermark.height
+                # Usar la esquina inf der
+                placeToPaste = (imageWidth - newW - margen, imageHeight - newH - margen)
+                image.paste(watermark, placeToPaste, watermark)
+                image.save(path + '/' + filename)
+                print("WM Saved at " + path + '/' + filename)
+                image.close()
+                if filename == os.listdir(path)[-1]:
+                    watermark.close()
+        except Exception as e:
+            print("no se pudo aplicar marca de agua")
+            if hasattr(e, 'message'):
+                print(e.message)
+            else:
+                print(e)
+
 
 @login_required
 def createPropertyView(request):
@@ -431,6 +504,16 @@ def createPropertyView(request):
                     fotos.save()
                     img.close()
                     i = i + 1
+                # Add marca agua
+                #image_folder = "{}\\user_{}\\property_{}\\".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
+                #image_folder_extra = image_folder + "extra\\"
+                #image_folder_main = image_folder + "main\\"
+                image_folder = "{}/user_{}/property_{}/".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
+                image_folder_extra = image_folder + "extra/"
+                image_folder_main = image_folder + "main/"
+
+                add_watermark(image_folder_extra)
+                add_watermark(image_folder_main)
 
                 # Eliminar las imagenes temporales
                 for f in files:
@@ -485,7 +568,15 @@ def deletePropertyView(request, id):
                     propiedad.estado_activo = False
                     propiedad.estado_revision = False
                     propiedad.fecha_corte = None
+                    propiedad.portada = None
                     propiedad.save()
+
+                    images = Foto.objects.filter(propiedad = id)
+                    for img in images:
+                        img.imagen = None
+                        img.save()
+                    images.delete()
+
                     return HttpResponse('OK')
                 else:
                     response = JsonResponse({"error": "No puedes borrar propiedades ajenas"})
@@ -985,6 +1076,9 @@ def modifyPropertyView(request, id):
                     # Guardar propiedad para poder guardar las imagenes
                     propiedad.save()
 
+                    nuevaPortada = False
+                    nuevasImagenes = False
+
                     # Guardar imagen de portada nueva si se añadio una
                     if portada:
                         propiedad.portada = portada
@@ -1015,6 +1109,15 @@ def modifyPropertyView(request, id):
                         f.imagen = None
                         f.save()
                     files.delete()
+
+
+                    image_folder = "{}/user_{}/property_{}/".format(settings.MEDIA_ROOT, propiedad.propietario.pk, propiedad.pk)
+                    image_folder_extra = image_folder + "extra/"
+                    image_folder_main = image_folder + "main/"
+
+                    add_watermark(image_folder_extra)
+                    add_watermark(image_folder_main)
+
 
                     request.session['notification_session_msg'] = "Se ha modificado la propiedad exitosamente."
                     request.session['notification_session_type'] = "Success"
@@ -1196,3 +1299,29 @@ def deleteImagesView(request):
             raise Http404
     else:
         raise Http404
+
+
+# Vista de las Propiedades de usuario/agencia
+def userView(request, id):
+
+    resultados = Propiedad.objects.filter(estado_activo = True)
+    user = id
+    agencia = True
+
+    if id.isnumeric():
+        resultados = resultados.filter(propietario__pk = id)
+        user = TachyonUsuario.objects.filter(pk = id, estado_eliminado = False, estado_registro = True).first()
+        if not user:
+            raise Http404
+        agencia = False
+    else:
+        resultados = resultados.filter(propietario__nombre_agencia__icontains = id)
+        if resultados.count() <= 0:
+            raise Http404
+
+    locale.setlocale( locale.LC_ALL, '' )
+    for r in resultados:
+        r.precio = locale.currency(r.precio, grouping=True)
+        r.precio = r.precio[0:-3]
+
+    return render(request, 'propiedades/propertiesUser.html',{'resultados': resultados, 'user': user, 'agencia': agencia})

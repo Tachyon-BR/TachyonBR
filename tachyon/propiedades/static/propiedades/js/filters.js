@@ -5,7 +5,7 @@ $( document ).ready(function() {
     $('#filtros_avanzados').hide()
     //Cambiar los filtros si ya hay uno presente
     let searchParams = new URLSearchParams(window.location.search);
-    
+
     //Campos select de hasta arriba
     $(`select option[value='${searchParams.get("tipo")}']`).attr("selected","selected");
     $(`select option[value='${searchParams.get("oferta")}']`).attr("selected","selected");
@@ -32,7 +32,13 @@ $( document ).ready(function() {
 });
 
 $('#toggle_chk').on('click', function(){
+    $('#filtros_avanzados2').hide();
     $('#filtros_avanzados').toggle();
+});
+
+$('#toggle_chk2').on('click', function(){
+    $('#filtros_avanzados').hide();
+    $('#filtros_avanzados2').toggle();
 });
 
 /* APILA LOS DIFERENTES FILTROS
@@ -46,6 +52,8 @@ $('.filter-click').on('click', function(){
     let name = $(this).attr("data-name");
     let value = $(this).attr("data-value");
     let searchParams = new URLSearchParams(window.location.search);
+    searchParams.delete('pageNumber');
+
 
     if(name=="precio"){
         searchParams.set("precio_min", $("#precio_min").val());
@@ -86,6 +94,7 @@ $('.filter-click').on('click', function(){
 $(".clickToDeleteFilter").on("click", function(){
     let searchParams = new URLSearchParams(window.location.search);
     let url = "/propiedades/?";
+    searchParams.delete('pageNumber');
 
     let name = $(this).attr("data-filtername");
     if(name === "otros[]" || name === "rest[]"){

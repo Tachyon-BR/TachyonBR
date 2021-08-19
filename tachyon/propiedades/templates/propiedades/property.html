@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/lightbox.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/buttons.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'propiedades/css/popovers.css' %}">
 {% if revisor %}
 	<link href="{% static 'propiedades/css/forms.css' %}" rel="stylesheet" media="all">
 {% endif %}
@@ -153,7 +154,7 @@
 									<div class="prop_agent d-flex flex-row align-items-center justify-content-start">
 										<!--<div class="prop_agent_image"><img src="{% static 'root/images/agent_1.jpg' %}" alt="Profile picture"></div>-->
 										<div class="prop_agent_image" style="background-color: #70AD47;"></div>
-										<div class="prop_agent_name"><a href="#">{{ property.propietario.nombre }} {{ property.propietario.apellido_paterno }} {{ property.propietario.apellido_materno }}</a>, {% if property.propietario.nombre_agencia %} Agente
+										<div class="prop_agent_name"><a href="/propiedades/user/{{ property.propietario.pk }}">{{ property.propietario.nombre }} {{ property.propietario.apellido_paterno }} {{ property.propietario.apellido_materno }}</a>, {% if property.propietario.nombre_agencia %} Agente
 											Inmobiliario{% else %} Dueño{% endif %}
 											<br>
 											Teléfono: {{ property.propietario.telefono }}
@@ -161,7 +162,7 @@
 											Correo: {{ property.propietario.user.email }}
 											{% if property.propietario.nombre_agencia %}
 											<br>
-											Agencia: {{ property.propietario.nombre_agencia }}
+											Agencia: <a href="/propiedades/user/{{ property.propietario.nombre_agencia }}">{{ property.propietario.nombre_agencia }}</a>
 											{% endif %}
 											{% if property.propietario.numero_agencia %}
 											<br>
@@ -246,8 +247,8 @@
 								<div class="listing_location d-flex flex-row align-items-start justify-content-start">
 									<span style="margin-left:0px;margin-top:27px;">Descripción</span>
 								</div>
-								<div id="des" class="about_text" style="padding-top:27px !important;">
-									<p>{{ property.descripcion }}</p>
+								<div id="des" class="about_text" style="padding-top:27px !important; text-align: justify;">
+									<p>{{ property.descripcion|linebreaksbr }}</p>
 								</div>
 								{% if revisor %}
 									<a id="edit3" href="#e" class="table-link" style="display: block; float: right;" onclick="esconder_desc();">
@@ -280,7 +281,7 @@
 							{% endif %}
 
 							<!--fotos-->
-							<div id="fotos" class="col-lg-12">
+							<div id="fotos" class="col-lg-12 col-md-12 col-sm-12">
 								<div class="swiper-container">
 									<div class="swiper-wrapper">
 										{% for i in images %}
@@ -298,13 +299,13 @@
 							</div>
 							<!--fotosFin-->
 							{% if index != -1 %}
-							<div class="col-lg-6">
+							<div class="col-lg-6 col-md-12 col-sm-12">
 								<div id="detalles" class="listing_features">
 									<div class="listing_title">
 										<h3>Detalles</h3>
 									</div>
 									<div class="row">
-										<div class="col-6">
+										<div class="col-lg-6 col-md-12 col-sm-12">
 											<ul>
 												<li style="height: 55px;">{{ property.metros_terreno|floatformat }} m<sup>2</sup> de terreno</li>
 												{% if property.habitaciones or property.habitaciones == 0 %}
@@ -318,7 +319,7 @@
 												{% endfor %}
 											</ul>
 										</div>
-										<div class="col-6">
+										<div class="col-lg-6 col-md-12 col-sm-12">
 											<ul>
 												<li style="height: 55px;">{{ property.metros_construccion|floatformat }} m<sup>2</sup> de construcción</li>
 												{% if property.garaje or property.garaje == 0 %}
@@ -335,7 +336,7 @@
 									</div>
 								</div>
 							</div>
-							<div id="video" class="col-lg-6">
+							<div id="video" class="col-lg-6 col-md-12 col-sm-12">
 								<div class="listing_video">
 									<div class="listing_title">
 										<h3>Video</h3>
@@ -353,7 +354,7 @@
 										<h3>Detalles</h3>
 									</div>
 									<div class="row">
-										<div class="col-6">
+										<div class="col-lg-6 col-md-12 col-sm-12">
 											<ul>
 												<li style="height: 55px;">{{ property.metros_terreno|floatformat }} m<sup>2</sup> de terreno</li>
 												{% if property.habitaciones or property.habitaciones == 0 %}
@@ -367,7 +368,7 @@
 												{% endfor %}
 											</ul>
 										</div>
-										<div class="col-6">
+										<div class="col-lg-6 col-md-12 col-sm-12">
 											<ul>
 												<li style="height: 55px;">{{ property.metros_construccion|floatformat }} m<sup>2</sup> de construcción</li>
 												{% if property.garaje or property.garaje == 0 %}
@@ -433,6 +434,28 @@
 			<hr>
 			<div class="listing_features">
 				<div class="listing_title">
+					<h3>Compartir Propiedad</h3>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="mb-3 row">
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<div class="input-group mb-2 mr-sm-2">
+					<input type="text" class="form-control inputpop" style="color: #495057;" id="enlace" value="https://conexioninmueble.com{{ request.path }}" onclick="copy_link();" onmouseout="show_tip();" readonly>
+					<div class="input-group-append">
+			      <div id="pop1" class="input-group-text custompop" data-toggle="popover" data-placement="top" data-content="Copiar Enlace" onclick="copy_link();"><i class="far fa-copy"></i></div>
+			    </div>
+  				</div>
+				</div>
+			</div>
+			<br>
+		</div>
+
+		<div class="container">
+			<hr>
+			<div class="listing_features">
+				<div class="listing_title">
 					<h3>Contactar al Propietario</h3>
 				</div>
 			</div>
@@ -466,6 +489,7 @@
 			</form>
 			<br>
 		</div>
+
 
 		{% if is_revisor %}
 		<!--
@@ -525,7 +549,7 @@
 <script src="{% static 'root/plugins/colorbox/jquery.colorbox-min.js' %}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCxiVzHjuGTAraaNgVRmU6yuEqUB972kiA"></script>
 <script src="{% static 'root/js/single.js' %}"></script>
-<!-- <script type="text/javascript" src="{% static 'propiedades/js/propiedad.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'propiedades/js/propiedad.js' %}"></script>
 <script src="{% static 'propiedades/js/swiper.min.js' %}"></script>
 <script src="{% static 'propiedades/js/swpr.js' %}"></script>
 <script src="{% static 'propiedades/js/lightbox.js' %}"></script>
