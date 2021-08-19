@@ -626,7 +626,7 @@ def misRevisionesView(request):
 # Publica el link de la propiedad en feed de fb
 # Retorna True si la operación ha sido exitosa
 # Retorna False si la operación no ha sido exitosa
-# Causas de error: el link ha exipirado
+# Causas de error: el link ha expirado, cerrado sesión
 def publicar_fb(propiedad):
     fbpage = FB_Page.objects.first()
     page_id, access_token = fbpage.page_id, fbpage.access_token
@@ -645,8 +645,6 @@ def publicar_fb(propiedad):
         propiedad.fb_id = response_data["id"]
         propiedad.save()
         return True, response_data
-    elif "error" in response_data.keys():
-        return False, response_data
     else:
         return False, response_data
 
