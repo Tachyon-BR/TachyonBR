@@ -19,6 +19,12 @@ def path_temp(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return 'user_{0}/temp/{1}'.format(instance.propietario.pk, filename)
 
+class FB_Page(models.Model):
+    page_id = models.CharField(max_length = 500, null=True, blank=True)
+    access_token = models.CharField(max_length = 500, null=True, blank=True)
+    link_url = models.CharField(max_length = 500, null=True, blank=True)
+    expires_in = models.IntegerField(null=True, blank=True)
+
 # Modelo de los usuarios de Tachyon
 class Propiedad(models.Model):
     # Llave foranea del rol al que pertenece
@@ -55,6 +61,7 @@ class Propiedad(models.Model):
     estado_visible = models.BooleanField(default = True)
     otros = ArrayField(models.CharField(max_length=200), null=True, blank=True)
     restricciones = ArrayField(models.CharField(max_length=200), null=True, blank=True)
+    fb_id = models.CharField(max_length = 500, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         try:
@@ -86,6 +93,7 @@ class PropiedadComentario(models.Model):
     class Meta:
        ordering = ('fecha',)
 
+
 def path_marcaAgua(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return 'marca_agua/{0}'.format(filename)
@@ -93,6 +101,7 @@ def path_marcaAgua(instance, filename):
 
 class MARCA_AGUA(models.Model):
     imagen = models.ImageField(upload_to = path_marcaAgua)
+
 
 
 # Modelo de tabla de relacion 1 a N
