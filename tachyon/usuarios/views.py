@@ -188,8 +188,21 @@ def createUser(request):
                     message = Mail(
                         from_email='no-reply@conexioninmueble.com',
                         to_emails=email,
-                        subject='Verificacion de registro a Conexión Inmueble',
-                        html_content='<p>Gracias por registrarte a Conexión Inmueble</p><p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>')
+                        subject='Verificación de Registro a Conexión Inmueble',
+                        html_content='<p>Gracias por registrarte a Conexión Inmueble</p>\
+                            <p>Tu código de verificación es el siguiente: <strong>'+tUsuario.codigo_registro+'</strong></p>\
+                            <br>\
+                            <p>Atentamente,</p>\
+                            <br><br><br>\
+                            <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a></p>\
+                            <p><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
+                            <br>\
+                            <img src="https://conexioninmueble.com/logos/logoMail.png" alt="logo de conexión inmueble">\
+                            <br><br>\
+                            <a href="https://www.facebook.com/ConexionInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/fb_icon.jpg" alt="logo de facebook"></a>&nbsp;&nbsp;&nbsp;<a href="https://www.instagram.com/conexioninmueble/"><img src="https://conexioninmueble.com/Imagenes_Ayuda/ig_icon.jpg" alt="logo de instagram"></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/ConexinInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/tw_icon.png" alt="logo de twitter"></a>\
+                            <br>\
+                            '
+                        )
                     try:
                         sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
                         response = sg.send(message)
@@ -384,7 +397,17 @@ def adminVerifyCreateUser(request):
                             <ul>\
                             <li>Correo: <strong>'+email.lower()+'</strong></li>\
                             <li>Contraseña: <strong>'+contrasena+'</strong></li>\
-                            </ul>')
+                            </ul>\
+                            <br><br><br>\
+                            <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a></p>\
+                            <p><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
+                            <br>\
+                            <img src="https://conexioninmueble.com/logos/logoMail.png" alt="logo de conexión inmueble">\
+                            <br><br>\
+                            <a href="https://www.facebook.com/ConexionInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/fb_icon.jpg" alt="logo de facebook"></a>&nbsp;&nbsp;&nbsp;<a href="https://www.instagram.com/conexioninmueble/"><img src="https://conexioninmueble.com/Imagenes_Ayuda/ig_icon.jpg" alt="logo de instagram"></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/ConexinInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/tw_icon.png" alt="logo de twitter"></a>\
+                            <br>\
+                            '
+                        )
                     try:
                         sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
                         response = sg.send(message)
