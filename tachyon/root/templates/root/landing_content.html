@@ -167,26 +167,8 @@
         <!--Banner anuncio-->
 
         <div class="w3-content">
-         <a href="/" target="_blank"><img class="mySlides" src="{% static 'root/images/listing_1.jpg' %}" alt="custom_html_banner1" style="width:100%; height: 200px;"></a>
-         <img class="mySlides" src="{% static 'root/images/listing_2.jpg' %}" alt="custom_html_banner2" style="width:100%; height: 200px;">
-         <img class="mySlides" src="{% static 'root/images/listing_3.jpg' %}" alt="custom_html_banner3" style="width:100%; height: 200px;">
-         <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-         <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+            <a href="/" target="_blank"><img class="mySlides" src="https://conexioninmueble.com/iBan/banner/BannerIBAN{{ random }}.png" alt="custom_html_banner1" style="width:100%; height: 170px;"></a>
         </div>
-        
-        <script>
-         var slideIndex = 1;
-         showDivs(slideIndex);
-         function plusDivs(n) {
-         showDivs(slideIndex += n);
-          }
-         function showDivs(n) {
-         var i;
-         var x = document.getElementsByClassName("mySlides");
-         if (n > x.length) {slideIndex = 1} if (n < 1) {slideIndex = x.length}for
-         (i = 0; i < x.length; i++) {x[i].style.display = "none";}
-         x[slideIndex-1].style.display = "block"; }
-        </script>
         
         <!--fin de banner-->
         
