@@ -823,6 +823,8 @@ def validateAsRevisorView(request):
 
             coms = propiedad.comentarios = request.POST.get('coms')
 
+            coms_mail = "<br>".join(coms.split("\n"))
+
             rvw = propiedad.revisor
 
             user = propiedad.propietario.user
@@ -842,12 +844,25 @@ def validateAsRevisorView(request):
                         from_email='no-reply@conexioninmueble.com',
                         to_emails=user.email,
                         subject='Conexión Inmueble - '+ propiedad.titulo +': Publicada',
-                        plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
-                        \n\nEstamos felices de informarle que su propiedad ha sido aceptada por nuestros revisores. Su propiedad ya fue publicada y podrá ser accedida por los usuarios de la página.
-                        \n\nEnlace a su Propiedad: \n\t - https://conexioninmueble.com/propiedades/property/'''+ str(propiedad.pk) +'''
-                        \nRecuerde que para editar su propiedad, primero debe darla de baja. Puede dar de baja su propiedad desde la página cuando lo necesite.
-                        \n\nMuchas gracias por elegirnos para promocionar su propiedad, le deseamos mucha suerte en la '''+ propiedad.oferta +''' de la misma.
-                        \n\nPOR FAVOR NO RESPONDA A ESTE CORREO'''
+                        html_content='<p>Saludos '+ propiedad.propietario.nombre +',</p>\
+                            <p>Estamos felices de informarle que su propiedad ha sido aceptada por nuestros revisores. Su propiedad ya fue publicada y podrá ser accedida por los usuarios de la página.</p>\
+                            <p>Enlace a su Propiedad: </p>\
+                            <ul>\
+                            <li><a href="https://conexioninmueble.com/propiedades/property/'+ str(propiedad.pk) +'">https://conexioninmueble.com/propiedades/property/'+ str(propiedad.pk) +'</a></li>\
+                            </ul>\
+                            <p>Recuerde que si edita su propiedad, esta tendrá que pasar por el proceso de validación de nuevo.</p>\
+                            <p>Muchas gracias por elegirnos para promocionar su propiedad, le deseamos mucha suerte en la '+ propiedad.oferta +' de la misma.</p>\
+                            <br>\
+                            <p>POR FAVOR NO RESPONDA A ESTE CORREO</p>\
+                            <br><br><br>\
+                            <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a></p>\
+                            <p><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
+                            <br>\
+                            <img src="https://conexioninmueble.com/logos/logoMail.png" alt="logo de conexión inmueble">\
+                            <br><br>\
+                            <a href="https://www.facebook.com/ConexionInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/fb_icon.jpg" alt="logo de facebook"></a>&nbsp;&nbsp;&nbsp;<a href="https://www.instagram.com/conexioninmueble/"><img src="https://conexioninmueble.com/Imagenes_Ayuda/ig_icon.jpg" alt="logo de instagram"></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/ConexinInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/tw_icon.png" alt="logo de twitter"></a>\
+                            <br>\
+                            '
                         )
                     try:
                         sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
@@ -857,7 +872,7 @@ def validateAsRevisorView(request):
                         print(response.headers)
                     except Exception as e:
                         print(e)
-                
+
                 #publicar en fb
                 publicada, data = publicar_fb(propiedad)
                 if publicada:
@@ -867,7 +882,7 @@ def validateAsRevisorView(request):
                     request.session['notification_session_msg'] = "Se ha aceptado la propiedad exitosamente. NOTA: No se pudo publicar en fb, hacer la operación de forma manual."
                     request.session['notification_session_type'] = "Warning"
                 print(data)
-            
+
             # Si la propiedad fue rechazada
             elif request.POST.get('aor') == "rechazada":
                 print("rechazada")
@@ -880,12 +895,28 @@ def validateAsRevisorView(request):
                         from_email='no-reply@conexioninmueble.com',
                         to_emails=user.email,
                         subject='Conexión Inmueble - '+ propiedad.titulo +': Rechazada',
-                        plain_text_content='''Saludos '''+ propiedad.propietario.nombre +''',
-                        \n\nLamentamos informarle que su propiedad ha sido rechazada por nuestros revisores, por favor lea los siguientes comentarios de nuestros revisores, realice las correcciones necesarias, y vuelva a mandar a revisión su propiedad.
-                        \n\nComentarios del Revisor: \n'''+ coms +'''
-                        \n\nPara cualquier otra duda sobre su propiedad, envíe un correo electrónico al revisor encargado.
-                        \n\nCorreo de Contacto del Revisor:\n\t- '''+rvw.user.email+'''
-                        \n\nFAVOR DE CONTACTAR AL REVISOR POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO'''
+                        html_content='<p>Saludos '+ propiedad.propietario.nombre +'</p>\
+                            <p>Lamentamos informarle que su propiedad ha sido rechazada por nuestros revisores, por favor lea los siguientes comentarios de nuestros revisores, realice las correcciones necesarias, y vuelva a mandar a revisión su propiedad.</p>\
+                            <p>Comentarios del Revisor: </p>\
+                            <br>\
+                            <p>'+ coms_mail +'</p>\
+                            <br>\
+                            <p>Para cualquier otra duda sobre su propiedad, envíe un correo electrónico al revisor encargado.</p>\
+                            <p>Correo de Contacto del Revisor: </p>\
+                            <ul>\
+                            <li><a href="mailto:'+rvw.user.email+'">'+rvw.user.email+'</a></li>\
+                            </ul>\
+                            <br>\
+                            <p>FAVOR DE CONTACTAR AL REVISOR POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO</p>\
+                            <br><br><br>\
+                            <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a></p>\
+                            <p><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
+                            <br>\
+                            <img src="https://conexioninmueble.com/logos/logoMail.png" alt="logo de conexión inmueble">\
+                            <br><br>\
+                            <a href="https://www.facebook.com/ConexionInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/fb_icon.jpg" alt="logo de facebook"></a>&nbsp;&nbsp;&nbsp;<a href="https://www.instagram.com/conexioninmueble/"><img src="https://conexioninmueble.com/Imagenes_Ayuda/ig_icon.jpg" alt="logo de instagram"></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/ConexinInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/tw_icon.png" alt="logo de twitter"></a>\
+                            <br>\
+                            '
                         )
                     try:
                         sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
@@ -904,7 +935,7 @@ def validateAsRevisorView(request):
             pc.revisor = rvw
             pc.save()
 
-            
+
 
             return HttpResponse('OK')
 
@@ -1174,7 +1205,7 @@ def contactOwnerView(request, id):
             correo = request.POST.get('email')
             #asunto = request.POST.get('asunto')
             msg = request.POST.get('msg')
-            print(msg)
+            msg = "<br>".join(msg.split("\n"))
             #return redirect('/propiedades/property/'+str(id))
             if (user.email != 'test@test.com'):
                 # Enviar correo con codigo de registro
@@ -1182,12 +1213,25 @@ def contactOwnerView(request, id):
                     from_email='no-reply@conexioninmueble.com',
                     to_emails=user.email,
                     subject='Conexión Inmueble - '+ propiedad.titulo,
-                    plain_text_content=''+msg+'\n\n\nCorreo de Contacto del Usuario:\n\t- '+correo+'\n\nFAVOR DE CONTACTAR AL USUARIO POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO'
-                    # html_content='<p>'+msg+'</p><br>\
-                    #     <p>Correo de Contacto del Usuario: </p>\
-                    #     <ul>\
-                    #     <li><strong>'+correo+'</strong></li>\
-                    #     </ul>'
+                    html_content='<p>Un usuario te ha contactado sobre tu propiedad: </p>\
+                        <br>\
+                        <p>'+msg+'</p>\
+                        <br>\
+                        <p>Correo de Contacto del Usuario: </p>\
+                        <ul>\
+                        <li><a href="mailto:'+correo+'">'+correo+'</a></li>\
+                        </ul>\
+                        <br>\
+                        <p>FAVOR DE CONTACTAR AL USUARIO POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO</p>\
+                        <br><br><br>\
+                        <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a></p>\
+                        <p><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
+                        <br>\
+                        <img src="https://conexioninmueble.com/logos/logoMail.png" alt="logo de conexión inmueble">\
+                        <br><br>\
+                        <a href="https://www.facebook.com/ConexionInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/fb_icon.jpg" alt="logo de facebook"></a>&nbsp;&nbsp;&nbsp;<a href="https://www.instagram.com/conexioninmueble/"><img src="https://conexioninmueble.com/Imagenes_Ayuda/ig_icon.jpg" alt="logo de instagram"></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/ConexinInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/tw_icon.png" alt="logo de twitter"></a>\
+                        <br>\
+                        '
                     )
                 try:
                     sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
