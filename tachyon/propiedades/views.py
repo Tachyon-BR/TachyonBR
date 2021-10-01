@@ -855,11 +855,11 @@ def validateAsRevisorView(request):
                             <br>\
                             <p>POR FAVOR NO RESPONDA A ESTE CORREO</p>\
                             <br><br><br>\
-                            <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a></p>\
-                            <p><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
+                            <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a>\
+                            <br><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
                             <br>\
                             <img src="https://conexioninmueble.com/logos/logoMail.png" alt="logo de conexión inmueble">\
-                            <br><br>\
+                            <br><br><br><br>\
                             <a href="https://www.facebook.com/ConexionInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/fb_icon.jpg" alt="logo de facebook"></a>&nbsp;&nbsp;&nbsp;<a href="https://www.instagram.com/conexioninmueble/"><img src="https://conexioninmueble.com/Imagenes_Ayuda/ig_icon.jpg" alt="logo de instagram"></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/ConexinInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/tw_icon.png" alt="logo de twitter"></a>\
                             <br>\
                             '
@@ -909,11 +909,11 @@ def validateAsRevisorView(request):
                             <br>\
                             <p>FAVOR DE CONTACTAR AL REVISOR POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO</p>\
                             <br><br><br>\
-                            <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a></p>\
-                            <p><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
+                            <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a>\
+                            <br><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
                             <br>\
                             <img src="https://conexioninmueble.com/logos/logoMail.png" alt="logo de conexión inmueble">\
-                            <br><br>\
+                            <br><br><br><br>\
                             <a href="https://www.facebook.com/ConexionInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/fb_icon.jpg" alt="logo de facebook"></a>&nbsp;&nbsp;&nbsp;<a href="https://www.instagram.com/conexioninmueble/"><img src="https://conexioninmueble.com/Imagenes_Ayuda/ig_icon.jpg" alt="logo de instagram"></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/ConexinInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/tw_icon.png" alt="logo de twitter"></a>\
                             <br>\
                             '
@@ -1224,11 +1224,11 @@ def contactOwnerView(request, id):
                         <br>\
                         <p>FAVOR DE CONTACTAR AL USUARIO POR EL CORREO PROPORCIONADO, NO RESPONDER A ESTE CORREO</p>\
                         <br><br><br>\
-                        <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a></p>\
-                        <p><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
+                        <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a>\
+                        <br><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
                         <br>\
                         <img src="https://conexioninmueble.com/logos/logoMail.png" alt="logo de conexión inmueble">\
-                        <br><br>\
+                        <br><br><br><br>\
                         <a href="https://www.facebook.com/ConexionInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/fb_icon.jpg" alt="logo de facebook"></a>&nbsp;&nbsp;&nbsp;<a href="https://www.instagram.com/conexioninmueble/"><img src="https://conexioninmueble.com/Imagenes_Ayuda/ig_icon.jpg" alt="logo de instagram"></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/ConexinInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/tw_icon.png" alt="logo de twitter"></a>\
                         <br>\
                         '
