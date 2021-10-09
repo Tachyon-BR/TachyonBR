@@ -1,6 +1,11 @@
 from django import forms
 from .models import *
 
+class IbanForm(forms.Form):
+    phone = forms.CharField(max_length = 100)
+    name = forms.CharField(max_length = 100)
+
+
 class CrearPropiedadForma(forms.Form):
     oferta = forms.CharField(max_length = 30)
     tipo = forms.CharField(max_length = 30)

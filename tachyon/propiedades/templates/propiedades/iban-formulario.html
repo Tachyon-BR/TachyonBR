@@ -1,0 +1,351 @@
+{% extends 'root/base.html' %}
+{% load static %}
+
+{% block optionalCSS %}
+
+{% endblock %}
+
+{% block content %}
+
+<br>
+<br>
+
+<!-- Slider CSS -->
+<style>
+.container {
+  width: 100%;
+  margin: 50px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+input[type=range] {
+  width: 100%;
+}
+
+button {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background: white;
+  font-size: 24px;
+  border: 1px solid lightgrey;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin: 0 10px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px; 
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #04AA6D;
+  cursor: pointer;
+}
+.slider:hover {
+  opacity: 1;
+}
+</style>
+
+
+<div class="content-top-margin" style="background-color: rgb(0, 183, 122); color:white">
+    <div class="container">
+        <div class="p-0">  
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <a class="iban-link" target="_blank" href="https://www.ibanonline.com.mx/?codigo_referencia=CO-C89">
+                        <img src="https://www.ibanonline.com.mx/static/logo-horizontal-blanco-e505a824e79106770ff56725a50cd18b.png" alt="ibanonline.com logo" style="width:25%; height:auto; margin-bottom: 20px;" />  
+                    </a>
+                    <h1 style="color:white">Préstamos con garantía hipotecaria</h1>
+                    <ul style="font-size: large;">
+                        <li>Tu préstamo seguro desde tu casa, 100% online.</li>
+                        <li>Solicitud gratis en línea.</li>
+                        <li>Rápido, Fácil, Seguro.</li>
+                        <li>Desde el 1.5% de interés.</li>
+                        <li>Flexibles evaluando buró de crédito.</li>
+                    </ul>
+                    <br><br>
+                </div>
+                <div class="col-lg-6 col-md-12" style="border-radius: 10px;">
+                    <div style="background-color:white; color:black; padding: 20px 20px;">
+                        <span color="#55595C" family="ubuntu" height="33.6px" justify="center">Formulario de  <strong>  solicitud de crédito </strong> </span>
+                        <br><br>
+                        <form id="form-home" novalidate="" action="/propiedades/processIbanForm/" method="POST">
+                            {% csrf_token %}
+                            <div class="container-fluid">
+                                <div class="row">
+                                    
+                                    <div class="mb-3 col-md-12">
+                                        <div class="d-inline">
+                                            <label for="amount">
+                                                <span>¿Qué monto deseas solicitar?</span>
+                                            </label>
+                                            <div class="container" style="margin: 0px; ">
+                                                <button class="amount_minus" type="button">-</button>
+                                                <input id="amount" name="amount" type="range" min="100000" max="25000000" step="50000" value="100000">
+                                                <button class="amount_plus" type="button">+</button>
+                                                <!--<span id="amount_output">MXN $1000000</span>-->
+                                              </div>                                      
+                                        </div>
+                                        <b><label for="amount" id="HowDoYouNeedForLoanLabel" class="styles__LabelRangeStyle-sc-1x6bz9l-5 bvgDqZ">MXN $100,000</label></b>
+                                    </div>
+        
+                                    <div class="mb-3 col-md-12">
+                                        <div class="d-inline">
+                                            <label for="loanDurationInMonths">
+                                                <span>¿Por cuánto tiempo?</span>
+                                            </label>
+                                            <div class="container" style="margin: 0px;">
+                                                <button type="button" class="duration_minus">-</button>
+                                                <input id="loanDurationInMonths" name="loanDurationInMonths" type="range" min="6" max="240" step="1" required="" value="6">
+                                                <button type="button" class="duration_plus">+</button>
+                                                <!--<span id="duration_output">6 Meses</span>-->
+                                            </div>                                      
+                                        </div>
+                                        <b><label for="loanDurationInMonths" id="ForWhatTimeLabel">6 Meses</label></b>
+                                    </div>
+                                    <div class="mb-3 col-md-12">
+                                        <label for="name">
+                                            <span>Nombre Completo</span>
+                                        </label>
+                                        <input name="name" id="name" class="form-control" type="text" required>
+                                    </div>
+                                    <div class="mb-3 col-md-12">
+                                        <label for="name">
+                                            <span>E-mail</span>
+                                        </label>
+                                        <input name="email" id="email" class="form-control" type="text" required>
+                                    </div>
+                                    <div class="mb-3 col-md-12">
+                                        <label for="phone">
+                                            <span>Número de teléfono</span>
+                                        </label>
+                                        <input name="phone" id="phone" class="form-control" type="text" maxlength="10" minlength="10" required>
+                                    </div>
+                                    <div class="mb-3 col-md-12">
+                                        <span>¿Tienes Ingresos Justificables?</span>
+                                        <br>
+                                        <div style="display:inline;">
+                                              <input type="radio" id="Si" name="ingresos_just" value="Si" checked="checked" >
+                                              <label for="Si">Si</label><br>
+                                              <input type="radio" id="No" name="ingresos_just" value="No">
+                                              <label for="No">No</label><br>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 col-md-12">
+                                        <span>¿Cuentas con Garantía Hipotecaria?</span>
+                                        <br>
+                                        <div style="display:inline;">
+                                              <input type="radio" id="Si" name="garantia" value="Si" checked="checked" >
+                                              <label for="Si">Si</label><br>
+                                              <input type="radio" id="No" name="garantia" value="No">
+                                              <label for="No">No</label><br>
+                                        </div>
+                                    </div>
+
+                                    
+
+                                </div>
+                                <div class="justify-content-md-center row">
+                                    <div class="pt-3 pt-lg-0 order-lg-1 order-md-1 order-sm-0 order-0 col-lg-6 col-md-6 col-sm-12">
+                                        <button type="submit" class="eujwkH m-auto w-100 btn btn-primary btn-14px">SOLICITAR AHORA</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <small>
+                                    <span>
+                                        Al enviar sus datos, usted acepta las 
+                                        <a href="https://www.ibanonline.com.mx/terminos-y-condiciones/" target="_blank">
+                                            Políticas de Privacidad
+                                        </a> 
+                                        de <a class="iban-link" href="https://www.ibanonline.com.mx/?codigo_referencia=CO-C89" target="_blank">iBAN Online</a>.
+                                    </span>
+                                </small>
+                            </div>
+                        </form>
+                        <!--
+                        <div class="row">
+                            <div class="col">
+                                <div class="RTxml">
+                                    <small>Al enviar sus datos, usted acepta nuestras </small><span role="button" tabindex="0">Políticas de Privacidad </span><small>&amp; </small><span role="button" tabindex="0">Consulta de Buró de Crédito.</span>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!--
+<div class="container">
+    <h2>Aviso De Privacidad</h2>
+    <p style="color: black;">
+        <h3>Identidad Y Domicilio Del Responsable Que Trata Los Datos Personales</h3>
+        iBAN Online (en adelante, Iban) a nombre de First Home Solutions, SAPI de CV (en adelante, FHS), con domicilio en Colima 161, 1 piso, Col. Roma Norte, C.P. 06700 Alcaldía Cuauhtemoc, Ciudad de México, hace de su conocimiento que, en cumplimiento con las disposiciones previstas en la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (en adelante, “LFPDPPP”) y demás normativa aplicable, es responsable del uso y protección de sus datos personales, y al respecto le informamos lo siguiente y que cuenta con la representación de Iban Online para efectos de búsqueda y generación de leads.
+        <br>
+        <h3>Relación Iban – First Home Solutions SAPI De CV.</h3>
+        iBAN Online (en adelante, Iban) es un referidor de leads (anglicismo ocupado para denominar a los clientes potenciales) y brinda los servicios antes referidos a FIRST HOME SOLUTIONS SAPI de CV, quien, a su vez, será quien otorgue el financiamiento correspondiente.
+        <br>
+        <h3>Datos Personales Que Se Tratarán</h3>
+        Para llevar a cabo las finalidades descritas en el presente aviso de privacidad, utilizaremos los siguientes datos personales:
+        <br>
+        <ul>
+            <li>Datos de Identificación.</li>
+            <li>Datos de Contacto.</li>
+            <li>Datos Laborales.</li>
+            <li>Datos Académicos.</li>
+            <li>Datos Financieros.</li>
+            <li>Datos Patrimoniales.</li>
+        </ul>
+        <h3>Qué Datos Personales Recopilamos Y Cuándo</h3>
+        Para proporcionarle los productos o servicios que solicite, le pediremos ciertos datos personales. Por ejemplo, cuando realice compras, se ponga en contacto con nuestros servicios de atención al consumidor, solicite recibir comunicaciones, cree una cuenta, participe en nuestros eventos o concursos, o interactúe con nuestras Páginas Web.
+        <br>
+        Estos datos personales incluyen sus:
+        <br>
+        Datos de contacto, incluyendo nombre, correo electrónico, número de teléfono.
+        Información de acceso y cuenta, incluyendo nombre de usuario, contraseña e ID de usuario único.
+        Datos personales incluyendo sexo, ciudad natal, fecha de nacimiento.
+        La información recabada se utilizará para las siguientes actividades:
+        <br>
+        Campañas de emailing
+        Campañas de re marketing
+        Campañas publicitarias en redes sociales
+        Análisis de navegación en el sitio ibanonline.com.mx
+        Finalidades Del Tratamiento
+        Los datos personales que recabamos de usted, los utilizaremos para las siguientes finalidades que son necesarias para el servicio que solicita:
+        <br>
+        Identificar a la persona jurídica que solicita o contrata alguno de los productos ofertados.
+        Contar con los elementos necesarios para realizar un análisis que determine, si el solicitante es viable para el otorgamiento del producto solicitado. Elaborar los dictámenes Técnicos, Financieros y Jurídicos del producto solicitado.
+        Elaborar el contrato para el producto otorgado.
+        Verificar y validar la información proporcionada por el cliente para la contratación de alguno de los productos.
+        Llevar a cabo el alta y registro de los clientes.
+        Generar expedientes para el seguimiento de los clientes.
+        La contratación de seguros por FHS y/o por el Titular que sean obligatorios y/o relacionados con el o los productos o servicios otorgados.
+        Llevar a cabo las gestiones inherentes al otorgamiento, administración y cobro de créditos.
+        Enviar facturas a los clientes que soliciten el envío a domicilio.
+        Realizar actividades de soporte y aclaraciones para los clientes.
+        Llevar a cabo auditorías internas y externas.
+        Validar las condiciones financieras de las personas que presentan adeudos o retrasos en pagos.
+        Prevenir y detectar fraudes u otros ilícitos.
+        Procesos de reclutamiento y selección de personal.
+        Mercadotecnia o publicitaria.
+        Prospección comercial.
+        Atención de dudas, quejas y aclaraciones.
+        El cumplimiento de leyes, reglamentos y disposiciones legales aplicables.
+        Finalidades Secundarias
+        De manera adicional, en FHS utilizaremos su información personal para las siguientes finalidades que no son necesarias para el servicio solicitado, pero que nos permiten y facilitan brindarle una mejor atención:
+        <br>
+        <h3>Actualizar nuestra base de datos de prospectos.</h3>
+        Realizar actividades de mercadotecnia, publicidad y promoción, de los bienes, productos y/o servicios que sean ofrecidos por FHS, por cualquier medio material y/o electrónico.
+        Mecanismos Para Que El Titular Pueda Manifestar Su Negativa Para Finalidades Secundarias O Accesorias
+        En caso de que no desee que sus datos personales sean tratados para estos fines adicionales, desde este momento usted lo puede solicitar a través del correo hola@ibanonline.com.mx donde daremos atención y seguimiento a su solicitud.
+        <br>
+        La negativa para el uso de sus datos personales para estas finalidades no podrá ser un motivo para que le neguemos los servicios y productos que solicita o contrata con nosotros.
+        <br>
+        Transferencias De Datos Personales
+        Las transferencias son comunicaciones de datos personales realizadas a otras empresas distintas a EMG o en su defecto a sus filiales; en este sentido, hacemos de su conocimiento que EMG transfiere sus datos personales únicamente en los siguientes casos:
+        <br>
+        Transferencias que no requieren de su autorización:
+        <br>
+        A la autoridad competente, en caso de que ésta solicite legalmente sus datos personales.
+        A las aseguradoras contratadas por el cliente, para elaborar un dictamen de los siniestros.
+        Mecanismos De Aceptación De Transferencia De Datos
+        Todas las transferencias previamente referidas son necesarias para dar cumplimiento a la relación que adquiere con EMG, en este sentido, no es posible oponerse a que las mismas sean realizadas y por esta razón, no es necesario que usted las acepte.
+        <br>
+        Medios Y Procedimiento Para Ejercer Los Derechos Arco Y Para Revocar El Consentimiento
+        Los Titulares tienen el derecho de acceder, rectificar, cancelar u oponerse al tratamiento de sus datos personales (derechos ARCO) en los casos que así lo prevé la LFPDPPP; o bien, revocar su consentimiento si es que este fue otorgado de manera previa.
+        <br>
+        Si los Titulares desean ejercer alguno de los derechos ARCO o revocar su consentimiento, podrán conocer el procedimiento para tal fin, de las siguientes formas:
+        <br>
+        Acudiendo al Departamento de Protección de Datos personales de EMG, ubicado en el domicilio mencionado al inicio de este aviso.
+        <br>
+        Enviando un correo electrónico al correo hola@ibanonline.com.mx.
+        <br>
+        Los horarios de atención son de lunes a viernes de 8:00 a 18:00 horas. y de 16:00 a 18:00 horas.
+        <br>
+        Opciones Y Medios Para Limitar El Uso O Divulgación De Los Datos Personales
+        Los Titulares podrán solicitar la limitación, baja y/o uso de sus datos personales a través del correo hola@ibanonline.com.mx. Dicha limitación se acotara a los datos personales previamente proporcionados por el cliente.
+        <br>
+        Uso De Cookies, Web Beacons O Mecanismos Similares
+        El portal de Internet de Iban (www.ibanonline.com.mx) emplea cookies; las cookies son archivos de datos que se almacenan en su disco duro al navegar en el Portal y que permiten intercambiar información del estado del Portal y el navegador del Titular.
+        <br>
+        Utilizamos datos personales adicionales para habilitar funciones particulares dentro de nuestra Página Web o servicios.
+        <br>
+        Al interactuar con nuestra Página Web, los datos se recopilan automáticamente y son compartidos con IbanOnline a través de las plataformas tecnológicas que proporcionan la experiencia. Por ejemplo, su navegador web o dispositivo móvil puede compartir ciertos datos con IbanOnline a medida que estos dispositivos interactúan con la Página Web de IbanOnline.
+        <br>
+        La sección de Cookies y Pixel Tags se incluye más información sobre estas prácticas. Dichos datos incluyen:
+        <br>
+        Identificadores de dispositivo, estado de llamada, acceso a la red, información de almacenamiento e información de la batería
+        Cookies, direcciones IP, encabezados de referencia, datos que identifican su navegador web y versión, y contadores de visita y etiquetas web
+        Si usted desea conocer el procedimiento para deshabilitar las cookies, por favor consulte la sección de ayuda de su navegador de Internet.
+        <br>
+        Procedimiento Y Mecanismo Para Conocer Cambios En El Aviso De Privacidad
+        Cualquier cambio o actualización en el presente aviso de privacidad podrá ser consultado en el Portal, en la sección “Aviso de Privacidad”. El procedimiento es el siguiente:
+        <br>
+        Acceda a la sección ”Aviso de Privacidad”.
+        Presione el Aviso de Privacidad Integral para Clientes.
+        Ahí encontrará la versión vigente con la fecha de la más reciente actualización.
+        Tratamiento Indebido De Sus Datos Personales.
+        Si los Titulares consideran que su derecho a la protección de sus datos personales ha sido lesionado por alguna conducta u omisión de parte de FHS, o presume alguna violación a las disposiciones previstas en la LFPDPPP, su Reglamento y demás ordenamientos aplicables, podrán interponer su inconformidad o denuncia ante el Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales (INAI). Para más información les sugerimos visitar su página oficial de Internet www.inai.org.mx
+        <br>
+        Consentimiento.
+        Manifiesta, como Titular de los datos personales proporcionados a FHS, que ha leído el Aviso de Privacidad Integral y conoce las categorías de datos personales recabados (incluidas las categorías relativas a datos financieros, patrimoniales y sensibles), así como las finalidades para el tratamiento de sus datos personales; las transferencias que FHS efectúa y que consiente libremente el tratamiento de sus datos personales en los términos descritos.
+    </p>
+
+
+
+
+    <h2>FIRST HOME SOLUTIONS, S.A.P.I. de C.V.</h2>
+    <p style="color: white;">
+        Autorización para solicitar Reportes de Crédito
+        <br>
+        Por este conducto autorizo expresamente a First Home Solutions, S.A.P.I. de C.V., para que por conducto de sus funcionarios facultados lleve a cabo Investigaciones, sobre mi comportamiento Crediticio en las Sociedades de Información Crediticia que estime conveniente.
+        <br>
+        Así mismo, declaro que conozco la naturaleza y alcance de la información que se solicitará, del uso que First Home Solutions, S.A.P.I. de C.V.hará de tal información y de que ésta podrá realizar consultas periódicas de mi historial crediticio, consintiendo que esta autorización se encuentre vigente por un período de 3 años contados a partir de la fecha de su expedición y en todo caso durante el tiempo que mantengamos relación jurídica.
+        <br>
+        Estoy consciente y acepto que este documento quede bajo propiedad de First Home Solutions, S.A.P.I. de C.V. y/o Sociedad de Información Crediticia Consultada para efectos de control y cumplimiento del artículo 28 de la Ley para Regular a Las Sociedades de Información Crediticia.
+        <br>
+        Autorizo la consulta mediante medios electrónicos.
+    </p>
+</div>
+-->
+
+{% endblock content %}
+
+{% block optionalJS %}
+
+<script type="text/javascript">
+    checkNotificationSession();
+</script>
+<script type="text/javascript" src="{% static 'propiedades/js/navbar.js' %}"></script>
+<script type="text/javascript" src="{% static 'propiedades/js/iban-formulario.js' %}"></script>
+
+{% endblock %}
