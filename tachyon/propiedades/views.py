@@ -1369,7 +1369,7 @@ def processIbanForm(request):
 
         iban_solicitud.save()
 
-        email = "a.lemusr1998@gmail.com" ### Cambiar 
+        email = "mymail@someone.com" ### Cambiar 
         # Enviar correo
         message = Mail(
             from_email='no-reply@conexioninmueble.com',
