@@ -1375,7 +1375,7 @@ def processIbanForm(request):
             from_email='no-reply@conexioninmueble.com',
             to_emails=email,  ### Cambiar 
             subject='Conexión Inmueble - '+ "SOLICITUD DE PRESTAMO",
-            plain_text_content='''Saludos ,
+            plain_text_content='''Saludos, 
             \n Se acaba de realizar una solicitud para un crédito de la plataforma IBAN desde el portal:
             \n >>Conexión Inmueble Bienes Raíces<<
             \n\n Los datos del solicitante son:
