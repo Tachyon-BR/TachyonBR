@@ -30,7 +30,6 @@ from django.core.files import File
 import requests
 import math
 
-
 # Create your views here.
 
 #Esta clase sirve para serializar los objetos de los modelos.
@@ -318,7 +317,7 @@ def enRevisionView(request):
         locale.setlocale( locale.LC_ALL, '' )
         user_logged = TachyonUsuario.objects.get(user = request.user) # Obtener el usuario de Tachyon logeado
 
-        if user_logged.rol.nombre is 'Revisor':
+        if user_logged.rol.nombre == 'Revisor':
             list = Propiedad.objects.filter(estado_revision = True, revisor__isnull=True, estado_visible = True)
         else:
             list = Propiedad.objects.filter(estado_revision = True, estado_visible = True)
@@ -815,7 +814,7 @@ def validateAsRevisorView(request):
                 return response
 
             #no se envió valor de aceptada o rechazada, no tiene comentarios
-            if request.POST.get('coms') is '':
+            if request.POST.get('coms') == '':
                 response = JsonResponse({"error": "Error en la solicitud, vuelva a intentarlo más tarde (err-coms-null)"})
                 response.status_code = 400
                 # Regresamos la respuesta de error
@@ -1369,3 +1368,90 @@ def userView(request, id):
         r.precio = r.precio[0:-3]
 
     return render(request, 'propiedades/propertiesUser.html',{'resultados': resultados, 'user': user, 'agencia': agencia})
+
+
+def ibanFormulario(request):
+    return render(request, 'propiedades/iban-formulario.html')
+
+def registerClickIbanOnline(request):
+    if request.method == 'POST':
+        iban_solicitud = IbanOnlineSolicitud()
+        iban_solicitud.por_link = True
+        iban_solicitud.por_email = False
+        iban_solicitud.save()
+        response = JsonResponse({"msg": "correcto"})
+        return response
+    else:
+        response = JsonResponse({"error": "No se mandó por el método correcto"})
+        return response
+
+def processIbanForm(request):
+    # Procesar amount, loanDurationInMonths, name, phone
+    if request.method == 'POST': 
+        
+        iban_solicitud = IbanOnlineSolicitud()
+        
+        ### Por hacer: validar con forms.isValid
+        amount = str(request.POST.get("amount"))
+        loanDurationInMonths = str(request.POST.get("loanDurationInMonths"))
+        name = request.POST.get("name")
+        phone = request.POST.get("phone")
+        ingresos_just = request.POST.get("ingresos_just")
+        garantia = request.POST.get("garantia")
+        correo = request.POST.get("email")
+        solicitud = [amount, loanDurationInMonths, name, phone, ingresos_just, garantia, correo]
+        print(solicitud)
+        
+        ## Guardar datos
+        iban_solicitud.name = name
+        iban_solicitud.phone = phone
+        iban_solicitud.duration = int(loanDurationInMonths)
+        iban_solicitud.cantidad = int(amount)
+        iban_solicitud.email = correo
+        iban_solicitud.ingresos_just = ingresos_just
+        iban_solicitud.garantia = garantia
+
+        iban_solicitud.save()
+
+        email = "Alexisperalta@ibanonline.com.mx" ### Cambiar 
+        # Enviar correo
+        message = Mail(
+            from_email='no-reply@conexioninmueble.com',
+            to_emails=email,  ### Cambiar 
+            subject='Conexión Inmueble - '+ "SOLICITUD DE PRESTAMO",
+            html_content='''Saludos, 
+            <br> Se acaba de realizar una solicitud para un crédito de la plataforma IBAN desde el portal:
+            <br><br> >>Conexión Inmueble Bienes Raíces<<
+            <br><br> Los datos del solicitante son:
+            <br> Nombre del solicitante: ''' + name +'''
+            <br> Monto a solicitar: $''' + amount +''' MXN
+            <br> Periodo a solicitar: ''' + loanDurationInMonths +''' meses
+            <br> Email: ''' + correo +'''
+            <br> Numero de contacto: ''' + phone +'''
+            <br> ¿Tiene ingresos justificables?: ''' + ingresos_just +'''
+            <br> ¿Tiene garantía hipotecaria?: ''' + garantia +'''
+            <br><br> Código de referente: CO-C89
+            <br> 
+            <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a>\
+            <br><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
+            <br>\
+            <img src="https://conexioninmueble.com/logos/logoMail.png" alt="logo de conexión inmueble">\
+            <br><br><br><br>\
+            <a href="https://www.facebook.com/ConexionInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/fb_icon.jpg" alt="logo de facebook"></a>&nbsp;&nbsp;&nbsp;<a href="https://www.instagram.com/conexioninmueble/"><img src="https://conexioninmueble.com/Imagenes_Ayuda/ig_icon.jpg" alt="logo de instagram"></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/ConexinInmueble"><img src="https://conexioninmueble.com/Imagenes_Ayuda/tw_icon.png" alt="logo de twitter"></a>\
+            <br>\
+            '''
+        )
+        try:
+            sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e)
+        request.session['notification_session_msg'] = "Se ha enviado mensaje al agente con su información"
+        request.session['notification_session_type'] = "Success"
+        return redirect('/propiedades/iban-formulario')
+    else:
+        raise Http404
+
