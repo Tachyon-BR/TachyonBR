@@ -1377,7 +1377,7 @@ def processIbanForm(request):
             subject='Conexión Inmueble - '+ "SOLICITUD DE PRESTAMO",
             html_content='''Saludos, 
             <br> Se acaba de realizar una solicitud para un crédito de la plataforma IBAN desde el portal:
-            <br> >>Conexión Inmueble Bienes Raíces<<
+            <br><br> >>Conexión Inmueble Bienes Raíces<<
             <br><br> Los datos del solicitante son:
             <br> Nombre del solicitante: ''' + name +'''
             <br> Monto a solicitar: $''' + amount +''' MXN
