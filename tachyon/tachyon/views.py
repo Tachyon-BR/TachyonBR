@@ -11,6 +11,8 @@ from root.forms import TextMDForm
 def home(request):
     locale.setlocale( locale.LC_ALL, '' )
     last = Propiedad.objects.filter(estado_activo = True).count()
+    
+    r = random.randint(1, 5)
 
     if last <= 0:
         return render(request, 'tachyon/homepage.html')
@@ -48,7 +50,7 @@ def home(request):
         n.precio = n.precio[0:-3]
 
     if vistas and nuevas:
-        return render(request, 'tachyon/homepage.html', {'properties': p, 'views': vistas, 'new': nuevas})
+        return render(request, 'tachyon/homepage.html', {'properties': p, 'views': vistas, 'new': nuevas, 'random': r})
     else:
         raise Http404
 
