@@ -25,6 +25,27 @@ class FB_Page(models.Model):
     link_url = models.CharField(max_length = 500, null=True, blank=True)
     expires_in = models.IntegerField(null=True, blank=True)
 
+class IbanOnlineSolicitud(models.Model):
+    por_link = models.BooleanField(null=True, blank=True, default = False)
+    por_email = models.BooleanField(null=True, blank=True, default = True)
+    name = models.CharField(max_length = 500, null=True, blank=True)
+    phone = models.CharField(max_length = 500, null=True, blank=True)
+    email = models.CharField(max_length = 100, null=True, blank=True)
+    ingresos_just = models.CharField(max_length = 10, null=True, blank=True)
+    garantia = models.CharField(max_length = 10, null=True, blank=True)
+    duration = models.IntegerField(default = 0 , null=True, blank=True)
+    cantidad = models.IntegerField(default = 0 , null=True, blank=True)
+    aprobado = models.BooleanField(null=True, blank=True, default = False)
+    def __str__(self):
+        if self.por_email:
+            return "EMAIL %s %i %i" % (self.name, self.duration, self.cantidad)
+        else:
+            return "LINK"
+    class Meta:
+        verbose_name = 'Iban Online Solicitud'
+        verbose_name_plural = 'Iban Online Solicitudes'
+
+
 # Modelo de los usuarios de Tachyon
 class Propiedad(models.Model):
     # Llave foranea del rol al que pertenece

@@ -26,4 +26,8 @@ urlpatterns = [
     path('uploadImages/',views.uploadImagesView, name="uploadImages"),
     path('deleteImages/',views.deleteImagesView, name="deleteImages"),
     path('user/<str:id>',views.userView, name="user"),
+    path('iban-formulario/',views.ibanFormulario, name="iban-form"),
+    path('processIbanForm/',views.processIbanForm, name="processIbanForm"),
+    path('registerClickIbanOnline/',views.registerClickIbanOnline, name="registerClickIbanOnline")
+
 ]
