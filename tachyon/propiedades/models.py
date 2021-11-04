@@ -101,6 +101,9 @@ class Propiedad(models.Model):
         status = "No Publicada"
         if self.estado_activo:
             status = "Publicada"
+        if len(self.titulo) > 50:
+            self.titulo = self.titulo[:47]
+            self.titulo = self.titulo + "..."
         return "%s: %s | %s" % (self.pk, self.titulo, status)
 
 
