@@ -493,7 +493,8 @@ def createPropertyView(request):
 
                 # Guardar imagenes de la propiedad
                 i = 1
-                for f in files.filter(activo = True):
+                files = files.filter(activo = True).order_by('orden')
+                for f in files:
                     fotos = Foto()
                     fotos.propiedad = propiedad
                     fotos.orden = i
@@ -1123,7 +1124,8 @@ def modifyPropertyView(request, id):
 
                     # Guardar imagenes de la propiedad
                     i = 1
-                    for f in files.filter(activo = True):
+                    files = files.filter(activo = True).order_by('orden')
+                    for f in files:
                         fotos = Foto()
                         fotos.propiedad = propiedad
                         fotos.orden = i
@@ -1387,10 +1389,10 @@ def registerClickIbanOnline(request):
 
 def processIbanForm(request):
     # Procesar amount, loanDurationInMonths, name, phone
-    if request.method == 'POST': 
-        
+    if request.method == 'POST':
+
         iban_solicitud = IbanOnlineSolicitud()
-        
+
         ### Por hacer: validar con forms.isValid
         amount = str(request.POST.get("amount"))
         loanDurationInMonths = str(request.POST.get("loanDurationInMonths"))
@@ -1401,7 +1403,7 @@ def processIbanForm(request):
         correo = request.POST.get("email")
         solicitud = [amount, loanDurationInMonths, name, phone, ingresos_just, garantia, correo]
         print(solicitud)
-        
+
         ## Guardar datos
         iban_solicitud.name = name
         iban_solicitud.phone = phone
@@ -1413,13 +1415,13 @@ def processIbanForm(request):
 
         iban_solicitud.save()
 
-        email = "Alexisperalta@ibanonline.com.mx" ### Cambiar 
+        email = "Alexisperalta@ibanonline.com.mx" ### Cambiar
         # Enviar correo
         message = Mail(
             from_email='no-reply@conexioninmueble.com',
-            to_emails=email,  ### Cambiar 
+            to_emails=email,  ### Cambiar
             subject='Conexión Inmueble - '+ "SOLICITUD DE PRESTAMO",
-            html_content='''Saludos, 
+            html_content='''Saludos,
             <br> Se acaba de realizar una solicitud para un crédito de la plataforma IBAN desde el portal:
             <br><br> >>Conexión Inmueble Bienes Raíces<<
             <br><br> Los datos del solicitante son:
@@ -1431,7 +1433,7 @@ def processIbanForm(request):
             <br> ¿Tiene ingresos justificables?: ''' + ingresos_just +'''
             <br> ¿Tiene garantía hipotecaria?: ''' + garantia +'''
             <br><br> Código de referente: CO-C89
-            <br> 
+            <br>
             <p><strong>Conexión Inmueble</strong> | <a href="mailto:info@conexioninmueble.com">info@conexioninmueble.com</a>\
             <br><a href="https://conexioninmueble.com/">https://conexioninmueble.com/</a></p>\
             <br>\
@@ -1454,4 +1456,3 @@ def processIbanForm(request):
         return redirect('/propiedades/iban-formulario')
     else:
         raise Http404
-

@@ -143,8 +143,24 @@ $('#tipo').change(function() {
       $('.rancho').hide();
       $('.rancho').find('input').prop('checked', false);
     }
-    else if(val == "Edificio"){
+    else if(val == "Edificio" || val == "Departamento"){
       $('.elevador').show();
+      $('.cisterna').hide();
+      $('.cisterna').find('input').prop('checked', false);
+      $('.terreno').hide();
+      $('.terreno').find('input').prop('checked', false);
+      $('.bodega').hide();
+      $('.bodega').find('input').prop('checked', false);
+      $('.mueble').hide();
+      $('.mueble').find('input').prop('checked', false);
+      $('.oficina').hide();
+      $('.oficina').find('input').prop('checked', false);
+      $('.rancho').hide();
+      $('.rancho').find('input').prop('checked', false);
+    }
+    else{
+      $('.elevador').hide();
+      $('.elevador').find('input').prop('checked', false);
       $('.cisterna').hide();
       $('.cisterna').find('input').prop('checked', false);
       $('.terreno').hide();

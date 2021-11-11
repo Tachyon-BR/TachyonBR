@@ -11,7 +11,7 @@ from root.forms import TextMDForm
 def home(request):
     locale.setlocale( locale.LC_ALL, '' )
     last = Propiedad.objects.filter(estado_activo = True).count()
-    
+
     r = random.randint(1, 5)
 
     if last <= 0:
@@ -30,6 +30,9 @@ def home(request):
     for i in p:
         i.precio = locale.currency(i.precio, grouping=True)
         i.precio = i.precio[0:-3]
+        if len(i.titulo) > 128:
+            i.titulo = i.titulo[:125]
+            i.titulo = i.titulo + "..."
 
 
     limit = 9
